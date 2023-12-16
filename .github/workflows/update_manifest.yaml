@@ -28,6 +28,6 @@ jobs:
         run: |
           echo ${{ github.event.inputs.repo_name }}
           echo ${{ github.event.inputs.registry }}
-          ${{ github.event.inputs.image_tag }}
+          echo ${{ github.event.inputs.image_tag }}
           sed -i 's%/${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:.*%/${{env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}\"%1' ./deploy/k8s/manifest.yaml
           cat ./deploy/k8s/manifest.yaml
