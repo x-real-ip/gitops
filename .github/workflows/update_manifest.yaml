@@ -4,7 +4,7 @@ name: Version Bump
 on:
   workflow_dispatch:
     inputs:
-      repo_name:
+      OWNER_AND_REPO:
         description: "Application repository name"
         required: true
       registry:
@@ -27,13 +27,19 @@ jobs:
       - name: Echo Recieved Inputs
         run: |
           echo ${{ github.event.inputs.registry }}
-          echo ${{ github.event.inputs.repo_name }}
+          echo ${{ github.event.inputs.OWNER_AND_REPO }}
           echo ${{ github.event.inputs.image_tag }}
+
+      - name: Extract Repo Name
+        run: |
+          repo=$(echo ${{ github.event.inputs.OWNER_AND_REPO }} | cut -d'/' -f2)
+          echo "REPO_NAME=$repo" >> $GITHUB_ENV
 
       - name: Replace Image Tag
         run: |
-          sed -i 's%/${{ github.event.inputs.registry }}/${{ github.event.inputs.repo_name }}:.*%/${{ github.event.inputs.registry }}/${{ github.event.inputs.repo_name }}:${{ github.event.inputs.image_tag }}\"%1' ./manifests/${{ github.event.inputs.repo_name }}/manifest.yaml
+          REPO=$(echo ${{ github.event.inputs.OWNER_AND_REPO }} | cut -d'/' -f2)
+          sed -i 's%/${{ github.event.inputs.registry }}/${{ github.event.inputs.OWNER_AND_REPO }}:.*%/${{ github.event.inputs.registry }}/${{ github.event.inputs.OWNER_AND_REPO }}:${{ github.event.inputs.image_tag }}\"%1' ./manifests/${{REPO_NAME}}/manifest.yaml
 
       - name: Show Result
         run: |
-          cat ./manifests/${{ github.event.inputs.repo_name }}/manifest.yaml
+          cat ./manifests/${{REPO_NAME}}/manifest.yaml
