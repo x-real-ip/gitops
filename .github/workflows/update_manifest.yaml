@@ -24,10 +24,16 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@main
 
+      - name: Echo Recieved Inputs
+        run: |
+          echo ${{ github.event.inputs.registry }}
+          echo ${{ github.event.inputs.repo_name }}
+          echo ${{ github.event.inputs.image_tag }}
+
       - name: Replace Image Tag
         run: |
-          echo ${{ github.event.inputs.repo_name }}
-          echo ${{ github.event.inputs.registry }}
-          echo ${{ github.event.inputs.image_tag }}
-          sed -i 's%/${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:.*%/${{env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}\"%1' ./deploy/k8s/manifest.yaml
-          cat ./deploy/k8s/manifest.yaml
+          sed -i 's%/${{ github.event.inputs.registry }}/${{ github.event.inputs.repo_name }}:.*%/${{ github.event.inputs.registry }}/${{ github.event.inputs.repo_name }}:${{ github.event.inputs.image_tag }}\"%1' ./manifests/${{ github.event.inputs.repo_name }}/manifest.yaml
+
+      - name: Show Result
+        run: |
+          cat ./manifests/${{ github.event.inputs.repo_name }}/manifest.yaml
