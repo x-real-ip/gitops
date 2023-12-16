@@ -37,7 +37,6 @@ jobs:
 
       - name: Replace Image Tag
         run: |
-          REPO=$(echo ${{ github.event.inputs.OWNER_AND_REPO }} | cut -d'/' -f2)
           sed -i 's%/${{ github.event.inputs.registry }}/${{ github.event.inputs.OWNER_AND_REPO }}:.*%/${{ github.event.inputs.registry }}/${{ github.event.inputs.OWNER_AND_REPO }}:${{ github.event.inputs.image_tag }}\"%1' ./manifests/${{REPO_NAME}}/manifest.yaml
 
       - name: Show Result
