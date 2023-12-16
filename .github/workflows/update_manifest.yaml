@@ -1,0 +1,30 @@
+---
+name: Version Bump
+
+on:
+  workflow_dispatch:
+    inputs:
+      repo_name:
+        description: "Application repository name"
+        required: true
+      registry:
+        description: "registry"
+        required: true
+        default: "ghcr.io"
+      image_tag:
+        description: "Container image tag"
+        required: true
+        default: "ghcr.io"
+
+jobs:
+  update-manifest:
+    name: Update Manifest
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@main
+
+      - name: Replace Image Tag
+        run: |
+          sed -i 's%/${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:.*%/${{env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}\"%1' ./deploy/k8s/manifest.yaml
+          cat ./deploy/k8s/manifest.yaml
