@@ -4,7 +4,7 @@ name: Version Bump
 on:
   workflow_dispatch:
     inputs:
-      OWNER_AND_REPO:
+      owner_and_repo:
         description: "Application repository name"
         required: true
       registry:
