@@ -26,18 +26,18 @@ jobs:
 
       - name: Echo Recieved Inputs
         run: |
+          echo ${{ github.event.inputs.repository }}
           echo ${{ github.event.inputs.registry }}
-          echo ${{ github.event.inputs.OWNER_AND_REPO }}
-          echo ${{ github.event.inputs.image_tag }}
+          echo ${{ github.event.inputs.sha }}
 
       - name: Extract Repo Name
         run: |
-          repo=$(echo ${{ github.event.inputs.OWNER_AND_REPO }} | cut -d'/' -f2)
+          repo=$(echo ${{ github.event.inputs.repository }} | cut -d'/' -f2)
           echo "REPO_NAME=$repo" >> $GITHUB_ENV
 
       - name: Replace Image Tag
         run: |
-          sed -i -e 's%/${{ github.event.inputs.registry }}/${{ github.event.inputs.OWNER_AND_REPO }}:.*%/${{ github.event.inputs.registry }}/${{ github.event.inputs.OWNER_AND_REPO }}:${{ github.event.inputs.image_tag }}\"%1' ./manifests/${{env.REPO_NAME}}/manifest.yaml
+          sed -i -e 's%/${{ github.event.inputs.registry }}/${{ github.event.inputs.repository }}:.*%/${{ github.event.inputs.registry }}/${{ github.event.inputs.repository }}:${{ github.event.inputs.sha }}\"%1' ./manifests/${{env.REPO_NAME}}/manifest.yaml
 
       - name: Show Result
         run: |
