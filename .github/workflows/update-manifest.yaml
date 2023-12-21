@@ -1,20 +1,9 @@
 ---
-name: Version Bump
+name: Update Manifest
 
 on:
   repository_dispatch:
-    types: [bump-version]
-    inputs:
-      repository:
-        description: "The owner and Repository name"
-        required: true
-      registry:
-        description: "registry"
-        required: true
-        default: "ghcr.io"
-      sha:
-        description: "Github SHA"
-        required: true
+    types: [update-manifest]
 
 jobs:
   update-manifest:
@@ -26,18 +15,19 @@ jobs:
 
       - name: Echo Recieved Inputs
         run: |
-          echo ${{ github.event.inputs.repository }}
-          echo ${{ github.event.inputs.registry }}
-          echo ${{ github.event.inputs.sha }}
+          echo ${{ github.event.client_payload.ref }}
+          echo ${{ github.event.client_payload.repository }}
+          echo ${{ github.event.client_payload.registry }}
+          echo ${{ github.event.client_payload.sha }}
 
       - name: Extract Repo Name
         run: |
-          repo=$(echo ${{ github.event.inputs.repository }} | cut -d'/' -f2)
+          repo=$(echo ${{ github.event.client_payload.repository }} | cut -d'/' -f2)
           echo "REPO_NAME=$repo" >> $GITHUB_ENV
 
       - name: Replace Image Tag
         run: |
-          sed -i -e 's%/${{ github.event.inputs.registry }}/${{ github.event.inputs.repository }}:.*%/${{ github.event.inputs.registry }}/${{ github.event.inputs.repository }}:${{ github.event.inputs.sha }}\"%1' ./manifests/${{env.REPO_NAME}}/manifest.yaml
+          sed -i -e 's%/${{ github.event.client_payload.registry }}/${{ github.event.client_payload.repository }}:.*%/${{ github.event.client_payload.registry }}/${{ github.event.client_payload.repository }}:${{ github.event.client_payload.ref }}\"%1' ./manifests/${{env.REPO_NAME}}/manifest.yaml
 
       - name: Show Result
         run: |
