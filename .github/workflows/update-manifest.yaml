@@ -27,7 +27,7 @@ jobs:
 
       - name: Replace Image Tag
         run: |
-          sed -i -e 's|${{ github.event.client_payload.registry }}/${{ github.event.client_payload.repository }}:.*|${{ github.event.client_payload.registry }}/${{ github.event.client_payload.repository }}:${{ github.event.client_payload.ref }}"|' ./manifests/${{env.REPO_NAME}}/manifest.yaml
+          sed -i -e 's|${{ github.event.client_payload.registry }}/${{ github.event.client_payload.repository }}:.*|${{ github.event.client_payload.registry }}/${{ github.event.client_payload.repository }}:${{ github.event.client_payload.sha }}"|' ./manifests/${{env.REPO_NAME}}/manifest.yaml
       - name: Show Result
         run: |
           cat ./manifests/${{env.REPO_NAME}}/manifest.yaml
