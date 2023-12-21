@@ -2,19 +2,19 @@
 name: Version Bump
 
 on:
-  workflow_dispatch:
+  repository_dispatch:
+    types: [bump-version]
     inputs:
-      owner_and_repo:
-        description: "Application repository name"
+      repository:
+        description: "The owner and Repository name"
         required: true
       registry:
         description: "registry"
         required: true
         default: "ghcr.io"
-      image_tag:
-        description: "Container image tag"
+      sha:
+        description: "Github SHA"
         required: true
-        default: "ghcr.io"
 
 jobs:
   update-manifest:
