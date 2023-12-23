@@ -27,3 +27,15 @@ jobs:
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: Update manifest
+          committer: GitHub <noreply@github.com>
+          author:
+            ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          signoff: false
+          branch: manifest-patches
+          delete-branch: true
+          title: "Update ${{env.REPO_NAME}} Manifest"
+          labels: |
+            update manifest
+            automated pr
