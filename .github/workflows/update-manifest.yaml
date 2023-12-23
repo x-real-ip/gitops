@@ -7,7 +7,7 @@ on:
 
 jobs:
   update-manifest:
-    name: Update Manifest
+    name: Update ${{ github.event.client_payload.repository }} Manifest
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -35,7 +35,7 @@ jobs:
           signoff: false
           branch: manifest-patches
           delete-branch: true
-          title: "Update ${{env.REPO_NAME}} Manifest"
+          title: "Update ${{env.REPO_NAME}} manifest, bump image version"
           labels: |
             update manifest
             automated pr
