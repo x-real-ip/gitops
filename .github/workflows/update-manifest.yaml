@@ -21,6 +21,9 @@ jobs:
       - name: Replace Image Tag
         run: |
           sed -i -e 's|${{ github.event.client_payload.registry }}/${{ github.event.client_payload.repository }}:.*|${{ github.event.client_payload.registry }}/${{ github.event.client_payload.repository }}:${{ github.event.client_payload.sha }}"|' ./manifests/${{env.REPO_NAME}}/manifest.yaml
-      - name: Show Result
+      - name: Show Manifest
         run: |
           cat ./manifests/${{env.REPO_NAME}}/manifest.yaml
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
