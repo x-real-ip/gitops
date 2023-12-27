@@ -319,7 +319,7 @@ spec:
           secret:
             secretName: secrets
       imagePullSecrets:
-        - name: harbor-registry-creds
+        - name: github-registry-creds
 
 ---
 kind: Service
