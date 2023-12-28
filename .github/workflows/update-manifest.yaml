@@ -9,6 +9,8 @@ jobs:
   update-manifest:
     name: Update ${{ github.event.client_payload.repository }} Manifest
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout Code
         uses: actions/checkout@main
@@ -25,17 +27,23 @@ jobs:
         run: |
           cat ./manifests/${{env.REPO_NAME}}/manifest.yaml
 
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+      - name: Commit
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit-message: Update ${{env.REPO_NAME}} K8s manifest
-          committer: GitHub <noreply@github.com>
-          author:
-            ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-          signoff: false
-          branch: k8s-manifest-patches
-          delete-branch: true
-          title: "Update ${{env.REPO_NAME}} k8s manifest, bump image version"
-          labels: |
-            update k8s manifest
-            automated pr
+          commit_message: "Update ${{env.REPO_NAME}} k8s manifest, bump image version"
+
+      # - name: Create Pull Request
+      #   uses: peter-evans/create-pull-request@v5
+      #   with:
+      #     commit-message: Update ${{env.REPO_NAME}} K8s manifest
+      #     committer: GitHub <noreply@github.com>
+      #     author:
+      #       ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+      #     signoff: false
+      #     branch: k8s-manifest-patches
+      #     delete-branch: true
+      #     title: "Update ${{env.REPO_NAME}} k8s manifest, bump image version"
+      #     labels: |
+      #       update k8s manifest
+      #       automated pr
+      #       automerge
