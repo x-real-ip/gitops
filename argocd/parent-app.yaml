@@ -1,0 +1,20 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: parent-app
+spec:
+  destination:
+    name: ""
+    namespace: ""
+    server: "https://kubernetes.default.svc"
+  source:
+    path: argocd/apps/
+    repoURL: "https://github.com/theautomation/gitops"
+    targetRevision: HEAD
+    directory:
+      recurse: true
+  sources: []
+  project: ""
+  syncPolicy:
+    automated: {}
