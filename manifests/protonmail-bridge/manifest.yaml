@@ -203,7 +203,7 @@ spec:
               subPath: bitwarden-cli-commands.sh
       containers:
         - name: protonmail-bridge
-          image: "ghcr.io/theautomation/protonmail-bridge:replace"
+          image: "ghcr.io/theautomation/protonmail-bridge:9755854c7166777cf2154a989370e68106103f76"
           imagePullPolicy: Always
           resources: {}
           ports:
