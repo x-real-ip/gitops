@@ -1,0 +1,284 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-nfs-protonmail-bridge-data
+spec:
+  storageClassName: "freenas-nfs-manual-csi"
+  capacity:
+    storage: 100Mi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=4
+    - nolock
+    - noatime
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: nfs
+    volumeHandle: pv-nfs-protonmail-bridge-data
+    volumeAttributes:
+      server: storage-server-lagg.lan.theautomation.nl
+      share: /mnt/r01_1tb/k8s/protonmail-bridge-data
+      node_attach_driver: nfs
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-nfs-protonmail-bridge-data
+  namespace: tools
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "freenas-nfs-manual-csi"
+spec:
+  storageClassName: freenas-nfs-manual-csi
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Mi
+  volumeName: pv-nfs-protonmail-bridge-data
+
+---
+kind: SealedSecret
+apiVersion: bitnami.com/v1alpha1
+metadata:
+  name: bitwarden-cli-env-secrets
+  namespace: tools
+spec:
+  encryptedData:
+    BW_CLIENTID: AgDdI9Hb3/BebsZKIqS2NNj1nFSTRh1sWvuMClrqtgwZsN+Kyla5KaAq7uVgGqmJbGLtMNettJNv3Sjn4WZTZnSVfCJTEnc+rTZ9C52s+HlJxSF+nqIbnxzC84pzYlrP3eZ2DbZXTRSWVGK1pQnN/iQnd67oWSA01Ja4Ni0Sca9Cfgvn/aCA/5VoxLpq3q08mT0xjMFpIvL+gjZHdM9zanQqglIpIoM9eqIB/Ar6Jc9I+C9QOVAmGSRhAm64mgJlmTS1VIZTcrSphqNRUWO0xPhzfZvxWLgmNRrDu4awOHJlVoT3SgzSdVf8/RY/vM7tHjvpgM9Cl13tQkpvMHVnUErKNUbHGY6nSb0bgO9VkYEMxkLzWi65qG6Fb4W915Z/mAb2fJG8eWQl4xZTEGVj8BCLARqF1eYbYCVeUfB8AhSENvlTHGlVKXOsh83yx8xhtaw+3c2LXxWkUUeFJUepreOXDB8JLU0XQPY59KPs/iAPjDDNGrh6fxGIKeiFVhpqYAHhCY0ddL2DhHMsFR3ICxrYMvdTWugxtRFyr/Lt2XrbUvm1PJu86bpGevuUuTSYq4pNH3KY60MCsHe76CM91oPdIJuuIgoVmf4ZRL9ESuu0ByR0qDAAFUyYwCbQ2sx6p2DUVmyLGScjlJTJ77fZ9vd/qWnA4LeLQ3Lk/FpOHenQp57VDcixQxIhvwwSWxk6OD0Sdw1biNcl3R3WltlMDTcETBqYgml2pgv/H58Amo7nxFMHOtt1G9jxJA==
+    BW_CLIENTSECRET: AgAg/wekG0X2vvLJrcB6DIg7n+AaZndplm4t7ldrL0WsueXXdfqJQGbeaHkYm1lOE+H3IcQVQWvj1gLcB5u7kemnIOOQRtTcdS4HbLvPln+eOBjKl7md7Z4msfKGKZMgmwHs9KEOIWvAkwHZupv3s7Cv6G1o8iwmDKuaM5rO91I6NQs4tKHbXKB+dLIRzHWFs//6nFtnt4YW3YyhsWJ/VmmtTRnU4riHeA95avP/4/CUxmvyYv3rPH5RgM3qUIPJ7d62VqU8z559iabsIc0d1POysCb8zteo1o09/2rrEfIcUhhE5fJGW6tVdgXslxal8TicNoBIrZaaye/meTE5VS6riH7gMDsFfQrTWotJufrROTxM75j//bTQ0cbegkHkXO9mZ4xXCAuMyDprBV8H18ONy+r0b8bHxHEnPo5mihdnmUA8u8+4bMS+ZK1Z0AhDe6BLvQ2PA+LI6KLeHac35LSoQujcbJ12fKUlZr0RLaYnnsWsIZheVtfEboe8jYDO1uwPxBVzsG95+9dBetxKgJsuXX6dakiUZT5+bM9fKpOTND+yNEfbRsUOtrHKq9Wh8lZPgyBKpGjlDv0ARoPtPv/lWitbRWspjp4P3meBNH1aFd+10e+/eVKzTe7S2i4tVtc0uIwWhpG4PeCo1wa9MEBkKsfwtuLtfWFmQP57RCLsWEUqbVRPuBKFU1Gf8TsuAffpTwVY4RenexKy7F119ZN8eh9LZtBaEi7e+eNiZE0=
+    BW_PASSWORD: AgBPkDgXejrXTil88k08v6TOwu13xQnYW9U8VhQXa0V9UMfwC5Q0yeE4vPDXYNLpo7qQBIkHK/pReOoBdsjqCIZmu70ANUlU3emIkxgPoK6YkRNx2eSkZUYbrEi6o4YumBpNFqo5UE7kA6yZCwgWMrci35vMj1oVHE38jCLQRGyUoM4DAUza8eTdB5k73T9mu59A/DhCXNfpLithjQrqWFBYILIrrYSwWm/Os0cqSSHy0dGVJtG8MJjH4UPOBXa5xMZXBGUof5y2Pqj9rHydtT99K9U9Jn+quyeD6Zo4cpUauhM5ij99oE0vfHJV7wzpCnAjiBLIl8Qgh7hDgEoNZDiRgjSrA0h0OZLA1+CquauXfSps3FAFlFfXRCExFACkMmXkFenKR+uyr8u/NZCfiWC79tsf3s/uWBaas+9u9oCMndbhfeNnIEhlHEcnsgLc8EZ+8tdJt/SXYAv65iZebuJv6y4VI+dEEoVgzzZUXUWdX2V9eMy16DcRDeBkjXvZeJe8AsWSTvRl6k8kKQ7rwoN7O2pAUmIAYFrFqEBjJtBq00UGBTOKPwWJoB5tPb8mLnGqdWzjcEAmmb5GXeAggnU63nY18RYBNKz4krfhiTKA0ltuA1DAwoaH5a/BKx0dg1YMBCSJ2U/Vs0vfG7Q18qSV99z2NX9jQIAbFxge0LdcGJb33lwQvjb+bngUMeXetBRQ0mMehKFu3FnVP4GMuYVKkr+IKeACwA==
+  template:
+    metadata:
+      labels:
+        app: bitwarden-cli
+      name: bitwarden-cli-env-secrets
+      namespace: tools
+    type: Opaque
+
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: bitwarden-cli-env
+  namespace: tools
+  labels:
+    app: protonmail-bridge
+data:
+  BW_SERVER: "https://bitwarden.theautomation.nl"
+  BW_ITEMID: "df5ca176-dd6d-4568-b010-a7e21caa660b"
+
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: bitwarden-cli-commands
+  namespace: tools
+  labels:
+    app: protonmail-bridge
+data:
+  bitwarden-cli-commands.sh: |
+    #!/bin/bash
+    set -ex
+    bw config server ${BW_SERVER}
+    bw login --apikey
+    bw unlock --raw --passwordenv BW_PASSWORD > ./.bw_session
+    export BW_SESSION=$(cat ./.bw_session)
+    sleep 3
+    export USERNAME=$(bw get username "${BW_ITEMID}")
+    export PASSWORD=$(bw get password "${BW_ITEMID}")
+    set +e
+    export TOTP=$(bw get totp "${BW_ITEMID}")
+    set -e
+    cat <<EOF >/tmp/.retrieved.env
+    RETRIEVED_USERNAME="${USERNAME}"
+    RETRIEVED_PASSWORD="${PASSWORD}"
+    RETRIEVED_TOTP="${TOTP}"
+    EOF
+    bw logout
+    rm ./.bw_session
+
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: protonmail-bridge-config
+  namespace: tools
+  labels:
+    app: protonmail-bridge
+data:
+  entrypoint.sh: |
+    #!/bin/bash
+    set -exo pipefail
+
+    GPG_PARAMS="/protonmail/gpg-key-parameters"
+    FIFO="/tmp/fifo"
+    declare -r PROTONMAIL_BRIDGE_CLI="protonmail-bridge --cli"
+
+    if ! [ -d ~/.gnupg ] ; then gpg --generate-key --batch ${GPG_PARAMS}; fi
+    if ! [ -d ~/.password-store ] ; then pass init "$(awk -F: '/^Name-Real/ {print $2}' ${GPG_PARAMS})"; fi
+    if ! [ -f ~/.cache/protonmail/bridge ]; then
+      declare LOGININPUT
+      eval $(cat /home/.retrieved.env)
+      LOGININPUT="login\n${RETRIEVED_USERNAME}\n${RETRIEVED_PASSWORD}\n${RETRIEVED_TOTP}"
+      echo -e "${LOGININPUT}" | ${PROTONMAIL_BRIDGE_CLI}
+    fi
+
+    # socat will make the conn appear to come from 127.0.0.1
+    # ProtonMail Bridge currently expects that.
+    # It also allows us to bind to the real ports.
+    socat TCP-LISTEN:${PROTONMAIL_BRIDGE_SMTP_PORT},fork TCP:127.0.0.1:1025 &
+    socat TCP-LISTEN:${PROTONMAIL_BRIDGE_IMAP_PORT},fork TCP:127.0.0.1:1143 &
+
+    # display account information, then keep stdin open
+    [ -e ${FIFO} ] || mkfifo ${FIFO}
+    {
+      echo info
+      cat ${FIFO}
+    } | ${PROTONMAIL_BRIDGE_CLI}
+  gpg-key-parameters: |
+    %no-protection
+    %echo Generating GPG key
+    Key-Type:RSA
+    Key-Length:4096
+    Name-Real:ProtonMail password-store
+    Expire-Date:0
+    %commit
+
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: protonmail-bridge-env
+  namespace: tools
+  labels:
+    app: protonmail-bridge
+data:
+  PROTONMAIL_BRIDGE_LOG_LEVEL: "info"
+  PROTONMAIL_BRIDGE_SPLIT_ADDRESS_MODE: "false"
+  PROTONMAIL_BRIDGE_SMTP_PORT: "25"
+  PROTONMAIL_BRIDGE_IMAP_PORT: "143"
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: protonmail-bridge
+  namespace: tools
+  labels:
+    app: protonmail-bridge
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: protonmail-bridge
+  template:
+    metadata:
+      labels:
+        app: protonmail-bridge
+    spec:
+      initContainers:
+        - name: bitwarden-cli-init
+          image: "harbor.lan.theautomation.nl/k8s/bitwarden-cli-init:latest"
+          imagePullPolicy: Always
+          resources: {}
+          command: ["/bin/bash", "/home/bitwarden-cli-commands.sh"]
+          envFrom:
+            - secretRef:
+                name: bitwarden-cli-env-secrets
+                optional: false
+            - configMapRef:
+                name: bitwarden-cli-env
+                optional: true
+          volumeMounts:
+            - name: bitwarden-cli-output
+              mountPath: /tmp
+            - name: bitwarden-cli-commands
+              mountPath: /home/bitwarden-cli-commands.sh
+              subPath: bitwarden-cli-commands.sh
+      containers:
+        - name: protonmail-bridge
+          image: "ghcr.io/theautomation/protonmail-bridge:replace"
+          imagePullPolicy: Always
+          resources: {}
+          ports:
+            - name: smtp
+              containerPort: 25
+            - name: imap
+              containerPort: 143
+          command: ["/bin/bash", "/protonmail/entrypoint.sh"]
+          envFrom:
+            - configMapRef:
+                name: protonmail-bridge-env
+                optional: false
+          volumeMounts:
+            - name: bitwarden-cli-output
+              mountPath: /home
+            - name: protonmail
+              mountPath: /protonmail
+            - name: protonmail-bridge-config
+              mountPath: /protonmail/entrypoint.sh
+              subPath: entrypoint.sh
+            - name: protonmail-bridge-config
+              mountPath: /protonmail/gpg-key-parameters
+              subPath: gpg-key-parameters
+            - mountPath: "/root/"
+              name: protonmail-data
+      volumes:
+        - name: bitwarden-cli-output
+          emptyDir: {}
+        - name: bitwarden-cli-commands
+          configMap:
+            name: bitwarden-cli-commands
+            defaultMode: 0777
+        - name: protonmail
+          emptyDir:
+            sizeLimit: 200Mi
+        - name: protonmail-bridge-config
+          configMap:
+            name: protonmail-bridge-config
+            defaultMode: 0777
+        - name: protonmail-data
+          persistentVolumeClaim:
+            claimName: pvc-nfs-protonmail-bridge-data
+      imagePullSecrets:
+        - name: github-registry-creds
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: protonmail-bridge-smtp
+  namespace: tools
+  labels:
+    app: protonmail-bridge
+spec:
+  selector:
+    app: protonmail-bridge
+  type: ClusterIP
+  ports:
+    - name: smtp
+      port: 25
+      targetPort: 25
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: protonmail-bridge-imap
+  namespace: tools
+  labels:
+    app: protonmail-bridge
+spec:
+  selector:
+    app: protonmail-bridge
+  type: ClusterIP
+  ports:
+    - name: imap
+      port: 143
+      targetPort: 143
