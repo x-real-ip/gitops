@@ -1,0 +1,193 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-nfs-radicale-data
+  labels:
+    app: radicale
+spec:
+  storageClassName: "freenas-nfs-manual-csi"
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=4
+    - nolock
+    - noatime
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: nfs
+    volumeHandle: pv-nfs-radicale-data
+    volumeAttributes:
+      server: storage-server-lagg.lan.theautomation.nl
+      share: /mnt/r01_1tb/k8s/radicale-data
+      node_attach_driver: nfs
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-nfs-radicale-data
+  namespace: tools
+  labels:
+    app: radicale
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "freenas-nfs-manual-csi"
+spec:
+  storageClassName: freenas-nfs-manual-csi
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  volumeName: pv-nfs-radicale-data
+
+---
+kind: SealedSecret
+apiVersion: bitnami.com/v1alpha1
+metadata:
+  name: radicale-users
+  namespace: tools
+spec:
+  encryptedData:
+    users: AgDNUvOn79Q6gZ46yyVrLTIX9XmzLInMgj/skkqrzNPH2YUh+m23L0c6Rqt538fa4tdPd8mr+//pp9rDIXkRBX5UjXIU/udzxD44uCbDFB9bTzMqltO6QZo9AcEFi2Z5JpQ5CY1cOVcBEgjclUbGih7qQ440uEvGK/IOF8W8LLGTwGcUu68h5PWtOqMJAkavjzhKTEfmRmX3nJbJqRUh4YOiCmq0s9Wm1mfMmpsh7YvrFISmWnGNSkxl6HNzL/EitDNf5dii7g/un4wjDH2QiTzBLIHZMVgaDRKZ/osl+dk51DrvaL7FG7984uN21DTHxnb+j+bfGR6V9mw5Y9soEQvKdk5pquGxNiIbG6QTXBFhh7lXxXy8y6tUbcmMOaR5CvNLAnPNVpVX7AZKT6DbJzKgNE9rWlQgRKEXzmHDCHOYE9E5DltAzdr9NIub0ZXJpjMjGFLsN3h0uaD7zsMr/aHO5Jd/PnaAYHXd2qk7EykPmkYtH1+bk5lmIsU9RAGxmrgBtSrFTkZvLVEx9GTZFZSowtd06D2qZniJ4TxnlrqThfP+d0iAcPJ/q2CBYKUoEZv3hvHvSHORw+T6nTomvLqLCZ8+1OsRFBNI2upMHEr31Yv7NtA3zg4ZNaYsiETLr4g2raBBgkYz5LL3HQ3nGbMMA9b8wFzT8Zq+n6UJOLIfJDFg/YWNgJ3T/S/JJt4p8jLdMu2xLx7hJpYnImfj9HFjmsn4v6SQV+yjdirtWof3B/IqPuDsibq8B31ayJ2DUhdGbwi3mXo3MX/u0lOhGrWk1MW2ByVMG+N4UfoNJt1GyX2tllWrXvY0xTm8G7h73cY1HudiWDg3y/IKU1AZ7Nq0U1TRDUO1dId8AxeFfsJ9wllqIIzysL4wk8sjSeSq9QIitcouM+OBuMJNd6PACawSQah1/tzApLa4fRzJc8PissSAHHc2o/RdyT7kqznPqfl1sUUuCHQeEWVvxw==
+  template:
+    metadata:
+      labels:
+        app: radicale
+      name: users
+      namespace: tools
+    type: Opaque
+
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: radicale-config
+  namespace: tools
+  labels:
+    app: radicale
+data:
+  config: |-
+    [server]
+    hosts = 0.0.0.0:5232
+    [storage]
+    filesystem_folder = /data/collections
+    [web]
+    type = internal
+    [logging]
+    level = info
+    [auth]
+    type = htpasswd
+    htpasswd_filename = /etc/radicale/users
+    htpasswd_encryption = bcrypt
+    delay = 1
+    realm = Radicale - Password Required
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radicale
+  namespace: tools
+  labels:
+    app: radicale
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: radicale
+  template:
+    metadata:
+      labels:
+        app: radicale
+    spec:
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: radicale
+          image: "ghcr.io/theautomation/radicale:placeholder"
+          resources: {}
+          command: ["/bin/sh", "/usr/local/bin/docker-entrypoint.sh"]
+          args: ["radicale", "--config", "/config/config"]
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsUser: 1000
+            runAsGroup: 1000
+          ports:
+            - containerPort: 5232
+              protocol: TCP
+          volumeMounts:
+            - name: collections
+              mountPath: /data/collections
+            - name: config
+              mountPath: /config/config
+              subPath: config
+              readOnly: true
+            - name: users
+              mountPath: /etc/radicale/users
+              subPath: users
+              readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            name: radicale-config
+        - name: users
+          secret:
+            secretName: radicale-users
+        - name: collections
+          persistentVolumeClaim:
+            claimName: pvc-nfs-radicale-data
+      imagePullSecrets:
+        - name: github-registry-creds
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: radicale
+  namespace: tools
+  labels:
+    app: radicale
+spec:
+  selector:
+    app: radicale
+  type: ClusterIP
+  ports:
+    - name: dav
+      protocol: TCP
+      targetPort: 5232
+      port: 5232
+
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: radicale
+  namespace: tools
+  labels:
+    app: radicale
+  annotations:
+    nginx.ingress.kubernetes.io/configuration-snippet: |-
+      proxy_set_header X-Remote-User $remote_user;
+spec:
+  ingressClassName: nginx-public
+  rules:
+    - host: radicale.theautomation.nl
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: radicale
+                port:
+                  number: 5232
+  tls:
+    - hosts:
+        - radicale.theautomation.nl
+      secretName: tls-wildcard-theautomation-nl
