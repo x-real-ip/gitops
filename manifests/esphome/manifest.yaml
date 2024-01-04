@@ -1,0 +1,161 @@
+---
+kind: SealedSecret
+apiVersion: bitnami.com/v1alpha1
+metadata:
+  name: esphome-login
+  namespace: home-automation
+spec:
+  encryptedData:
+    password: AgDXQ+WxgA2Vbf01aVFQw0gk7IFo+fwKwc07ndZvY+iFsIy3z/IfU8Cjfsf3S9UuOGHUdF38qyxWKq/b7dbpFqpWDc9FbzEQmEq/BZ9JSxTZ9KOQGRaUqTKVuQZcR1ujb3H694CZ21Zl+wh+aXkShUQbrkleF2M2hEEKgLXOPAWPPPJ9K7Fph/cIGef89eGodMhR/LUe2KpgWCqKh2yTQc/MSrAqRZuf3/0gYC1YxZvA5keC6H1JBH9ORn2wLRj5RdXrsq1qtv5yXEjX/kioYL3HH5NwSytOHBuOxdPZ1hpO+Tn10GTc39LZ9VX4ZNxN+qouII8AmqXLP1WbE33cpaT/skAJMzTrCE10BCThQr6ieJOcoGjSixNSP5KD9m++MOVaosyBnBUqXAa59oDf9tBED7rowSBdxM8t5cD8CG3B6t5jJaZpDtThUvSrSnHOEx/Wy5PfkNHiySmbFWUtl1DpkrhTzY8iwgas7/Hp7YQN+WZEuVolBobGq82+o8a+takrGrwlvFxhcLOtYA4ol5xcjfj4DbYmAHI3dnzbWv1TbmXMwbFS7wOF6jTvintNLx1AEWww9XOShGqctGf75OFlIopH850JBn+1L4N4Kdo4qjxPmK03pXV4Knu1MwxEDjTU8BtbWR5xUyU/4kffXar6gGaTWfuAwuxh/paP4xMg1kYkjpOW+ZHGDi6TdVB0oy6/G/5n2SjbO0QelVXhbQA0d84f
+    username: AgBITOp3KPYyz0eXELGrEbppiLQjufCJrTFapttkfLKzXQ1GWGOdSGtOhraO/ttdo/by4TYuId4qZpgoYV7oCdQ1b4UWIL8tmrKAbXVXXq02P+hw7LnwiF0771lB3ttum5aruRMzSSlVqbee3CIg7jCyxMT8PN9rhE+zYpFxHgScky7S+H6WrjIG1Q0RT9Do0f1xyulqZIvvI4uTilu5At3/18KuJqUmyYZwkJYv/7x79xSwget5ovw2A1UUd7aVDd3Z3kUc3eeKJsR0tea6dT1U7N3zog3XQ/tgG8aME9/rry5fiJ+ozdDLQvkvYOdM1kKyg1Dh0becaVMsfvOGP/WgyLIh77jt5nEExiCLLca7ibc8UqAeLGH1bKvlzQg2qIEFuuME9F8WDFsjDhaTPvgfbwjQhmA84v4Q/EMDFC/0hQ5JwUo4wDFE12GOXL8jlU4EL1JMs1MdkD61WGXsgi5te3Ws5hgH0jW7ucCpAzdzOLUlCJuMLMN9GWPXZFixT97edPawIBic4uYteEh+7yJ/G5Vq9SF48jRayy6CWgT0bhR1Gfv/+nvcS929c9JJj/0Ef+wiglA++gYSiVeT6hyfABZgUE7qnd5q+mFZCH1Ds8s8txcS6zkNDgITbsuGJir8IogZ+sVu9Xol7rIaJ+59LzpK1N8EszDGDd5U/PD4VMZwfWg+RTNsRw9NPxxHH8h46ytI
+  template:
+    type: Opaque
+    metadata:
+      name: esphome-login
+      namespace: home-automation
+
+---
+kind: SealedSecret
+apiVersion: bitnami.com/v1alpha1
+metadata:
+  name: esphome-secrets
+  namespace: home-automation
+spec:
+  encryptedData:
+    api_encryption_key: AgDt01l1bjNUI0Pz4fm4esi9KzAQ386oJXoyFLrohW+CWDyZTsBseV4dykAJO9QTEF0WsCItPWWWlUdntaOcojgmJMv8EDJGYLrFSPGdRRmnl+OUp4CoC+H/J7eRLyti6tuv0fMFUr+OjbbjY1rZLMtLEuIK2AFkxEZ++V+2P91tv9cKoF/SDjun5l9cLvj9ODi52WsM0hBh+3Sim9lyNkZYCtkrY6f2/h0C1/9NC5ZR6E0+u8ezKr1XvsUiUoGL+9fLKVmKXzzigFjaFhmTZh8vGahqBr00EHjR8I3gJCHrJRn4AjMVMRLdpYgDSGpxHog4ITYhR7ggvosJ6rJhBxZ8PNP89wdMoz7oiW7wXrb8jEfoj75FzafLXQWyggijNAZTBdgcGVsW+xly4n2LTkkO5zVSKopE5SHDPy1B0RfEMyMsKht9DpFtEx3pXd34FvPQ6fdoy65o/4efmgAlAmUlbfJidNpGuLxYTQjczfQY1D/snBcGrjrs5EuqXTZBUtF0ygRwtN0OxNgAdVedBkggIW4QrDwlWL2B22zSHYJBGG2BBP3sca+sr7zNhiYP1A/0ofEPFezXiTkEoslCiPQJUct8/0knrIH+QRin943S81AYNEFd4NfbHE8jYmcuX9qUQzgJRHMYm+xcvz6yQw2Uh0o9DJtKePVPqt1dgBz4YQYZ9yGjtd/M27IwbA04smGA99Xlo5R3PwwBqaTYGZd+P0UgCva21n6PV/SRMlgarK4+QHptAm9cbxaQRg==
+    ota_password: AgBbh1GzSwQxdSlO0SK8ku5Ufx9E01zDEp0jUDEJr0OK1NKWrf0ByZGUPzECOl4625VrFMwxGCeXs6H7lHEW9pW/JHGh3CRgbFb18vEbRuSOeWJetC+tlOyq934eIWgGMnsWIRwrYgIyAydjmUM8DgCabtp/cGelE2w9i6YoPpdiZzO2xbx09S0yY5612F2krkn9JQTFYsgsLo3X6N7PiY/KVYlu1paLB80EHP+10rVqwsHtkShXXM9tY1BK6yHJhxmcX8i0U0b65kByc8l1eN11D9yY0C4cL1m5lxYjmOGGgEiJcvRb8WFrpricl67mzVC2ldwj01jYHgZLBxR+ICZ1f8GRkgZcoTh+RICrWludU2CBypsbcArXxxoQONko65dcDgd4j7m04nd1iiVzRTukWej+akHaTnqfgjLAloJcxChntx4UTZEWfFtm7WzB2YxFrD81E0CGUJ23wbRXIKvlvIe+fQuiqvims65BZ+sjBEesKALfnvfWtwwodaVwSlMQD6c3tQE2aYnKWSHx9ADYlBaGhcL3CmJ6Uof8fu+FgSkHrz/DwcKPe1Kg1IwpxNjgv6foe0zobV/msBIFbt75lcT7hTpbOHpTaFv5adk5tT2T4KBHeOWl2LL5agCzzwntkxH1OzoWGrdAU33mSRCutR3otLNmBQuCzKgAK/ZWikQvqjkf0+iIlwY+K+APwcvxcIRgtrKcGOHeFTuCMBc=
+    wifi_password: AgCox4s2ougUASK5iGwNQt4GGAFYkPIl4GasQjUxsXICginYztC86R4bJ6lyGPM6PNIJ9XSfkC71X9MpF9cVCXko9ar7RX3BxKp1qm5GLwK8JeVgqwOT2Wfu/JT3qJ5F94KK2F3nEvV2YGp6pSwewaYixDTzObd7VdCbpzTMTjLr3Phf9+/EtV8/IZD8mrVmawPNy0vEOMfvJ8c1/ZeswCzxC0b0Ny2HD6JhMOoAPnyVQ/mvRsvUD3FjB6/+wFDdrfRboZ+MHxf5sXJ3Ds4HRjKyyuy66YeRnDVC8D74MktXAjqZE3RaCNq5N3VXtRcdOIPe1tVIdzZ7gZ8+fGJ5bB5j8xKBrRdLHds1uyhuZGw9YV1x/7LC4CrCjnd7TMPM45QTvI0/t4bi+pBy+WoHM+G5Sgrp0jsDFgzG8ml5X0JA1hqwbr36hsPqMobE6LqgPsjMZ+rRnCRY0CjWwDE5lJnLbWyuX4sJsm3hXBhzI6CYl1l4hq3MEnTcnVQMMuztz9Fvc6hDDdBFmkNLBlwCtXQOSvzgbzkpMinkLrtwkmx3MJydKZcJhvdX04ycXdhroarIDDYLpD9imgWmFCrd4gowmeLEBwm0BwhteutQu+KjD2CYTxhDG3SAXuGkr65bDUzgCa97NxvrKnAZ5shVv1x/JLAWauDbv71cseYPzial77hDtVuMH9NLc/euEo1MvKoTk63IDaG6KoWtZEYYM8D7gELj
+  template:
+    data:
+      secrets.yaml: |-
+        wifi_ssid: WIFI-NOT
+        wifi_password: "{{ index . "wifi_password" }}"
+        wifi_domain: ".lan.theautomation.nl"
+        api_encryption_key: "{{ index . "api_encryption_key" }}"
+        ota_password: "{{ index . "ota_password" }}"
+    metadata:
+      name: secrets
+      namespace: home-automation
+      labels:
+        app.kubernetes.io/name: esphome
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: esphome
+  namespace: home-automation
+  labels:
+    app: esphome
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: esphome
+  template:
+    metadata:
+      labels:
+        app: esphome
+    spec:
+      serviceAccountName: default
+      automountServiceAccountToken: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      containers:
+        - name: esphome
+          image: "harbor.lan.theautomation.nl/k8s/esphome:132"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 6052
+              protocol: TCP
+          env:
+            - name: "ESPHOME_DASHBOARD_USE_PING"
+              value: "true"
+            - name: "TZ"
+              value: "Europe/Amsterdam"
+            - name: "USERNAME"
+              valueFrom:
+                secretKeyRef:
+                  name: esphome-login
+                  key: username
+            - name: "PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: esphome-login
+                  key: password
+          livenessProbe:
+            tcpSocket:
+              port: 6052
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: 6052
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          startupProbe:
+            tcpSocket:
+              port: 6052
+            initialDelaySeconds: 0
+            failureThreshold: 30
+            timeoutSeconds: 1
+            periodSeconds: 5
+          volumeMounts:
+            - name: secrets
+              mountPath: /config/secrets.yaml
+              subPath: secrets.yaml
+          resources: {}
+      volumes:
+        - name: secrets
+          secret:
+            secretName: esphome-secrets
+      imagePullSecrets:
+        - name: harbor-registry-creds
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: esphome
+  namespace: home-automation
+  labels:
+    app: esphome
+spec:
+  selector:
+    app: esphome
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 6052
+      targetPort: 6052
+
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: esphome
+  namespace: home-automation
+  labels:
+    app: esphome
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: esphome.lan.theautomation.nl
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: esphome
+                port:
+                  number: 6052

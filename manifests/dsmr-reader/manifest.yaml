@@ -1,0 +1,371 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-iscsi-dsmr-reader-db
+spec:
+  storageClassName: "freenas-iscsi-manual-csi"
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: xfs
+    volumeHandle: pv-iscsi-dsmr-reader-db
+    volumeAttributes:
+      portal: storage-server-lagg.lan.theautomation.nl:3260
+      iqn: iqn.2005-10.org.freenas.ctl:dsmr-reader-db
+      lun: "0"
+      node_attach_driver: iscsi
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-nfs-dsmr-reader-backups
+spec:
+  storageClassName: "freenas-nfs-manual-csi"
+  capacity:
+    storage: 50Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=4
+    - nolock
+    - noatime
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: nfs
+    volumeHandle: pv-nfs-dsmr-reader-backups
+    volumeAttributes:
+      server: storage-server-lagg.lan.theautomation.nl
+      share: /mnt/r10_8tb/k8s/dsmr-reader-backups
+      node_attach_driver: nfs
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-nfs-dsmr-reader-backups
+  namespace: home-automation
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "freenas-nfs-manual-csi"
+spec:
+  storageClassName: freenas-nfs-manual-csi
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 50Gi
+  volumeName: pv-nfs-dsmr-reader-backups
+
+---
+kind: SealedSecret
+apiVersion: bitnami.com/v1alpha1
+metadata:
+  name: dsmr-reader
+  namespace: home-automation
+spec:
+  encryptedData:
+    DSMRREADER_ADMIN_PASSWORD: AgBSc03WwLAW5LWrKhtmT+iDkz1IAZuIAajOxZUnM6Rwnj2WYtW+BlH9cl+3y41Dfh5MJ/C+HoNAq3quDfuCcWlECK8+D2xxDHJLK6KsxwsmUV0C4ShGXwcdTC/NTuGMyUHiwSpdcjuXOtOTWKCpfAQlvq6+sb/d9wI6ia/REP7cSrdfPouTceWrla/uWT7C/gtGvcVfltDXunHHrvGFkrZdRTAg0ApRhEwTX09ansnify356IjnuFe7y3z/WVmPi5kLRYUs3InxWXvWBC8eVj5NA/BXEWsvGM1xKPdGjwCjsD6fJFXfSxDRYlPm86xdRsSg3WaVscal3hnGs2pTDHO1BuUyXFz43MO2KOAGb3abQ1B/HnVAQqP5rX1lgLOOUVT4v4x2/azjqfibu6V8WLucdnmj/538KyFqGD7qmgVm9q76Kxq3oK+toy5n1W3GRdDaOw6pmqQFYK2FanCewRKMHWgBnWzwA1a0+I7+MwhEqExi7IbDB489aZ3qZq+ukDeJQ/hbgWtPrB7xiJo9HVzstGP4pSMoqxS8QUAm8BfXpuj4L50lhITMaZXWwQxOvXXpGb1idQ5NVj93h13+qws/XVh7rxNiLhndP402FqjnIanpcdDQtmFgswLfeDl42fCila5INy6mtB7m+EcI6x+5ZIAbwvN12wxnFFKzKw6wufZQy9LLBL6aYqXojG0iyKe7ysT1XkOAdxz8ir1qEk8Dbk5T
+    DSMRREADER_ADMIN_USER: AgBqnF8NpDA72VX9EZr/NKLiugGQ+qgkfH/XiRcX6mzzcs0RCJoU1rDbB5NyvUbqTaOzvRMJj64iklgKCojV7f1tP34wr26VOjFkIoOJBY4MfQSn0agKqPhpOcBXJq4aE35w7MCgSvm7DYZ2ENrxraJz8eYHhloyTdNjdkRrNMy1C9Rvjh20QRqcXLfmG4UNubgjVHgv8S1cWjWJXsIOfhJ3f6U0rILehC2naqR259lWlsMokyFRZx5LRDdBpfSm0MVguqU3RYWP3DW3x/XgP0sNyLB4aKos6Luiav93NApQOQ/yBn5JQAzjW4mMzu2uVpZIIRpK3bBxeRZSLzuixPRWOJRh2cA9pY3DjCo+NWm5XkQPdbqauDthfjfKaDtuGe8Yv8K+M6D/27zs6R4QGagG+xkvGZoho/Mjdrqf+147c8hZp0jJ8uWf2731Mku3I856wHbB1EsUSZB2NgiBiwQjPZuYGYJvZm6q+9YQzOOfAWu3UxFy7mMBZ0vwSv4VH/1ANkXJAaFuY2LX291xvmvUhtDWWofuBadhKADqnm8z4yArdEM0Fxh4JfBK8U6/bnjWG1aqc+vjJDNFJ2sH0LjVtQYPslC4t67P0TaB05FDAiAr0SS0PzRbopxVrYbA8WCvOkv+QxCS/TDl1gl3vB49begsVa0dDKIos1gQ15tW/DlMBk9fCPmJ4M95A3j3KqlogArQ
+    POSTGRES_PASSWORD: AgBvp9gRdNlBzH8U+u9m3LheEMp68ZI8BecBY/NDk2SOoyIffCXhg7ssXOFkBLPiyma4axlGdxpEAxhniteiYbbLauDkDX9OS4UxpbitH6l9zyVfBSa9oqJ/zR6QPrgYqOijqABHALaWsQ0stsjBZW6SOpIRQPIawGA/E2jYSZwWlOtStQbVeCRKBYzjRuk8aYMgx5yxpgREELhABEsGJVH4BkIBFqIAaRnf6BNcsSXJF1vHhr1oz9z4vpfoXOdWTSMlixtNaOI3XS3RMt9ue8LzvjjsOEYmEOCj+9q3K6ekXKCttJGk/Oc1kEPzHm5u4CDx6DKZ9QTXtLuynVSXq5oFUqKk97l4kJSfYiD8y9JlBqrDVvmk/NQjdmOY6/UY1zdbsvwBMut014uhcJQ1dxLHyKNn1y86fTIXBpb3jZaEO0bkEojew9gAzr+7LkvYLbgQ0Q7EPaybaoxVAXSJVAHcE/LwwtAZHyho/oA8Hq8TsuIbBeG5XhVOyNZWcWFsbgtzfjijm0f7pce4/urujmamOFi29OJfRc2XNdNkEY1suwtB8PehWxPhc5p66d1yp8xZ4euO5RpnY+DebWurnqlzS/1amdfzKgoe0NAfDgEajicZLOH8n5rtf9a+H+1mIoNOOVXHJJ/aNP/OFPKrke06VRMISzg5u/YYyfUESF6ObxyjrEiKLAWCPLEhsOTJ5qeyGcR84dxuOCx9lqNI5FUY
+    SECRET_KEY: AgDoqqwonQPnTYyK8Lyv6PwDAwkniMPXRk1GlOnlHqAxYS57wYmbmEjtNeWDYEV/UwmYB0TvnNVYsRz9aB7vg7WEHKwRrBvdc3Hhjykr4iHxwnULiVXVa+wR5V6MLruFiXvYbQxDkHrE3/fJR94/+cW8pht1xQIHjMumCFsBcpCZgoxQJQaJbw44Jh6qwL0R+zsTN+7AVmoBbLUERWgfmkF157ciHD5fqecmIx2Vpfnop0c/t3WU0Y1NxFjROMrUq+OH/8bvt/KZ47UO3RqhoCWVcm5OO1p0nLrBqJk7fxHiP0cxZBUVw4Trj0hxtLH6d6bfj9J9tsiKT+mL8NkMvXODEd91YPXsoPZNJSVFZvDqKOr9uQaoiZ8ZDZa+VoRtno2eYWLWmluMOT5b+XJBzVpWM3H4UKga2M1lY/ScLCA13FLEatgCplwh9JG2KzYxAt/eoKn03HnfIurddEoOBEGTYFARtzLHiuUjoeoH8cSEpvTcRCCu3EHrQ37Oo89vv1/p/SlVkhpzcaBJ+YKin8DhrTi2vZ0qA+S1DqaGieCX5yVyoyMOiOFGvkYVucJxQvcL5jf4Ta5gY6ASh64ySwuyVCwCTVV/JQnnvAJQgKnNgncTZG+wcCNTwl93rfOYSYSiDEr6gj9Gj+wdN0ITdDmoAYmY+ZyFxRB77Dr2GJ3G3CRhLX8eYjj4CnHfqTBgHaum8Ny9kRGgmQ8xGb8mUuBLXoJR
+  template:
+    type: Opaque
+    metadata:
+      name: dsmr-reader
+      namespace: home-automation
+      labels:
+        app: dsmr-reader
+
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: dsmr-reader-postgresql-env
+  namespace: home-automation
+  labels:
+    app: dsmr-reader
+data:
+  POSTGRESQL_DATABASE: "dsmrreader"
+  POSTGRESQL_USERNAME: "dsmrreader"
+
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: dsmr-reader-env
+  namespace: home-automation
+  labels:
+    app: dsmr-reader
+data:
+  DJANGO_DATABASE_USER: "dsmrreader"
+  DJANGO_DATABASE_NAME: "dsmrreader"
+  DJANGO_DATABASE_PORT: "5432"
+  DJANGO_DATABASE_HOST: "dsmr-reader-postgresql-hl.home-automation.svc.cluster.local"
+  DJANGO_TIME_ZONE: "Europe/Amsterdam"
+  TZ: "Europe/Amsterdam"
+  DUID: "1000"
+  DGID: "1000"
+  VACUUM_DB_ON_STARTUP: "false"
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: dsmr-reader-postgresql
+  namespace: home-automation
+  labels:
+    app: dsmr-reader-postgresql
+spec:
+  replicas: 1
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Delete
+  serviceName: dsmr-reader-postgresql-hl
+  updateStrategy:
+    rollingUpdate: {}
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: dsmr-reader-postgresql
+  template:
+    metadata:
+      name: dsmr-reader-postgresql
+      labels:
+        app: dsmr-reader-postgresql
+    spec:
+      serviceAccountName: default
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: postgresql
+          image: "bitnami/postgresql:14.2.0-debian-10-r77"
+          securityContext:
+            runAsUser: 1000
+          envFrom:
+            - configMapRef:
+                name: dsmr-reader-postgresql-env
+                optional: false
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: dsmr-reader
+                  key: POSTGRES_PASSWORD
+          ports:
+            - containerPort: 5432
+          livenessProbe:
+            failureThreshold: 6
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - exec pg_isready -U ${POSTGRESQL_USERNAME} -h 127.0.0.1 -p 5432
+          readinessProbe:
+            failureThreshold: 6
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - -e
+                - |
+                  exec pg_isready -U ${POSTGRESQL_USERNAME} -h 127.0.0.1 -p 5432
+                  [ -f /opt/bitnami/postgresql/tmp/.initialized ] || [ -f /bitnami/postgresql/.initialized ]
+          resources:
+            limits: {}
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          volumeMounts:
+            - name: dshm
+              mountPath: /dev/shm
+            - name: data
+              mountPath: /bitnami/postgresql
+      volumes:
+        - name: dshm
+          emptyDir:
+            medium: Memory
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - "ReadWriteOnce"
+        storageClassName: freenas-iscsi-manual-csi
+        resources:
+          requests:
+            storage: "10Gi"
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: dsmr-reader
+  namespace: home-automation
+  labels:
+    app: dsmr-reader
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: dsmr-reader
+  template:
+    metadata:
+      labels:
+        app: dsmr-reader
+    spec:
+      initContainers:
+        - name: postgresql-isready
+          image: "bitnami/postgresql:14.5.0"
+          env:
+            - name: POSTGRESQL_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: dsmr-reader-postgresql-env
+                  key: POSTGRESQL_USERNAME
+          command:
+            - "sh"
+            - "-c"
+            - until pg_isready -h dsmr-reader-postgresql-hl -U ${POSTGRESQL_USERNAME} ; do sleep 2 ; done
+      containers:
+        - name: dsmr-reader
+          image: "xirixiz/dsmr-reader-docker:latest"
+          resources: {}
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: dsmr-reader-env
+                optional: false
+          env:
+            - name: "DSMRREADER_ADMIN_USER"
+              valueFrom:
+                secretKeyRef:
+                  name: dsmr-reader
+                  key: DSMRREADER_ADMIN_USER
+            - name: "DSMRREADER_ADMIN_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: dsmr-reader
+                  key: DSMRREADER_ADMIN_PASSWORD
+            - name: "DJANGO_DATABASE_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: dsmr-reader
+                  key: POSTGRES_PASSWORD
+            - name: "SECRET_KEY"
+              valueFrom:
+                secretKeyRef:
+                  name: dsmr-reader
+                  key: SECRET_KEY
+          livenessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          startupProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 0
+            failureThreshold: 30
+            timeoutSeconds: 1
+            periodSeconds: 5
+          volumeMounts:
+            - name: backups
+              mountPath: /app/backups
+      volumes:
+        - name: backups
+          persistentVolumeClaim:
+            claimName: pvc-nfs-dsmr-reader-backups
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: dsmr-reader-postgresql-hl
+  namespace: home-automation
+  labels:
+    app: dsmr-reader-postgresql
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+spec:
+  selector:
+    app: dsmr-reader-postgresql
+  type: ClusterIP
+  clusterIP: None
+  publishNotReadyAddresses: true
+  ports:
+    - name: tcp-postgresql
+      port: 5432
+      targetPort: 5432
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: dsmr-reader
+  namespace: home-automation
+  labels:
+    app: dsmr-reader
+spec:
+  selector:
+    app: dsmr-reader
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: dsmr-reader
+  namespace: home-automation
+  labels:
+    app: dsmr-reader
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: dsmr-reader.lan.theautomation.nl
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: dsmr-reader
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - dsmr-reader.lan.theautomation.nl
+      secretName: tls-wildcard-lan-theautomation-nl
