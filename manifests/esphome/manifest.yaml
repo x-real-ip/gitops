@@ -65,7 +65,7 @@ spec:
       enableServiceLinks: true
       containers:
         - name: esphome
-          image: "harbor.lan.theautomation.nl/k8s/esphome:132"
+          image: "ghcr.io/theautomation/node-red:replaced"
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 6052
@@ -116,7 +116,7 @@ spec:
           secret:
             secretName: esphome-secrets
       imagePullSecrets:
-        - name: harbor-registry-creds
+        - name: github-registry-creds
 
 ---
 kind: Service
