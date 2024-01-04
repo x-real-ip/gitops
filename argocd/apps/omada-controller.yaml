@@ -2,13 +2,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: node-red
+  name: omada-controller
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: "https://github.com/theautomation/gitops"
-    path: manifests/node-red
+    path: manifests/omada-controller
     targetRevision: HEAD
     directory:
       recurse: true

@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: "home-assistant"
+  name: home-assistant
   namespace: argocd
 spec:
   project: default

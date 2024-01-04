@@ -1,0 +1,200 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-iscsi-omada-controller-data
+  labels:
+    app.kubernetes.io/name: omada-controller
+    app.kubernetes.io/component: omada-controller
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: omada-controller
+spec:
+  storageClassName: "freenas-iscsi-manual-csi"
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: xfs
+    volumeHandle: pv-iscsi-omada-controller-data
+    volumeAttributes:
+      portal: storage-server-lagg.lan.theautomation.nl:3260
+      iqn: iqn.2005-10.org.freenas.ctl:omada-controller-config
+      lun: "0"
+      node_attach_driver: iscsi
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-iscsi-omada-controller-config
+  namespace: tools
+  labels:
+    app.kubernetes.io/name: omada-controller
+    app.kubernetes.io/component: omada-controller
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: omada-controller
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "freenas-iscsi-manual-csi"
+spec:
+  storageClassName: freenas-iscsi-manual-csi
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  volumeName: pv-iscsi-omada-controller-data
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: omada-controller
+  namespace: tools
+  labels:
+    app.kubernetes.io/name: omada-controller
+    app.kubernetes.io/component: omada-controller
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: omada-controller
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: omada-controller
+      app.kubernetes.io/component: omada-controller
+      app.kubernetes.io/instance: production
+      app.kubernetes.io/part-of: omada-controller
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: omada-controller
+        app.kubernetes.io/component: omada-controller
+        app.kubernetes.io/instance: production
+        app.kubernetes.io/part-of: omada-controller
+    spec:
+      containers:
+        - name: omada-controller
+          image: mbentley/omada-controller:5.13
+          imagePullPolicy: Always
+          env:
+            - name: "TZ"
+              value: "Europe/Amsterdam"
+          ports:
+            - name: manage-http
+              containerPort: 8088
+              protocol: TCP
+            - name: manage-https
+              containerPort: 8043
+              protocol: TCP
+            - name: portal-https
+              containerPort: 8843
+            - name: app-discovery
+              containerPort: 27001
+              protocol: UDP
+            - name: discovery
+              containerPort: 29810
+              protocol: UDP
+            - name: manager-v1
+              containerPort: 29811
+              protocol: TCP
+            - name: adopt-v1
+              containerPort: 29812
+              protocol: TCP
+            - name: upgrade-v1
+              containerPort: 29813
+              protocol: TCP
+            - name: manager-v2
+              containerPort: 29814
+              protocol: TCP
+            - name: transfer-v2
+              containerPort: 29815
+              protocol: TCP
+            - name: rtty
+              containerPort: 29816
+              protocol: TCP
+          resources: {}
+          volumeMounts:
+            - name: omada-controller-data
+              mountPath: /opt/tplink/EAPController/data
+              readOnly: false
+      dnsPolicy: ClusterFirst
+      dnsConfig:
+        nameservers:
+          - 10.0.100.1
+      volumes:
+        - name: omada-controller-data
+          persistentVolumeClaim:
+            claimName: pvc-iscsi-omada-controller-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: omada-controller
+  namespace: tools
+  labels:
+    app.kubernetes.io/name: omada-controller
+    app.kubernetes.io/component: omada-controller
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: omada-controller
+spec:
+  selector:
+    app.kubernetes.io/name: omada-controller
+    app.kubernetes.io/component: omada-controller
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: omada-controller
+  type: LoadBalancer
+  loadBalancerIP: 10.0.100.242
+  externalTrafficPolicy: Local
+  sessionAffinity: None
+  ports:
+    - name: manage-http
+      protocol: TCP
+      port: 8088
+      targetPort: manage-http
+    - name: manage-https
+      protocol: TCP
+      port: 8043
+      targetPort: manage-https
+    - name: portal-https
+      protocol: TCP
+      port: 8843
+      targetPort: portal-https
+    - name: app-discovery
+      protocol: UDP
+      port: 27001
+      targetPort: app-discovery
+    - name: discovery
+      protocol: UDP
+      port: 29810
+      targetPort: discovery
+    - name: manager-v1
+      protocol: TCP
+      port: 29811
+      targetPort: manager-v1
+    - name: adopt-v1
+      protocol: TCP
+      port: 29812
+      targetPort: adopt-v1
+    - name: upgrade-v1
+      protocol: TCP
+      port: 29813
+      targetPort: upgrade-v1
+    - name: manager-v2
+      protocol: TCP
+      port: 29814
+      targetPort: manager-v2
+    - name: transfer-v2
+      protocol: TCP
+      port: 29815
+      targetPort: transfer-v2
+    - name: rtty
+      protocol: TCP
+      port: 29816
+      targetPort: rtty

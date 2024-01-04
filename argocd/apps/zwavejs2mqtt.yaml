@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: "zwavejs2mqtt"
+  name: zwavejs2mqtt
   namespace: argocd
 spec:
   project: default

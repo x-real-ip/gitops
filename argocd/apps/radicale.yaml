@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: "radicale"
+  name: radicale
   namespace: argocd
 spec:
   project: default
@@ -15,7 +15,7 @@ spec:
       jsonnet: {}
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: home-automation
+    namespace: tools
   syncPolicy:
     automated:
       prune: true

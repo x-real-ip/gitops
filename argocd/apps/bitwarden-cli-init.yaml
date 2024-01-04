@@ -2,20 +2,20 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: node-red
+  name: bitwarden-cli-init
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: "https://github.com/theautomation/gitops"
-    path: manifests/node-red
+    path: manifests/bitwarden-cli-init
     targetRevision: HEAD
     directory:
       recurse: true
       jsonnet: {}
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: home-automation
+    namespace: tools
   syncPolicy:
     automated:
       prune: true
