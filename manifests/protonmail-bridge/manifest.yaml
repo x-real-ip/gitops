@@ -184,7 +184,7 @@ spec:
     spec:
       initContainers:
         - name: bitwarden-cli-init
-          image: "harbor.lan.theautomation.nl/k8s/bitwarden-cli-init:latest"
+          image: "ghcr.io/theautomation/bitwarden-cli-init:main"
           imagePullPolicy: Always
           resources: {}
           command: ["/bin/bash", "/home/bitwarden-cli-commands.sh"]
