@@ -236,10 +236,6 @@ metadata:
 spec:
   encryptedData:
     DB_PASSWORD: AgDW7KPYuVmt1IHruDB5e9JRNLVN/eTZewqSvN1H0X1XfmGMZr5dB1X1f3uxX4z/WqteGv8hii41k2iXGJHOwEnWDFD1GIBBFtvH/JMNoPwunZ+5qZkDRgnkd/8bZGwQpbf4wYulF6WxvmcnsBbzJ2xXQAPDrmfN5VM2Im+ETaIqvfoBgblJmTMto1xp269CoM+X5t34eJivF/CqXLzUCUKBOyv5ZOFRH+pFUh5Wsrizdd5AjuWOjmxGBY+85OZU45+gLmTYUi+ptslaurCE2iJu2QAMLOZH9FYf9KeE+eYynFiPUegEag3mbANCluqbsvJ2duedSKjGXfg4eGyrvCskX2/H7mUgznqzHf9a0UQJoY9XjB2K8JjkGM/69lYiBf+U5tFpMxlJuOTNPXhNqvX0DFk9GrdTxzSjedfpkrI++7bUeRxRLtG9k4IsIADxIc682yiZPH2WfyCmIbOEkxCXPKNICLfGAr0K17BQM+xJVbEkFD+GD45vAq+3d5F3tTRBJZi914ZF9jZJCZqILZrGHw7VZtvgsXqq56azVUGg0yJL9hPv4gIN9BAcuveZOnN7GGO3Z7/q52WQ153eGm/TWf1qNUAr3TZhV99fFlvPPv7fhcASAKhGG+gWyu4Z40xXVdNSN4dmBt26f53rIw1B3/9pplGuaSD6wpy7ZjehCvpG9idLzFgjvJGrgR2ZyL861wxF3cKFrHxJ
-    DB_USERNAME: AgDnTUyNju1+Wxv0gerJJuk6k/xxZMowG1Z9ubMqFXbAcmIQed5DUgdXApCgcAK7Crhd0jns5FvLh5GHsXAxmmRg1pCh4NSUj5S8Yx0caw5rby/YGUeeAPeA+J9ow1PRlkS1axdubr/lXEp+zz64WHwxLHeMMHZaCq6dIa0BClMEghHyQU+Ito2/93nbHVVbnghoX4jpm+B8/OZw+FMjhDmqzkqbY0J/7xO6mwpGWwmqhgDD1mMFe5N8fmHlfGtvlzZRLBWSAC/pnkYk73DIOI6UAwS8i6rz4nYhFvAyp79krGsNy6XZDhodPC2to5+5h/OHcGd9bVugF+MTyBeTshT6a5OyK/3bI64um0Vbjq01Y1iMm7HtE6BITchAeGSiMJLOg3rwj0boSjkezlahCbN+TntAAKsmsxLJ8lLK4rU2wpxYt5miRngFVP3tF7UxD7BSV0PVEIh4E6IYbdzbUnfm3joDZiYD2rZPUWgV0qCIJ0M2I8wIti77dHnQeo0PBlykITtZAMO/DGoBkg8p6u8d/BNU+FNczvrMzxX+MPhlkynXm02RJh1IogOxAKzp2QlvOTAnw0UBAQ4zJUMC4FqYJgB4QvlaNgVnfbujYsXrVKmT0batpPrQBch9F+1NABXE1ywrYf2QdiEUbE3vfD9ewAgbAS3v14P0AxKmh2iKy0DHQiVuOx+kwlzvN7LWQ4HNA8+Bi2U=
-    MAPBOX_KEY: AgB+qdnHUl0jpdJY+SwXn9h2CECMT6R4NPCKWYFzGnF8GHwIZZ4/U8/sSIy28aWydCCfOCd9SS3ER6slQ4GU31mhqkppQqT6S9bERj24wSgJ3lwkcyqq5Z0pVr+/JwSga2mhfKDZZ16YjYRAmMZQ0SzMnye/MpyxgtlDs4QySl446B/3D5LVJ90EQ3VMlezOqWXdly9S2aUeIu20F2GyCce0vdEWnwU1Q7klW8LWJ98BFNAhniPlMVFTmLPWaEuVWFSo264l32qXnaOGJu4R9pOiaJ783yzAcq53DvDUXLUTbRi8k5LU5ZhA5PqeieQlPmykGB4vN1v98EOHdc5C2MI6JQ7PANRSQh7gTTrYnKiYiBsnXGjdHrRJmRl7UDb47S1IDxZLqUwBT1Pa+WhdfNmQ2tNjv+Hj/ews5usqZMOzvf6CBgXOHXYLl16nTE8Oq/TcvhZdByYaHzo8Py+Yb/M+iSYg2Pi2La7CDYIuS70MFZnYGRpsEQwHGumpB4tbl3mgWgkMeacKD1PNsPlWlx1029MXUPBTTm0tmfjTbsErsAE27aVyGsNf9CHVkHN1W3vePw+ppDOrfqA78NZ2ZDQmG34erPhg73/J7BIBLWW+sN65/5SCBHsE+r7RZQrd+qVxdNerQ972ZmstBCpVrHqm04uTgddV3h2K2ZmVIh1KTgyMj+J/UkDpEQnKv81giB8XocyGslYqGejocgUEt8t2flSDJyHJeVBIhbbR4iUygsyIFlRNGogd5dSdDCXSqE2DvXWYcA06lNfIXysMdZfoKiJ9ObCbgzeThj/5Zd5YCASkrXbOO+OhjSFoqiEF
-    POSTGRESS_PASSWORD: AgCRUSAgizmZAovu7XmWKI6zhlI4CYzge3nw0Xc9gg8Z1nRFOAo5K8KpbuoyiAzrk+6SRbtFkuPc4lUGFsW8g5qWawclo9xqORmMkofHVSUBFfdd1qceMilEotm9Xnj7IimJXu7PB6ruxUt+4/+c0GhBtsERHslwm+ANAKAwIFPtLJZFLMJdeu34iU4jqWtLYESI/8Ii0h737Aa3OxSZqsMHBdydRKAFcN7mAR8hTOolbMLJ+Hc1oc1qKcY7eKQX02s3tp5xzxwjw8nO6Z5eTwPb0hmM4+as5RxiB7JqAQ95FOJ07lwEJHNREydXBWlmclwSHnXwwFastV+aYGPqn3lVSyzeTrBV5Z6Xp2ob7ZY6OitYUohe49GBJNRf2SSRv/N5nU7VlSsPkuLdvRtiTTcDJwZMnCGMXOJF6L14Yb1U6Uosif+9xQNK5piYXmbCtgI1aOGADyoBVncAaRxSzVW8dRiixD9xm6SDlssxkRm5yutQ6eq016M8g5CMqc5l86WS9xYcb7OktfFcBdoZ/Y4QfT0aXR4uUTiTOAyrTyM3GXnKdQdFoFWexKKjxVyQeZ5JtJGlncP4LCCGeGx8Gj8AqX+pvfgMWy7atIh4gwn6c4FKjME7f9SMUb1JsOq2+i5kMPtQLFV8pVR90QWQXeL9H1uPf7CfVox3CcHYh1Bve+hFO4Ppu6t/QWfJfWm3wQ3CaDCKPI7AzZjW
-    TYPESENSE_API_KEY: AgBb0jRX1FlsBn0ReUTRG+WBvipx28IBK5WtGX1dvx4Pggpdhqw/7ordIX8weceN6b5o1XY1J54nYr5BRCEgCrzBghhd+AJtWJBAa2Ho6q96mCrNYPDaTIPSEsu/8PTjTyfZlM/Hpn7NckhwXRVXVf+Lp9m3t3ZmYYxbxBsgC33ONHYdpXuIlw1eoXVC+4X55JKUssyR1TPiC0dJql9xoiZ2G8qrY1pXTFk8AIoPK8BowB8yf5vsPI+PU709qcLPAPAhq+Nv+EQ5aoUpYs7SQz62G7rg6fFtYwLBEMLxhi/VNhyrP+WUSWl0O0vVEYMaGCM22shNsVl49JXuYO0/dKd5D+ZFgAyNYziyQmKErieI1kTbanLGHt/q6d451gMk3wXmV4AI1+EsLwMjgVIezq862QW0EPSANy77C2CBxM/otlY3ML5SpADNKLR83jYlNNSUuu8LNymh7sKWwoqxoDyReIoxqe/sofGy7QfEyK6GesQw5AehOLFfVEPn5l1aw3RX5+y2vK5C8MfZhr5/qYPmQTAVq/TfMhKEGEws8q5kM5YmDy8bPNeTi6HaO7wUd1sxd+S6MRssMELfDz9tFSw2QuLGZjjykwOZM8DsshSwPlOJmNRNd3lLB/32PPJknU14i6/yLG7uTYnLQb2gfXJl8rvWM9b/48EpTFmf4tyckK/PhaG9oBGq1kMopgHNPsNMAkNoT9cz4X/aZcebpReL+Ieu
   template:
     type: Opaque
     metadata:
@@ -259,8 +255,7 @@ metadata:
 data:
   DB_DATABASE_NAME: "immich"
   DB_HOSTNAME: "immich-database"
-  ENABLE_MAPBOX: "true"
-  NODE_ENV: "production"
+  DB_USERNAME: "postgres"
   REDIS_HOSTNAME: "redis-hl.tools.svc.cluster.local"
   REDIS_PORT: "6379"
   REDIS_DBINDEX: "0"
@@ -268,7 +263,6 @@ data:
   DISABLE_REVERSE_GEOCODING: "false"
   REVERSE_GEOCODING_PRECISION: "2"
   PUBLIC_LOGIN_PAGE_MESSAGE: ""
-  TYPESENSE_HOST: "immich-typesense"
   PUID: "1000"
   PGID: "2000"
 
@@ -300,8 +294,8 @@ spec:
                   key: DB_PASSWORD
             - name: POSTGRES_USER
               valueFrom:
-                secretKeyRef:
-                  name: immich-secret-env
+                configMapKeyRef:
+                  name: immich-env
                   key: DB_USERNAME
             - name: POSTGRES_DB
               valueFrom:
@@ -340,26 +334,6 @@ spec:
         fsGroup: 2000
       serviceAccountName: default
       dnsPolicy: ClusterFirst
-      initContainers:
-        - name: postgresql-isready
-          image: "bitnami/postgresql:14.5.0-debian-11-r6"
-          env:
-            - name: POSTGRESQL_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: immich-secret-env
-                  key: DB_USERNAME
-            - name: POSTGRESQL_DATABASE
-              valueFrom:
-                configMapKeyRef:
-                  name: immich-env
-                  key: DB_DATABASE_NAME
-          command:
-            - /bin/sh
-            - -c
-            - until pg_isready -U "${POSTGRESQL_USERNAME}" -d
-              "dbname=${DB_DATABASE_NAME}" -h immich-postgresql-hl -p 5432 ; do
-              sleep 2 ; done
       containers:
         - name: immich-server
           image: ghcr.io/immich-app/immich-server:v1.91.4
@@ -372,28 +346,11 @@ spec:
           args:
             - ./start-server.sh
           env:
-            - name: NODE_ENV
-              value: "production"
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: immich-secret-env
                   key: DB_PASSWORD
-            - name: DB_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: immich-secret-env
-                  key: DB_USERNAME
-            - name: MAPBOX_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: immich-secret-env
-                  key: MAPBOX_KEY
-            - name: TYPESENSE_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: immich-secret-env
-                  key: TYPESENSE_API_KEY
           envFrom:
             - configMapRef:
                 name: immich-env
@@ -451,26 +408,6 @@ spec:
       securityContext:
         fsGroup: 2000
       dnsPolicy: ClusterFirst
-      initContainers:
-        - name: postgresql-isready
-          image: "bitnami/postgresql:14.5.0-debian-11-r6"
-          env:
-            - name: POSTGRESQL_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: immich-secret-env
-                  key: DB_USERNAME
-            - name: POSTGRESQL_DATABASE
-              valueFrom:
-                configMapKeyRef:
-                  name: immich-env
-                  key: DB_DATABASE_NAME
-          command:
-            - /bin/sh
-            - -c
-            - until pg_isready -U "${POSTGRESQL_USERNAME}" -d
-              "dbname=${DB_DATABASE_NAME}" -h immich-postgresql-hl -p 5432 ; do
-              sleep 2 ; done
       containers:
         - name: immich-microservice
           image: ghcr.io/immich-app/immich-server:v1.91.4
@@ -482,28 +419,11 @@ spec:
           args:
             - ./start-microservices.sh
           env:
-            - name: NODE_ENV
-              value: "production"
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: immich-secret-env
                   key: DB_PASSWORD
-            - name: DB_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: immich-secret-env
-                  key: DB_USERNAME
-            - name: MAPBOX_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: immich-secret-env
-                  key: MAPBOX_KEY
-            - name: TYPESENSE_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: immich-secret-env
-                  key: TYPESENSE_API_KEY
           envFrom:
             - configMapRef:
                 name: immich-env
@@ -546,26 +466,6 @@ spec:
       automountServiceAccountToken: true
       dnsPolicy: ClusterFirst
       enableServiceLinks: true
-      initContainers:
-        - name: postgresql-isready
-          image: "bitnami/postgresql:14.5.0-debian-11-r6"
-          env:
-            - name: POSTGRESQL_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: immich-secret-env
-                  key: DB_USERNAME
-            - name: POSTGRESQL_DATABASE
-              valueFrom:
-                configMapKeyRef:
-                  name: immich-env
-                  key: DB_DATABASE_NAME
-          command:
-            - /bin/sh
-            - -c
-            - until pg_isready -U "${POSTGRESQL_USERNAME}" -d
-              "dbname=${DB_DATABASE_NAME}" -h immich-postgresql-hl -p 5432 ; do
-              sleep 2 ; done
       containers:
         - name: immich-machine-learning
           image: ghcr.io/immich-app/immich-machine-learning:v1.91.4
@@ -575,28 +475,11 @@ spec:
           ports:
             - containerPort: 3003
           env:
-            - name: NODE_ENV
-              value: "production"
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: immich-secret-env
                   key: DB_PASSWORD
-            - name: DB_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: immich-secret-env
-                  key: DB_USERNAME
-            - name: MAPBOX_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: immich-secret-env
-                  key: MAPBOX_KEY
-            - name: TYPESENSE_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: immich-secret-env
-                  key: TYPESENSE_API_KEY
           envFrom:
             - configMapRef:
                 name: immich-env
@@ -641,7 +524,7 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app: immich-postgresql
+    app: immich-database
   ports:
     - name: tcp-postgresql
       port: 5432
