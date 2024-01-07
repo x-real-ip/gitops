@@ -28,32 +28,6 @@ spec:
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: pv-iscsi-immich-typesense
-  labels:
-    app: immich-cache
-spec:
-  storageClassName: "freenas-iscsi-manual-csi"
-  capacity:
-    storage: 10Gi
-  accessModes:
-    - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  csi:
-    driver: org.democratic-csi.node-manual
-    readOnly: false
-    fsType: xfs
-    volumeHandle: pv-iscsi-immich-typesense
-    volumeAttributes:
-      portal: storage-server-lagg.lan.theautomation.nl:3260
-      iqn: iqn.2005-10.org.freenas.ctl:immich-typesense
-      lun: "0"
-      node_attach_driver: iscsi
-      provisioner_driver: node-manual
-
----
-kind: PersistentVolume
-apiVersion: v1
-metadata:
   name: pv-nfs-immich-library
 spec:
   storageClassName: "freenas-nfs-manual-csi"
@@ -219,25 +193,6 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: pvc-iscsi-immich-typesense
-  namespace: tools
-  labels:
-    app: immich
-  annotations:
-    volume.beta.kubernetes.io/storage-class: "freenas-iscsi-manual-csi"
-spec:
-  storageClassName: freenas-iscsi-manual-csi
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 5Gi
-  volumeName: pv-iscsi-immich-typesense
-
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
   name: pvc-nfs-immich-generated-media
   namespace: tools
   labels:
@@ -340,7 +295,7 @@ spec:
       hostIPC: false
       containers:
         - name: postgresql
-          image: "harbor.lan.theautomation.nl/proxy-cache-dockerhub/bitnami/postgresql:14.5.0-debian-11-r6"
+          image: "tensorchord/pgvecto-rs:pg14-v0.1.11"
           securityContext:
             runAsUser: 1000
           ports:
@@ -445,7 +400,7 @@ spec:
       dnsPolicy: ClusterFirst
       initContainers:
         - name: postgresql-isready
-          image: "harbor.lan.theautomation.nl/proxy-cache-dockerhub/bitnami/postgresql:14.5.0-debian-11-r6"
+          image: "bitnami/postgresql:14.5.0-debian-11-r6"
           env:
             - name: POSTGRESQL_USERNAME
               valueFrom:
@@ -465,7 +420,7 @@ spec:
               sleep 2 ; done
       containers:
         - name: immich-server
-          image: "harbor.lan.theautomation.nl/proxy-cache-dockerhub/altran1502/immich-server:v1.90.2"
+          image: ghcr.io/immich-app/immich-server:v1.91.4
           securityContext:
             runAsUser: 1000
           ports:
@@ -539,6 +494,8 @@ metadata:
   labels:
     app: immich-microservice
 spec:
+  revisionHistoryLimit: 3
+  replicas: 1
   strategy:
     type: Recreate
   selector:
@@ -574,7 +531,8 @@ spec:
               sleep 2 ; done
       containers:
         - name: immich-microservice
-          image: "altran1502/immich-server:v1.90.2"
+          image: ghcr.io/immich-app/immich-server:v1.91.4
+          imagePullPolicy: IfNotPresent
           securityContext:
             runAsUser: 1000
           command:
@@ -643,7 +601,9 @@ spec:
       securityContext:
         fsGroup: 2000
       serviceAccountName: default
+      automountServiceAccountToken: true
       dnsPolicy: ClusterFirst
+      enableServiceLinks: true
       initContainers:
         - name: postgresql-isready
           image: "bitnami/postgresql:14.5.0-debian-11-r6"
@@ -666,7 +626,8 @@ spec:
               sleep 2 ; done
       containers:
         - name: immich-machine-learning
-          image: "ghcr.io/immich-app/immich-machine-learning:v1.90.2"
+          image: ghcr.io/immich-app/immich-machine-learning:v1.91.4
+          imagePullPolicy: IfNotPresent
           securityContext:
             runAsUser: 1000
           ports:
@@ -728,47 +689,6 @@ spec:
             claimName: pvc-nfs-immich-library
 
 ---
-kind: Deployment
-apiVersion: apps/v1
-metadata:
-  name: immich-typesense
-  namespace: tools
-  labels:
-    app: immich-typesense
-spec:
-  strategy:
-    type: Recreate
-  selector:
-    matchLabels:
-      app: immich-typesense
-  template:
-    metadata:
-      labels:
-        app: immich-typesense
-    spec:
-      containers:
-        - name: immich-typesense
-          image: "typesense/typesense:0.24.1"
-          ports:
-            - containerPort: 8108
-          env:
-            - name: TYPESENSE_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: immich-secret-env
-                  key: TYPESENSE_API_KEY
-            - name: TYPESENSE_DATA_DIR
-              value: "/data"
-          resources: {}
-          volumeMounts:
-            - name: tsdata
-              mountPath: /data
-      volumes:
-        - name: tsdata
-          persistentVolumeClaim:
-            claimName: pvc-iscsi-immich-typesense
-
----
 kind: Service
 apiVersion: v1
 metadata:
@@ -820,23 +740,6 @@ spec:
   ports:
     - port: 3001
       targetPort: 3001
-      protocol: TCP
-
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: immich-typesense
-  namespace: tools
-  labels:
-    app: immich-typesense
-spec:
-  type: ClusterIP
-  selector:
-    app: immich-typesense
-  ports:
-    - port: 8108
-      targetPort: 8108
       protocol: TCP
 
 ---
