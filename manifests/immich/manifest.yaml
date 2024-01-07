@@ -141,11 +141,11 @@ metadata:
   labels:
     app: immich
   annotations:
-    volume.beta.kubernetes.io/storage-class: "freenas-nfs-manual-csi"
+    volume.beta.kubernetes.io/storage-class: "freenas-iscsi-manual-csi"
 spec:
-  storageClassName: freenas-nfs-manual-csi
+  storageClassName: freenas-iscsi-manual-csi
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 10Gi
