@@ -301,21 +301,21 @@ spec:
           ports:
             - containerPort: 5432
           env:
-            - name: POSTGRESQL_DATABASE
+            - name: POSTGRES_DB
               valueFrom:
                 configMapKeyRef:
                   name: immich-env
                   key: DB_DATABASE_NAME
-            - name: POSTGRESQL_USERNAME
+            - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
                   name: immich-secret-env
                   key: DB_USERNAME
-            - name: POSTGRES_POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: immich-secret-env
-                  key: POSTGRESS_PASSWORD
+            # - name: POSTGRES_POSTGRES_PASSWORD
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: immich-secret-env
+            #       key: POSTGRESS_PASSWORD
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -353,14 +353,8 @@ spec:
               memory: 256Mi
             limits: {}
           volumeMounts:
-            - name: dshm
-              mountPath: /dev/shm
             - name: data
-              mountPath: /bitnami/postgresql
-      volumes:
-        - name: dshm
-          emptyDir:
-            medium: Memory
+              mountPath: /var/lib/postgresql/data
   volumeClaimTemplates:
     - metadata:
         name: data
