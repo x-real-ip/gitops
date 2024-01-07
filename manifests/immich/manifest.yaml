@@ -136,6 +136,25 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
+  name: pvc-iscsi-immich-db
+  namespace: tools
+  labels:
+    app: immich
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "freenas-nfs-manual-csi"
+spec:
+  storageClassName: freenas-nfs-manual-csi
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  volumeName: pv-iscsi-immich-db
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
   name: pvc-nfs-immich-library
   namespace: tools
   labels:
@@ -239,7 +258,7 @@ metadata:
     app: immich
 data:
   DB_DATABASE_NAME: "immich"
-  DB_HOSTNAME: "immich-postgresql-hl"
+  DB_HOSTNAME: "immich-database"
   ENABLE_MAPBOX: "true"
   NODE_ENV: "production"
   REDIS_HOSTNAME: "redis-hl.tools.svc.cluster.local"
@@ -254,120 +273,49 @@ data:
   PGID: "2000"
 
 ---
-kind: StatefulSet
 apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: immich-postgresql
-  namespace: tools
-  labels:
-    app: immich-postgresql
+  name: immich-database
 spec:
   replicas: 1
-  persistentVolumeClaimRetentionPolicy:
-    whenDeleted: Delete
-  serviceName: immich-postgresql-hl
-  updateStrategy:
-    rollingUpdate: {}
-    type: RollingUpdate
   selector:
     matchLabels:
-      app: immich-postgresql
+      app: immich-database
   template:
     metadata:
-      name: immich-postgresql
       labels:
-        app: immich-postgresql
+        app: immich-database
     spec:
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - podAffinityTerm:
-                labelSelector:
-                  matchLabels:
-                    app: immich-postgresql
-                namespaces:
-                  - tools
-                topologyKey: kubernetes.io/hostname
-              weight: 1
-      securityContext:
-        fsGroup: 2000
-      hostNetwork: false
-      hostIPC: false
       containers:
-        - name: postgresql
-          image: "tensorchord/pgvecto-rs:pg14-v0.1.11"
-          securityContext:
-            runAsUser: 1000
+        - name: immich-postgres
+          image: tensorchord/pgvecto-rs:pg14-v0.1.11
           ports:
             - containerPort: 5432
           env:
-            - name: POSTGRES_DB
-              valueFrom:
-                configMapKeyRef:
-                  name: immich-env
-                  key: DB_DATABASE_NAME
-            - name: POSTGRES_USER
-              valueFrom:
-                secretKeyRef:
-                  name: immich-secret-env
-                  key: DB_USERNAME
-            # - name: POSTGRES_POSTGRES_PASSWORD
-            #   valueFrom:
-            #     secretKeyRef:
-            #       name: immich-secret-env
-            #       key: POSTGRESS_PASSWORD
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: immich-secret-env
                   key: DB_PASSWORD
-          livenessProbe:
-            failureThreshold: 6
-            initialDelaySeconds: 30
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 5
-            exec:
-              command:
-                - /bin/sh
-                - -c
-                - exec pg_isready -U "${POSTGRESQL_USERNAME}" -d
-                  "dbname=${DB_DATABASE_NAME}" -h 127.0.0.1 -p 5432
-          readinessProbe:
-            failureThreshold: 6
-            initialDelaySeconds: 5
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 5
-            exec:
-              command:
-                - /bin/sh
-                - -c
-                - -e
-                - |
-                  exec pg_isready -U "${POSTGRESQL_USERNAME}" -d "dbname=${DB_DATABASE_NAME}" -h 127.0.0.1 -p 5432
-                  [ -f /opt/bitnami/postgresql/tmp/.initialized ] || [ -f /bitnami/postgresql/.initialized ]
-          resources:
-            requests:
-              cpu: 250m
-              memory: 256Mi
-            limits: {}
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: immich-secret-env
+                  key: DB_USERNAME
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: immich-env
+                  key: DB_DATABASE_NAME
           volumeMounts:
-            - name: data
+            - name: pgdata
               mountPath: /var/lib/postgresql/data
-  volumeClaimTemplates:
-    - metadata:
-        name: data
-      spec:
-        selector:
-          matchLabels:
-            app: immich-postgresql
-        accessModes:
-          - "ReadWriteOnce"
-        storageClassName: freenas-iscsi-manual-csi
-        resources:
-          requests:
-            storage: "10Gi"
+          resources: {}
+      volumes:
+        - name: pgdata
+          persistentVolumeClaim:
+            claimName: pvc-iscsi-immich-db
 
 ---
 kind: Deployment
@@ -686,21 +634,18 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: immich-postgresql-hl
+  name: immich-database
   namespace: tools
   labels:
-    app: immich-postgresql
-    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+    app: immich-database
 spec:
   type: ClusterIP
-  clusterIP: None
-  publishNotReadyAddresses: true
   selector:
     app: immich-postgresql
   ports:
     - name: tcp-postgresql
       port: 5432
-      targetPort: tcp-postgresql
+      targetPort: 5432
 
 ---
 kind: Service
