@@ -19,7 +19,7 @@ spec:
     volumeHandle: pv-iscsi-immich-db
     volumeAttributes:
       portal: storage-server-lagg.lan.theautomation.nl:3260
-      iqn: iqn.2005-10.org.freenas.ctl:immich-db
+      iqn: iqn.2005-10.org.freenas.ctl:immich-database
       lun: "0"
       node_attach_driver: iscsi
       provisioner_driver: node-manual
@@ -255,7 +255,7 @@ metadata:
 data:
   DB_DATABASE_NAME: "immich"
   DB_HOSTNAME: "immich-database"
-  DB_USERNAME: "postgres"
+  DB_USERNAME: "immich"
   REDIS_HOSTNAME: "redis-hl.tools.svc.cluster.local"
   REDIS_PORT: "6379"
   REDIS_DBINDEX: "0"
@@ -287,16 +287,16 @@ spec:
           ports:
             - containerPort: 5432
           env:
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: immich-secret-env
-                  key: DB_PASSWORD
             - name: POSTGRES_USER
               valueFrom:
                 configMapKeyRef:
                   name: immich-env
                   key: DB_USERNAME
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: immich-secret-env
+                  key: DB_PASSWORD
             - name: POSTGRES_DB
               valueFrom:
                 configMapKeyRef:
@@ -334,6 +334,26 @@ spec:
         fsGroup: 2000
       serviceAccountName: default
       dnsPolicy: ClusterFirst
+      initContainers:
+        - name: postgresql-isready
+          image: tensorchord/pgvecto-rs:pg14-v0.1.11
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: immich-env
+                  key: DB_USERNAME
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: immich-env
+                  key: DB_DATABASE_NAME
+          command:
+            - /bin/sh
+            - -c
+            - until pg_isready -U "${POSTGRES_USER}" -d
+              "dbname=${POSTGRES_DB}" -h immich-database -p 5432 ; do
+              sleep 2 ; done
       containers:
         - name: immich-server
           image: ghcr.io/immich-app/immich-server:v1.91.4
@@ -408,6 +428,26 @@ spec:
       securityContext:
         fsGroup: 2000
       dnsPolicy: ClusterFirst
+      initContainers:
+        - name: postgresql-isready
+          image: tensorchord/pgvecto-rs:pg14-v0.1.11
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: immich-env
+                  key: DB_USERNAME
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: immich-env
+                  key: DB_DATABASE_NAME
+          command:
+            - /bin/sh
+            - -c
+            - until pg_isready -U "${POSTGRES_USER}" -d
+              "dbname=${POSTGRES_DB}" -h immich-database -p 5432 ; do
+              sleep 2 ; done
       containers:
         - name: immich-microservice
           image: ghcr.io/immich-app/immich-server:v1.91.4
@@ -470,8 +510,6 @@ spec:
         - name: immich-machine-learning
           image: ghcr.io/immich-app/immich-machine-learning:v1.91.4
           imagePullPolicy: IfNotPresent
-          securityContext:
-            runAsUser: 1000
           ports:
             - containerPort: 3003
           env:
