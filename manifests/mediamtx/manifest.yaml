@@ -444,7 +444,7 @@ spec:
     spec:
       containers:
         - name: mediamtx
-          image: "ghcr.io/theautomation/mediamtx:b3e640fff88a366d68984444cd11f4f70812678d"
+          image: "ghcr.io/theautomation/mediamtx:09d4eaa4e7600c2b4f66781998cb6b9529afd19e"
           ports:
             - name: rtsp-tcp
               containerPort: 8554
