@@ -256,14 +256,11 @@ data:
     # another entry.
     paths:
       original:
-        source: rtsp://admin:<REDACTED>@ipcam-lise.lan.theautomation.nl:554/cam/realmonitor?channel=1&subtype=0
+        source: rtsp://admin:L21AC49D@ipcam-baby.lan.theautomation.nl:554/cam/realmonitor?channel=1&subtype=0
         sourceProtocol: tcp
         sourceOnDemand: yes
-      h264:
-        runOnDemand: ffmpeg -rtsp_transport tcp -i "rtsp://admin:<REDACTED>@ipcam-lise.lan.theautomation.nl:554/cam/realmonitor?channel=1&subtype=0" -map 0 -c copy -c:v libx264 -preset veryfast -crf 20 -x264-params keyint=60:vbv-maxrate=4000:vbv-bufsize=8000 -f rtsp rtsp://localhost:$RTSP_PORT/$RTSP_PATH
-        runOnDemandRestart: yes
-      test:
-        runOnDemand: ffmpeg -hide_banner -analyzeduration 0 -rtsp_transport tcp -i "rtsp://admin:<READCTED>@ipcam-lise.lan.theautomation.nl:554/cam/realmonitor?channel=1&subtype=0" -c:v libx264 -preset veryfast -tune zerolatency -g 1 -f rtsp rtsp://localhost:$RTSP_PORT/$RTSP_PATH
+      fast:
+        runOnDemand: ffmpeg -hide_banner -analyzeduration 0 -rtsp_transport tcp -i "rtsp://admin:L21AC49D@ipcam-baby.lan.theautomation.nl:554/cam/realmonitor?channel=1&subtype=0" -c:v libx264 -preset veryfast -tune zerolatency -g 0 -f rtsp rtsp://localhost:$RTSP_PORT/$RTSP_PATH
         sourceOnDemand: no
       all:
         ###############################################
@@ -447,10 +444,13 @@ spec:
     spec:
       containers:
         - name: mediamtx
-          image: "bluenviron/mediamtx:latest-ffmpeg"
+          image: "ghcr.io/theautomation/mediamtx:replace"
           ports:
             - name: rtsp-tcp
               containerPort: 8554
+              protocol: TCP
+            - name: nginx
+              containerPort: 80
               protocol: TCP
           volumeMounts:
             - name: mediamtx-config
@@ -463,6 +463,8 @@ spec:
             name: mediamtx-config
       dnsPolicy: ClusterFirst
       restartPolicy: Always
+      imagePullSecrets:
+        - name: github-registry-creds
 
 ---
 kind: Service
@@ -487,3 +489,25 @@ spec:
       protocol: TCP
       port: 8554
       targetPort: rtsp-tcp
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: mediamtx-images
+  namespace: tools
+  labels:
+    app.kubernetes.io/name: mediamtx
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: mediamtx
+spec:
+  selector:
+    app.kubernetes.io/name: mediamtx
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: mediamtx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
