@@ -305,9 +305,8 @@ spec:
           command:
             - /bin/sh
             - -c
-            - until pg_isready -U "${POSTGRES_USER}" -d
-              "dbname=${POSTGRES_DB}" -h immich-database -p 5432 ; do
-              sleep 2 ; done
+            - until pg_isready -U "${POSTGRES_USER}" -d "dbname=${POSTGRES_DB}"
+              -h immich-database -p 5432 ; do sleep 2 ; done
       containers:
         - name: immich-server
           image: ghcr.io/immich-app/immich-server:v1.91.4
@@ -399,9 +398,8 @@ spec:
           command:
             - /bin/sh
             - -c
-            - until pg_isready -U "${POSTGRES_USER}" -d
-              "dbname=${POSTGRES_DB}" -h immich-database -p 5432 ; do
-              sleep 2 ; done
+            - until pg_isready -U "${POSTGRES_USER}" -d "dbname=${POSTGRES_DB}"
+              -h immich-database -p 5432 ; do sleep 2 ; done
       containers:
         - name: immich-microservice
           image: ghcr.io/immich-app/immich-server:v1.91.4
