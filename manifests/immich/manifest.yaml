@@ -106,33 +106,6 @@ spec:
       provisioner_driver: node-manual
 
 ---
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: pv-nfs-immich-generated-media
-spec:
-  storageClassName: "freenas-nfs-manual-csi"
-  capacity:
-    storage: 50Gi
-  accessModes:
-    - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  mountOptions:
-    - nfsvers=4
-    - nolock
-    - noatime
-  csi:
-    driver: org.democratic-csi.node-manual
-    readOnly: false
-    fsType: nfs
-    volumeHandle: pv-nfs-immich-generated-media
-    volumeAttributes:
-      server: storage-server-lagg.lan.theautomation.nl
-      share: /mnt/r01_1tb/k8s/immich-generated-media
-      node_attach_driver: nfs
-      provisioner_driver: node-manual
-
----
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -207,25 +180,6 @@ spec:
     requests:
       storage: 600Gi
   volumeName: pv-nfs-immich-library-anne-backup
-
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: pvc-nfs-immich-generated-media
-  namespace: tools
-  labels:
-    app: immich
-  annotations:
-    volume.beta.kubernetes.io/storage-class: "freenas-nfs-manual-csi"
-spec:
-  storageClassName: freenas-nfs-manual-csi
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 50Gi
-  volumeName: pv-nfs-immich-generated-media
 
 ---
 kind: SealedSecret
