@@ -55,6 +55,11 @@ spec:
     S2_Authenticated: AgCFaxAk/nq3ep8KPeY8Xi7Flpjo4Ao9NUHP6PDe9GOylGTfoiRIZtMP+s5ZxHWkqbStPcYw8e1ZhI3/w8GTNnK01tC/1G9ev8vmPsN+1JVWc6WaQqX8QFXxM5qrwEDGosCjB40SrWSSmtIKTCfwOO8Qo1x+6PyyTFkF452mgDvewMyeResE/Tvz8GCuH3gptZGHohn+rpwG8slRDJbcpviNLx5xtx+Aochmvl7GEJrXQD0dFFEB7K+yT3hbM6W5QsZ9Z7Kx2MRPDRUyca5KpOgIF5YyrS/Eb6pIi/XJqztN8LVxPD2CxT5OECcUVKiOdmbXImK7+ux4wCTYANhNlrZvUeN6Gx/YXBx3d7uIcfAjJjhBRdT0w4jTaXO2f1YfYScKonWaVGhaQBw6PRSdo5/VinMVaXJ+nQLZTjg0bik9KjfqLExH4z7cpgT6E31nFGubJkFB2yyUR2Ltwj8WVf0ZPCZBAfcS1n/wkj2K2gdafEEZg1QAy+GnWLxdjLskoWBfq/tytZWPhR0iqqbthoxMY27rFBELmV30HBKhUHHMpkzC5W8QiwJUllC90dlvroSWhwNf+Zdj8uD2kIAvSxy/HOV0/YySoOsRtOrTEdV5mu/Rko3cjot+BM1Rkt5SXDqZorFeMVx5T6n0PLGCGJ/Q+ykW1PuaXL/dRfI4p5BM8bln+R6QRgxDZenrWxHkmMIcF+HPqjDXYl2S84ZlWHpfru9Y3DWoJIUMwkzvQ03VSA==
     S2_Unauthenticated: AgBkEFl0zn1bjdKDDNQYsIJLgqYo/Ht4Mkb/tuVg7SSBhyrLXIjZVqK/lyy6KNYtaG5ezVETJC+5jE9u90DfXwl7WtZmpZ/Y13uAUph1+AoVBzveX+SHeECuhLoEC0rYqmnervt1/dmVH1+YjXjPObLZPnXb0hnq3y7Hgc1BfcGF6pHeeNin/tvegXqKqjaAb6tjUGdXgPQoJttfGHFjt5u8Cv9wP+QycloaVND3PS0wAQUnCWLYNR7LE8jyyELOZ4vnmp0NapVBIxORzSZc3NFDmmJROFyJBNKywIT6trseORoK+BTLEQsXtSjPegovU99N+ozNZu+PgMk3EkaI2hswMkERBLKTEB/0GDR09m0QPn8M+ljC/04EUMl1dV8hLccZ1YrcGmD4gzx9+SyHuAHDue4oWPj47BCDpUm7DHVndJfNI853VCOf+n/9LE1GGjoYCpyBY+PXAcuDvEBcNNQyh2bd9ppl8pYP+hGc03urzr4pZY764T/jNjqMG4/v9wjV9LWiS2HqpVE5KokUh0P7W3Uf2IkON2mxjh7txVB5Z3YWThdEQyBMrd4RS1XoN1+/LbB+4vJKgv4m81MN+i1abYxSUGXQuSXCp3P+7LJf2VF92zgf4wNsLEfj10janbODr04BTivSTl9/qRTFOU4+hM+IIlMNBspcLGXdG25cj8eyUIF9b/OdBpIT7AT8gGr92avWDU9E1YwtkBva5QtE/fyNS8tyTjPv4MXpj5HGhw==
   template:
+    metadata:
+      labels:
+        app: zwavejs2mqtt-us
+      name: zwavejs2mqtt-us-settings
+      namespace: home-automation
     data:
       settings.json: |-
         {
@@ -120,11 +125,6 @@ spec:
             "nvmKeep": 7
           }
         }
-    metadata:
-      labels:
-        app: zwavejs2mqtt-us
-      name: zwavejs2mqtt-us-settings
-      namespace: home-automation
 
 ---
 kind: Deployment
@@ -146,15 +146,6 @@ spec:
       labels:
         app: zwavejs2mqtt-us
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: kubernetes.io/hostname
-                    operator: In
-                    values:
-                      - "k3s-mas-01"
       containers:
         - name: zwave-us
           image: "docker.io/zwavejs/zwavejs2mqtt:latest"
@@ -166,9 +157,6 @@ spec:
             limits:
               cpu: 1000m
               memory: 512Mi
-          securityContext:
-            allowPrivilegeEscalation: true
-            privileged: true
           ports:
             - containerPort: 8091
               protocol: TCP
@@ -187,8 +175,6 @@ spec:
             successThreshold: 1
             timeoutSeconds: 1
           volumeMounts:
-            - mountPath: /dev/zwave
-              name: zwavestick
             - mountPath: /usr/src/app/store
               name: data
             - mountPath: /usr/src/app/store/settings.json
@@ -196,9 +182,6 @@ spec:
               readOnly: true
               subPath: settings.json
       volumes:
-        - name: zwavestick
-          hostPath:
-            path: /dev/serial/by-id/usb-0658_0200-if00
         - name: data
           persistentVolumeClaim:
             claimName: pvc-nfs-zwavejs2mqtt-us-data
@@ -206,8 +189,6 @@ spec:
           secret:
             defaultMode: 420
             secretName: zwavejs2mqtt-us-settings
-      imagePullSecrets:
-        - name: harbor-registry-creds
 
 ---
 kind: Service
