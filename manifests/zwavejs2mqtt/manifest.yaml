@@ -95,7 +95,7 @@ spec:
             "values": []
           },
           "zwave": {
-            "port": "10.0.99.7:3001",
+            "port": "tcp://odroid-01.lan.theautomation.nl:3001",
             "commandsTimeout": 30,
             "logLevel": "debug",
             "logEnabled": true,
