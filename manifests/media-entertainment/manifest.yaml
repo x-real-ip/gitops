@@ -1255,7 +1255,7 @@ spec:
   tls:
     - hosts:
         - transmission.lan.theautomation.nl
-      secretName: tls-wildcard-lan-theautomation.nl
+      secretName: tls-wildcard-lan-theautomation-nl
 
 ---
 kind: Ingress
@@ -1284,7 +1284,7 @@ spec:
   tls:
     - hosts:
         - plex.lan.theautomation.nl
-      secretName: tls-wildcard-lan-theautomation.nl
+      secretName: tls-wildcard-lan-theautomation-nl
 
 ---
 kind: Ingress
@@ -1310,7 +1310,7 @@ spec:
   tls:
     - hosts:
         - prowlarr.lan.theautomation.nl
-      secretName: tls-wildcard-lan-theautomation.nl
+      secretName: tls-wildcard-lan-theautomation-nl
 
 ---
 kind: Ingress
@@ -1336,7 +1336,7 @@ spec:
   tls:
     - hosts:
         - bazarr.lan.theautomation.nl
-      secretName: tls-wildcard-lan-theautomation.nl
+      secretName: tls-wildcard-lan-theautomation-nl
 
 ---
 kind: Ingress
@@ -1362,7 +1362,7 @@ spec:
   tls:
     - hosts:
         - sonarr.lan.theautomation.nl
-      secretName: tls-wildcard-lan-theautomation.nl
+      secretName: tls-wildcard-lan-theautomation-nl
 
 ---
 kind: Ingress
@@ -1388,7 +1388,7 @@ spec:
   tls:
     - hosts:
         - radarr.lan.theautomation.nl
-      secretName: tls-wildcard-lan-theautomation.nl
+      secretName: tls-wildcard-lan-theautomation-nl
 
 ---
 kind: Ingress
@@ -1417,4 +1417,4 @@ spec:
   tls:
     - hosts:
         - overseerr.lan.theautomation.nl
-      secretName: tls-wildcard-lan-theautomation.nl
+      secretName: tls-wildcard-lan-theautomation-nl
