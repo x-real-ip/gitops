@@ -157,6 +157,13 @@ spec:
             limits:
               cpu: 1000m
               memory: 512Mi
+          env:
+            - name: TZ
+              value: "Europe/Amsterdam"
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "2000"
           ports:
             - containerPort: 8091
               protocol: TCP
