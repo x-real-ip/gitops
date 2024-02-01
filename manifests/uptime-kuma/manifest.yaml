@@ -1,0 +1,148 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-iscsi-uptime-kuma
+  labels:
+    app.kubernetes.io/name: uptime-kuma
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: uptime-kuma
+spec:
+  storageClassName: "freenas-iscsi-manual-csi"
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: xfs
+    volumeHandle: pv-iscsi-uptime-kuma
+    volumeAttributes:
+      portal: storage-server-lagg.lan.theautomation.nl:3260
+      iqn: iqn.2005-10.org.freenas.ctl:uptime-kuma
+      lun: "0"
+      node_attach_driver: iscsi
+      provisioner_driver: node-manual
+
+---
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+  name: uptime-kuma
+  namespace: devops
+  labels:
+    app.kubernetes.io/name: uptime-kuma
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: uptime-kuma
+spec:
+  replicas: 1
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Delete
+  serviceName: uptime-kuma
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: uptime-kuma
+      app.kubernetes.io/component: server
+      app.kubernetes.io/instance: production
+      app.kubernetes.io/part-of: uptime-kuma
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: uptime-kuma
+        app.kubernetes.io/component: server
+        app.kubernetes.io/instance: production
+        app.kubernetes.io/part-of: uptime-kuma
+    spec:
+      containers:
+        - name: uptime-kuma
+          image: louislam/uptime-kuma:1
+          imagePullPolicy: Always
+          env:
+            - name: UPTIME_KUMA_PORT
+              value: "3001"
+            - name: PORT
+              value: "3001"
+          ports:
+            - name: uptime-kuma
+              containerPort: 3001
+              protocol: TCP
+          volumeMounts:
+            - name: kuma-data
+              mountPath: /app/data
+  volumeClaimTemplates:
+    - metadata:
+        name: kuma-data
+        labels:
+          app.kubernetes.io/name: uptime-kuma
+          app.kubernetes.io/component: server
+          app.kubernetes.io/instance: production
+          app.kubernetes.io/part-of: uptime-kuma
+      spec:
+        selector:
+          matchLabels:
+            app.kubernetes.io/name: uptime-kuma
+            app.kubernetes.io/component: server
+            app.kubernetes.io/instance: production
+            app.kubernetes.io/part-of: uptime-kuma
+        accessModes:
+          - "ReadWriteOnce"
+        storageClassName: freenas-iscsi-manual-csi
+        resources:
+          requests:
+            storage: "1Gi"
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: uptime-kuma
+  namespace: devops
+  labels:
+    app.kubernetes.io/name: uptime-kuma
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: uptime-kuma
+spec:
+  selector:
+    app.kubernetes.io/name: uptime-kuma
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: uptime-kuma
+  ports:
+    - name: uptime-kuma
+      protocol: TCP
+      port: 3001
+      targetPort: 3001
+
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: uptime-kuma
+  namespace: devops
+  labels:
+    app.kubernetes.io/name: uptime-kuma
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: uptime-kuma
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: uptime-kuma.lan.theautomation.nl
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: uptime-kuma
+                port:
+                  number: 3001
+  tls:
+    - hosts:
+        - uptime-kuma.lan.theautomation.nl
+      secretName: tls-wildcard-lan-theautomation-nl
