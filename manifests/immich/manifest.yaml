@@ -309,7 +309,7 @@ spec:
               -h immich-database -p 5432 ; do sleep 2 ; done
       containers:
         - name: immich-server
-          image: ghcr.io/immich-app/immich-server:v1.93.3
+          image: ghcr.io/immich-app/immich-server:v1.94.1
           securityContext:
             runAsUser: 1000
           ports:
@@ -402,7 +402,7 @@ spec:
               -h immich-database -p 5432 ; do sleep 2 ; done
       containers:
         - name: immich-microservice
-          image: ghcr.io/immich-app/immich-server:v1.93.3
+          image: ghcr.io/immich-app/immich-server:v1.94.1
           imagePullPolicy: IfNotPresent
           securityContext:
             runAsUser: 1000
@@ -460,7 +460,7 @@ spec:
       enableServiceLinks: true
       containers:
         - name: immich-machine-learning
-          image: ghcr.io/immich-app/immich-machine-learning:v1.93.3
+          image: ghcr.io/immich-app/immich-machine-learning:v1.94.1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3003
