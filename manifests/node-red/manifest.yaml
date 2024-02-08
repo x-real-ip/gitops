@@ -102,7 +102,7 @@ spec:
     spec:
       containers:
         - name: node-red
-          image: "ghcr.io/theautomation/node-red:a4551289f3d75aa5149c75bee47caa8bfb809b9d"
+          image: "ghcr.io/theautomation/node-red:7318911ada547d5a0b98d43495cffe05bf7dde54"
           imagePullPolicy: Always
           resources: {}
           ports:
