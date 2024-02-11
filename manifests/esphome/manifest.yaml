@@ -65,7 +65,7 @@ spec:
       enableServiceLinks: true
       containers:
         - name: esphome
-          image: "ghcr.io/theautomation/esphome:3eb97ba3f8617c7e9505fa945fab9dff8c1aeac5"
+          image: "ghcr.io/theautomation/esphome:81fc23ec435068ee34b38aba9ab2e0bd59a8bae5"
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 6052
