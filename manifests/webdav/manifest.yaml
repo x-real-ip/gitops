@@ -2,7 +2,7 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: pvc-nfs-webdav-server-data
+  name: pv-nfs-webdav-server-data
   labels:
     app.kubernetes.io/name: webdav
     app.kubernetes.io/component: server
@@ -23,7 +23,7 @@ spec:
     driver: org.democratic-csi.node-manual
     readOnly: false
     fsType: nfs
-    volumeHandle: pvc-nfs-webdav-server-data
+    volumeHandle: pv-nfs-webdav-server-data
     volumeAttributes:
       server: storage-server-lagg.lan.theautomation.nl
       share: /mnt/r10_8tb/shared
@@ -50,7 +50,7 @@ spec:
   resources:
     requests:
       storage: 600Gi
-  volumeName: pvc-nfs-webdav-server-data
+  volumeName: pv-nfs-webdav-server-data
 
 ---
 kind: SealedSecret
