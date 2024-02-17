@@ -118,7 +118,7 @@ spec:
     spec:
       containers:
         - name: webdav-server
-          image: harbor.lan.theautomation.nl/proxy-cache-dockerhub/ugeek/webdav:amd64
+          image: docker.io/ugeek/webdav:amd64
           ports:
             - name: http
               containerPort: 80
@@ -137,8 +137,6 @@ spec:
         - name: webdav-server-data
           persistentVolumeClaim:
             claimName: pvc-nfs-webdav-server-data
-      imagePullSecrets:
-        - name: harbor-registry-creds
 
 ---
 kind: Service
