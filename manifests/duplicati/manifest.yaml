@@ -34,7 +34,7 @@ spec:
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: pv-nfs-backup-source-02
+  name: pv-nfs-backup-source-anne
   labels:
     app.kubernetes.io/name: duplicati
     app.kubernetes.io/component: server
@@ -43,7 +43,7 @@ metadata:
 spec:
   storageClassName: "freenas-nfs-manual-csi"
   capacity:
-    storage: 1Ti
+    storage: 8Ti
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
@@ -55,7 +55,135 @@ spec:
     driver: org.democratic-csi.node-manual
     readOnly: false
     fsType: nfs
-    volumeHandle: pv-nfs-backup-source-02
+    volumeHandle: pv-nfs-backup-source-anne
+    volumeAttributes:
+      server: storage-server-lagg.lan.theautomation.nl
+      share: /mnt/r10_8tb/anne
+      node_attach_driver: nfs
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-nfs-backup-source-dsmrreader
+  labels:
+    app.kubernetes.io/name: duplicati
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: duplicati
+spec:
+  storageClassName: "freenas-nfs-manual-csi"
+  capacity:
+    storage: 8Ti
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=4
+    - nolock
+    - noatime
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: nfs
+    volumeHandle: pv-nfs-backup-source-dsmrreader
+    volumeAttributes:
+      server: storage-server-lagg.lan.theautomation.nl
+      share: /mnt/r10_8tb/k8s/dsmr-reader-backups
+      node_attach_driver: nfs
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-nfs-backup-source-shared
+  labels:
+    app.kubernetes.io/name: duplicati
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: duplicati
+spec:
+  storageClassName: "freenas-nfs-manual-csi"
+  capacity:
+    storage: 8Ti
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=4
+    - nolock
+    - noatime
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: nfs
+    volumeHandle: pv-nfs-backup-source-shared
+    volumeAttributes:
+      server: storage-server-lagg.lan.theautomation.nl
+      share: /mnt/r10_8tb/shared
+      node_attach_driver: nfs
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-nfs-backup-source-immich-media
+  labels:
+    app.kubernetes.io/name: duplicati
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: duplicati
+spec:
+  storageClassName: "freenas-nfs-manual-csi"
+  capacity:
+    storage: 8Ti
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=4
+    - nolock
+    - noatime
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: nfs
+    volumeHandle: pv-nfs-backup-source-immich-media
+    volumeAttributes:
+      server: storage-server-lagg.lan.theautomation.nl
+      share: /mnt/r10_8tb/k8s/immich-media
+      node_attach_driver: nfs
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-nfs-backup-source-r01-1tb-k8s
+  labels:
+    app.kubernetes.io/name: duplicati
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: duplicati
+spec:
+  storageClassName: "freenas-nfs-manual-csi"
+  capacity:
+    storage: 8Ti
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=4
+    - nolock
+    - noatime
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: nfs
+    volumeHandle: pv-nfs-backup-source-r01-1tb-k8s
     volumeAttributes:
       server: storage-server-lagg.lan.theautomation.nl
       share: /mnt/r01_1tb/k8s
@@ -95,26 +223,6 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: pvc-nfs-backup-source-01
-  namespace: tools
-  labels:
-    app.kubernetes.io/name: duplicati
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: duplicati
-spec:
-  storageClassName: freenas-nfs-manual-csi
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 8Ti
-  volumeName: pv-nfs-backup-source-01
-
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
   name: pvc-nfs-backup-source-coen
   namespace: tools
   labels:
@@ -128,8 +236,108 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 1Ti
+      storage: 8Ti
   volumeName: pv-nfs-backup-source-coen
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-nfs-backup-source-anne
+  namespace: tools
+  labels:
+    app.kubernetes.io/name: duplicati
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: duplicati
+spec:
+  storageClassName: freenas-nfs-manual-csi
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 8Ti
+  volumeName: pv-nfs-backup-source-anne
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-nfs-backup-source-shared
+  namespace: tools
+  labels:
+    app.kubernetes.io/name: duplicati
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: duplicati
+spec:
+  storageClassName: freenas-nfs-manual-csi
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 8Ti
+  volumeName: pv-nfs-backup-source-shared
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-nfs-backup-source-dsmrreader
+  namespace: tools
+  labels:
+    app.kubernetes.io/name: duplicati
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: duplicati
+spec:
+  storageClassName: freenas-nfs-manual-csi
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 8Ti
+  volumeName: pv-nfs-backup-source-dsmrreader
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-nfs-backup-source-immich-media
+  namespace: tools
+  labels:
+    app.kubernetes.io/name: duplicati
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: duplicati
+spec:
+  storageClassName: freenas-nfs-manual-csi
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 8Ti
+  volumeName: pv-nfs-backup-source-immich-media
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-nfs-backup-source-r01-1tb-k8s
+  namespace: tools
+  labels:
+    app.kubernetes.io/name: duplicati
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: duplicati
+spec:
+  storageClassName: freenas-nfs-manual-csi
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 8Ti
+  volumeName: pv-nfs-backup-source-r01-1tb-k8s
 
 ---
 kind: PersistentVolumeClaim
@@ -196,16 +404,42 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
-            - name: source
+            - name: source-coen
               mountPath: /source/coen
+            - name: source-anne
+              mountPath: /source/anne
+            - name: source-shared
+              mountPath: /source/shared
+            - name: source-dsmrreader
+              mountPath: /source/dsmrreader
+            - name: source-immich-media
+              mountPath: /source/immich-media
+            - name: source-r01-1tb-k8s
+              mountPath: /source/r01-1tb-k8s
           resources: {}
       volumes:
         - name: config
           persistentVolumeClaim:
             claimName: pvc-iscsi-duplicati-config
-        - name: source
+        - name: source-coen
           persistentVolumeClaim:
             claimName: pvc-nfs-backup-source-coen
+        - name: source-anne
+          persistentVolumeClaim:
+            claimName: pvc-nfs-backup-source-anne
+        - name: source-shared
+          persistentVolumeClaim:
+            claimName: pvc-nfs-backup-source-shared
+        - name: source-dsmrreader
+          persistentVolumeClaim:
+            claimName: pvc-nfs-backup-source-dsmrreader
+        - name: source-immich-media
+          persistentVolumeClaim:
+            claimName: pvc-nfs-backup-source-immich-media
+        - name: source-r01-1tb-k8s
+          persistentVolumeClaim:
+            claimName: pvc-nfs-backup-source-r01-1tb-k8s
+
 
 ---
 apiVersion: v1
