@@ -98,8 +98,8 @@ spec:
     spec:
       containers:
         - name: mosquitto
-          image: "docker.io/eclipse-mosquitto:2.0.14"
-          imagePullPolicy: IfNotPresent
+          image: "docker.io/eclipse-mosquitto:2.0"
+          imagePullPolicy: Always
           resources: {}
           ports:
             - containerPort: 1883
