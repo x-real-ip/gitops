@@ -98,7 +98,7 @@ spec:
     spec:
       containers:
         - name: mosquitto
-          image: "harbor.lan.theautomation.nl/proxy-cache-dockerhub/eclipse-mosquitto:2.0.14"
+          image: "docker.io/eclipse-mosquitto:2.0.14"
           imagePullPolicy: IfNotPresent
           resources: {}
           ports:

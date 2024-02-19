@@ -283,7 +283,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: redis
-          image: "harbor.lan.theautomation.nl/proxy-cache-dockerhub/bitnami/redis:7.0.10"
+          image: "docker.io/bitnami/redis:7.0.10"
           securityContext:
             runAsUser: 1000
           command:
