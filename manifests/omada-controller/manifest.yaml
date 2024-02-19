@@ -38,8 +38,6 @@ metadata:
     app.kubernetes.io/component: omada-controller
     app.kubernetes.io/instance: production
     app.kubernetes.io/part-of: omada-controller
-  annotations:
-    volume.beta.kubernetes.io/storage-class: "freenas-iscsi-manual-csi"
 spec:
   storageClassName: freenas-iscsi-manual-csi
   accessModes:

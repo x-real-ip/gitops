@@ -41,8 +41,6 @@ metadata:
     app.kubernetes.io/component: server
     app.kubernetes.io/instance: production
     app.kubernetes.io/part-of: webdav
-  annotations:
-    volume.beta.kubernetes.io/storage-class: "freenas-nfs-manual-csi"
 spec:
   storageClassName: freenas-nfs-manual-csi
   accessModes:

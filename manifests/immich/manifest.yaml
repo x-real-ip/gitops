@@ -113,8 +113,6 @@ metadata:
   namespace: tools
   labels:
     app: immich
-  annotations:
-    volume.beta.kubernetes.io/storage-class: "freenas-iscsi-manual-csi"
 spec:
   storageClassName: freenas-iscsi-manual-csi
   accessModes:
@@ -132,8 +130,6 @@ metadata:
   namespace: tools
   labels:
     app: immich
-  annotations:
-    volume.beta.kubernetes.io/storage-class: "freenas-nfs-manual-csi"
 spec:
   storageClassName: freenas-nfs-manual-csi
   accessModes:
@@ -151,8 +147,6 @@ metadata:
   namespace: tools
   labels:
     app: immich
-  annotations:
-    volume.beta.kubernetes.io/storage-class: "freenas-nfs-manual-csi"
 spec:
   storageClassName: freenas-nfs-manual-csi
   accessModes:
@@ -170,8 +164,6 @@ metadata:
   namespace: tools
   labels:
     app: immich
-  annotations:
-    volume.beta.kubernetes.io/storage-class: "freenas-nfs-manual-csi"
 spec:
   storageClassName: freenas-nfs-manual-csi
   accessModes:

@@ -35,8 +35,6 @@ metadata:
   namespace: tools
   labels:
     app: radicale
-  annotations:
-    volume.beta.kubernetes.io/storage-class: "freenas-nfs-manual-csi"
 spec:
   storageClassName: freenas-nfs-manual-csi
   accessModes:
