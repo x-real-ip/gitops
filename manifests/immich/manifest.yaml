@@ -229,7 +229,7 @@ spec:
     spec:
       containers:
         - name: immich-postgres
-          image: tensorchord/pgvecto-rs:pg14-v0.1.11
+          image: tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
           ports:
             - containerPort: 5432
           env:
@@ -282,7 +282,7 @@ spec:
       dnsPolicy: ClusterFirst
       initContainers:
         - name: postgresql-isready
-          image: tensorchord/pgvecto-rs:pg14-v0.1.11
+          image: tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
           env:
             - name: POSTGRES_USER
               valueFrom:
@@ -375,7 +375,7 @@ spec:
       dnsPolicy: ClusterFirst
       initContainers:
         - name: postgresql-isready
-          image: tensorchord/pgvecto-rs:pg14-v0.1.11
+          image: tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
           env:
             - name: POSTGRES_USER
               valueFrom:
