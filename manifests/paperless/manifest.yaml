@@ -401,7 +401,7 @@ spec:
               paperless ; do sleep 2 ; done
       containers:
         - name: paperless
-          image: "paperlessngx/paperless-ngx:2.4"
+          image: "paperlessngx/paperless-ngx:latest"
           imagePullPolicy: Always
           env:
             - name: COMPOSE_PROJECT_NAME
