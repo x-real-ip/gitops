@@ -60,7 +60,7 @@ spec:
     spec:
       containers:
         - name: protonmail-bridge
-          image: "ghcr.io/theautomation/protonmail-bridge:3d7c6f835a5e72b5e5e145ed2bb78173703de506"
+          image: "ghcr.io/theautomation/protonmail-bridge:264547db870059df134a8c19d3de768454051ade"
           imagePullPolicy: Always
           command: ["/bin/bash", "/protonmail/entrypoint.sh"]
           resources: {}
