@@ -23,7 +23,7 @@ spec:
     volumeHandle: pv-nfs-radicale-data
     volumeAttributes:
       server: storage-server-lagg.lan.theautomation.nl
-      share: /mnt/r01_1tb/k8s/radicale-data
+      share: /mnt/r01_1tb/k8s/radicale-data-2
       node_attach_driver: nfs
       provisioner_driver: node-manual
 
