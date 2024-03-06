@@ -47,7 +47,7 @@ spec:
     volumeHandle: pv-nfs-home-assistant-config
     volumeAttributes:
       server: storage-server-lagg.lan.theautomation.nl
-      share: /mnt/r01_1tb/k8s/home-assistant-config/.storage/
+      share: /mnt/r01_1tb/k8s/home-assistant-config-2/.storage/
       node_attach_driver: nfs
       provisioner_driver: node-manual
 
