@@ -278,7 +278,7 @@ spec:
               ${POSTGRESQL_USERNAME} ; do sleep 2 ; done
       containers:
         - name: home-assistant
-          image: "ghcr.io/theautomation/home-assistant:913aaeb0ed6d1e24dfcfeab331d61ea9b2815645"
+          image: "ghcr.io/theautomation/home-assistant:088b6ef23737b62ecb2a38e14827faf219703c2c"
           imagePullPolicy: Always
           securityContext:
             privileged: true
