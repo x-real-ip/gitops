@@ -66,38 +66,6 @@ spec:
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: pv-nfs-backup-source-dsmrreader
-  labels:
-    app.kubernetes.io/name: duplicati
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: duplicati
-spec:
-  storageClassName: "freenas-nfs-manual-csi"
-  capacity:
-    storage: 8Ti
-  accessModes:
-    - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  mountOptions:
-    - nfsvers=4
-    - nolock
-    - noatime
-  csi:
-    driver: org.democratic-csi.node-manual
-    readOnly: false
-    fsType: nfs
-    volumeHandle: pv-nfs-backup-source-dsmrreader
-    volumeAttributes:
-      server: storage-server-lagg.lan.theautomation.nl
-      share: /mnt/r10_8tb/k8s/dsmr-reader-backups
-      node_attach_driver: nfs
-      provisioner_driver: node-manual
-
----
-kind: PersistentVolume
-apiVersion: v1
-metadata:
   name: pv-nfs-backup-source-shared
   labels:
     app.kubernetes.io/name: duplicati
@@ -123,6 +91,38 @@ spec:
     volumeAttributes:
       server: storage-server-lagg.lan.theautomation.nl
       share: /mnt/r10_8tb/shared
+      node_attach_driver: nfs
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-nfs-backup-source-backups
+  labels:
+    app.kubernetes.io/name: duplicati
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: duplicati
+spec:
+  storageClassName: "freenas-nfs-manual-csi"
+  capacity:
+    storage: 8Ti
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=4
+    - nolock
+    - noatime
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: nfs
+    volumeHandle: pv-nfs-backup-source-backups
+    volumeAttributes:
+      server: storage-server-lagg.lan.theautomation.nl
+      share: /mnt/r10_8tb/backups
       node_attach_driver: nfs
       provisioner_driver: node-manual
 
@@ -283,7 +283,7 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: pvc-nfs-backup-source-dsmrreader
+  name: pvc-nfs-backup-source-backups
   namespace: tools
   labels:
     app.kubernetes.io/name: duplicati
@@ -297,7 +297,7 @@ spec:
   resources:
     requests:
       storage: 8Ti
-  volumeName: pv-nfs-backup-source-dsmrreader
+  volumeName: pv-nfs-backup-source-backups
 
 ---
 kind: PersistentVolumeClaim
@@ -410,8 +410,8 @@ spec:
               mountPath: /source/anne
             - name: source-shared
               mountPath: /source/shared
-            - name: source-dsmrreader
-              mountPath: /source/dsmrreader
+            - name: source-backups
+              mountPath: /source/backups
             - name: source-immich-media
               mountPath: /source/immich-media
             - name: source-r01-1tb-k8s
@@ -430,9 +430,9 @@ spec:
         - name: source-shared
           persistentVolumeClaim:
             claimName: pvc-nfs-backup-source-shared
-        - name: source-dsmrreader
+        - name: source-backups
           persistentVolumeClaim:
-            claimName: pvc-nfs-backup-source-dsmrreader
+            claimName: pvc-nfs-backup-source-backups
         - name: source-immich-media
           persistentVolumeClaim:
             claimName: pvc-nfs-backup-source-immich-media
