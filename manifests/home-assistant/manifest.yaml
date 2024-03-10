@@ -415,6 +415,7 @@ metadata:
     app.kubernetes.io/part-of: home-assistant
 spec:
   schedule: "0 12 * * *"
+  ttlSecondsAfterFinished: 28800
   jobTemplate:
     spec:
       template:
