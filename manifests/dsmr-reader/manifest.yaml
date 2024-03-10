@@ -45,7 +45,7 @@ spec:
     volumeHandle: pv-nfs-dsmr-reader-backups
     volumeAttributes:
       server: storage-server-lagg.lan.theautomation.nl
-      share: /mnt/r10_8tb/k8s/backups/dsmr-reader
+      share: /mnt/r10_8tb/k8s/backups
       node_attach_driver: nfs
       provisioner_driver: node-manual
 
