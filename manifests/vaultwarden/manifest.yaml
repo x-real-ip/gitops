@@ -509,7 +509,7 @@ spec:
                 claimName: vaultwarden-backups-pvc-nfs
             - name: backup-script
               configMap:
-                name: backup-script-postgresql
+                name: vaultwarden-backup-script-postgresql
                 defaultMode: 0755
           restartPolicy: Never
 
