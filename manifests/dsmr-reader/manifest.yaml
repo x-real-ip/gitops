@@ -8,6 +8,8 @@ metadata:
     app.kubernetes.io/component: database
     app.kubernetes.io/instance: production
     app.kubernetes.io/part-of: dsmr-reader
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   storageClassName: "freenas-iscsi-manual-csi"
   capacity:
@@ -118,6 +120,8 @@ metadata:
     app.kubernetes.io/component: database
     app.kubernetes.io/instance: production
     app.kubernetes.io/part-of: dsmr-reader
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
 data:
   POSTGRESQL_DATABASE: "dsmrreader"
   POSTGRESQL_USERNAME: "dsmrreader"
@@ -155,6 +159,8 @@ metadata:
     app.kubernetes.io/component: database
     app.kubernetes.io/instance: production
     app.kubernetes.io/part-of: dsmr-reader
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   replicas: 1
   persistentVolumeClaimRetentionPolicy:
@@ -279,20 +285,6 @@ spec:
     spec:
       securityContext:
         fsGroup: 1000
-      initContainers:
-        - name: postgresql-isready
-          image: "bitnami/postgresql:14.5.0"
-          env:
-            - name: POSTGRESQL_USERNAME
-              valueFrom:
-                configMapKeyRef:
-                  name: dsmr-reader-postgresql-env
-                  key: POSTGRESQL_USERNAME
-          command:
-            - "sh"
-            - "-c"
-            - until pg_isready -h dsmr-reader-postgresql-hl -U
-              ${POSTGRESQL_USERNAME} ; do sleep 2 ; done
       containers:
         - name: dsmr-reader
           image: "xirixiz/dsmr-reader-docker:latest"
@@ -367,6 +359,8 @@ metadata:
     app.kubernetes.io/instance: production
     app.kubernetes.io/part-of: dsmr-reader
     service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   selector:
     app.kubernetes.io/name: dsmr-reader
