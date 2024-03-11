@@ -238,6 +238,33 @@ data:
   SMTP_HOST: "protonmail-bridge-smtp.tools.svc.cluster.local"
 
 ---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: vaultwarden-backup-script-postgresql
+  namespace: tools
+  labels:
+    app.kubernetes.io/name: backups
+    app.kubernetes.io/component: cronjob
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: vaultwarden
+data:
+  pg_backup.sh: |-
+    #!/bin/bash
+
+    DATE=$(date +%Y%m%d-%H%M)
+    DEST="/mnt/backups/${APP_NAME}/database"
+    FILENAME="${DATE}_${PG_DATABASE}.sql"
+    ERROR_LOG="${DEST}/${FILENAME}.error.log"
+
+    if PGPASSWORD="${PG_PASSWORD}" pg_dump --verbose --inserts --column-inserts --username="${PG_USERNAME}" --host="${PG_HOST}" --port="${PG_PORT}" "${PG_DATABASE}" > "${DEST}/${FILENAME}"; then
+      echo "Database backup successful: ${DEST}/${FILENAME}"
+    else
+      echo "Error: Database backup failed" > "${ERROR_LOG}"
+      exit 1
+    fi
+
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
