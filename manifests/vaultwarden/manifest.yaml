@@ -33,29 +33,32 @@ spec:
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: vaultwarden-server-pv-iscsi
+  name: vaultwarden-data-pv-nfs
   labels:
     app.kubernetes.io/name: vaultwarden
     app.kubernetes.io/component: server
     app.kubernetes.io/instance: production
     app.kubernetes.io/part-of: vaultwarden
 spec:
-  storageClassName: "freenas-iscsi-manual-csi"
+  storageClassName: "freenas-nfs-manual-csi"
   capacity:
-    storage: 10Gi
+    storage: 2Gi
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=4
+    - nolock
+    - noatime
   csi:
     driver: org.democratic-csi.node-manual
     readOnly: false
-    fsType: xfs
-    volumeHandle: vaultwarden-server-pv-iscsi
+    fsType: nfs
+    volumeHandle: vaultwarden-data-pv-nfs
     volumeAttributes:
-      portal: storage-server-lagg.lan.theautomation.nl:3260
-      iqn: iqn.2005-10.org.freenas.ctl:vaultwarden-data
-      lun: "0"
-      node_attach_driver: iscsi
+      server: storage-server-lagg.lan.theautomation.nl
+      share: /mnt/r01_1tb/k8s/vaultwarden-data-2
+      node_attach_driver: nfs
       provisioner_driver: node-manual
 
 ---
@@ -94,7 +97,7 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: vaultwarden-server-pvc-iscsi
+  name: vaultwarden-data-pvc-nfs
   namespace: tools
   labels:
     app.kubernetes.io/name: vaultwarden
@@ -102,13 +105,13 @@ metadata:
     app.kubernetes.io/instance: production
     app.kubernetes.io/part-of: vaultwarden
 spec:
-  storageClassName: freenas-iscsi-manual-csi
+  storageClassName: freenas-nfs-manual-csi
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
-      storage: 10Gi
-  volumeName: vaultwarden-server-pv-iscsi
+      storage: 2Gi
+  volumeName: vaultwarden-data-pv-nfs
 
 ---
 kind: PersistentVolumeClaim
@@ -417,7 +420,7 @@ spec:
       volumes:
         - name: vaultwarden
           persistentVolumeClaim:
-            claimName: vaultwarden-server-pvc-iscsi
+            claimName: vaultwarden-data-pvc-nfs
 
 ---
 apiVersion: batch/v1
