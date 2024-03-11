@@ -3,6 +3,11 @@ kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: pv-iscsi-dsmr-reader-db
+  labels:
+    app.kubernetes.io/name: dsmr-reader
+    app.kubernetes.io/component: database
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: dsmr-reader
 spec:
   storageClassName: "freenas-iscsi-manual-csi"
   capacity:
@@ -27,6 +32,11 @@ kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: pv-nfs-dsmr-reader-backups
+  labels:
+    app.kubernetes.io/name: dsmr-reader
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: dsmr-reader
 spec:
   storageClassName: "freenas-nfs-manual-csi"
   capacity:
@@ -55,6 +65,11 @@ apiVersion: v1
 metadata:
   name: pvc-nfs-dsmr-reader-backups
   namespace: home-automation
+  labels:
+    app.kubernetes.io/name: dsmr-reader
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: dsmr-reader
 spec:
   storageClassName: freenas-nfs-manual-csi
   accessModes:
@@ -70,6 +85,11 @@ apiVersion: bitnami.com/v1alpha1
 metadata:
   name: dsmr-reader
   namespace: home-automation
+  labels:
+    app.kubernetes.io/name: dsmr-reader
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: dsmr-reader
 spec:
   encryptedData:
     DSMRREADER_ADMIN_PASSWORD: AgBSc03WwLAW5LWrKhtmT+iDkz1IAZuIAajOxZUnM6Rwnj2WYtW+BlH9cl+3y41Dfh5MJ/C+HoNAq3quDfuCcWlECK8+D2xxDHJLK6KsxwsmUV0C4ShGXwcdTC/NTuGMyUHiwSpdcjuXOtOTWKCpfAQlvq6+sb/d9wI6ia/REP7cSrdfPouTceWrla/uWT7C/gtGvcVfltDXunHHrvGFkrZdRTAg0ApRhEwTX09ansnify356IjnuFe7y3z/WVmPi5kLRYUs3InxWXvWBC8eVj5NA/BXEWsvGM1xKPdGjwCjsD6fJFXfSxDRYlPm86xdRsSg3WaVscal3hnGs2pTDHO1BuUyXFz43MO2KOAGb3abQ1B/HnVAQqP5rX1lgLOOUVT4v4x2/azjqfibu6V8WLucdnmj/538KyFqGD7qmgVm9q76Kxq3oK+toy5n1W3GRdDaOw6pmqQFYK2FanCewRKMHWgBnWzwA1a0+I7+MwhEqExi7IbDB489aZ3qZq+ukDeJQ/hbgWtPrB7xiJo9HVzstGP4pSMoqxS8QUAm8BfXpuj4L50lhITMaZXWwQxOvXXpGb1idQ5NVj93h13+qws/XVh7rxNiLhndP402FqjnIanpcdDQtmFgswLfeDl42fCila5INy6mtB7m+EcI6x+5ZIAbwvN12wxnFFKzKw6wufZQy9LLBL6aYqXojG0iyKe7ysT1XkOAdxz8ir1qEk8Dbk5T
@@ -82,7 +102,10 @@ spec:
       name: dsmr-reader
       namespace: home-automation
       labels:
-        app: dsmr-reader
+        app.kubernetes.io/name: dsmr-reader
+        app.kubernetes.io/component: server
+        app.kubernetes.io/instance: production
+        app.kubernetes.io/part-of: dsmr-reader
 
 ---
 kind: ConfigMap
@@ -91,7 +114,10 @@ metadata:
   name: dsmr-reader-postgresql-env
   namespace: home-automation
   labels:
-    app: dsmr-reader
+    app.kubernetes.io/name: dsmr-reader
+    app.kubernetes.io/component: database
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: dsmr-reader
 data:
   POSTGRESQL_DATABASE: "dsmrreader"
   POSTGRESQL_USERNAME: "dsmrreader"
@@ -103,7 +129,10 @@ metadata:
   name: dsmr-reader-env
   namespace: home-automation
   labels:
-    app: dsmr-reader
+    app.kubernetes.io/name: dsmr-reader
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: dsmr-reader
 data:
   DJANGO_DATABASE_USER: "dsmrreader"
   DJANGO_DATABASE_NAME: "dsmrreader"
@@ -112,7 +141,7 @@ data:
   DJANGO_TIME_ZONE: "Europe/Amsterdam"
   TZ: "Europe/Amsterdam"
   DUID: "1000"
-  DGID: "1000"
+  DGID: "2000"
   VACUUM_DB_ON_STARTUP: "false"
 
 ---
@@ -122,7 +151,10 @@ metadata:
   name: dsmr-reader-postgresql
   namespace: home-automation
   labels:
-    app: dsmr-reader-postgresql
+    app.kubernetes.io/name: dsmr-reader
+    app.kubernetes.io/component: database
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: dsmr-reader
 spec:
   replicas: 1
   persistentVolumeClaimRetentionPolicy:
@@ -133,12 +165,18 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      app: dsmr-reader-postgresql
+      app.kubernetes.io/name: dsmr-reader
+      app.kubernetes.io/component: database
+      app.kubernetes.io/instance: production
+      app.kubernetes.io/part-of: dsmr-reader
   template:
     metadata:
       name: dsmr-reader-postgresql
       labels:
-        app: dsmr-reader-postgresql
+        app.kubernetes.io/name: dsmr-reader
+        app.kubernetes.io/component: database
+        app.kubernetes.io/instance: production
+        app.kubernetes.io/part-of: dsmr-reader
     spec:
       serviceAccountName: default
       securityContext:
@@ -217,19 +255,30 @@ metadata:
   name: dsmr-reader
   namespace: home-automation
   labels:
-    app: dsmr-reader
+    app.kubernetes.io/name: dsmr-reader
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: dsmr-reader
 spec:
   replicas: 1
   strategy:
     type: Recreate
   selector:
     matchLabels:
-      app: dsmr-reader
+      app.kubernetes.io/name: dsmr-reader
+      app.kubernetes.io/component: server
+      app.kubernetes.io/instance: production
+      app.kubernetes.io/part-of: dsmr-reader
   template:
     metadata:
       labels:
-        app: dsmr-reader
+        app.kubernetes.io/name: dsmr-reader
+        app.kubernetes.io/component: server
+        app.kubernetes.io/instance: production
+        app.kubernetes.io/part-of: dsmr-reader
     spec:
+      securityContext:
+        fsGroup: 1000
       initContainers:
         - name: postgresql-isready
           image: "bitnami/postgresql:14.5.0"
@@ -242,13 +291,14 @@ spec:
           command:
             - "sh"
             - "-c"
-            - until pg_isready -h dsmr-reader-postgresql-hl -U ${POSTGRESQL_USERNAME} ; do sleep 2 ; done
+            - until pg_isready -h dsmr-reader-postgresql-hl -U
+              ${POSTGRESQL_USERNAME} ; do sleep 2 ; done
       containers:
         - name: dsmr-reader
           image: "xirixiz/dsmr-reader-docker:latest"
-          resources: {}
           ports:
-            - containerPort: 80
+            - name: http
+              containerPort: 80
               protocol: TCP
           envFrom:
             - configMapRef:
@@ -277,21 +327,21 @@ spec:
                   key: SECRET_KEY
           livenessProbe:
             tcpSocket:
-              port: 80
+              port: http
             initialDelaySeconds: 0
             failureThreshold: 3
             timeoutSeconds: 1
             periodSeconds: 10
           readinessProbe:
             tcpSocket:
-              port: 80
+              port: http
             initialDelaySeconds: 0
             failureThreshold: 3
             timeoutSeconds: 1
             periodSeconds: 10
           startupProbe:
             tcpSocket:
-              port: 80
+              port: http
             initialDelaySeconds: 0
             failureThreshold: 30
             timeoutSeconds: 1
@@ -299,6 +349,7 @@ spec:
           volumeMounts:
             - name: backups
               mountPath: /app/backups
+          resources: {}
       volumes:
         - name: backups
           persistentVolumeClaim:
@@ -311,11 +362,17 @@ metadata:
   name: dsmr-reader-postgresql-hl
   namespace: home-automation
   labels:
-    app: dsmr-reader-postgresql
+    app.kubernetes.io/name: dsmr-reader
+    app.kubernetes.io/component: database
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: dsmr-reader
     service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
 spec:
   selector:
-    app: dsmr-reader-postgresql
+    app.kubernetes.io/name: dsmr-reader
+    app.kubernetes.io/component: database
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: dsmr-reader
   type: ClusterIP
   clusterIP: None
   publishNotReadyAddresses: true
@@ -331,16 +388,22 @@ metadata:
   name: dsmr-reader
   namespace: home-automation
   labels:
-    app: dsmr-reader
+    app.kubernetes.io/name: dsmr-reader
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: dsmr-reader
 spec:
   selector:
-    app: dsmr-reader
+    app.kubernetes.io/name: dsmr-reader
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: dsmr-reader
   type: ClusterIP
   ports:
     - name: http
       protocol: TCP
       port: 80
-      targetPort: 80
+      targetPort: http
 
 ---
 kind: Ingress
@@ -349,7 +412,10 @@ metadata:
   name: dsmr-reader
   namespace: home-automation
   labels:
-    app: dsmr-reader
+    app.kubernetes.io/name: dsmr-reader
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: dsmr-reader
 spec:
   ingressClassName: nginx-private
   rules:
@@ -362,7 +428,7 @@ spec:
               service:
                 name: dsmr-reader
                 port:
-                  number: 80
+                  name: http
   tls:
     - hosts:
         - dsmr-reader.lan.theautomation.nl
