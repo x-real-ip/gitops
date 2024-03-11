@@ -2,13 +2,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: bitwarden
+  name: vaultwarden
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: "https://github.com/theautomation/gitops"
-    path: manifests/bitwarden
+    path: manifests/vaultwarden
     targetRevision: HEAD
     directory:
       recurse: true
