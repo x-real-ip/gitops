@@ -92,6 +92,8 @@ metadata:
     app.kubernetes.io/component: server
     app.kubernetes.io/instance: production
     app.kubernetes.io/part-of: dsmr-reader
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   encryptedData:
     DSMRREADER_ADMIN_PASSWORD: AgBSc03WwLAW5LWrKhtmT+iDkz1IAZuIAajOxZUnM6Rwnj2WYtW+BlH9cl+3y41Dfh5MJ/C+HoNAq3quDfuCcWlECK8+D2xxDHJLK6KsxwsmUV0C4ShGXwcdTC/NTuGMyUHiwSpdcjuXOtOTWKCpfAQlvq6+sb/d9wI6ia/REP7cSrdfPouTceWrla/uWT7C/gtGvcVfltDXunHHrvGFkrZdRTAg0ApRhEwTX09ansnify356IjnuFe7y3z/WVmPi5kLRYUs3InxWXvWBC8eVj5NA/BXEWsvGM1xKPdGjwCjsD6fJFXfSxDRYlPm86xdRsSg3WaVscal3hnGs2pTDHO1BuUyXFz43MO2KOAGb3abQ1B/HnVAQqP5rX1lgLOOUVT4v4x2/azjqfibu6V8WLucdnmj/538KyFqGD7qmgVm9q76Kxq3oK+toy5n1W3GRdDaOw6pmqQFYK2FanCewRKMHWgBnWzwA1a0+I7+MwhEqExi7IbDB489aZ3qZq+ukDeJQ/hbgWtPrB7xiJo9HVzstGP4pSMoqxS8QUAm8BfXpuj4L50lhITMaZXWwQxOvXXpGb1idQ5NVj93h13+qws/XVh7rxNiLhndP402FqjnIanpcdDQtmFgswLfeDl42fCila5INy6mtB7m+EcI6x+5ZIAbwvN12wxnFFKzKw6wufZQy9LLBL6aYqXojG0iyKe7ysT1XkOAdxz8ir1qEk8Dbk5T
