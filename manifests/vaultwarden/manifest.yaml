@@ -1,0 +1,569 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: vaultwarden-database-pv-iscsi
+  labels:
+    app.kubernetes.io/name: vaultwarden
+    app.kubernetes.io/component: database
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: vaultwarden
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  storageClassName: "freenas-iscsi-manual-csi"
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: xfs
+    volumeHandle: vaultwarden-database-pv-iscsi
+    volumeAttributes:
+      portal: storage-server-lagg.lan.theautomation.nl:3260
+      iqn: iqn.2005-10.org.freenas.ctl:vaultwarden-db
+      lun: "0"
+      node_attach_driver: iscsi
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: vaultwarden-server-pv-iscsi
+  labels:
+    app.kubernetes.io/name: vaultwarden
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: vaultwarden
+spec:
+  storageClassName: "freenas-iscsi-manual-csi"
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: xfs
+    volumeHandle: vaultwarden-server-pv-iscsi
+    volumeAttributes:
+      portal: storage-server-lagg.lan.theautomation.nl:3260
+      iqn: iqn.2005-10.org.freenas.ctl:vaultwarden-data
+      lun: "0"
+      node_attach_driver: iscsi
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: vaultwarden-backups-pv-nfs
+  labels:
+    app.kubernetes.io/name: vaultwarden
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: vaultwarden
+spec:
+  storageClassName: "freenas-nfs-manual-csi"
+  capacity:
+    storage: 50Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=4
+    - nolock
+    - noatime
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: nfs
+    volumeHandle: vaultwarden-backups-pv-nfs
+    volumeAttributes:
+      server: storage-server-lagg.lan.theautomation.nl
+      share: /mnt/r10_8tb/backups
+      node_attach_driver: nfs
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: vaultwarden-server-pvc-iscsi
+  namespace: tools
+  labels:
+    app.kubernetes.io/name: vaultwarden
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: vaultwarden
+spec:
+  storageClassName: freenas-iscsi-manual-csi
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  volumeName: vaultwarden-server-pv-iscsi
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: vaultwarden-backups-pvc-nfs
+  namespace: tools
+  labels:
+    app.kubernetes.io/name: vaultwarden
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: vaultwarden
+spec:
+  storageClassName: freenas-nfs-manual-csi
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 50Gi
+  volumeName: vaultwarden-backups-pv-nfs
+
+---
+kind: SealedSecret
+apiVersion: bitnami.com/v1alpha1
+metadata:
+  name: vaultwarden-server-env-secret
+  namespace: tools
+  labels:
+    app.kubernetes.io/name: vaultwarden
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: vaultwarden
+spec:
+  encryptedData:
+    ADMIN_TOKEN: AgCPGfxhFngaSDfl7RszcHEFT7hPExECeaO5wIKnjQcWJW7E5mkftft8qmGJLJoGhJrAK7cwlabk5ajz+UiXBGIZN+eLXj5Yv3W5pbHVKrKjqpd5fRgDnjZppaf1x2l6NW7BhNIUbdR807xHXbcIyci1/Km8E783MziW729pRKzxESCGQ/Te6KYRxn/qWG2GsKcZvPi1fM2pufbMtbfK6FrN51tSZNhYg1tZYAPUJGRDsMLUtuiRPYgVqYaPtW+f7YCn2CZpwSHsxufIiHrIkNEXktNNrNuRgu7438xMZDXxPLsq4DyS/wvO0jXr/Oh1cwC+VDROyUUOC5O1lQnw9GLundFI61PHWfTnebAGw+CegkqfwOswQiLiZH4pmcKGQ0N/QLRfz9tVxRofgAEJO+hWRIe9/2sncFg/TTu6jcQcPnNOkptOC2DENGmUo33SQmt3nTAuNbpVQa2ra9g/HoSU19fwuwb7/cIk8L0hCbQtMn9iK9JiyQz7X0s82WyP00OxAPE6Qqi2hCSAoDkg/u+LReQASzoRrQ30Wepo++UAi1jJp2a0a8Rr4lKedC/ShQV/w2ezyKKKb+n2v7vO6z1sYRavPIbxMqozhpnUQcDxqFeMl3unnGfE+/nGU4ZxMtikmLf8N29cIoAm+EH/wDjEdAziE0OxaY1elhWmmS2HO/LV5bmhSbDSKm4vBcTYqje8eXW7AZ/AM/vamLDRdg==
+    DATABASE_URL: AgBoBhk+yUQkNvQdgl1RXqtDDs+OPb/Y2krdu3DPogRo9E9qtW+eBtenz+Fqj5yInnzMsgsiKnks5/eZGSdjYVf/4d3t9RyFtyfbZ89AJ+YI4w1k+pmp9KmxOcXvThwx2oNdsyJsjA+QmMUdFVTfF0LlsLdBdKZhEBQ4HGmc48YEPvOUEIfAHkU8j1MBL4ZUTl6ewo5tpK575SxR5ucIojSNjUOcThDZb3mQ/P6UKCMKTTFX/IUq2BSzYJ245sQ8LCUQxwG/+LFyoCtQQUfeHFgXzwsr1ZY/L2LRyTCDZ/on8c+4NtaKRVItgl8vA9IvXYVK/TSdLMhcgTOZRbcFUvjHD2KUsKE9l2yrMRe1aYEVTJnAsHuzS/IhKnYYdbtoJn3VdQXixx4PjLx1ZsnS/55qc2PUD16s3R0ImE3OYdQpQeWJhgsXh81oi6TWI1+mzHy4A+CigYNWvOZAT4Di7s+mZ2ROARSpUtGDHHD+EF4hnoRhMBg0JTHtVRakzo6c16v0VocFkgnzW8u74HBUz7xvEZd2715tMxvmDHVEa3nhh3RprkGrUW8lIpzS6BFG32ItXbUrSdJwRti5iK+Az6Cm4bbnaG7OBhXzSyPG9TAm9YqaP0RhX8Tq3LZtx0s0WC1vJV6B184kKDWg7kTINTaqHI3Arhc+Z9rARMJMlhpB+Fir4WEknVy7FeAeqqOrH6jJ8KV7bWhkGqdfwUP/3eM/pAE0Nj9/o7lVU/c8nQU9DCnSk53sbaMob77HRDtQAekR0qaKUdlZCl1XhK8AVYFuQilZab6SLd8SQ7aFaPbiTcAeMgjH5/USUVt72rcYEYW5WrrfoMLO7Fj64gA0oV37PjUjZ1F9kC3xxFVO+gxZGqW5eg==
+    SMTP_FROM: AgAjzbOe1TQwb2WdBbG9hyH2nuR/dd1BsPVYO5i5+P+JcbfjyoHwtwB1O9bcJlT++kxjrCPdoAOnQLjDYNiHjwQvR2TNQhZcSPMUTbuHMxrK3aErQTM2pxt2u3rhK5n2DEtTHdU+hSDD9hJiTptyg7T7tm53PaaVfsjfh/sPcG19kRojGISrYuSGcpSW47reI5aUbLan+J2tppoXN+qKjW32iceam9fhOXD2yZG8bwoPRmlujWM/PnTkWcGROV66L+TMlkwyldLLFD97qzCJHA31TsqBk+srcELrXVUekkYzRFs7G2QRqhROpM34AUKJn4JaDACj2FSLQh14GUTxyNJRhUCtlcp7tTiVjnRb34Zvi0OxY/K/8mzmHO3Tklf/49ESrdTHxbOgKKfyKNd4NN+TAyz0mt8dKxzCjZtgbiwdxue19Y2E1CiLiP/Bo3NCj8BWy/KViip17hyN5+UezeHATfVqoX39XAdWBZ2L9SQ+suDhAIPchq7/lkiHySfZnL02FWO9ni2v9IGQcXiyrG+kESWhvJwKXselEGh0l8H8+QDySPJ0rcUgniu9KkkYpjrg31YJEzQe+pJiTlF6F6+ZnQlVrtTQvZPrJfpxlJeheTNv3oIAHQ9Qi9zU1loy5smLAQZ3H43EIgrksBWx5A/xRCkroErWLuSZdHMVCX1rJt/v2dJfU18jnJJMr5af/q7nd97oj2NX5Jx/zJ+O6L6r/Ny4
+    SMTP_PASSWORD: AgAXXuM/YRT/9EZuEUgMF/si03RiR/1h216fWzvQYhc6WVcpdyeDuCQZ3QlFAShywqAyfGCRSvmzYSUqYOHU33JyXjlHgEdSQAA1TnFCX4h2TpnPQvBJACt2FZXE55LuajIVXz32VycWi3Hn6nkjT6Rri3c4Y/MoPA8hUyzjmRMEco1wiBWy0HB1YjOEbj2qUqz+yf2RwvdThQRoFMD+kfhrE8ulEmI4XQtCJ6Pm7n5ISrER1EBtc4OH6hdJr2lM7g573y1QMC4LLMjcsYtX/Lssx2QfY+NbHd6a3UuHALGj1JAGebjagZYzP+dNvF0TiGhqvAwJwkVtum4hL+8vFkjD/O/+9t56OfiNcD1rlXAnR7UjVtpVoKku7bnvRdqI2bCQZ8tKvAtUJkfBlvrNfPTm7SSJpwCckKdG+u9X9awjfbq9G1Vu7hcn7/GElbD2cYjAK2Bxjxxm4lrLcjF85yINQ1M0Sg+uXzj4CYUZ57kQLTW1GCbNDsbQo8BUWBVdCFZK3lcPBN3ivifgoYKd4e/BY04AmShB4dVI7PT1t2r9x6QZZF++LDgu0cIHWb9KWfoZFD1H+ZcP3ICJCAryK8NwAYUbctqFy+fGm7jCbCuW0gMlKBIdiG8kfJtfB07gqlp+KMjo6K9fZd62g7fkjx0IJi0j8uw8Z59khlv5zf5UDtXaSIC0iKrT88t1ELkjskXU/UodjMVQTf7EAyRJKv+R8yN/8hXa
+    SMTP_USERNAME: AgDL2fWRbO1dhx0wW394Ki2fqU+7DCvfYLpJQW2OdtIwXbIMARAyDjzaJaK4lZXnKmJWMcq5KduS2NckxW8kIgNN4TVOI3ax1SWTMzqHRtWKeXugxF3SAhrOgxiHPWp7pf1Wkoik1gZ4gn4h5P5VbgP6hyVY3f/BN38wGvqI+O910NZOMNE7rFGkzNzQhGy5dZi00JU4E6+sXko+eN0Lvua1mdiNR3jLlrWtzWhipkq5AdUgnF3WxIYLT5m5jD3rId+6YRS7SDhJ+BwooNV1d73UmzFTMye5AtbnyezFZigtt1EL0dlH+9LPsXpjv1mKsQtPiMKa2U63p8HZl1OAsMihfD379rxWi6y0Nlfu1BqtqsTkY3D3jwGtVo7alunpUByNpEdHsf3soCM4dkCY3N7N25DSo/tbozhFtjc7biB/zWhGbnBJdU9DDEpPMLu+GYWMI+lzC0u/QfAh2HaIl+C38ULw5W3tyfbPuPFbI+B2pGsMeRfB6bWHpyxGy3ivhW6SoK6vJAQfT8HAak/bdBprRRmDvl1Se2wG0uynjEGTbNotr7DRYUn6UIkaxBKJM/nb2jICPI3gR4phD4IdybFGx4Qokd5JCi6omeiJnegH9E+qLc/KoDzzhTJlvRlnt+R7ubZvEZbaHhfvdFkLIfJ+CI41ARb2m1e5sOecgQVjcUEvJ/YB2jwlYidcNOcxIBajSWyd33YiLDX7zCI=
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: vaultwarden
+        app.kubernetes.io/component: server
+        app.kubernetes.io/instance: production
+        app.kubernetes.io/part-of: vaultwarden
+      name: vaultwarden-server-env-secret
+      namespace: tools
+    type: Opaque
+
+---
+kind: SealedSecret
+apiVersion: bitnami.com/v1alpha1
+metadata:
+  name: vaultwarden-database-env-secret
+  namespace: tools
+spec:
+  encryptedData:
+    POSTGRESQL_PASSWORD: AgBTaUNFeQ3c6qidTTHGTVIgOfhkz37biKRTWLLGYMCsGc3tFsBEm8sQfqGrhGlrqLXpyQY9DlTd0uZKKOZIsxYXQ/mR7FzVfDSAzru3lSGpIwKzGbTEqw8AtQQjNbBB6rWeCfiPXjdKUEBH0znDdSK4UM70b06GY9MyOrTrahfePg3ExIB6mw8xo5C1FY4jNhEDv5SWL1zZsjrOWPAuN1hGic6UKxtvqbjsffnQ+t5J8SCu0QdszHLNux3G7I5nutkaDYIkv4LjvKZ/2qyMW98drP247HYdKv5FImYSKf2nzt/xspJ4r9ncv5rPLH3+ESEdMuxvYWorOAO+9gtmOIJS0i/JS26s6DpdPhbRFjpE/sP/hzNcC79Sxwsk+jX4/CgvbQidO64Pm/3p3dVKzb96BbUiRp/U8Akx48qEvrRYLJejynzNZ8mOi06J8cGclSh4ytAry7NOHVtEnUPssG39u302h0FC0F1dwJleHjCIDHizuCenswrFH+yCwmY0NJp08GLXPwXKUtaii4ZJWBE3AYCL67MvIvsK8Rl6zCdMjlYqXGP4a+ZEgQdagOP+fucjHxFd+03Hs1scAjCw8TsMgtV7MIEmbscwk1BL8Pv3NbSdX5cJmdu7vzO1lGuZoATHIIJ9BpmIDOf4VOwrpl91QRr1Y5zmavagYbr62GO8Ow1TKKgSDgr1cu35W+CNWTrVgl74kVe+FbZvnr+REOqTyY1eTNubz7wayRRuPYClkf5MPF+KXiI=
+    POSTGRESQL_USERNAME: AgCdIEnH8wD64z36rm2X3D2uUclxVa0Ij+CUY8l+NrJFcZLMrJDmRaV4TT+swGUGH5iC/d6n/3z13hdgA2SX5f04SQF8HNYzq9fvW/2BvtWSp5wZVG5ECAldASpiPU2FROQ5ekVjY2bmRn4dBUcYxXmM8Q6zwgYNlFEujLPEcNDshv08+l9/ZTTrmcrkfw4EuawecP52ipwdFREphYIpRAa3MOLowaY89Fa3YhNEOZduHFG1gBKu3y6EnTLHcsh98/HYq4voYUHaB/5vB2wTfqI0ecdygfcEEh5xeHZrCxAwYEXFihVwj8VewFhJL7HdcQXvc4ho5UW0MFwVBdCvDlW/rcycousvzFIQxMnwRgVHV8jt1yTdpaVKDnDLRpXhqKNrfrdQfnjqiW+m321bfMwfAJ6i2xk5ASkZdIm7zRHY0TyikTuiAQSWb5lpx7MQQ4F7b0tmVL00PC3m68AgIo8tpEZr2rIZHzSQ0dzx96c+Q3HWtHSwKDIDkIwPxRD5Fku/czwtHNllLzxcoX7z3ytHBH2t3nVhAjCTDXamp8CamPgBijWzF0VsyI2ASWF/GOh3kQgysPAsytBH06akluFafAh7yZGFkQ1oBsHJXIRkvyqN8Az6uzv5QNFWe4+ms4cJFNXY+LEtDkkyJxHU/Civ6AHzQI8g1lD5yuBkVCnwLVP7loAWkAeXCy418m/Qg9DzlFjgxeTKb8hLUQ==
+  template:
+    type: Opaque
+    metadata:
+      name: vaultwarden-database-env-secret
+      namespace: tools
+      labels:
+        app.kubernetes.io/component: database
+        app.kubernetes.io/instance: production
+        app.kubernetes.io/name: vaultwarden
+        app.kubernetes.io/part-of: vaultwarden
+      annotations:
+        argocd.argoproj.io/sync-wave: "-1"
+
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: vaultwarden-database-env-configmap
+  namespace: tools
+  labels:
+    app.kubernetes.io/name: vaultwarden
+    app.kubernetes.io/component: database
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: vaultwarden
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+data:
+  POSTGRESQL_DATABASE: "vaultwarden"
+
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: vaultwarden-server-env-configmap
+  namespace: tools
+  labels:
+    app.kubernetes.io/name: vaultwarden
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: vaultwarden
+data:
+  DATA_FOLDER: "data"
+  DOMAIN: "https://bitwarden.theautomation.nl"
+  DATABASE_MAX_CONNS: "10"
+  IP_HEADER: "X-Real-IP"
+  ENABLE_DB_WAL: "true"
+  SIGNUPS_ALLOWED: "false"
+  SIGNUPS_VERIFY: "false"
+  ROCKET_PORT: "8080"
+  SHOW_PASSWORD_HINT: "false"
+  REQUIRE_DEVICE_EMAIL: "false"
+  INVITATIONS_ALLOWED: "false"
+  WEBSOCKET_ENABLED: "true"
+  WEB_VAULT_ENABLED: "true"
+  SENDS_ALLOWED: "true"
+  ORG_CREATION_USERS: "all"
+  DB_CONNECTION_RETRIES: "15"
+  EMERGENCY_ACCESS_ALLOWED: "false"
+  DISABLE_ADMIN_TOKEN: "false"
+  SMTP_FROM_NAME: "Bitwarden | Theautomation"
+  SMTP_SECURITY: "starttls"
+  SMTP_TIMEOUT: "15"
+  SMTP_PORT: "25"
+  SMTP_HOST: "protonmail-bridge-smtp.tools.svc.cluster.local"
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: vaultwarden-postgresql
+  namespace: tools
+  labels:
+    app.kubernetes.io/name: vaultwarden
+    app.kubernetes.io/component: database
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: vaultwarden
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  replicas: 1
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Delete
+  serviceName: vaultwarden-postgresql-hl
+  updateStrategy:
+    rollingUpdate: {}
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: vaultwarden
+      app.kubernetes.io/component: database
+      app.kubernetes.io/instance: production
+      app.kubernetes.io/part-of: vaultwarden
+  template:
+    metadata:
+      name: vaultwarden-postgresql
+      labels:
+        app.kubernetes.io/name: vaultwarden
+        app.kubernetes.io/component: database
+        app.kubernetes.io/instance: production
+        app.kubernetes.io/part-of: vaultwarden
+    spec:
+      serviceAccountName: default
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: postgresql
+          image: "bitnami/postgresql:14"
+          securityContext:
+            runAsUser: 1000
+          envFrom:
+            - configMapRef:
+                name: vaultwarden-database-env-configmap
+                optional: false
+          env:
+            - name: POSTGRESQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: vaultwarden-database-env-secret
+                  key: POSTGRESQL_PASSWORD
+            - name: POSTGRESQL_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: vaultwarden-database-env-secret
+                  key: POSTGRESQL_USERNAME
+          ports:
+            - containerPort: 5432
+          livenessProbe:
+            failureThreshold: 6
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - exec pg_isready -U "${POSTGRESQL_USERNAME}" -h 127.0.0.1 -p
+                  5432
+          readinessProbe:
+            failureThreshold: 6
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - -e
+                - |
+                  exec pg_isready -U "${POSTGRESQL_USERNAME}" -h 127.0.0.1 -p 5432
+                  [ -f /opt/bitnami/postgresql/tmp/.initialized ] || [ -f /bitnami/postgresql/.initialized ]
+          resources:
+            limits: {}
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          volumeMounts:
+            - name: dshm
+              mountPath: /dev/shm
+            - name: data
+              mountPath: /bitnami/postgresql
+      volumes:
+        - name: dshm
+          emptyDir:
+            medium: Memory
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+        labels:
+          app.kubernetes.io/name: vaultwarden
+          app.kubernetes.io/component: database
+          app.kubernetes.io/instance: production
+          app.kubernetes.io/part-of: vaultwarden
+      spec:
+        selector:
+          matchLabels:
+            app.kubernetes.io/name: vaultwarden
+            app.kubernetes.io/component: database
+            app.kubernetes.io/instance: production
+            app.kubernetes.io/part-of: vaultwarden
+        accessModes:
+          - "ReadWriteOnce"
+        storageClassName: freenas-iscsi-manual-csi
+        resources:
+          requests:
+            storage: "20Gi"
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: vaultwarden
+  namespace: tools
+  labels:
+    app.kubernetes.io/name: vaultwarden
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: vaultwarden
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: vaultwarden
+      app.kubernetes.io/component: server
+      app.kubernetes.io/instance: production
+      app.kubernetes.io/part-of: vaultwarden
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: vaultwarden
+        app.kubernetes.io/component: server
+        app.kubernetes.io/instance: production
+        app.kubernetes.io/part-of: vaultwarden
+    spec:
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: vaultwarden
+          image: "vaultwarden/server:1.30.5-alpine"
+          securityContext:
+            runAsGroup: 1000
+            runAsUser: 1000
+          envFrom:
+            - configMapRef:
+                name: vaultwarden-server-env-configmap
+                optional: false
+            - secretRef:
+                name: vaultwarden-server-env-secret
+                optional: false
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+          volumeMounts:
+            - name: vaultwarden
+              mountPath: /data
+          resources: {}
+      volumes:
+        - name: vaultwarden
+          persistentVolumeClaim:
+            claimName: vaultwarden-server-pvc-iscsi
+
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: vaultwarden-db-backup
+  namespace: tools
+  labels:
+    app.kubernetes.io/name: backups
+    app.kubernetes.io/component: cronjob
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: vaultwarden
+spec:
+  schedule: "0 12 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          securityContext:
+            fsGroup: 1000
+          containers:
+            - name: postgres-backup
+              image: postgres:14
+              securityContext:
+                runAsUser: 1000
+              command:
+                - "/tmp/pg_backup.sh"
+              env:
+                - name: APP_NAME
+                  value: "vaultwarden"
+                - name: PG_DATABASE
+                  valueFrom:
+                    configMapKeyRef:
+                      name: vaultwarden-database-env-configmap
+                      key: POSTGRESQL_DATABASE
+                - name: PG_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: vaultwarden-database-env-secret
+                      key: POSTGRESQL_PASSWORD
+                - name: PG_USERNAME
+                  valueFrom:
+                    secretKeyRef:
+                      name: vaultwarden-database-env-secret
+                      key: POSTGRESQL_USERNAME
+                - name: PG_HOST
+                  value: "vaultwarden-postgresql-hl.tools.svc.cluster.local"
+                - name: PG_PORT
+                  value: "5432"
+              volumeMounts:
+                - name: backups
+                  mountPath: /mnt/backups
+                - name: backup-script
+                  mountPath: /tmp
+              resources: {}
+          volumes:
+            - name: backups
+              persistentVolumeClaim:
+                claimName: vaultwarden-backups-pvc-nfs
+            - name: backup-script
+              configMap:
+                name: backup-script-postgresql
+                defaultMode: 0755
+          restartPolicy: Never
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: vaultwarden-postgresql-hl
+  namespace: tools
+  labels:
+    app.kubernetes.io/name: vaultwarden
+    app.kubernetes.io/component: database
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: vaultwarden
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  selector:
+    app.kubernetes.io/name: vaultwarden
+    app.kubernetes.io/component: database
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: vaultwarden
+  type: ClusterIP
+  clusterIP: None
+  publishNotReadyAddresses: true
+  ports:
+    - name: tcp-postgresql
+      port: 5432
+      targetPort: 5432
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: vaultwarden
+  namespace: tools
+  labels:
+    app.kubernetes.io/name: vaultwarden
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: vaultwarden
+spec:
+  selector:
+    app.kubernetes.io/name: vaultwarden
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: vaultwarden
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8080
+
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: vaultwarden
+  namespace: tools
+  labels:
+    app.kubernetes.io/name: vaultwarden
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: vaultwarden
+  annotations:
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: 250m
+spec:
+  ingressClassName: nginx-public
+  rules:
+    - host: "bitwarden.theautomation.nl"
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: vaultwarden
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - bitwarden.theautomation.nl
+      secretName: tls-wildcard-theautomation-nl
