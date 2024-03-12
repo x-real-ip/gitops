@@ -8,8 +8,8 @@ metadata:
     app.kubernetes.io/component: database
     app.kubernetes.io/instance: production
     app.kubernetes.io/part-of: vaultwarden
-  # annotations:
-  #   argocd.argoproj.io/sync-wave: "-1"
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   storageClassName: "freenas-iscsi-manual-csi"
   capacity:
@@ -168,6 +168,8 @@ apiVersion: bitnami.com/v1alpha1
 metadata:
   name: vaultwarden-database-env-secret
   namespace: tools
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   encryptedData:
     POSTGRESQL_PASSWORD: AgBTaUNFeQ3c6qidTTHGTVIgOfhkz37biKRTWLLGYMCsGc3tFsBEm8sQfqGrhGlrqLXpyQY9DlTd0uZKKOZIsxYXQ/mR7FzVfDSAzru3lSGpIwKzGbTEqw8AtQQjNbBB6rWeCfiPXjdKUEBH0znDdSK4UM70b06GY9MyOrTrahfePg3ExIB6mw8xo5C1FY4jNhEDv5SWL1zZsjrOWPAuN1hGic6UKxtvqbjsffnQ+t5J8SCu0QdszHLNux3G7I5nutkaDYIkv4LjvKZ/2qyMW98drP247HYdKv5FImYSKf2nzt/xspJ4r9ncv5rPLH3+ESEdMuxvYWorOAO+9gtmOIJS0i/JS26s6DpdPhbRFjpE/sP/hzNcC79Sxwsk+jX4/CgvbQidO64Pm/3p3dVKzb96BbUiRp/U8Akx48qEvrRYLJejynzNZ8mOi06J8cGclSh4ytAry7NOHVtEnUPssG39u302h0FC0F1dwJleHjCIDHizuCenswrFH+yCwmY0NJp08GLXPwXKUtaii4ZJWBE3AYCL67MvIvsK8Rl6zCdMjlYqXGP4a+ZEgQdagOP+fucjHxFd+03Hs1scAjCw8TsMgtV7MIEmbscwk1BL8Pv3NbSdX5cJmdu7vzO1lGuZoATHIIJ9BpmIDOf4VOwrpl91QRr1Y5zmavagYbr62GO8Ow1TKKgSDgr1cu35W+CNWTrVgl74kVe+FbZvnr+REOqTyY1eTNubz7wayRRuPYClkf5MPF+KXiI=
@@ -182,8 +184,8 @@ spec:
         app.kubernetes.io/instance: production
         app.kubernetes.io/name: vaultwarden
         app.kubernetes.io/part-of: vaultwarden
-      # annotations:
-      #   argocd.argoproj.io/sync-wave: "-1"
+      annotations:
+        argocd.argoproj.io/sync-wave: "-1"
 
 ---
 kind: ConfigMap
@@ -196,8 +198,8 @@ metadata:
     app.kubernetes.io/component: database
     app.kubernetes.io/instance: production
     app.kubernetes.io/part-of: vaultwarden
-  # annotations:
-  #   argocd.argoproj.io/sync-wave: "-1"
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
 data:
   POSTGRESQL_DATABASE: "vaultwarden"
 
@@ -275,8 +277,8 @@ metadata:
     app.kubernetes.io/component: database
     app.kubernetes.io/instance: production
     app.kubernetes.io/part-of: vaultwarden
-  # annotations:
-  #   argocd.argoproj.io/sync-wave: "-1"
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   replicas: 1
   persistentVolumeClaimRetentionPolicy:
@@ -373,8 +375,6 @@ spec:
           app.kubernetes.io/component: database
           app.kubernetes.io/instance: production
           app.kubernetes.io/part-of: vaultwarden
-        # annotations:
-        #   argocd.argoproj.io/sync-wave: "-1"
       spec:
         selector:
           matchLabels:
@@ -527,8 +527,8 @@ metadata:
     app.kubernetes.io/instance: production
     app.kubernetes.io/part-of: vaultwarden
     service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
-  # annotations:
-  #   argocd.argoproj.io/sync-wave: "-1"
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   selector:
     app.kubernetes.io/name: vaultwarden
