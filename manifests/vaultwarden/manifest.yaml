@@ -8,8 +8,8 @@ metadata:
     app.kubernetes.io/component: database
     app.kubernetes.io/instance: production
     app.kubernetes.io/part-of: vaultwarden
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
+  # annotations:
+  #   argocd.argoproj.io/sync-wave: "-1"
 spec:
   storageClassName: "freenas-iscsi-manual-csi"
   capacity:
@@ -182,8 +182,8 @@ spec:
         app.kubernetes.io/instance: production
         app.kubernetes.io/name: vaultwarden
         app.kubernetes.io/part-of: vaultwarden
-      annotations:
-        argocd.argoproj.io/sync-wave: "-1"
+      # annotations:
+      #   argocd.argoproj.io/sync-wave: "-1"
 
 ---
 kind: ConfigMap
@@ -196,8 +196,8 @@ metadata:
     app.kubernetes.io/component: database
     app.kubernetes.io/instance: production
     app.kubernetes.io/part-of: vaultwarden
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
+  # annotations:
+  #   argocd.argoproj.io/sync-wave: "-1"
 data:
   POSTGRESQL_DATABASE: "vaultwarden"
 
@@ -275,8 +275,8 @@ metadata:
     app.kubernetes.io/component: database
     app.kubernetes.io/instance: production
     app.kubernetes.io/part-of: vaultwarden
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
+  # annotations:
+  #   argocd.argoproj.io/sync-wave: "-1"
 spec:
   replicas: 1
   persistentVolumeClaimRetentionPolicy:
@@ -373,8 +373,8 @@ spec:
           app.kubernetes.io/component: database
           app.kubernetes.io/instance: production
           app.kubernetes.io/part-of: vaultwarden
-        annotations:
-          argocd.argoproj.io/sync-wave: "-1"
+        # annotations:
+        #   argocd.argoproj.io/sync-wave: "-1"
       spec:
         selector:
           matchLabels:
@@ -527,8 +527,8 @@ metadata:
     app.kubernetes.io/instance: production
     app.kubernetes.io/part-of: vaultwarden
     service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
+  # annotations:
+  #   argocd.argoproj.io/sync-wave: "-1"
 spec:
   selector:
     app.kubernetes.io/name: vaultwarden
