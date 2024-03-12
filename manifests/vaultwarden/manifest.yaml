@@ -373,6 +373,8 @@ spec:
           app.kubernetes.io/component: database
           app.kubernetes.io/instance: production
           app.kubernetes.io/part-of: vaultwarden
+        annotations:
+          argocd.argoproj.io/sync-wave: "-1"
       spec:
         selector:
           matchLabels:
