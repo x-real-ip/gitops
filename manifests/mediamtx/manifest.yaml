@@ -259,8 +259,8 @@ spec:
             sourceProtocol: tcp
             sourceOnDemand: yes
           fast:
-            runOnDemand: ffmpeg -hide_banner -analyzeduration 0 -rtsp_transport tcp -i "rtsp://admin:{{ index . "babycam-password" }}@ipcam-baby.lan.theautomation.nl:554/cam/realmonitor?channel=1&subtype=0" -c:v libx264 -preset veryfast -tune zerolatency -g 0 -f rtsp rtsp://localhost:$RTSP_PORT/$RTSP_PATH
-            sourceOnDemand: no
+            runOnReady: ffmpeg -hide_banner -analyzeduration 0 -rtsp_transport tcp -i "rtsp://admin:{{ index . "babycam-password" }}@ipcam-baby.lan.theautomation.nl:554/cam/realmonitor?channel=1&subtype=0" -c:v libx264 -preset veryfast -tune zerolatency -g 0 -f rtsp rtsp://localhost:$RTSP_PORT/$RTSP_PATH
+            runOnReadyRestart: yes
             runOnInit: ffmpeg -i rtsp://localhost:$RTSP_PORT/$RTSP_PATH -vframes 1 -y /tmp/thumbnail.jpg
             runOnInitRestart: yes
           all:
