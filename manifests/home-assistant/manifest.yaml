@@ -385,9 +385,6 @@ spec:
             - name: home-assistant-config
               mountPath: /config/.storage
               subPath: .storage
-            - name: home-assistant-custom-components
-              mountPath: /config/custom_components
-              subPath: custom_components
             - name: secrets
               mountPath: /config/secrets.yaml
               subPath: secrets.yaml
@@ -396,8 +393,6 @@ spec:
         - name: home-assistant-config
           persistentVolumeClaim:
             claimName: pvc-nfs-home-assistant-config
-        - name: home-assistant-custom-components
-          emptyDir: {}
         - name: secrets
           secret:
             secretName: secrets
