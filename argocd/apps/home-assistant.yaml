@@ -20,27 +20,27 @@ spec:
     syncOptions:
       - CreateNamespace=true
 
-# ---
-# apiVersion: argoproj.io/v1alpha1
-# kind: Application
-# metadata:
-#   name: home-assistant-ext
-#   namespace: argocd
-# spec:
-#   project: default
-#   source:
-#     repoURL: "https://github.com/theautomation/gitops"
-#     path: manifests/home-assistant/overlay/ext
-#     targetRevision: HEAD
-#     directory:
-#       recurse: false
-#       jsonnet: {}
-#   destination:
-#     server: "https://kubernetes.default.svc"
-#     namespace: home-automation
-#   syncPolicy:
-#     automated:
-#       prune: true
-#       selfHeal: true
-#     syncOptions:
-#       - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: home-assistant-ext
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: "https://github.com/theautomation/gitops"
+    path: manifests/home-assistant/overlay/ext
+    targetRevision: HEAD
+    directory:
+      recurse: false
+      jsonnet: {}
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: home-automation
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
