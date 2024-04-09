@@ -10,9 +10,6 @@ spec:
     repoURL: "https://github.com/theautomation/gitops"
     path: manifests/immich/overlay/int
     targetRevision: HEAD
-    directory:
-      recurse: false
-      jsonnet: {}
   destination:
     server: "https://kubernetes.default.svc"
     namespace: tools
