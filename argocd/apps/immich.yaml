@@ -8,7 +8,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/theautomation/gitops"
-    path: manifests/immich
+    path: manifests/immich/overlay/int
     targetRevision: HEAD
     directory:
       recurse: true

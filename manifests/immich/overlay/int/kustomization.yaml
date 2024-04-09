@@ -3,7 +3,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - manifest.yaml
+  - ../../base
 
 images:
   - name: ghcr.io/immich-app/immich-server
@@ -12,3 +12,4 @@ images:
     newTag: v1.101.0
   - name: ghcr.io/immich-app/immich-machine-learning
     newTag: v1.101.0
+  
