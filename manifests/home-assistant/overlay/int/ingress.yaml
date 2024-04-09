@@ -1,0 +1,23 @@
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: home-assistant-private
+  namespace: home-automation
+  labels:
+    app: home-assistant
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: home-assistant.lan.theautomation.nl
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: home-assistant
+                port:
+                  number: 80

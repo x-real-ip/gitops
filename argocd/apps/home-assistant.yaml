@@ -8,10 +8,10 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/theautomation/gitops"
-    path: manifests/home-assistant
+    path: manifests/home-assistant/overlay/int
     targetRevision: HEAD
     directory:
-      recurse: true
+      recurse: false
       jsonnet: {}
   destination:
     server: "https://kubernetes.default.svc"
