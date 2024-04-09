@@ -11,7 +11,7 @@ spec:
     path: manifests/immich/overlay/int
     targetRevision: HEAD
     directory:
-      recurse: true
+      recurse: false
       jsonnet: {}
   destination:
     server: "https://kubernetes.default.svc"
