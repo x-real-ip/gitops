@@ -4,4 +4,4 @@ kind: Kustomization
 
 resources:
   - ../base
-  - images.yaml
+  - ./images.yaml
