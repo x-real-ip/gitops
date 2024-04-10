@@ -8,7 +8,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/theautomation/gitops"
-    path: manifests/home-assistant/overlay/production
+    path: manifests/home-assistant/overlays/production
     targetRevision: HEAD
   destination:
     server: "https://kubernetes.default.svc"

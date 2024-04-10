@@ -8,7 +8,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/theautomation/gitops"
-    path: manifests/immich/overlay/int
+    path: manifests/immich/overlays/production
     targetRevision: HEAD
   destination:
     server: "https://kubernetes.default.svc"
