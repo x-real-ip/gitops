@@ -8,7 +8,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/theautomation/gitops"
-    path: manifests/node-red
+    path: manifests/node-red/overlay
     targetRevision: HEAD
     directory:
       recurse: true
