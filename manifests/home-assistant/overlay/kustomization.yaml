@@ -4,3 +4,7 @@ kind: Kustomization
 
 resources:
   - ../base
+
+images:
+  - name: ghcr.io/theautomation/home-assistant
+    newTag: 123455
