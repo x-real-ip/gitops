@@ -15,17 +15,19 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@main
 
-      - name: Extract Repo Name
+      - name: Extract repository and owner in seperate vars
         run: |
+          owner=$(echo ${{ github.event.client_payload.repository }} | cut -d'/' -f1)
           repo=$(echo ${{ github.event.client_payload.repository }} | cut -d'/' -f2)
           echo "REPO_NAME=$repo" >> $GITHUB_ENV
+          echo "REPO_OWNER=$owner" >> $GITHUB_ENV
 
       - name: Replace Image Tag
         run: |
-          sed -i '/name: ${{ github.event.client_payload.registry }}/${{ github.event.client_payload.repository }}/{n;s|newTag: .*|newTag: ${{ github.event.client_payload.sha }}|;}' ./manifests/${{env.REPO_NAME}}/overlay/kustomization.yaml
+          sed -i "/name: ${{ github.event.client_payload.registry }}\/${{env.REPO_OWNER}}\/${{env.REPO_NAME}}/{n;s|newTag: .*|newTag: ${{ github.event.client_payload.sha }}|;}" ./manifests/${{env.REPO_NAME}}/overlay/kustomization.yaml
       - name: Show K8s Manifest
         run: |
-          cat ./manifests/${{env.REPO_NAME}}/manifest.yaml
+          cat ./manifests/${{env.REPO_NAME}}/overlay/kustomization.yaml
 
       - name: Commit
         uses: stefanzweifel/git-auto-commit-action@v5
