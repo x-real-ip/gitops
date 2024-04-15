@@ -10,9 +10,6 @@ spec:
     repoURL: "https://github.com/theautomation/gitops"
     path: manifests/node-red/overlay
     targetRevision: HEAD
-    directory:
-      recurse: true
-      jsonnet: {}
   destination:
     server: "https://kubernetes.default.svc"
     namespace: home-automation
