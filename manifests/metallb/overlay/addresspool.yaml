@@ -8,7 +8,7 @@ metadata:
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-  name: prd-int-lan-ips
+  name: private-lan-ips
 spec:
   addresses:
     - 10.0.100.240/32
@@ -19,7 +19,7 @@ spec:
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-  name: prd-ext-lan-ips
+  name: public-lan-ips
 spec:
   addresses:
     - 10.0.100.250/32
