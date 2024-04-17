@@ -8,6 +8,7 @@ metadata:
     metallb.universe.tf/address-pool: private-lan-ips
 spec:
   type: LoadBalancer
+  externalTrafficPolicy: Local
   ports:
     - name: home-assistant-coiot
       port: 5683
