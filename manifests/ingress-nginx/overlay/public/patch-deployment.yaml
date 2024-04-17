@@ -1,0 +1,22 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: ingress-nginx-controller
+  namespace: ingress-nginx
+spec:
+  replicas: 2
+  template:
+    spec:
+      containers:
+        - name: controller
+          args:
+            - /nginx-ingress-controller
+            - --election-id=ingress-nginx-leader
+            - --controller-class=k8s.io/ingress-nginx
+            - --configmap=$(POD_NAMESPACE)/ingress-nginx-controller
+            - --validating-webhook=:8443
+            - --validating-webhook-certificate=/usr/local/certificates/cert
+            - --validating-webhook-key=/usr/local/certificates/key
+            - --enable-metrics=false
+            - --ingress-class=nginx-public

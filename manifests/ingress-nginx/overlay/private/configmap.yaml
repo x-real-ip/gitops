@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tcp-services
+data:
+  "8554": "tools/mediamtx-service-tcp:8554"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: udp-services
+data:
+  "5683": home-automation/home-assistant-coiot:5683

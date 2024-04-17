@@ -1,0 +1,10 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: ingress-nginx-controller
+  namespace: ingress-nginx
+  annotations:
+    metallb.universe.tf/address-pool: public-lan-ips
+spec:
+  type: LoadBalancer

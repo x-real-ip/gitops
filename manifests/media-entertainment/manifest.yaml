@@ -994,7 +994,7 @@ spec:
       containers:
         - name: overseerr
           image: "sctx/overseerr:latest"
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           env:
             - name: LOG_LEVEL
               value: info
