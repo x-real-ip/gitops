@@ -9,9 +9,7 @@ resources:
   - ../../base
 
 patchesStrategicMerge:
-  - patch-deployment.yaml
-  - patch-ingress-nginx-admission-patch.yaml
-  - patch-service.yaml
+  - patch.yaml
 
 replicas:
   - name: ingress-nginx-controller

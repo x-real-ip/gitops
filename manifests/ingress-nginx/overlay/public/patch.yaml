@@ -11,17 +11,15 @@ spec:
         - name: controller
           args:
             - /nginx-ingress-controller
-            - --publish-service=$(POD_NAMESPACE)/ingress-nginx-controller-private
+            - --publish-service=$(POD_NAMESPACE)/ingress-nginx-controller-public
             - --election-id=ingress-nginx-leader
-            - --controller-class=k8s.io/ingress-nginx-private
-            - --configmap=$(POD_NAMESPACE)/ingress-nginx-controller-private
+            - --controller-class=k8s.io/ingress-nginx-public
+            - --configmap=$(POD_NAMESPACE)/ingress-nginx-controller-public
             - --validating-webhook=:8443
             - --validating-webhook-certificate=/usr/local/certificates/cert
             - --validating-webhook-key=/usr/local/certificates/key
             - --enable-metrics=false
-            - --ingress-class=nginx-private
-            - --tcp-services-configmap=$(POD_NAMESPACE)/tcp-services-private
-            - --udp-services-configmap=$(POD_NAMESPACE)/udp-services-private
+            - --ingress-class=nginx-public
 
 ---
 kind: Job
@@ -38,10 +36,9 @@ spec:
         - name: create
           args:
             - create
-            - --host=ingress-nginx-controller-admission-private,ingress-nginx-controller-admission-private.$(POD_NAMESPACE).svc
+            - --host=ingress-nginx-controller-admission-public,ingress-nginx-controller-admission-public.$(POD_NAMESPACE).svc
             - --namespace=$(POD_NAMESPACE)
             - --secret-name=ingress-nginx-admission
-
 ---
 apiVersion: batch/v1
 kind: Job
@@ -57,7 +54,7 @@ spec:
         - name: patch
           args:
             - patch
-            - --webhook-name=ingress-nginx-admission-private
+            - --webhook-name=ingress-nginx-admission-public
             - --namespace=$(POD_NAMESPACE)
             - --patch-mutating=false
             - --secret-name=ingress-nginx-admission
@@ -69,7 +66,7 @@ kind: IngressClass
 metadata:
   name: nginx
 spec:
-  controller: k8s.io/ingress-nginx-private
+  controller: k8s.io/ingress-nginx-public
 
 ---
 kind: Service
@@ -78,14 +75,4 @@ metadata:
   name: ingress-nginx-controller
   namespace: ingress-nginx
   annotations:
-    metallb.universe.tf/address-pool: private-lan-ips
-spec:
-  ports:
-    - name: home-assistant-coiot
-      port: 5683
-      targetPort: 5683
-      protocol: UDP
-    - name: mediamtx-service-tcp
-      port: 8554
-      targetPort: 8554
-      protocol: TCP
+    metallb.universe.tf/address-pool: public-lan-ips
