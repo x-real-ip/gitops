@@ -6,10 +6,9 @@ metadata:
   namespace: ingress-nginx
 data:
   allow-snippet-annotations: "false"
-  compute-full-forwarded-for: "true"
   use-forwarded-headers: "true"
-  use-proxy-protocol: "false"
-
+  use-proxy-protocol: "true"
+  enable-real-ip: "true"
 
 ---
 kind: Job
