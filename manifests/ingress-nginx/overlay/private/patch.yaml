@@ -14,7 +14,7 @@ spec:
             - /nginx-ingress-controller
             - --publish-service=$(POD_NAMESPACE)/ingress-nginx-controller-private
             - --election-id=ingress-nginx-leader
-            - --controller-class=k8s.io/nginx-private
+            - --controller-class=k8s.io/ingress-nginx-private
             - --configmap=$(POD_NAMESPACE)/ingress-nginx-controller-private
             - --validating-webhook=:8443
             - --validating-webhook-certificate=/usr/local/certificates/cert
