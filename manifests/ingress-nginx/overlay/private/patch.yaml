@@ -8,7 +8,7 @@ data:
   allow-snippet-annotations: "false"
   compute-full-forwarded-for: "true"
   use-forwarded-headers: "true"
-  use-proxy-protocol: "true"
+  use-proxy-protocol: "false"
 
 
 ---
