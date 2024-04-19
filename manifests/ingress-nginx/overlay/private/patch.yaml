@@ -65,6 +65,14 @@ spec:
             - --patch-failure-policy=Fail
 
 ---
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: nginx
+spec:
+  controller: k8s.io/ingress-nginx-private
+
+---
 kind: Service
 apiVersion: v1
 metadata:
@@ -82,11 +90,3 @@ spec:
       port: 8554
       targetPort: 8554
       protocol: TCP
-
----
-apiVersion: networking.k8s.io/v1
-kind: IngressClass
-metadata:
-  name: nginx
-spec:
-  controller: k8s.io/ingress-nginx-private
