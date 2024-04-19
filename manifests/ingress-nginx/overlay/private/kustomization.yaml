@@ -12,6 +12,7 @@ resources:
 patchesStrategicMerge:
   - patch-deployment.yaml
   - patch-ingress-nginx-admission-patch.yaml
+  - patch-job-admission-create.yaml
   - patch-service.yaml
 
 replicas:
