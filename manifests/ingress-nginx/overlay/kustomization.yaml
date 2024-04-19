@@ -4,4 +4,4 @@ kind: Kustomization
 
 resources:
   - private
-  # - public
+  - public
