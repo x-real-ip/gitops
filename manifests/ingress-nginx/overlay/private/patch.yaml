@@ -12,6 +12,7 @@ spec:
         - name: controller
           args:
             - /nginx-ingress-controller
+            - --publish-service=$(POD_NAMESPACE)/ingress-nginx-controller-private
             - --election-id=ingress-nginx-leader
             - --controller-class=k8s.io/nginx-private
             - --configmap=$(POD_NAMESPACE)/ingress-nginx-controller-private
@@ -77,7 +78,6 @@ metadata:
   annotations:
     metallb.universe.tf/address-pool: private-lan-ips
 spec:
-  type: LoadBalancer
   ports:
     - name: home-assistant-coiot
       port: 5683
