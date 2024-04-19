@@ -22,6 +22,10 @@ spec:
             - --ingress-class=nginx-private
             - --tcp-services-configmap=$(POD_NAMESPACE)/tcp-services-private
             - --udp-services-configmap=$(POD_NAMESPACE)/udp-services-private
+      volumes:
+        - name: webhook-cert
+          secret:
+            secretName: ingress-nginx-admission-private
 
 ---
 kind: Job
@@ -40,7 +44,7 @@ spec:
             - create
             - --host=ingress-nginx-controller-admission-private,ingress-nginx-controller-admission-private.$(POD_NAMESPACE).svc
             - --namespace=$(POD_NAMESPACE)
-            - --secret-name=ingress-nginx-admission
+            - --secret-name=ingress-nginx-admission-private
       serviceAccountName: ingress-nginx-admission-private
 
 ---
@@ -55,14 +59,14 @@ spec:
       name: ingress-nginx-admission-patch
     spec:
       containers:
-      - name: patch
-        args:
-        - patch
-        - --webhook-name=ingress-nginx-admission-private
-        - --namespace=$(POD_NAMESPACE)
-        - --patch-mutating=false
-        - --secret-name=ingress-nginx-admission
-        - --patch-failure-policy=Fail
+        - name: patch
+          args:
+            - patch
+            - --webhook-name=ingress-nginx-admission-private
+            - --namespace=$(POD_NAMESPACE)
+            - --patch-mutating=false
+            - --secret-name=ingress-nginx-admission-private
+            - --patch-failure-policy=Fail
 
 ---
 kind: Service
@@ -83,4 +87,3 @@ spec:
       port: 8554
       targetPort: 8554
       protocol: TCP
-
