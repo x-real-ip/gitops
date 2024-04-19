@@ -530,8 +530,6 @@ metadata:
   namespace: home-automation
   labels:
     app: home-assistant
-  annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
   ingressClassName: nginx-private
   rules:
@@ -554,10 +552,6 @@ metadata:
   namespace: home-automation
   labels:
     app: home-assistant
-  annotations:
-    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/proxy-protocol: "true"
 spec:
   ingressClassName: nginx-public
   rules:
