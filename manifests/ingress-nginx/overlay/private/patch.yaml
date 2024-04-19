@@ -1,27 +1,15 @@
 ---
-kind: Deployment
-apiVersion: apps/v1
+apiVersion: v1
+kind: ConfigMap
 metadata:
   name: ingress-nginx-controller
   namespace: ingress-nginx
-spec:
-  template:
-    spec:
-      containers:
-        - name: controller
-          args:
-            - /nginx-ingress-controller
-            - --publish-service=$(POD_NAMESPACE)/ingress-nginx-controller-private
-            - --election-id=ingress-nginx-leader
-            - --controller-class=k8s.io/ingress-nginx-private
-            - --configmap=$(POD_NAMESPACE)/ingress-nginx-controller-private
-            - --validating-webhook=:8443
-            - --validating-webhook-certificate=/usr/local/certificates/cert
-            - --validating-webhook-key=/usr/local/certificates/key
-            - --enable-metrics=false
-            - --ingress-class=nginx-private
-            - --tcp-services-configmap=$(POD_NAMESPACE)/tcp-services-private
-            - --udp-services-configmap=$(POD_NAMESPACE)/udp-services-private
+data:
+  allow-snippet-annotations: "false"
+  compute-full-forwarded-for: "true"
+  use-forwarded-headers: "true"
+  use-proxy-protocol: "true"
+
 
 ---
 kind: Job
@@ -64,6 +52,31 @@ spec:
             - --patch-failure-policy=Fail
 
 ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ingress-nginx-controller
+  namespace: ingress-nginx
+spec:
+  template:
+    spec:
+      containers:
+        - name: controller
+          args:
+            - /nginx-ingress-controller
+            - --publish-service=$(POD_NAMESPACE)/ingress-nginx-controller-private
+            - --election-id=ingress-nginx-leader
+            - --controller-class=k8s.io/ingress-nginx-private
+            - --configmap=$(POD_NAMESPACE)/ingress-nginx-controller-private
+            - --validating-webhook=:8443
+            - --validating-webhook-certificate=/usr/local/certificates/cert
+            - --validating-webhook-key=/usr/local/certificates/key
+            - --enable-metrics=false
+            - --ingress-class=nginx-private
+            - --tcp-services-configmap=$(POD_NAMESPACE)/tcp-services-private
+            - --udp-services-configmap=$(POD_NAMESPACE)/udp-services-private
+
+---
 apiVersion: networking.k8s.io/v1
 kind: IngressClass
 metadata:
@@ -72,8 +85,8 @@ spec:
   controller: k8s.io/ingress-nginx-private
 
 ---
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
   name: ingress-nginx-controller
   namespace: ingress-nginx

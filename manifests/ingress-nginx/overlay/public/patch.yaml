@@ -1,29 +1,6 @@
 ---
-kind: Deployment
-apiVersion: apps/v1
-metadata:
-  name: ingress-nginx-controller
-  namespace: ingress-nginx
-spec:
-  template:
-    spec:
-      containers:
-        - name: controller
-          args:
-            - /nginx-ingress-controller
-            - --publish-service=$(POD_NAMESPACE)/ingress-nginx-controller-public
-            - --election-id=ingress-nginx-leader
-            - --controller-class=k8s.io/ingress-nginx-public
-            - --configmap=$(POD_NAMESPACE)/ingress-nginx-controller-public
-            - --validating-webhook=:8443
-            - --validating-webhook-certificate=/usr/local/certificates/cert
-            - --validating-webhook-key=/usr/local/certificates/key
-            - --enable-metrics=false
-            - --ingress-class=nginx-public
-
----
-kind: Job
 apiVersion: batch/v1
+kind: Job
 metadata:
   name: ingress-nginx-admission-create
   namespace: ingress-nginx
@@ -61,6 +38,29 @@ spec:
             - --patch-failure-policy=Fail
 
 ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ingress-nginx-controller
+  namespace: ingress-nginx
+spec:
+  template:
+    spec:
+      containers:
+        - name: controller
+          args:
+            - /nginx-ingress-controller
+            - --publish-service=$(POD_NAMESPACE)/ingress-nginx-controller-public
+            - --election-id=ingress-nginx-leader
+            - --controller-class=k8s.io/ingress-nginx-public
+            - --configmap=$(POD_NAMESPACE)/ingress-nginx-controller-public
+            - --validating-webhook=:8443
+            - --validating-webhook-certificate=/usr/local/certificates/cert
+            - --validating-webhook-key=/usr/local/certificates/key
+            - --enable-metrics=false
+            - --ingress-class=nginx-public
+
+---
 apiVersion: networking.k8s.io/v1
 kind: IngressClass
 metadata:
@@ -69,8 +69,8 @@ spec:
   controller: k8s.io/ingress-nginx-public
 
 ---
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
   name: ingress-nginx-controller
   namespace: ingress-nginx
