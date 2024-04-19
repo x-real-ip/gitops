@@ -10,10 +10,7 @@ resources:
   - configmap.yaml
 
 patchesStrategicMerge:
-  - patch-deployment.yaml
-  - patch-ingress-nginx-admission-patch.yaml
-  - patch-job-admission-create.yaml
-  - patch-service.yaml
+  - patch.yaml
 
 replicas:
   - name: ingress-nginx-controller
