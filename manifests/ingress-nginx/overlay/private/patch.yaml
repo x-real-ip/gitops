@@ -5,10 +5,7 @@ metadata:
   name: ingress-nginx-controller
   namespace: ingress-nginx
 data:
-  allow-snippet-annotations: "true"
-  use-forwarded-headers: "true"
-  use-proxy-protocol: "true"
-  enable-real-ip: "true"
+  allow-snippet-annotations: "false"
 
 ---
 kind: Job
