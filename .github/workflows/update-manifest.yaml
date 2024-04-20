@@ -22,9 +22,20 @@ jobs:
           echo "REPO_NAME=$repo" >> $GITHUB_ENV
           echo "REPO_OWNER=$owner" >> $GITHUB_ENV
 
+      - uses: alexellis/arkade-get@master
+        with:
+          kubectl: latest
+
+      - name: Print kubectl & kustomize versions
+        run: |-
+          kubectl version
+          kustomize version
+
       - name: Replace Image Tag
-        run: |
-          sed -i "/name: ${{ github.event.client_payload.registry }}\/${{env.REPO_OWNER}}\/${{env.REPO_NAME}}/{n;s|newTag: .*|newTag: ${{ github.event.client_payload.sha }}|;}" ./manifests/${{env.REPO_NAME}}/overlay/kustomization.yaml
+        run: |-
+          cd ./manifests/${{env.REPO_NAME}}/overlay
+          kustomize edit set image ${{ github.event.client_payload.registry }}/${{ github.event.client_payload.repository }}:${{ github.event.client_payload.sha }}
+
       - name: Show K8s Manifest
         run: |
           cat ./manifests/${{env.REPO_NAME}}/overlay/kustomization.yaml
