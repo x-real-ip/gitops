@@ -27,9 +27,8 @@ jobs:
           kubectl: latest
 
       - name: Print kubectl & kustomize versions
-        run: |-
-          kubectl version
-          kustomize version
+        run: |
+          kubectl version --client
 
       - name: Replace Image Tag
         run: |-
