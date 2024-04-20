@@ -6,4 +6,4 @@ resources:
 
 images:
 - name: ghcr.io/theautomation/home-assistant
-  newTag: test
+  newTag: 42b1ac3c100097ab835dea463bba7d4034ec7e28
