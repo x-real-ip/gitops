@@ -298,6 +298,7 @@ data:
     FILENAME="${DATE}_${PG_DATABASE}.sql"
     ERROR_LOG="${DEST}/${FILENAME}.error.log"
 
+    mkdir -p ${DEST}
     if PGPASSWORD="${PG_PASSWORD}" pg_dump --verbose --inserts --column-inserts --username="${PG_USERNAME}" --host="${PG_HOST}" --port="${PG_PORT}" "${PG_DATABASE}" > "${DEST}/${FILENAME}"; then
       echo "Database backup successful: ${DEST}/${FILENAME}"
     else
@@ -579,7 +580,7 @@ metadata:
     app.kubernetes.io/instance: production
     app.kubernetes.io/part-of: paperless
 spec:
-  schedule: "0 14 * * *"
+  schedule: "0 15 * * *"
   jobTemplate:
     spec:
       template:
