@@ -55,11 +55,16 @@ spec:
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: pv-nfs-immich-library-coen-backup
+  name: pv-nfs-immich-backups
+  labels:
+    app.kubernetes.io/name: backups
+    app.kubernetes.io/component: cronjob
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: immich
 spec:
   storageClassName: "freenas-nfs-manual-csi"
   capacity:
-    storage: 600Gi
+    storage: 500Gi
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
@@ -71,37 +76,10 @@ spec:
     driver: org.democratic-csi.node-manual
     readOnly: false
     fsType: nfs
-    volumeHandle: pv-nfs-immich-library-coen-backup
+    volumeHandle: pv-nfs-immich-backups
     volumeAttributes:
       server: storage-server-lagg.lan.theautomation.nl
-      share: /mnt/r10_8tb/coen/media
-      node_attach_driver: nfs
-      provisioner_driver: node-manual
-
----
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: pv-nfs-immich-library-anne-backup
-spec:
-  storageClassName: "freenas-nfs-manual-csi"
-  capacity:
-    storage: 600Gi
-  accessModes:
-    - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  mountOptions:
-    - nfsvers=4
-    - nolock
-    - noatime
-  csi:
-    driver: org.democratic-csi.node-manual
-    readOnly: false
-    fsType: nfs
-    volumeHandle: pv-nfs-immich-library-anne-backup
-    volumeAttributes:
-      server: storage-server-lagg.lan.theautomation.nl
-      share: /mnt/r10_8tb/anne/media
+      share: /mnt/r10_8tb/backups
       node_attach_driver: nfs
       provisioner_driver: node-manual
 
@@ -143,35 +121,21 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: pvc-nfs-immich-library-coen-backup
+  name: pvc-nfs-immich-backups
   namespace: tools
   labels:
-    app: immich
+    app.kubernetes.io/name: backups
+    app.kubernetes.io/component: cronjob
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: immich
 spec:
   storageClassName: freenas-nfs-manual-csi
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: 600Gi
-  volumeName: pv-nfs-immich-library-coen-backup
-
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: pvc-nfs-immich-library-anne-backup
-  namespace: tools
-  labels:
-    app: immich
-spec:
-  storageClassName: freenas-nfs-manual-csi
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 600Gi
-  volumeName: pv-nfs-immich-library-anne-backup
+      storage: 500Gi
+  volumeName: pv-nfs-immich-backups
 
 ---
 kind: SealedSecret
@@ -211,6 +175,33 @@ data:
   PUBLIC_LOGIN_PAGE_MESSAGE: ""
   PUID: "1000"
   PGID: "2000"
+
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: backup-script-postgresql
+  namespace: tools
+  labels:
+    app.kubernetes.io/name: backups
+    app.kubernetes.io/component: cronjob
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: immich
+data:
+  pg_backup.sh: |-
+    #!/bin/bash
+
+    DATE=$(date +%Y%m%d-%H%M)
+    DEST="/mnt/backups/${APP_NAME}/database"
+    FILENAME="${DATE}_${PG_DATABASE}.sql"
+    ERROR_LOG="${DEST}/${FILENAME}.error.log"
+
+    if PGPASSWORD="${PG_PASSWORD}" pg_dumpall --verbose --clean --if-exists --username="${PG_USERNAME}" --host="${PG_HOST}" --port="${PG_PORT}" "${PG_DATABASE}" > "${DEST}/${FILENAME}"; then
+      echo "Database backup successful: ${DEST}/${FILENAME}"
+    else
+      echo "Error: Database backup failed" > "${ERROR_LOG}"
+      exit 1
+    fi
 
 ---
 apiVersion: apps/v1
@@ -494,6 +485,73 @@ spec:
         - name: library
           persistentVolumeClaim:
             claimName: pvc-nfs-immich-library
+
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: immich-db-backup
+  namespace: tools
+  labels:
+    app.kubernetes.io/name: backups
+    app.kubernetes.io/component: cronjob
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: immich
+spec:
+  schedule: "0 14 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          securityContext:
+            fsGroup: 1000
+          containers:
+            - name: postgres-backup
+              image: tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
+              securityContext:
+                runAsUser: 1000
+              command:
+                - "/tmp/pg_backup.sh"
+              env:
+                - name: APP_NAME
+                  valueFrom:
+                    configMapKeyRef:
+                      name: immich-env
+                      key: DB_USERNAME
+                - name: PG_DATABASE
+                  valueFrom:
+                    configMapKeyRef:
+                      name: immich-env
+                      key: DB_DATABASE_NAME
+                - name: PG_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: immich-secret-env
+                      key: DB_PASSWORD
+                - name: PG_USERNAME
+                  valueFrom:
+                    configMapKeyRef:
+                      name: immich-env
+                      key: DB_USERNAME
+                - name: PG_HOST
+                  value: "immich-database"
+                - name: PG_PORT
+                  value: "5432"
+              volumeMounts:
+                - name: backups
+                  mountPath: /mnt/backups
+                - name: backup-script
+                  mountPath: /tmp
+              resources: {}
+          volumes:
+            - name: backups
+              persistentVolumeClaim:
+                claimName: pvc-nfs-immich-backups
+            - name: backup-script
+              configMap:
+                name: backup-script-postgresql
+                defaultMode: 0755
+          restartPolicy: Never
 
 ---
 kind: Service
