@@ -30,17 +30,18 @@ jobs:
         run: |
           kubectl version --client
 
-      - name: Replace Image Tag
+      - name: Replace image tag
         run: |-
           cd ./manifests/${{env.REPO_NAME}}/overlay
           kustomize edit set image ${{ github.event.client_payload.registry }}/${{ github.event.client_payload.repository }}:${{ github.event.client_payload.sha }}
 
-      - name: Show K8s Manifest
+      - name: Show K8s manifest
         run: |
-          cat ./manifests/${{env.REPO_NAME}}/overlay/kustomization.yaml
+          cd ./manifests/${{env.REPO_NAME}}/overlay
+          kubectl kustomize .
 
       - name: Commit
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message:
-            "Update ${{env.REPO_NAME}} k8s manifest, bump image version"
+            "Update ${{env.REPO_NAME}}, bump image version"
