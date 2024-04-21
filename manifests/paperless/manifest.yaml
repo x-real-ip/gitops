@@ -133,6 +133,38 @@ spec:
       provisioner_driver: node-manual
 
 ---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-nfs-paperless-backups
+  labels:
+    app.kubernetes.io/name: backups
+    app.kubernetes.io/component: cronjob
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: paperless
+spec:
+  storageClassName: "freenas-nfs-manual-csi"
+  capacity:
+    storage: 500Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=4
+    - nolock
+    - noatime
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: nfs
+    volumeHandle: pv-nfs-paperless-backups
+    volumeAttributes:
+      server: storage-server-lagg.lan.theautomation.nl
+      share: /mnt/r10_8tb/backups
+      node_attach_driver: nfs
+      provisioner_driver: node-manual
+
+---
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -193,6 +225,26 @@ spec:
   volumeName: pv-nfs-paperless-media
 
 ---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-nfs-paperless-backups
+  namespace: tools
+  labels:
+    app.kubernetes.io/name: backups
+    app.kubernetes.io/component: cronjob
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: paperless
+spec:
+  storageClassName: freenas-nfs-manual-csi
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 500Gi
+  volumeName: pv-nfs-paperless-backups
+
+---
 kind: SealedSecret
 apiVersion: bitnami.com/v1alpha1
 metadata:
@@ -225,6 +277,33 @@ spec:
       name: paperless-admin-password
       namespace: tools
     type: Opaque
+
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: backup-script-postgresql
+  namespace: tools
+  labels:
+    app.kubernetes.io/name: backups
+    app.kubernetes.io/component: cronjob
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: paperless
+data:
+  pg_backup.sh: |-
+    #!/bin/bash
+
+    DATE=$(date +%Y%m%d-%H%M)
+    DEST="/mnt/backups/${APP_NAME}/database"
+    FILENAME="${DATE}_${PG_DATABASE}.sql"
+    ERROR_LOG="${DEST}/${FILENAME}.error.log"
+
+    if PGPASSWORD="${PG_PASSWORD}" pg_dump --verbose --inserts --column-inserts --username="${PG_USERNAME}" --host="${PG_HOST}" --port="${PG_PORT}" "${PG_DATABASE}" > "${DEST}/${FILENAME}"; then
+      echo "Database backup successful: ${DEST}/${FILENAME}"
+    else
+      echo "Error: Database backup failed" > "${ERROR_LOG}"
+      exit 1
+    fi
 
 ---
 kind: StatefulSet
@@ -397,8 +476,8 @@ spec:
           command:
             - "sh"
             - "-c"
-            - until pg_isready -h paperless-postgresql-hl -U
-              paperless ; do sleep 2 ; done
+            - until pg_isready -h paperless-postgresql-hl -U paperless ; do
+              sleep 2 ; done
       containers:
         - name: paperless
           image: "paperlessngx/paperless-ngx:latest"
@@ -489,6 +568,64 @@ spec:
             claimName: pvc-nfs-paperless-media
 
 ---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: paperless-db-backup
+  namespace: tools
+  labels:
+    app.kubernetes.io/name: backups
+    app.kubernetes.io/component: cronjob
+    app.kubernetes.io/instance: production
+    app.kubernetes.io/part-of: paperless
+spec:
+  schedule: "0 14 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          securityContext:
+            fsGroup: 1000
+          containers:
+            - name: postgres-backup
+              image: "bitnami/postgresql:13"
+              securityContext:
+                runAsUser: 1000
+              command:
+                - "/tmp/pg_backup.sh"
+              env:
+                - name: APP_NAME
+                  value: "paperless"
+                - name: PG_DATABASE
+                  value: "paperless"
+                - name: PG_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: paperless-postgresql
+                      key: postgres-password
+                - name: PG_USERNAME
+                  value: "paperless"
+                - name: PG_HOST
+                  value: "paperless-postgresql-hl"
+                - name: PG_PORT
+                  value: "5432"
+              volumeMounts:
+                - name: backups
+                  mountPath: /mnt/backups
+                - name: backup-script
+                  mountPath: /tmp
+              resources: {}
+          volumes:
+            - name: backups
+              persistentVolumeClaim:
+                claimName: pvc-nfs-paperless-backups
+            - name: backup-script
+              configMap:
+                name: backup-script-postgresql
+                defaultMode: 0755
+          restartPolicy: Never
+
+---
 kind: Service
 apiVersion: v1
 metadata:
@@ -553,4 +690,3 @@ spec:
     - hosts:
         - paperless.lan.theautomation.nl
       secretName: tls-wildcard-lan-theautomation-nl
-
