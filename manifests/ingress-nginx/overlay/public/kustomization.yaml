@@ -1,16 +1,18 @@
----
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 namespace: ingress-nginx-public
-nameSuffix: "-public"
+nameSuffix: -public
 
 resources:
   - ../../base
 
-patchesStrategicMerge:
-  - patch.yaml
-
 replicas:
-  - name: ingress-nginx-controller
-    count: 2
+  - count: 2
+    name: ingress-nginx-controller
+patches:
+  - path: patch_deployment_ingress-nginx-controller.yaml
+  - path: patch_ingressclass_nginx.yaml
+  - path: patch_job_ingress-nginx-admission-create.yaml
+  - path: patch_job_ingress-nginx-admission-patch.yaml
+  - path: patch_service_ingress-nginx-controller.yaml
