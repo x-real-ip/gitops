@@ -1,4 +1,63 @@
 ---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: go2rtc-config
+  namespace: home-automation
+spec:
+  encryptedData:
+    babycam-password: AgCYqnVbIHpZqC689hlgSnjlwRUIbbF6Ic8lbcwCHub4Y8o/kW4sr+6DuHCryog1aylW1pk8foXbHLAbxZtqWjYoKicjM3m6ZpDJUGxDjnmi1Qj50tFBVC3juq+KSbxgzc7aHVBLkl6XZ2XaUvLLiz59xJJD8PnY9pjEHllBR5kvKA6B0nvSxHXSftcgQmxxG+2fRPNJKFGSlAC+xitUcrjCYSyGG9Icf8YcfQpSAyPV/8GcW8tMIJy2PWCi70qjl67x3KL90wgPbzsygQVSvwZAru2PQOCw2VMjk1aNg236Dp3cPjUmIOvw+c2een2aFxiRpDoOYfU8y0v1MoCVoO0czl/c5p+oS485+WU94RY2mYgZYZXvloVfkfHTNU88fpoGk2jdMMBoHVQ7MAItVxaCoSEYJf6Z83sBTFnwmGf/LSIFVwqrAerCtYjjYChYNS8VRFeJiZYflQJrWDXiBJR+N7USGxpDXlJNKzRE9UFdTSKidf/f7FbwCrEYLOHWTbcxcWSj5B5f21z1ozR1fDixrBiM49na3D7+FZfemCKYfgy2ekKZtxWl+r7zHaKAh2wYmwBCHQFaGAWCTjO7Xm8w2+G2XUHy65GaN0hDoqcHyuFn/N0RYdCbOwdPbx+MHeQQJAy/R0ganoNwsAiu71wNA9Ih7X+PifAhAvOs1O4QIZ4J0vN9OqCHjw6+bKqBJYi9H7043OaRlQ==
+  template:
+    data:
+      go2rtc.yaml: |-
+        api:
+          listen: ":1984"
+          base_path: ""
+          static_dir: ""
+          origin: ""
+
+        ffmpeg:
+          bin: "ffmpeg"
+          global: "-hide_banner"
+          file: "-re -stream_loop -1 -i {input}"
+          http: "-fflags nobuffer -flags low_delay -i {input}"
+          rtsp: "-fflags nobuffer -flags low_delay -timeout 5000000 -user_agent go2rtc/ffmpeg -rtsp_transport tcp -i {input}"
+          output: "-user_agent ffmpeg/go2rtc -rtsp_transport tcp -f rtsp {output}"
+          # ... different presets for codecs
+
+        hass:
+          config: ""
+
+        log:
+          format: ""
+          level: "info"
+
+        ngrok:
+          command: ""
+
+        rtsp:
+          listen: ":8554"
+          username: ""
+          password: ""
+
+        srtp:
+          listen: ":8443"
+
+        streams:
+          babycam: rtsp://admin:{{ index . "babycam-password" }}@ipcam-baby.lan.theautomation.nl:554/cam/realmonitor?channel=1&subtype=0
+
+        webrtc:
+          listen: ":8555"
+          candidates: []
+          ice_servers:
+            - urls: [ "stun:stun.l.google.com:19302" ]
+              username: ""
+              credential: ""
+    metadata:
+      creationTimestamp: null
+
+---
 kind: Deployment
 apiVersion: apps/v1
 metadata:
@@ -15,14 +74,20 @@ spec:
             - name: rtsp-tcp
               containerPort: 8554
               protocol: TCP
+            - name: api-tcp
+              containerPort: 1984
+              protocol: TCP
+            - name: webrtc-tcp
+              containerPort: 8555
+              protocol: TCP
+            - name: webrtc-udp
+              containerPort: 8555
+              protocol: UDP
           volumeMounts:
             - name: go2rtc-config
-              mountPath: /go2rtc.yaml
+              mountPath: /config/go2rtc.yaml
               subPath: go2rtc.yaml
           resources: {}
-        - name: go2rtc-config
-          secret:
-            secretName: go2rtc-config
       volumes:
         - name: go2rtc-config
           secret:
@@ -32,7 +97,7 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: go2rtc-service-tcp
+  name: go2rtc-service
 spec:
   type: ClusterIP
   ports:
@@ -40,3 +105,34 @@ spec:
       protocol: TCP
       port: 8554
       targetPort: rtsp-tcp
+    - name: api-tcp
+      protocol: TCP
+      port: 1984
+      targetPort: api-tcp
+    - name: webrtc-tcp
+      protocol: TCP
+      port: 8555
+      targetPort: webrtc-tcp
+    - name: webrtc-udp
+      protocol: UDP
+      port: 8555
+      targetPort: webrtc-udp
+
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: go2rtc-ingress
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: home-assistant.lan.theautomation.nl
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: home-assistant
+                port:
+                  number: 80
