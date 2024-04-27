@@ -1,0 +1,42 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: go2rtc
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: go2rtc
+          image: alexxit/go2rtc:latest
+          imagePullPolicy: Always
+          ports:
+            - name: rtsp-tcp
+              containerPort: 8554
+              protocol: TCP
+          volumeMounts:
+            - name: go2rtc-config
+              mountPath: /go2rtc.yaml
+              subPath: go2rtc.yaml
+          resources: {}
+        - name: go2rtc-config
+          secret:
+            secretName: go2rtc-config
+      volumes:
+        - name: go2rtc-config
+          secret:
+            secretName: go2rtc-config
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: go2rtc-service-tcp
+spec:
+  type: ClusterIP
+  ports:
+    - name: rtsp-tcp
+      protocol: TCP
+      port: 8554
+      targetPort: rtsp-tcp
