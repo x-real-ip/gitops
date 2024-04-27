@@ -12,7 +12,7 @@ spec:
       port: 5683
       targetPort: 5683
       protocol: UDP
-    - name: mediamtx-service-tcp
+    - name: go2rtc-service-tcp
       port: 8554
       targetPort: 8554
       protocol: TCP
