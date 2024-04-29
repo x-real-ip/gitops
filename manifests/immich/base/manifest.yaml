@@ -172,7 +172,7 @@ data:
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: backup-script-postgresql
+  name: immich-backup-script-postgresql
   labels:
     app: immich
 data:
