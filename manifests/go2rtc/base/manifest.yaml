@@ -54,8 +54,6 @@ spec:
             - urls: [ "stun:stun.l.google.com:19302" ]
               username: ""
               credential: ""
-    metadata:
-      creationTimestamp: null
 
 ---
 kind: Deployment
@@ -83,6 +81,27 @@ spec:
             - name: webrtc-udp
               containerPort: 8555
               protocol: UDP
+          livenessProbe:
+            tcpSocket:
+              port: api-tcp
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: api-tcp
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          startupProbe:
+            tcpSocket:
+              port: api-tcp
+            initialDelaySeconds: 0
+            failureThreshold: 30
+            timeoutSeconds: 1
+            periodSeconds: 5
           volumeMounts:
             - name: go2rtc-config
               mountPath: /config/go2rtc.yaml
@@ -93,40 +112,13 @@ spec:
           secret:
             secretName: go2rtc-config
 
-# ---
-# kind: Service
-# apiVersion: v1
-# metadata:
-#   name: go2rtc-service
-# spec:
-#   type: ClusterIP
-#   ports:
-#     - name: rtsp-tcp
-#       protocol: TCP
-#       port: 8554
-#       targetPort: rtsp-tcp
-#     - name: api-tcp
-#       protocol: TCP
-#       port: 1984
-#       targetPort: api-tcp
-#     - name: webrtc-tcp
-#       protocol: TCP
-#       port: 8555
-#       targetPort: webrtc-tcp
-#     - name: webrtc-udp
-#       protocol: UDP
-#       port: 8555
-#       targetPort: webrtc-udp
-
 ---
 kind: Service
 apiVersion: v1
 metadata:
   name: go2rtc-service
 spec:
-  type: LoadBalancer
-  loadBalancerIP: 10.0.100.243
-  externalTrafficPolicy: Local
+  type: ClusterIP
   ports:
     - name: rtsp-tcp
       protocol: TCP
