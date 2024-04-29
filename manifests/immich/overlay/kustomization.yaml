@@ -5,6 +5,10 @@ kind: Kustomization
 resources:
   - ../base
 
+namespace: tools
+commonLabels:
+  app: immich
+
 images:
   - name: ghcr.io/immich-app/immich-server
     newTag: v1.103.0
