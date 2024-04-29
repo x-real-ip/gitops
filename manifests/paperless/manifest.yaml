@@ -282,7 +282,7 @@ spec:
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: backup-script-postgresql
+  name: paperless-backup-script-postgresql
   namespace: tools
   labels:
     app.kubernetes.io/name: backups
@@ -622,7 +622,7 @@ spec:
                 claimName: pvc-nfs-paperless-backups
             - name: backup-script
               configMap:
-                name: backup-script-postgresql
+                name: paperless-backup-script-postgresql
                 defaultMode: 0755
           restartPolicy: Never
 
