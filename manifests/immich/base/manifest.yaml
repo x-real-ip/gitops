@@ -531,7 +531,7 @@ spec:
                 claimName: pvc-nfs-immich-backups
             - name: backup-script
               configMap:
-                name: backup-script-postgresql
+                name: immich-backup-script-postgresql
                 defaultMode: 0755
           restartPolicy: Never
 
