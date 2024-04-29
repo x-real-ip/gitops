@@ -6,8 +6,6 @@ resources:
   - ../base
 
 namespace: tools
-commonLabels:
-  app: immich
 
 images:
   - name: ghcr.io/immich-app/immich-server
