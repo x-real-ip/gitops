@@ -3,6 +3,8 @@ kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: pv-iscsi-immich-db
+  labels:
+    app: immich-postgresql
 spec:
   storageClassName: "freenas-iscsi-manual-csi"
   capacity:
@@ -27,6 +29,8 @@ kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: pv-nfs-immich-library
+  labels:
+    app: immich
 spec:
   storageClassName: "freenas-nfs-manual-csi"
   capacity:
@@ -54,6 +58,8 @@ kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: pv-nfs-immich-backups
+  labels:
+    app: immich
 spec:
   storageClassName: "freenas-nfs-manual-csi"
   capacity:
@@ -81,6 +87,8 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: pvc-iscsi-immich-db
+  labels:
+    app: immich
 spec:
   storageClassName: freenas-iscsi-manual-csi
   accessModes:
@@ -95,6 +103,8 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: pvc-nfs-immich-library
+  labels:
+    app: immich
 spec:
   storageClassName: freenas-nfs-manual-csi
   accessModes:
@@ -109,6 +119,8 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: pvc-nfs-immich-backups
+  labels:
+    app: immich
 spec:
   storageClassName: freenas-nfs-manual-csi
   accessModes:
@@ -140,6 +152,8 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: immich-env
+  labels:
+    app: immich
 data:
   DB_DATABASE_NAME: "immich"
   DB_HOSTNAME: "immich-database"
@@ -159,6 +173,8 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: backup-script-postgresql
+  labels:
+    app: immich
 data:
   pg_backup.sh: |-
     #!/bin/bash
@@ -183,7 +199,13 @@ metadata:
   name: immich-database
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: immich-database
   template:
+    metadata:
+      labels:
+        app: immich-database
     spec:
       containers:
         - name: immich-postgres
@@ -220,10 +242,18 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: immich-server
+  labels:
+    app: immich-server
 spec:
   strategy:
     type: Recreate
+  selector:
+    matchLabels:
+      app: immich-server
   template:
+    metadata:
+      labels:
+        app: immich-server
     spec:
       securityContext:
         fsGroup: 2000
@@ -303,12 +333,20 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: immich-microservice
+  labels:
+    app: immich-microservice
 spec:
   revisionHistoryLimit: 3
   replicas: 1
   strategy:
     type: Recreate
+  selector:
+    matchLabels:
+      app: immich-microservice
   template:
+    metadata:
+      labels:
+        app: immich-microservice
     spec:
       securityContext:
         fsGroup: 2000
@@ -370,6 +408,8 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: immich-machine-learning
+  labels:
+    app: immich-machine-learning
 spec:
   strategy:
     type: Recreate
@@ -437,8 +477,10 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: immich-db-backup
+  labels:
+    app: immich
 spec:
-  schedule: "0 12 * * *"
+  schedule: "0 15 * * *"
   jobTemplate:
     spec:
       template:
@@ -498,8 +540,12 @@ kind: Service
 apiVersion: v1
 metadata:
   name: immich-database
+  labels:
+    app: immich-database
 spec:
   type: ClusterIP
+  selector:
+    app: immich-database
   ports:
     - name: tcp-postgresql
       port: 5432
@@ -510,8 +556,12 @@ kind: Service
 apiVersion: v1
 metadata:
   name: immich-machine-learning
+  labels:
+    app: immich-machine-learning
 spec:
   type: ClusterIP
+  selector:
+    app: immich-machine-learning
   ports:
     - port: 3003
       targetPort: 3003
@@ -522,8 +572,12 @@ kind: Service
 apiVersion: v1
 metadata:
   name: immich-server
+  labels:
+    app: immich-server
 spec:
   type: ClusterIP
+  selector:
+    app: immich-server
   ports:
     - port: 3001
       targetPort: 3001
@@ -534,6 +588,8 @@ kind: Ingress
 apiVersion: networking.k8s.io/v1
 metadata:
   name: immich-private
+  labels:
+    app: immich
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: 20480m
 spec:
