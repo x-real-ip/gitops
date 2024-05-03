@@ -8,7 +8,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/theautomation/gitops"
-    path: manifests/esphome
+    path: manifests/esphome/overlay
     targetRevision: HEAD
   destination:
     server: "https://kubernetes.default.svc"
