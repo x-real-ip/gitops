@@ -6,4 +6,4 @@ resources:
 
 images:
 - name: ghcr.io/theautomation/node-red
-  newTag: 0b3c76a85c18e21ed869bdef20841b97bb6b63a9
+  newTag: 91d461eef74297118d2ca489b93391d002d694a2
