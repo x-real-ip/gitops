@@ -47,7 +47,7 @@ spec:
     volumeHandle: pv-nfs-paperless-consume
     volumeAttributes:
       server: storage-server-lagg.lan.theautomation.nl
-      share: /mnt/r01_1tb/k8s/paperless-consume
+      share: /mnt/r10_8tb/shared/paperless-consume
       node_attach_driver: nfs
       provisioner_driver: node-manual
 
