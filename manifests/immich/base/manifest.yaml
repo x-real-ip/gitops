@@ -49,7 +49,7 @@ spec:
     volumeHandle: pv-nfs-immich-library
     volumeAttributes:
       server: storage-server-lagg.lan.theautomation.nl
-      share: /mnt/r10_8tb/k8s/immich-media
+      share: /mnt/r01_1tb/k8s/immich-media
       node_attach_driver: nfs
       provisioner_driver: node-manual
 
