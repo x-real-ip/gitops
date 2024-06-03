@@ -15,7 +15,8 @@ metadata:
     nginx.ingress.kubernetes.io/auth-realm: "Authentication Required "
 spec:
   rules:
-    - http:
+    - host: longhorn.lan.theautomation.nl
+      http:
         paths:
           - pathType: Prefix
             path: "/"
