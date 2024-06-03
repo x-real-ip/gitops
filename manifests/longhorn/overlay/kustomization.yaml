@@ -5,3 +5,4 @@ kind: Kustomization
 resources:
   - ../base
   - secret.yaml
+  - ingress.yaml
