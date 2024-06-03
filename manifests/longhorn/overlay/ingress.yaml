@@ -14,6 +14,7 @@ metadata:
     # message to display with an appropriate context why the authentication is required
     nginx.ingress.kubernetes.io/auth-realm: "Authentication Required "
 spec:
+  ingressClassName: nginx-private
   rules:
     - host: longhorn.lan.theautomation.nl
       http:
