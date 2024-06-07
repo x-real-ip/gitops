@@ -5,7 +5,7 @@ metadata:
   name: longhorn-manager
   namespace: longhorn-system
 spec:
-  selector:
+  template:
     spec:
       nodeSelector:
         storage: longhorn
