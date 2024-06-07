@@ -6,3 +6,10 @@ resources:
   - ../base
   - secret.yaml
   - ingress.yaml
+
+patches:
+  - path: patch_configmap_default-settings.yaml
+  - path: patch_configmap_longhorn-storageclass.yaml
+  - path: patch_daemonset_longhorn-manager.yaml
+  - path: patch_deployment_longhorn-driver-deployer.yaml
+  - path: patch_deployment_longhorn-ui.yaml
