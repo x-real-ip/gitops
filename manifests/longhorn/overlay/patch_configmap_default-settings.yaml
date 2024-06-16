@@ -11,4 +11,3 @@ data:
     priority-class: longhorn-critical
     default-replica-count: 2
     create-default-disk-labeled-nodes: true
-    default-data-path: /mnt/data
