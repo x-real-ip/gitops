@@ -313,8 +313,6 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 1
           volumeMounts:
-            - name: geocoding-dump
-              mountPath: /usr/src/app/.reverse-geocoding-dump
             - name: library
               mountPath: /usr/src/app/upload
           resources: {}
@@ -384,8 +382,6 @@ spec:
           volumeMounts:
             - name: cache
               mountPath: /cache
-            - name: library
-              mountPath: /usr/src/app/upload
           resources: {}
       volumes:
         - name: cache
