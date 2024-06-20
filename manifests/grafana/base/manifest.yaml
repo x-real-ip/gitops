@@ -1,0 +1,104 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: grafana-datasources-secret
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: "true"
+spec:
+  encryptedData:
+    POSTGRESS_HOME_ASSISTANT_PASSWORD: AgDSHNY9WNlJO1WXJp9j8xSoinTzIgKSvGrFSQnwDBNL8ovaK1S2Q3lKShlh5WmQjwlgTQ38/4WXtJSS0YLfHFIKzlcyefGno656Bdtlxgu+BieeDlSxMPM5WW1SZmhU4FCNnV9wP/VVgkCU3mCNtRyu6SY64O6ABTBMlQ77nHUE7AraRfzBoXuk0eTGk3U4Y9Ly0j99nkR7syqwVIiScigb9E9U2uK50zXeV59ZuXAfDIblDLH8Fna9YSXKFFvCWE0LGHI0CT3fR0dEmsWYVF3ffnxuY2U7M+5VnWiipqhNMm1i4/1jQ3PxSHMOSSEKo5/Kf8lwVx0NnwDoyh88NT6XpdjDRopWqtq3DgY7MZ+CZW+Em4XsuYBh72cogkdwt95/0FhaYZlCNWVYKGJk7Hj3L3wtv8TW20lTiRrJ+YMHXmW/6SCOT3lb8ZEVsN7E0cyAE01PdvCoL3h/afWfou30v4wAWVBekvLQysviHl1sSieA9UqgGk2liJeIOax/7A2ex/r43GuR1E9h7RAqBFeFBRTchw5pxKZsAzLqJVv1pyBFOR9A3ld74GYsFEkziXvz19KPs+o3y3d6ZEMu+z72S0LYqs/q/JT7yJDNET3qMn6/aqhJoIwp+f9ip6qQEbbLDqPzn8+MBGCQFU5vOpuG8sAOXOkuqyOHLQZkUz0xcu82ZzyqBjm1Wl6ioGEaywTkL5bHanIajrGdXYFORqr32nyiT28v
+  template:
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/cluster-wide: "true"
+      name: grafana-datasources-secret
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: grafana
+  name: grafana
+spec:
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      containers:
+        - name: grafana
+          image: ghcr.io/theautomation/grafana:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+              name: http
+              protocol: TCP
+          envFrom:
+            - secretRef:
+                name: grafana-datasources-secret
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /robots.txt
+              port: 3000
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 2
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: 3000
+            timeoutSeconds: 1
+          resources:
+            requests:
+              cpu: 250m
+              memory: 750Mi
+            limits: {}
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: grafana
+  labels:
+    app: grafana
+spec:
+  selector:
+    app: grafana
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 3000
+      protocol: TCP
+      targetPort: http
+
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: grafana
+  labels:
+    app: grafana
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: grafana.lan.theautomation.nl
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: grafana
+                port:
+                  name: http
