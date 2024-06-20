@@ -2,10 +2,10 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - ../base
+- ../base
 
 namespace: tools
 
 images:
-  - name: ghcr.io/theautomation/grafana
-    newTag: 41fb4c6a666da57b8a516c8f111f6f6e653ed6f4
+- name: ghcr.io/theautomation/grafana
+  newTag: 1305c33c956d510fec2b501c214d02eba5566ae3
