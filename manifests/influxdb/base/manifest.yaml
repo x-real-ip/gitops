@@ -10,7 +10,7 @@ metadata:
 spec:
   storageClassName: "freenas-iscsi-manual-csi"
   capacity:
-    storage: 8Gi
+    storage: 30Gi
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
