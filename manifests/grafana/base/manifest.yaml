@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
         - name: grafana
-          image: ghcr.io/theautomation/grafana:latest
+          image: ghcr.io/theautomation/grafana:main
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
