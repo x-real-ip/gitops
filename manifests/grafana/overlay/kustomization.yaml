@@ -8,4 +8,4 @@ namespace: tools
 
 images:
 - name: ghcr.io/theautomation/grafana
-  newTag: 1305c33c956d510fec2b501c214d02eba5566ae3
+  newTag: 091af80f24e2a5d92c9fd685d89734551e9e164a
