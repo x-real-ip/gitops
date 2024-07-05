@@ -170,7 +170,7 @@ spec:
     fsType: xfs
     volumeHandle: pv-iscsi-bazarr-config
     volumeAttributes:
-      portal: storage-server-lagg.lan.theautomation.nl:3260
+      portal: truenas-b.lan.theautomation.nl:3260
       iqn: iqn.2005-10.org.freenas.ctl:bazarr-config
       lun: "0"
       node_attach_driver: iscsi
