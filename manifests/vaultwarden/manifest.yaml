@@ -23,7 +23,7 @@ spec:
     fsType: xfs
     volumeHandle: vaultwarden-database-pv-iscsi
     volumeAttributes:
-      portal: storage-server-lagg.lan.theautomation.nl:3260
+      portal: truenas-alias.lan.theautomation.nl:3260
       iqn: iqn.2005-10.org.freenas.ctl:vaultwarden-db
       lun: "0"
       node_attach_driver: iscsi
@@ -58,8 +58,8 @@ spec:
     fsType: nfs
     volumeHandle: vaultwarden-data-pv-nfs
     volumeAttributes:
-      server: storage-server-lagg.lan.theautomation.nl
-      share: /mnt/r01_1tb/k8s/vaultwarden-data-2
+      server: truenas-alias.lan.theautomation.nl
+      share: /mnt/ssd/containers/k8s/vaultwarden-data-2
       node_attach_driver: nfs
       provisioner_driver: node-manual
 
@@ -92,8 +92,8 @@ spec:
     fsType: nfs
     volumeHandle: vaultwarden-backups-pv-nfs
     volumeAttributes:
-      server: storage-server-lagg.lan.theautomation.nl
-      share: /mnt/r10_8tb/backups
+      server: truenas-alias.lan.theautomation.nl
+      share: /mnt/ssd/backups
       node_attach_driver: nfs
       provisioner_driver: node-manual
 

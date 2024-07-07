@@ -23,7 +23,7 @@ spec:
     fsType: xfs
     volumeHandle: pv-iscsi-dsmr-reader-db
     volumeAttributes:
-      portal: storage-server-lagg.lan.theautomation.nl:3260
+      portal: truenas-alias.lan.theautomation.nl:3260
       iqn: iqn.2005-10.org.freenas.ctl:dsmr-reader-db
       lun: "0"
       node_attach_driver: iscsi
@@ -56,8 +56,8 @@ spec:
     fsType: nfs
     volumeHandle: pv-nfs-dsmr-reader-backups
     volumeAttributes:
-      server: storage-server-lagg.lan.theautomation.nl
-      share: /mnt/r10_8tb/backups
+      server: truenas-alias.lan.theautomation.nl
+      share: /mnt/ssd/backups
       node_attach_driver: nfs
       provisioner_driver: node-manual
 
@@ -192,6 +192,7 @@ spec:
       containers:
         - name: postgresql
           image: "bitnami/postgresql:14.2.0-debian-10-r77"
+          imagePullPolicy: Always
           securityContext:
             runAsUser: 1000
           envFrom:
@@ -290,6 +291,7 @@ spec:
       containers:
         - name: dsmr-reader
           image: "xirixiz/dsmr-reader-docker:latest"
+          imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 80

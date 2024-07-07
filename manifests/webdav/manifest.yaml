@@ -25,8 +25,8 @@ spec:
     fsType: nfs
     volumeHandle: pv-nfs-webdav-server-data
     volumeAttributes:
-      server: storage-server-lagg.lan.theautomation.nl
-      share: /mnt/r10_8tb/shared
+      server: truenas-alias.lan.theautomation.nl
+      share: /mnt/ssd/webdav
       node_attach_driver: nfs
       provisioner_driver: node-manual
 
