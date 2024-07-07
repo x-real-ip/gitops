@@ -74,7 +74,7 @@ spec:
     volumeHandle: pv-nfs-paperless-data
     volumeAttributes:
       server: truenas-alias.lan.theautomation.nl
-      share: /mnt/ssd/containers/k8s/ paperless-data
+      share: /mnt/ssd/containers/k8s/paperless-data
       node_attach_driver: nfs
       provisioner_driver: node-manual
 
