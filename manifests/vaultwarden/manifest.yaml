@@ -23,7 +23,7 @@ spec:
     fsType: xfs
     volumeHandle: vaultwarden-database-pv-iscsi
     volumeAttributes:
-      portal: storage-server-lagg.lan.theautomation.nl:3260
+      portal: truenas-alias.lan.theautomation.nl:3260
       iqn: iqn.2005-10.org.freenas.ctl:vaultwarden-db
       lun: "0"
       node_attach_driver: iscsi
@@ -58,42 +58,8 @@ spec:
     fsType: nfs
     volumeHandle: vaultwarden-data-pv-nfs
     volumeAttributes:
-      server: storage-server-lagg.lan.theautomation.nl
-      share: /mnt/r01_1tb/k8s/vaultwarden-data-2
-      node_attach_driver: nfs
-      provisioner_driver: node-manual
-
----
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: vaultwarden-backups-pv-nfs
-  labels:
-    app.kubernetes.io/name: vaultwarden
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: vaultwarden
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
-spec:
-  storageClassName: "freenas-nfs-manual-csi"
-  capacity:
-    storage: 50Gi
-  accessModes:
-    - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  mountOptions:
-    - nfsvers=4
-    - nolock
-    - noatime
-  csi:
-    driver: org.democratic-csi.node-manual
-    readOnly: false
-    fsType: nfs
-    volumeHandle: vaultwarden-backups-pv-nfs
-    volumeAttributes:
-      server: storage-server-lagg.lan.theautomation.nl
-      share: /mnt/r10_8tb/backups
+      server: truenas-alias.lan.theautomation.nl
+      share: /mnt/ssd/containers/k8s/vaultwarden-data
       node_attach_driver: nfs
       provisioner_driver: node-manual
 
@@ -118,28 +84,6 @@ spec:
     requests:
       storage: 2Gi
   volumeName: vaultwarden-data-pv-nfs
-
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: vaultwarden-backups-pvc-nfs
-  namespace: tools
-  labels:
-    app.kubernetes.io/name: vaultwarden
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: vaultwarden
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
-spec:
-  storageClassName: freenas-nfs-manual-csi
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 50Gi
-  volumeName: vaultwarden-backups-pv-nfs
 
 ---
 kind: SealedSecret
@@ -180,7 +124,7 @@ metadata:
   namespace: tools
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
-spec:
+spec: 
   encryptedData:
     POSTGRESQL_PASSWORD: AgBTaUNFeQ3c6qidTTHGTVIgOfhkz37biKRTWLLGYMCsGc3tFsBEm8sQfqGrhGlrqLXpyQY9DlTd0uZKKOZIsxYXQ/mR7FzVfDSAzru3lSGpIwKzGbTEqw8AtQQjNbBB6rWeCfiPXjdKUEBH0znDdSK4UM70b06GY9MyOrTrahfePg3ExIB6mw8xo5C1FY4jNhEDv5SWL1zZsjrOWPAuN1hGic6UKxtvqbjsffnQ+t5J8SCu0QdszHLNux3G7I5nutkaDYIkv4LjvKZ/2qyMW98drP247HYdKv5FImYSKf2nzt/xspJ4r9ncv5rPLH3+ESEdMuxvYWorOAO+9gtmOIJS0i/JS26s6DpdPhbRFjpE/sP/hzNcC79Sxwsk+jX4/CgvbQidO64Pm/3p3dVKzb96BbUiRp/U8Akx48qEvrRYLJejynzNZ8mOi06J8cGclSh4ytAry7NOHVtEnUPssG39u302h0FC0F1dwJleHjCIDHizuCenswrFH+yCwmY0NJp08GLXPwXKUtaii4ZJWBE3AYCL67MvIvsK8Rl6zCdMjlYqXGP4a+ZEgQdagOP+fucjHxFd+03Hs1scAjCw8TsMgtV7MIEmbscwk1BL8Pv3NbSdX5cJmdu7vzO1lGuZoATHIIJ9BpmIDOf4VOwrpl91QRr1Y5zmavagYbr62GO8Ow1TKKgSDgr1cu35W+CNWTrVgl74kVe+FbZvnr+REOqTyY1eTNubz7wayRRuPYClkf5MPF+KXiI=
     POSTGRESQL_USERNAME: AgCdIEnH8wD64z36rm2X3D2uUclxVa0Ij+CUY8l+NrJFcZLMrJDmRaV4TT+swGUGH5iC/d6n/3z13hdgA2SX5f04SQF8HNYzq9fvW/2BvtWSp5wZVG5ECAldASpiPU2FROQ5ekVjY2bmRn4dBUcYxXmM8Q6zwgYNlFEujLPEcNDshv08+l9/ZTTrmcrkfw4EuawecP52ipwdFREphYIpRAa3MOLowaY89Fa3YhNEOZduHFG1gBKu3y6EnTLHcsh98/HYq4voYUHaB/5vB2wTfqI0ecdygfcEEh5xeHZrCxAwYEXFihVwj8VewFhJL7HdcQXvc4ho5UW0MFwVBdCvDlW/rcycousvzFIQxMnwRgVHV8jt1yTdpaVKDnDLRpXhqKNrfrdQfnjqiW+m321bfMwfAJ6i2xk5ASkZdIm7zRHY0TyikTuiAQSWb5lpx7MQQ4F7b0tmVL00PC3m68AgIo8tpEZr2rIZHzSQ0dzx96c+Q3HWtHSwKDIDkIwPxRD5Fku/czwtHNllLzxcoX7z3ytHBH2t3nVhAjCTDXamp8CamPgBijWzF0VsyI2ASWF/GOh3kQgysPAsytBH06akluFafAh7yZGFkQ1oBsHJXIRkvyqN8Az6uzv5QNFWe4+ms4cJFNXY+LEtDkkyJxHU/Civ6AHzQI8g1lD5yuBkVCnwLVP7loAWkAeXCy418m/Qg9DzlFjgxeTKb8hLUQ==
@@ -468,72 +412,6 @@ spec:
         - name: vaultwarden
           persistentVolumeClaim:
             claimName: vaultwarden-data-pvc-nfs
-
----
-apiVersion: batch/v1
-kind: CronJob
-metadata:
-  name: vaultwarden-db-backup
-  namespace: tools
-  labels:
-    app.kubernetes.io/name: backups
-    app.kubernetes.io/component: cronjob
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: vaultwarden
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
-spec:
-  schedule: "0 12 * * *"
-  jobTemplate:
-    spec:
-      template:
-        spec:
-          securityContext:
-            fsGroup: 1000
-          containers:
-            - name: postgres-backup
-              image: postgres:14
-              securityContext:
-                runAsUser: 1000
-              command:
-                - "/tmp/pg_backup.sh"
-              env:
-                - name: APP_NAME
-                  value: "vaultwarden"
-                - name: PG_DATABASE
-                  valueFrom:
-                    configMapKeyRef:
-                      name: vaultwarden-database-env-configmap
-                      key: POSTGRESQL_DATABASE
-                - name: PG_PASSWORD
-                  valueFrom:
-                    secretKeyRef:
-                      name: vaultwarden-database-env-secret
-                      key: POSTGRESQL_PASSWORD
-                - name: PG_USERNAME
-                  valueFrom:
-                    secretKeyRef:
-                      name: vaultwarden-database-env-secret
-                      key: POSTGRESQL_USERNAME
-                - name: PG_HOST
-                  value: "vaultwarden-postgresql-hl.tools.svc.cluster.local"
-                - name: PG_PORT
-                  value: "5432"
-              volumeMounts:
-                - name: backups
-                  mountPath: /mnt/backups
-                - name: backup-script
-                  mountPath: /tmp
-              resources: {}
-          volumes:
-            - name: backups
-              persistentVolumeClaim:
-                claimName: vaultwarden-backups-pvc-nfs
-            - name: backup-script
-              configMap:
-                name: vaultwarden-backup-script-postgresql
-                defaultMode: 0755
-          restartPolicy: Never
 
 ---
 kind: Service

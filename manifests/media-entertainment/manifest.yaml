@@ -35,8 +35,8 @@ spec:
     fsType: nfs
     volumeHandle: pv-nfs-downloads
     volumeAttributes:
-      server: storage-server-lagg.lan.theautomation.nl
-      share: /mnt/r10_8tb/downloads/
+      server: truenas-alias.lan.theautomation.nl
+      share: /mnt/ssd/containers/k8s/transmission-downloads
       node_attach_driver: nfs
       provisioner_driver: node-manual
 
@@ -62,8 +62,8 @@ spec:
     fsType: nfs
     volumeHandle: pv-nfs-media
     volumeAttributes:
-      server: storage-server-lagg.lan.theautomation.nl
-      share: /mnt/r10_8tb/media/
+      server: truenas-alias.lan.theautomation.nl
+      share: /mnt/hdd/containers/k8s/plex-media
       node_attach_driver: nfs
       provisioner_driver: node-manual
 
@@ -94,8 +94,8 @@ spec:
     fsType: nfs
     volumeHandle: pv-nfs-plex-transcodes
     volumeAttributes:
-      server: storage-server-lagg.lan.theautomation.nl
-      share: /mnt/r10_8tb/k8s/plex-transcode
+      server: truenas-alias.lan.theautomation.nl
+      share: /mnt/ssd/containers/k8s/plex-transcode
       node_attach_driver: nfs
       provisioner_driver: node-manual
 
@@ -122,7 +122,7 @@ spec:
     fsType: xfs
     volumeHandle: pv-iscsi-plex-config
     volumeAttributes:
-      portal: storage-server-lagg.lan.theautomation.nl:3260
+      portal: truenas-alias.lan.theautomation.nl:3260
       iqn: iqn.2005-10.org.freenas.ctl:plex-config
       lun: "0"
       node_attach_driver: iscsi
@@ -146,7 +146,7 @@ spec:
     fsType: xfs
     volumeHandle: pv-iscsi-prowlarr-config
     volumeAttributes:
-      portal: storage-server-lagg.lan.theautomation.nl:3260
+      portal: truenas-alias.lan.theautomation.nl:3260
       iqn: iqn.2005-10.org.freenas.ctl:prowlarr-config
       lun: "0"
       node_attach_driver: iscsi
@@ -170,7 +170,7 @@ spec:
     fsType: xfs
     volumeHandle: pv-iscsi-bazarr-config
     volumeAttributes:
-      portal: storage-server-lagg.lan.theautomation.nl:3260
+      portal: truenas-alias.lan.theautomation.nl:3260
       iqn: iqn.2005-10.org.freenas.ctl:bazarr-config
       lun: "0"
       node_attach_driver: iscsi
@@ -194,7 +194,7 @@ spec:
     fsType: ext4
     volumeHandle: pv-iscsi-sonarr-config
     volumeAttributes:
-      portal: storage-server-lagg.lan.theautomation.nl:3260
+      portal: truenas-alias.lan.theautomation.nl:3260
       iqn: iqn.2005-10.org.freenas.ctl:sonarr-config
       lun: "0"
       node_attach_driver: iscsi
@@ -218,7 +218,7 @@ spec:
     fsType: xfs
     volumeHandle: pv-iscsi-radarr-config
     volumeAttributes:
-      portal: storage-server-lagg.lan.theautomation.nl:3260
+      portal: truenas-alias.lan.theautomation.nl:3260
       iqn: iqn.2005-10.org.freenas.ctl:radarr-config
       lun: "0"
       node_attach_driver: iscsi
@@ -247,7 +247,7 @@ spec:
     fsType: xfs
     volumeHandle: pv-iscsi-overseerr-config
     volumeAttributes:
-      portal: storage-server-lagg.lan.theautomation.nl:3260
+      portal: truenas-alias.lan.theautomation.nl:3260
       iqn: iqn.2005-10.org.freenas.ctl:overseerr-config
       lun: "0"
       node_attach_driver: iscsi

@@ -11,7 +11,7 @@ metadata:
 spec:
   storageClassName: "freenas-iscsi-manual-csi"
   capacity:
-    storage: 1Gi
+    storage: 2Gi
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
@@ -21,7 +21,7 @@ spec:
     fsType: xfs
     volumeHandle: pv-iscsi-uptime-kuma
     volumeAttributes:
-      portal: storage-server-lagg.lan.theautomation.nl:3260
+      portal: truenas-alias.lan.theautomation.nl:3260
       iqn: iqn.2005-10.org.freenas.ctl:uptime-kuma
       lun: "0"
       node_attach_driver: iscsi
