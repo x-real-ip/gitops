@@ -64,40 +64,6 @@ spec:
       provisioner_driver: node-manual
 
 ---
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: vaultwarden-backups-pv-nfs
-  labels:
-    app.kubernetes.io/name: vaultwarden
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: vaultwarden
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
-spec:
-  storageClassName: "freenas-nfs-manual-csi"
-  capacity:
-    storage: 50Gi
-  accessModes:
-    - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  mountOptions:
-    - nfsvers=4
-    - nolock
-    - noatime
-  csi:
-    driver: org.democratic-csi.node-manual
-    readOnly: false
-    fsType: nfs
-    volumeHandle: vaultwarden-backups-pv-nfs
-    volumeAttributes:
-      server: truenas-alias.lan.theautomation.nl
-      share: /mnt/ssd/backups
-      node_attach_driver: nfs
-      provisioner_driver: node-manual
-
----
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -118,28 +84,6 @@ spec:
     requests:
       storage: 2Gi
   volumeName: vaultwarden-data-pv-nfs
-
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: vaultwarden-backups-pvc-nfs
-  namespace: tools
-  labels:
-    app.kubernetes.io/name: vaultwarden
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: vaultwarden
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
-spec:
-  storageClassName: freenas-nfs-manual-csi
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 50Gi
-  volumeName: vaultwarden-backups-pv-nfs
 
 ---
 kind: SealedSecret
@@ -468,72 +412,6 @@ spec:
         - name: vaultwarden
           persistentVolumeClaim:
             claimName: vaultwarden-data-pvc-nfs
-
----
-apiVersion: batch/v1
-kind: CronJob
-metadata:
-  name: vaultwarden-db-backup
-  namespace: tools
-  labels:
-    app.kubernetes.io/name: backups
-    app.kubernetes.io/component: cronjob
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: vaultwarden
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
-spec:
-  schedule: "0 12 * * *"
-  jobTemplate:
-    spec:
-      template:
-        spec:
-          securityContext:
-            fsGroup: 1000
-          containers:
-            - name: postgres-backup
-              image: postgres:14
-              securityContext:
-                runAsUser: 1000
-              command:
-                - "/tmp/pg_backup.sh"
-              env:
-                - name: APP_NAME
-                  value: "vaultwarden"
-                - name: PG_DATABASE
-                  valueFrom:
-                    configMapKeyRef:
-                      name: vaultwarden-database-env-configmap
-                      key: POSTGRESQL_DATABASE
-                - name: PG_PASSWORD
-                  valueFrom:
-                    secretKeyRef:
-                      name: vaultwarden-database-env-secret
-                      key: POSTGRESQL_PASSWORD
-                - name: PG_USERNAME
-                  valueFrom:
-                    secretKeyRef:
-                      name: vaultwarden-database-env-secret
-                      key: POSTGRESQL_USERNAME
-                - name: PG_HOST
-                  value: "vaultwarden-postgresql-hl.tools.svc.cluster.local"
-                - name: PG_PORT
-                  value: "5432"
-              volumeMounts:
-                - name: backups
-                  mountPath: /mnt/backups
-                - name: backup-script
-                  mountPath: /tmp
-              resources: {}
-          volumes:
-            - name: backups
-              persistentVolumeClaim:
-                claimName: vaultwarden-backups-pvc-nfs
-            - name: backup-script
-              configMap:
-                name: vaultwarden-backup-script-postgresql
-                defaultMode: 0755
-          restartPolicy: Never
 
 ---
 kind: Service
