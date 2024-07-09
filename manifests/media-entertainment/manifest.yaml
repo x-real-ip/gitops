@@ -63,7 +63,7 @@ spec:
     volumeHandle: pv-nfs-media
     volumeAttributes:
       server: truenas-alias.lan.theautomation.nl
-      share: /mnt/ssd/containers/k8s/streaming-media
+      share: /mnt/hdd/containers/k8s/plex-media
       node_attach_driver: nfs
       provisioner_driver: node-manual
 
