@@ -21,7 +21,7 @@ spec:
     volumeHandle: pv-nfs-zwavejs2mqtt-us-data
     volumeAttributes:
       server: truenas-alias.lan.theautomation.nl
-      share: /mnt/r10_8tb/k8s/zwavejs2mqtt-data/us
+      share: /mnt/ssd/containers/k8s/zwavejs2mqtt-data/us
       node_attach_driver: nfs
       provisioner_driver: node-manual
 

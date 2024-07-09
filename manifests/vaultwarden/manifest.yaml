@@ -59,7 +59,7 @@ spec:
     volumeHandle: vaultwarden-data-pv-nfs
     volumeAttributes:
       server: truenas-alias.lan.theautomation.nl
-      share: /mnt/ssd/containers/k8s/vaultwarden-data-2
+      share: /mnt/ssd/containers/k8s/vaultwarden-data
       node_attach_driver: nfs
       provisioner_driver: node-manual
 
@@ -124,7 +124,7 @@ metadata:
   namespace: tools
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
-spec:
+spec: 
   encryptedData:
     POSTGRESQL_PASSWORD: AgBTaUNFeQ3c6qidTTHGTVIgOfhkz37biKRTWLLGYMCsGc3tFsBEm8sQfqGrhGlrqLXpyQY9DlTd0uZKKOZIsxYXQ/mR7FzVfDSAzru3lSGpIwKzGbTEqw8AtQQjNbBB6rWeCfiPXjdKUEBH0znDdSK4UM70b06GY9MyOrTrahfePg3ExIB6mw8xo5C1FY4jNhEDv5SWL1zZsjrOWPAuN1hGic6UKxtvqbjsffnQ+t5J8SCu0QdszHLNux3G7I5nutkaDYIkv4LjvKZ/2qyMW98drP247HYdKv5FImYSKf2nzt/xspJ4r9ncv5rPLH3+ESEdMuxvYWorOAO+9gtmOIJS0i/JS26s6DpdPhbRFjpE/sP/hzNcC79Sxwsk+jX4/CgvbQidO64Pm/3p3dVKzb96BbUiRp/U8Akx48qEvrRYLJejynzNZ8mOi06J8cGclSh4ytAry7NOHVtEnUPssG39u302h0FC0F1dwJleHjCIDHizuCenswrFH+yCwmY0NJp08GLXPwXKUtaii4ZJWBE3AYCL67MvIvsK8Rl6zCdMjlYqXGP4a+ZEgQdagOP+fucjHxFd+03Hs1scAjCw8TsMgtV7MIEmbscwk1BL8Pv3NbSdX5cJmdu7vzO1lGuZoATHIIJ9BpmIDOf4VOwrpl91QRr1Y5zmavagYbr62GO8Ow1TKKgSDgr1cu35W+CNWTrVgl74kVe+FbZvnr+REOqTyY1eTNubz7wayRRuPYClkf5MPF+KXiI=
     POSTGRESQL_USERNAME: AgCdIEnH8wD64z36rm2X3D2uUclxVa0Ij+CUY8l+NrJFcZLMrJDmRaV4TT+swGUGH5iC/d6n/3z13hdgA2SX5f04SQF8HNYzq9fvW/2BvtWSp5wZVG5ECAldASpiPU2FROQ5ekVjY2bmRn4dBUcYxXmM8Q6zwgYNlFEujLPEcNDshv08+l9/ZTTrmcrkfw4EuawecP52ipwdFREphYIpRAa3MOLowaY89Fa3YhNEOZduHFG1gBKu3y6EnTLHcsh98/HYq4voYUHaB/5vB2wTfqI0ecdygfcEEh5xeHZrCxAwYEXFihVwj8VewFhJL7HdcQXvc4ho5UW0MFwVBdCvDlW/rcycousvzFIQxMnwRgVHV8jt1yTdpaVKDnDLRpXhqKNrfrdQfnjqiW+m321bfMwfAJ6i2xk5ASkZdIm7zRHY0TyikTuiAQSWb5lpx7MQQ4F7b0tmVL00PC3m68AgIo8tpEZr2rIZHzSQ0dzx96c+Q3HWtHSwKDIDkIwPxRD5Fku/czwtHNllLzxcoX7z3ytHBH2t3nVhAjCTDXamp8CamPgBijWzF0VsyI2ASWF/GOh3kQgysPAsytBH06akluFafAh7yZGFkQ1oBsHJXIRkvyqN8Az6uzv5QNFWe4+ms4cJFNXY+LEtDkkyJxHU/Civ6AHzQI8g1lD5yuBkVCnwLVP7loAWkAeXCy418m/Qg9DzlFjgxeTKb8hLUQ==

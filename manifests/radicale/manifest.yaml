@@ -23,7 +23,7 @@ spec:
     volumeHandle: pv-nfs-radicale-data
     volumeAttributes:
       server: truenas-alias.lan.theautomation.nl
-      share: /mnt/ssd/containers/k8s/radicale-data-2
+      share: /mnt/ssd/containers/k8s/radicale-data
       node_attach_driver: nfs
       provisioner_driver: node-manual
 
@@ -169,9 +169,6 @@ metadata:
   namespace: tools
   labels:
     app: radicale
-  annotations:
-    nginx.ingress.kubernetes.io/configuration-snippet: |-
-      proxy_set_header X-Remote-User $remote_user;
 spec:
   ingressClassName: nginx-public
   rules:
