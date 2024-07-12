@@ -109,6 +109,7 @@ spec:
       containers:
         - name: radicale
           image: "ghcr.io/theautomation/radicale:dccab9526d5ba935cc7cc59be87614a82854abc4"
+          imagePullPolicy: Always
           resources: {}
           command: ["/bin/sh", "/usr/local/bin/docker-entrypoint.sh"]
           args: ["radicale", "--config", "/config/config"]

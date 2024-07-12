@@ -265,7 +265,8 @@ spec:
         fsGroup: 1000
       containers:
         - name: postgresql
-          image: "bitnami/postgresql:14"
+          image: "docker.io/bitnami/postgresql:14"
+          imagePullPolicy: Always
           securityContext:
             runAsUser: 1000
           envFrom:
@@ -382,7 +383,8 @@ spec:
         fsGroup: 1000
       containers:
         - name: vaultwarden
-          image: "vaultwarden/server:1.30.5-alpine"
+          image: "vaultwarden/server:1.31.0-alpine"
+          imagePullPolicy: Always
           securityContext:
             runAsGroup: 1000
             runAsUser: 1000

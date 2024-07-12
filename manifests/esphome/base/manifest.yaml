@@ -66,7 +66,7 @@ spec:
       containers:
         - name: esphome
           image: "ghcr.io/theautomation/esphome:34dfc9192a52bf8bd8437de7bc4c404f346a4627"
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 6052
               protocol: TCP

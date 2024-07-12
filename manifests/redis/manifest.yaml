@@ -284,6 +284,7 @@ spec:
       containers:
         - name: redis
           image: "docker.io/bitnami/redis:7.0.10"
+          imagePullPolicy: Always
           securityContext:
             runAsUser: 1000
           command:

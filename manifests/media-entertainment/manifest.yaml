@@ -507,7 +507,8 @@ spec:
     spec:
       containers:
         - name: plex
-          image: plexinc/pms-docker
+          image: "docker.io/plexinc/pms-docker:latest"
+          imagePullPolicy: Always
           resources:
             requests:
               memory: "4Gi"
@@ -599,7 +600,8 @@ spec:
     spec:
       containers:
         - name: transmission
-          image: "haugene/transmission-openvpn:latest"
+          image: "docker.io/haugene/transmission-openvpn:latest"
+          imagePullPolicy: Always
           envFrom:
             - configMapRef:
                 name: transmission-config
@@ -667,7 +669,8 @@ spec:
       enableServiceLinks: true
       containers:
         - name: prowlarr
-          image: "linuxserver/prowlarr:nightly"
+          image: "lscr.io/linuxserver/prowlarr:latest"
+          imagePullPolicy: Always
           resources: {}
           env:
             - name: PUID
@@ -735,7 +738,7 @@ spec:
       enableServiceLinks: true
       containers:
         - name: bazarr
-          image: "linuxserver/bazarr:amd64-latest"
+          image: "lscr.io/linuxserver/bazarr:latest"
           imagePullPolicy: Always
           resources: {}
           env:
@@ -810,7 +813,7 @@ spec:
       enableServiceLinks: true
       containers:
         - name: sonarr
-          image: "linuxserver/sonarr:amd64-latest"
+          image: "lscr.io/linuxserver/sonarr:latest"
           imagePullPolicy: Always
           resources: {}
           env:
@@ -897,7 +900,7 @@ spec:
       enableServiceLinks: true
       containers:
         - name: radarr
-          image: "linuxserver/radarr:amd64-latest"
+          image: "lscr.io/linuxserver/radarr:latest"
           imagePullPolicy: Always
           resources: {}
           env:
@@ -993,7 +996,7 @@ spec:
       enableServiceLinks: true
       containers:
         - name: overseerr
-          image: "sctx/overseerr:latest"
+          image: "lscr.io/linuxserver/overseerr:latest"
           imagePullPolicy: Always
           env:
             - name: LOG_LEVEL

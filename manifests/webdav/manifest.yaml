@@ -117,6 +117,7 @@ spec:
       containers:
         - name: webdav-server
           image: docker.io/ugeek/webdav:amd64
+          imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 80

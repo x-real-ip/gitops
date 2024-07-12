@@ -67,7 +67,7 @@ spec:
     spec:
       containers:
         - name: go2rtc
-          image: alexxit/go2rtc:latest
+          image: "docker.io/alexxit/go2rtc:latest"
           imagePullPolicy: Always
           ports:
             - name: rtsp-tcp

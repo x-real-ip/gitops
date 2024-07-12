@@ -269,8 +269,8 @@ spec:
       hostIPC: false
       containers:
         - name: postgresql
-          image: "bitnami/postgresql:13"
-          imagePullPolicy: "IfNotPresent"
+          image: "docker.io/bitnami/postgresql:13"
+          imagePullPolicy: "Always"
           securityContext:
             runAsUser: 1000
           env:
@@ -393,7 +393,8 @@ spec:
         fsGroup: 1000
       initContainers:
         - name: postgresql-isready
-          image: "bitnami/postgresql:13"
+          image: "docker.io/bitnami/postgresql:13"
+          imagePullPolicy: "Always"
           command:
             - "sh"
             - "-c"
@@ -401,7 +402,7 @@ spec:
               sleep 2 ; done
       containers:
         - name: paperless
-          image: "paperlessngx/paperless-ngx:latest"
+          image: "docker.io/paperlessngx/paperless-ngx:latest"
           imagePullPolicy: Always
           env:
             - name: COMPOSE_PROJECT_NAME

@@ -191,7 +191,7 @@ spec:
         fsGroup: 1000
       containers:
         - name: postgresql
-          image: "bitnami/postgresql:14.2.0-debian-10-r77"
+          image: "docker.io/bitnami/postgresql:14.2.0-debian-10-r77"
           imagePullPolicy: Always
           securityContext:
             runAsUser: 1000
@@ -290,7 +290,7 @@ spec:
         fsGroup: 1000
       containers:
         - name: dsmr-reader
-          image: "xirixiz/dsmr-reader-docker:latest"
+          image: "docker.io/xirixiz/dsmr-reader-docker:latest"
           imagePullPolicy: Always
           ports:
             - name: http

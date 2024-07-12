@@ -141,7 +141,8 @@ spec:
     spec:
       containers:
         - name: immich-postgres
-          image: tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
+          image: "docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0"
+          imagePullPolicy: Always
           ports:
             - containerPort: 5432
           env:
@@ -193,7 +194,8 @@ spec:
       dnsPolicy: ClusterFirst
       initContainers:
         - name: postgresql-isready
-          image: tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
+          image: "docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0"
+          imagePullPolicy: Always
           env:
             - name: POSTGRES_USER
               valueFrom:
@@ -212,7 +214,8 @@ spec:
               -h immich-database -p 5432 ; do sleep 2 ; done
       containers:
         - name: immich-server
-          image: ghcr.io/immich-app/immich-server:release
+          image: "ghcr.io/immich-app/immich-server:release"
+          imagePullPolicy: Always
           securityContext:
             runAsUser: 1000
           ports:
@@ -278,8 +281,8 @@ spec:
       enableServiceLinks: true
       containers:
         - name: immich-machine-learning
-          image: ghcr.io/immich-app/immich-machine-learning:release
-          imagePullPolicy: IfNotPresent
+          image: "ghcr.io/immich-app/immich-machine-learning:release"
+          imagePullPolicy: Always
           ports:
             - containerPort: 3003
           env:
