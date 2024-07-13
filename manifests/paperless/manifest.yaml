@@ -18,7 +18,7 @@ spec:
     fsType: xfs
     volumeHandle: pv-iscsi-paperless-db
     volumeAttributes:
-      portal: truenas-alias.lan.theautomation.nl:3260
+      portal: truenas-master.lan.theautomation.nl:3260
       iqn: iqn.2005-10.org.freenas.ctl:paperless-db
       lun: "0"
       node_attach_driver: iscsi
@@ -46,7 +46,7 @@ spec:
     fsType: nfs
     volumeHandle: pv-nfs-paperless-consume
     volumeAttributes:
-      server: truenas-alias.lan.theautomation.nl
+      server: truenas-master.lan.theautomation.nl
       share: /mnt/ssd/webdav/paperless-consume
       node_attach_driver: nfs
       provisioner_driver: node-manual
@@ -73,7 +73,7 @@ spec:
     fsType: nfs
     volumeHandle: pv-nfs-paperless-data
     volumeAttributes:
-      server: truenas-alias.lan.theautomation.nl
+      server: truenas-master.lan.theautomation.nl
       share: /mnt/ssd/containers/k8s/paperless-data
       node_attach_driver: nfs
       provisioner_driver: node-manual
@@ -100,7 +100,7 @@ spec:
     fsType: nfs
     volumeHandle: pv-nfs-paperless-export
     volumeAttributes:
-      server: truenas-alias.lan.theautomation.nl
+      server: truenas-master.lan.theautomation.nl
       share: /mnt/ssd/containers/k8s/paperless-export
       node_attach_driver: nfs
       provisioner_driver: node-manual
@@ -127,7 +127,7 @@ spec:
     fsType: nfs
     volumeHandle: pv-nfs-paperless-media
     volumeAttributes:
-      server: truenas-alias.lan.theautomation.nl
+      server: truenas-master.lan.theautomation.nl
       share: /mnt/ssd/containers/k8s/paperless-media
       node_attach_driver: nfs
       provisioner_driver: node-manual

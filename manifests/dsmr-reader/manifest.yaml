@@ -23,7 +23,7 @@ spec:
     fsType: xfs
     volumeHandle: pv-iscsi-dsmr-reader-db
     volumeAttributes:
-      portal: truenas-alias.lan.theautomation.nl:3260
+      portal: truenas-master.lan.theautomation.nl:3260
       iqn: iqn.2005-10.org.freenas.ctl:dsmr-reader-db
       lun: "0"
       node_attach_driver: iscsi
@@ -56,7 +56,7 @@ spec:
     fsType: nfs
     volumeHandle: pv-nfs-dsmr-reader-backups
     volumeAttributes:
-      server: truenas-alias.lan.theautomation.nl
+      server: truenas-master.lan.theautomation.nl
       share: /mnt/ssd/backups
       node_attach_driver: nfs
       provisioner_driver: node-manual

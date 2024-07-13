@@ -22,7 +22,7 @@ spec:
     fsType: nfs
     volumeHandle: pv-nfs-radicale-data
     volumeAttributes:
-      server: truenas-alias.lan.theautomation.nl
+      server: truenas-master.lan.theautomation.nl
       share: /mnt/ssd/containers/k8s/radicale-data
       node_attach_driver: nfs
       provisioner_driver: node-manual

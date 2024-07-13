@@ -18,7 +18,7 @@ spec:
     fsType: xfs
     volumeHandle: pv-iscsi-immich-db
     volumeAttributes:
-      portal: truenas-alias.lan.theautomation.nl:3260
+      portal: truenas-master.lan.theautomation.nl:3260
       iqn: iqn.2005-10.org.freenas.ctl:immich-database
       lun: "0"
       node_attach_driver: iscsi
@@ -48,7 +48,7 @@ spec:
     fsType: nfs
     volumeHandle: pv-nfs-immich-library
     volumeAttributes:
-      server: truenas-alias.lan.theautomation.nl
+      server: truenas-master.lan.theautomation.nl
       share: /mnt/ssd/containers/k8s/immich-media
       node_attach_driver: nfs
       provisioner_driver: node-manual
