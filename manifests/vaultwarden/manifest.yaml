@@ -70,8 +70,6 @@ metadata:
     app.kubernetes.io/component: server
     app.kubernetes.io/instance: production
     app.kubernetes.io/part-of: vaultwarden
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
 spec:
   storageClassName: freenas-nfs-manual-csi
   accessModes:
@@ -92,8 +90,6 @@ metadata:
     app.kubernetes.io/component: server
     app.kubernetes.io/instance: production
     app.kubernetes.io/part-of: vaultwarden
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
 spec:
   encryptedData:
     ADMIN_TOKEN: AgCPGfxhFngaSDfl7RszcHEFT7hPExECeaO5wIKnjQcWJW7E5mkftft8qmGJLJoGhJrAK7cwlabk5ajz+UiXBGIZN+eLXj5Yv3W5pbHVKrKjqpd5fRgDnjZppaf1x2l6NW7BhNIUbdR807xHXbcIyci1/Km8E783MziW729pRKzxESCGQ/Te6KYRxn/qWG2GsKcZvPi1fM2pufbMtbfK6FrN51tSZNhYg1tZYAPUJGRDsMLUtuiRPYgVqYaPtW+f7YCn2CZpwSHsxufIiHrIkNEXktNNrNuRgu7438xMZDXxPLsq4DyS/wvO0jXr/Oh1cwC+VDROyUUOC5O1lQnw9GLundFI61PHWfTnebAGw+CegkqfwOswQiLiZH4pmcKGQ0N/QLRfz9tVxRofgAEJO+hWRIe9/2sncFg/TTu6jcQcPnNOkptOC2DENGmUo33SQmt3nTAuNbpVQa2ra9g/HoSU19fwuwb7/cIk8L0hCbQtMn9iK9JiyQz7X0s82WyP00OxAPE6Qqi2hCSAoDkg/u+LReQASzoRrQ30Wepo++UAi1jJp2a0a8Rr4lKedC/ShQV/w2ezyKKKb+n2v7vO6z1sYRavPIbxMqozhpnUQcDxqFeMl3unnGfE+/nGU4ZxMtikmLf8N29cIoAm+EH/wDjEdAziE0OxaY1elhWmmS2HO/LV5bmhSbDSKm4vBcTYqje8eXW7AZ/AM/vamLDRdg==
@@ -118,8 +114,6 @@ apiVersion: bitnami.com/v1alpha1
 metadata:
   name: vaultwarden-database-env-secret
   namespace: tools
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
 spec: 
   encryptedData:
     POSTGRESQL_PASSWORD: AgBTaUNFeQ3c6qidTTHGTVIgOfhkz37biKRTWLLGYMCsGc3tFsBEm8sQfqGrhGlrqLXpyQY9DlTd0uZKKOZIsxYXQ/mR7FzVfDSAzru3lSGpIwKzGbTEqw8AtQQjNbBB6rWeCfiPXjdKUEBH0znDdSK4UM70b06GY9MyOrTrahfePg3ExIB6mw8xo5C1FY4jNhEDv5SWL1zZsjrOWPAuN1hGic6UKxtvqbjsffnQ+t5J8SCu0QdszHLNux3G7I5nutkaDYIkv4LjvKZ/2qyMW98drP247HYdKv5FImYSKf2nzt/xspJ4r9ncv5rPLH3+ESEdMuxvYWorOAO+9gtmOIJS0i/JS26s6DpdPhbRFjpE/sP/hzNcC79Sxwsk+jX4/CgvbQidO64Pm/3p3dVKzb96BbUiRp/U8Akx48qEvrRYLJejynzNZ8mOi06J8cGclSh4ytAry7NOHVtEnUPssG39u302h0FC0F1dwJleHjCIDHizuCenswrFH+yCwmY0NJp08GLXPwXKUtaii4ZJWBE3AYCL67MvIvsK8Rl6zCdMjlYqXGP4a+ZEgQdagOP+fucjHxFd+03Hs1scAjCw8TsMgtV7MIEmbscwk1BL8Pv3NbSdX5cJmdu7vzO1lGuZoATHIIJ9BpmIDOf4VOwrpl91QRr1Y5zmavagYbr62GO8Ow1TKKgSDgr1cu35W+CNWTrVgl74kVe+FbZvnr+REOqTyY1eTNubz7wayRRuPYClkf5MPF+KXiI=
@@ -320,8 +314,6 @@ spec:
           app.kubernetes.io/component: database
           app.kubernetes.io/instance: production
           app.kubernetes.io/part-of: vaultwarden
-        annotations:
-          argocd.argoproj.io/sync-wave: "-1"
       spec:
         selector:
           matchLabels:
@@ -346,9 +338,6 @@ metadata:
     app.kubernetes.io/name: vaultwarden
     app.kubernetes.io/component: server
     app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: vaultwarden
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
 spec:
   replicas: 1
   selector:
@@ -413,8 +402,6 @@ metadata:
     app.kubernetes.io/instance: production
     app.kubernetes.io/part-of: vaultwarden
     service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
 spec:
   selector:
     app.kubernetes.io/name: vaultwarden
@@ -440,8 +427,6 @@ metadata:
     app.kubernetes.io/component: server
     app.kubernetes.io/instance: production
     app.kubernetes.io/part-of: vaultwarden
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
 spec:
   selector:
     app.kubernetes.io/name: vaultwarden
@@ -470,7 +455,6 @@ metadata:
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/proxy-body-size: 250m
-    argocd.argoproj.io/sync-wave: "-1"
 spec:
   ingressClassName: nginx-public
   rules:
