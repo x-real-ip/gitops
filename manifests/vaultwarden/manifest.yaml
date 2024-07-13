@@ -8,8 +8,6 @@ metadata:
     app.kubernetes.io/component: database
     app.kubernetes.io/instance: production
     app.kubernetes.io/part-of: vaultwarden
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
 spec:
   storageClassName: "freenas-iscsi-manual-csi"
   capacity:
@@ -39,8 +37,6 @@ metadata:
     app.kubernetes.io/component: server
     app.kubernetes.io/instance: production
     app.kubernetes.io/part-of: vaultwarden
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
 spec:
   storageClassName: "freenas-nfs-manual-csi"
   capacity:
@@ -138,8 +134,6 @@ spec:
         app.kubernetes.io/instance: production
         app.kubernetes.io/name: vaultwarden
         app.kubernetes.io/part-of: vaultwarden
-      annotations:
-        argocd.argoproj.io/sync-wave: "-1"
 
 ---
 kind: ConfigMap
@@ -152,8 +146,6 @@ metadata:
     app.kubernetes.io/component: database
     app.kubernetes.io/instance: production
     app.kubernetes.io/part-of: vaultwarden
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
 data:
   POSTGRESQL_DATABASE: "vaultwarden"
 
@@ -168,8 +160,6 @@ metadata:
     app.kubernetes.io/component: server
     app.kubernetes.io/instance: production
     app.kubernetes.io/part-of: vaultwarden
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
 data:
   DATA_FOLDER: "data"
   DOMAIN: "https://bitwarden.theautomation.nl"
@@ -206,8 +196,6 @@ metadata:
     app.kubernetes.io/component: cronjob
     app.kubernetes.io/instance: production
     app.kubernetes.io/part-of: vaultwarden
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
 data:
   pg_backup.sh: |-
     #!/bin/bash
@@ -235,8 +223,6 @@ metadata:
     app.kubernetes.io/component: database
     app.kubernetes.io/instance: production
     app.kubernetes.io/part-of: vaultwarden
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
 spec:
   replicas: 1
   persistentVolumeClaimRetentionPolicy:
