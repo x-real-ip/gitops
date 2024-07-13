@@ -93,7 +93,7 @@ spec:
         storageClassName: freenas-iscsi-manual-csi
         resources:
           requests:
-            storage: "1Gi"
+            storage: "2Gi"
 
 ---
 kind: Service
