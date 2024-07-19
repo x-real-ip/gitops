@@ -6,4 +6,4 @@ resources:
 
 images:
 - name: ghcr.io/theautomation/protonmail-bridge
-  newTag: 960a553d8f25db0318c84881e14b7ccfa1f982be
+  newTag: 508fc65d67a4889310e672a461290d2514b4fcd5
