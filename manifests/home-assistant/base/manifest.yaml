@@ -4,7 +4,7 @@ apiVersion: v1
 metadata:
   name: pv-iscsi-home-assistant-db
   labels:
-    app: home-assistant-postgresql
+    app: home-assistant
 spec:
   storageClassName: "freenas-iscsi-manual-csi"
   capacity:
@@ -29,6 +29,8 @@ kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: pv-nfs-home-assistant-config
+  labels:
+    app: home-assistant
 spec:
   storageClassName: "freenas-nfs-manual-csi"
   capacity:
@@ -57,6 +59,8 @@ apiVersion: v1
 metadata:
   name: pvc-nfs-home-assistant-config
   namespace: home-automation
+  labels:
+    app: home-assistant
 spec:
   storageClassName: freenas-nfs-manual-csi
   accessModes:
@@ -72,6 +76,8 @@ apiVersion: bitnami.com/v1alpha1
 metadata:
   name: home-assistant-postgresql-secret
   namespace: home-automation
+  labels:
+    app: home-assistant
 spec:
   encryptedData:
     postgresql-password: AgB/gql6IjO58KNJftBGh/GrgetX8HqfV7IkHkHh3nhpWllutiweY/53Lhuq8P09jS+Sf+M38qAjAFil2G0Y1ttvRNPmu3NGoE370mAdHi1EjcRGRM4tCAXFCmXV6lhsTjn+wUeuiHIWf/2ZHoik0TeLDBMhqfGcc6Fg9+qH5F9iKaS50n1xuUM3G6TZ3u9UI95/uVPrqKJzRBNL4gT6yeYWEgDMM3K90pzopzYpeDV0HgLJjRqJmo+G7OPzVcrIiFT1C9p/BW251KdG18UZZr3o8Dwt4zEWKdRmeLkw3ICrOIbm0c8pRNf92yJxa/rRgd62xaTEP+0sr/S6mQkibNVSqKyhwF2qBBgPcaLsZEQCiNbzN4EhrBef+jXWAzRbUtnCCakPsBji+7ffTpbWX9HMr22thg+5a/TFLLpxyV5WGz4hQuFAx1sjgcmsvl3oAlP+i5VbxCEaUUAdpJyKenkrcy6f/SPjSfRsJHT2ebxi1sYfOzdp95UkaNc9NmsF9vDJABQsInAh6utOkzHRgXmTQJkztPp/urqO0hGLOJVAdeweTgt1xMzNExcaROdo+wq3+Xbxb7tWYikvHFfojUwHwIzbQHzVrYX96MdTIWAFPUsgnv1TnPwZ21NhN1p5TSWWdh6aIemz2WVspsqR8tN3GF2dpKf5TrifVIVVv6Mpy2IUdKNHIcSuU2PjgUEVT79HCrpw5SW54u48wV6NpQ1ISfzWirSq
@@ -82,7 +88,7 @@ spec:
       name: home-assistant-postgresql-secret
       namespace: home-automation
       labels:
-        app: home-assistant-postgresql
+        app: home-assistant
 
 ---
 kind: SealedSecret
@@ -90,6 +96,8 @@ apiVersion: bitnami.com/v1alpha1
 metadata:
   name: secrets
   namespace: home-automation
+  labels:
+    app: home-assistant
 spec:
   encryptedData:
     home_city: AgDUbLU7L334basktEdTU5hynRJUhT7u/850mkvKP/EXIgtzpZTwkQCnaFQRQAhFKVwjvlcCqaHxGCVfjg3F2kGivIamRxlDKt2FF8kVQHm1cYuqn708CjOrPOvlUm/Yd+GBNE30T7c5I2YoEizKhLsZjf8zaSNsv9BEscgE/dqRCSDgK9xcurdOK1TY1foxh+1UuWjpg++H4GHnMsuyJsKE2HnyrZ1vcG54l2usRpd7d37rkcmihtywcHs8PSBLqydIjQxRMrYtnTHwtC+ZoxLoqPWjjpBZ0ndNlGcBKpkt2e6ypR0vgCmHO2RE5H3eeAS1PqbWBfTCRsPeCCKiPDLx2IZlCcIdWomBgJ2tk+UzPWRaYKYwt3Iv+3+AB78kIiycPsAQNTpJgs0JWhVjx3kA42eVI71rNAndbVffofs8CYihhQSuK9ZEnna9gKPoDM80HWqQyRX4rgdwwS4xsuil1sWXWF87tn9EMmxh/ox2sBbJWxo3FnTe4z/gBD7k3zzAhOxbPh1noJCRvOBg1N4tJ5fz/8JAkwzF0tkI1AIsnqoiOyBlvA4wzAFrUf+EJFYnArpvj2P2W9sajoTvizIG2scYaLCl5hYdextwzmLki+G9+PPGVoWmHT8x9jGjeuZj4eHMRS4syc9Hx2tkMdPBqq07G6wzdy7cWAPGMUR8zJpUABgWXC01WX2dBbXZSXcUyso=
@@ -136,7 +144,7 @@ metadata:
   name: home-assistant-postgresql
   namespace: home-automation
   labels:
-    app: home-assistant-postgresql
+    app: home-assistant
 spec:
   replicas: 1
   persistentVolumeClaimRetentionPolicy:
@@ -147,12 +155,12 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      app: home-assistant-postgresql
+      app: home-assistant
   template:
     metadata:
       name: home-assistant-postgresql
       labels:
-        app: home-assistant-postgresql
+        app: home-assistant
     spec:
       affinity:
         podAntiAffinity:
@@ -160,7 +168,7 @@ spec:
             - podAffinityTerm:
                 labelSelector:
                   matchLabels:
-                    app: home-assistant-postgresql
+                    app: home-assistant
                 namespaces:
                   - home-automation
                 topologyKey: kubernetes.io/hostname
@@ -236,7 +244,7 @@ spec:
       spec:
         selector:
           matchLabels:
-            app: home-assistant-postgresql
+            app: home-assistant
         accessModes:
           - "ReadWriteOnce"
         storageClassName: freenas-iscsi-manual-csi
@@ -330,11 +338,11 @@ metadata:
   name: home-assistant-postgresql-hl
   namespace: home-automation
   labels:
-    app: home-assistant-postgresql
+    app: home-assistant
     service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
 spec:
   selector:
-    app: home-assistant-postgresql
+    app: home-assistant
   type: ClusterIP
   clusterIP: None
   publishNotReadyAddresses: true
