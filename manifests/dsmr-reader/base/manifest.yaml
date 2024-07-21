@@ -4,7 +4,7 @@ apiVersion: v1
 metadata:
   name: pv-iscsi-dsmr-reader-db
   labels:
-    app: dsmr-reader
+    app: dsmr-reader-database
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
 spec:
@@ -103,7 +103,7 @@ metadata:
   name: dsmr-reader-postgresql-env
   namespace: home-automation
   labels:
-    app: dsmr-reader
+    app: dsmr-reader-database
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
 data:
@@ -136,7 +136,7 @@ metadata:
   name: dsmr-reader-postgresql
   namespace: home-automation
   labels:
-    app: dsmr-reader
+    app: dsmr-reader-database
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
 spec:
@@ -149,12 +149,12 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      app: dsmr-reader
+      app: dsmr-reader-database
   template:
     metadata:
       name: dsmr-reader-postgresql
       labels:
-        app: dsmr-reader
+        app: dsmr-reader-database
     spec:
       serviceAccountName: default
       securityContext:
@@ -319,13 +319,13 @@ metadata:
   name: dsmr-reader-postgresql-hl
   namespace: home-automation
   labels:
-    app: dsmr-reader
+    app: dsmr-reader-database
     service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
 spec:
   selector:
-    app: dsmr-reader
+    app: dsmr-reader-database
   type: ClusterIP
   clusterIP: None
   publishNotReadyAddresses: true
