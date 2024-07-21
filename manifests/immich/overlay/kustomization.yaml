@@ -9,9 +9,9 @@ namespace: tools
 
 images:
   - name: ghcr.io/immich-app/immich-server
-    newTag: v1.109.1
+    newTag: v1.109.2
   - name: ghcr.io/immich-app/immich-machine-learning
-    newTag: v1.109.1
+    newTag: v1.109.2
 
 commonLabels:
   storage: truenas
