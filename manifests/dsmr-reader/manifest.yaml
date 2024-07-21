@@ -325,10 +325,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "-1"
 spec:
   selector:
-    app.kubernetes.io/name: dsmr-reader
-    app.kubernetes.io/component: database
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: dsmr-reader
+    app: dsmr-reader
   type: ClusterIP
   clusterIP: None
   publishNotReadyAddresses: true
