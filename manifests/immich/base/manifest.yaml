@@ -186,11 +186,11 @@ spec:
     type: Recreate
   selector:
     matchLabels:
-      app: immich-server
+      app: immich
   template:
     metadata:
       labels:
-        app: immich-server
+        app: immich
     spec:
       securityContext:
         fsGroup: 2000
@@ -271,11 +271,11 @@ spec:
     type: Recreate
   selector:
     matchLabels:
-      app: immich-machine-learning
+      app: immich
   template:
     metadata:
       labels:
-        app: immich-machine-learning
+        app: immich
     spec:
       securityContext:
         fsGroup: 2000
