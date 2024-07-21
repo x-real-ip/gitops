@@ -4,7 +4,7 @@ apiVersion: v1
 metadata:
   name: pv-iscsi-immich-db
   labels:
-    app: immich-postgresql
+    app: immich
 spec:
   storageClassName: "freenas-iscsi-manual-csi"
   capacity:
@@ -91,6 +91,8 @@ apiVersion: bitnami.com/v1alpha1
 metadata:
   name: immich-secret-env
   namespace: tools
+  labels:
+    app: immich
 spec:
   encryptedData:
     DB_PASSWORD: AgDW7KPYuVmt1IHruDB5e9JRNLVN/eTZewqSvN1H0X1XfmGMZr5dB1X1f3uxX4z/WqteGv8hii41k2iXGJHOwEnWDFD1GIBBFtvH/JMNoPwunZ+5qZkDRgnkd/8bZGwQpbf4wYulF6WxvmcnsBbzJ2xXQAPDrmfN5VM2Im+ETaIqvfoBgblJmTMto1xp269CoM+X5t34eJivF/CqXLzUCUKBOyv5ZOFRH+pFUh5Wsrizdd5AjuWOjmxGBY+85OZU45+gLmTYUi+ptslaurCE2iJu2QAMLOZH9FYf9KeE+eYynFiPUegEag3mbANCluqbsvJ2duedSKjGXfg4eGyrvCskX2/H7mUgznqzHf9a0UQJoY9XjB2K8JjkGM/69lYiBf+U5tFpMxlJuOTNPXhNqvX0DFk9GrdTxzSjedfpkrI++7bUeRxRLtG9k4IsIADxIc682yiZPH2WfyCmIbOEkxCXPKNICLfGAr0K17BQM+xJVbEkFD+GD45vAq+3d5F3tTRBJZi914ZF9jZJCZqILZrGHw7VZtvgsXqq56azVUGg0yJL9hPv4gIN9BAcuveZOnN7GGO3Z7/q52WQ153eGm/TWf1qNUAr3TZhV99fFlvPPv7fhcASAKhGG+gWyu4Z40xXVdNSN4dmBt26f53rIw1B3/9pplGuaSD6wpy7ZjehCvpG9idLzFgjvJGrgR2ZyL861wxF3cKFrHxJ
@@ -98,7 +100,7 @@ spec:
     type: Opaque
     metadata:
       labels:
-        app: immich-postgresql
+        app: immich
       name: immich-secret-env
       namespace: tools
 
@@ -129,15 +131,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: immich-database
+  labels:
+    app: immich
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: immich-database
+      app: immich
   template:
     metadata:
       labels:
-        app: immich-database
+        app: immich
     spec:
       containers:
         - name: immich-postgres
@@ -176,7 +180,7 @@ apiVersion: apps/v1
 metadata:
   name: immich-server
   labels:
-    app: immich-server
+    app: immich
 spec:
   strategy:
     type: Recreate
@@ -261,7 +265,7 @@ apiVersion: apps/v1
 metadata:
   name: immich-machine-learning
   labels:
-    app: immich-machine-learning
+    app: immich
 spec:
   strategy:
     type: Recreate
@@ -327,11 +331,11 @@ apiVersion: v1
 metadata:
   name: immich-database
   labels:
-    app: immich-database
+    app: immich
 spec:
   type: ClusterIP
   selector:
-    app: immich-database
+    app: immich
   ports:
     - name: tcp-postgresql
       port: 5432
@@ -343,11 +347,11 @@ apiVersion: v1
 metadata:
   name: immich-machine-learning
   labels:
-    app: immich-machine-learning
+    app: immich
 spec:
   type: ClusterIP
   selector:
-    app: immich-machine-learning
+    app: immich
   ports:
     - port: 3003
       targetPort: 3003
@@ -359,11 +363,11 @@ apiVersion: v1
 metadata:
   name: immich-server
   labels:
-    app: immich-server
+    app: immich
 spec:
   type: ClusterIP
   selector:
-    app: immich-server
+    app: immich
   ports:
     - port: 3001
       targetPort: 3001
