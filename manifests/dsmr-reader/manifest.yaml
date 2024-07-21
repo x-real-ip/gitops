@@ -4,10 +4,7 @@ apiVersion: v1
 metadata:
   name: pv-iscsi-dsmr-reader-db
   labels:
-    app.kubernetes.io/name: dsmr-reader
-    app.kubernetes.io/component: database
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: dsmr-reader
+    app: dsmr-reader
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
 spec:
@@ -35,10 +32,7 @@ apiVersion: v1
 metadata:
   name: pv-nfs-dsmr-reader-backups
   labels:
-    app.kubernetes.io/name: dsmr-reader
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: dsmr-reader
+    app: dsmr-reader
 spec:
   storageClassName: "freenas-nfs-manual-csi"
   capacity:
@@ -68,10 +62,7 @@ metadata:
   name: pvc-nfs-dsmr-reader-backups
   namespace: home-automation
   labels:
-    app.kubernetes.io/name: dsmr-reader
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: dsmr-reader
+    app: dsmr-reader
 spec:
   storageClassName: freenas-nfs-manual-csi
   accessModes:
@@ -88,10 +79,7 @@ metadata:
   name: dsmr-reader
   namespace: home-automation
   labels:
-    app.kubernetes.io/name: dsmr-reader
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: dsmr-reader
+    app: dsmr-reader
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
 spec:
@@ -106,10 +94,7 @@ spec:
       name: dsmr-reader
       namespace: home-automation
       labels:
-        app.kubernetes.io/name: dsmr-reader
-        app.kubernetes.io/component: server
-        app.kubernetes.io/instance: production
-        app.kubernetes.io/part-of: dsmr-reader
+        app: dsmr-reader
 
 ---
 kind: ConfigMap
@@ -118,10 +103,7 @@ metadata:
   name: dsmr-reader-postgresql-env
   namespace: home-automation
   labels:
-    app.kubernetes.io/name: dsmr-reader
-    app.kubernetes.io/component: database
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: dsmr-reader
+    app: dsmr-reader
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
 data:
@@ -135,10 +117,7 @@ metadata:
   name: dsmr-reader-env
   namespace: home-automation
   labels:
-    app.kubernetes.io/name: dsmr-reader
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: dsmr-reader
+    app: dsmr-reader
 data:
   DJANGO_DATABASE_USER: "dsmrreader"
   DJANGO_DATABASE_NAME: "dsmrreader"
@@ -157,10 +136,7 @@ metadata:
   name: dsmr-reader-postgresql
   namespace: home-automation
   labels:
-    app.kubernetes.io/name: dsmr-reader
-    app.kubernetes.io/component: database
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: dsmr-reader
+    app: dsmr-reader
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
 spec:
@@ -173,18 +149,12 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      app.kubernetes.io/name: dsmr-reader
-      app.kubernetes.io/component: database
-      app.kubernetes.io/instance: production
-      app.kubernetes.io/part-of: dsmr-reader
+      app: dsmr-reader
   template:
     metadata:
       name: dsmr-reader-postgresql
       labels:
-        app.kubernetes.io/name: dsmr-reader
-        app.kubernetes.io/component: database
-        app.kubernetes.io/instance: production
-        app.kubernetes.io/part-of: dsmr-reader
+        app: dsmr-reader
     spec:
       serviceAccountName: default
       securityContext:
@@ -264,27 +234,18 @@ metadata:
   name: dsmr-reader
   namespace: home-automation
   labels:
-    app.kubernetes.io/name: dsmr-reader
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: dsmr-reader
+    app: dsmr-reader
 spec:
   replicas: 1
   strategy:
     type: Recreate
   selector:
     matchLabels:
-      app.kubernetes.io/name: dsmr-reader
-      app.kubernetes.io/component: server
-      app.kubernetes.io/instance: production
-      app.kubernetes.io/part-of: dsmr-reader
+      app: dsmr-reader
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: dsmr-reader
-        app.kubernetes.io/component: server
-        app.kubernetes.io/instance: production
-        app.kubernetes.io/part-of: dsmr-reader
+        app: dsmr-reader
     spec:
       securityContext:
         fsGroup: 1000
@@ -358,10 +319,7 @@ metadata:
   name: dsmr-reader-postgresql-hl
   namespace: home-automation
   labels:
-    app.kubernetes.io/name: dsmr-reader
-    app.kubernetes.io/component: database
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: dsmr-reader
+    app: dsmr-reader
     service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
@@ -386,16 +344,10 @@ metadata:
   name: dsmr-reader
   namespace: home-automation
   labels:
-    app.kubernetes.io/name: dsmr-reader
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: dsmr-reader
+    app: dsmr-reader
 spec:
   selector:
-    app.kubernetes.io/name: dsmr-reader
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: dsmr-reader
+    app: dsmr-reader
   type: ClusterIP
   ports:
     - name: http
@@ -410,10 +362,7 @@ metadata:
   name: dsmr-reader
   namespace: home-automation
   labels:
-    app.kubernetes.io/name: dsmr-reader
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: dsmr-reader
+    app: dsmr-reader
 spec:
   ingressClassName: nginx-private
   rules:
