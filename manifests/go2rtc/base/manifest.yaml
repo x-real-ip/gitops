@@ -4,6 +4,8 @@ kind: SealedSecret
 metadata:
   name: go2rtc-config
   namespace: home-automation
+  labels:
+    app: go2rtc
 spec:
   encryptedData:
     ipcam-01-password: AgDQ0XmDaUf7tt9IPYcy9l0P3wQP4blXQzfxcqXmQX2+ZVwZ3HijT5RB/So3mvKlL444DdoTkAx/YD0s1lkodwcXZl2sOeXfUTYA0fzKWALonlXv0jJ3XMw6YfUOnshDwdG80txBmObyaOPbZLlZOL6AbtgKCFCgxZD/IJm5rmVW5EOlRxnfR112NkU+KbzBQw8Bmm4cRxNP5htZZolqFuYom9rjvfSnny+slYg4H7Q9wKELA6vIlQZB7ypkjBj0G5JsJ8pJagYfTtn/2Vb+lbw14ZU4hXdW4FnCRiNLicmG/fwzjlq+9aal6n83XZubCje/WUdpbV4iyu8WGVrdEAxNifVEZX9szW38qpHvHxhPH1HoJB68x5ZpKdA9LgDtKEUxm/HCvN44qcC4A8XeEFBKE2iiHs9paqSji+3NoldQFhdr+Ds/6/24vUGzq1lKm+FV8zePa9yh5LSDNTmGclcgHZXFqIICjEM5XYbUVLPGVCQSW2a2uHyakZTCbCUhzWoL02yCaZD8euResK2+gvp8EpphBO6AMufZfj9egq3ACGOkU72B8zVkUzbyIqfRN4kzMeqeKGS9botZ9bjIrMRiC68TnD4Z2lIcbbk/4CTlKGXPIY8mVxKdTl0UYcpBUoecqPZGIjRKKm/hMNPgil9D3VW/MkS+vvGNcQ0i+YcvE1sUORzgbwHZX05bWVzdGJ5gKrxwwstsGQ==
@@ -61,8 +63,13 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: go2rtc
+  labels:
+    app: go2rtc
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: go2rtc
   template:
     spec:
       containers:
@@ -118,6 +125,8 @@ kind: Service
 apiVersion: v1
 metadata:
   name: go2rtc-service
+  labels:
+    app: go2rtc
 spec:
   type: ClusterIP
   ports:
@@ -143,6 +152,8 @@ kind: Ingress
 apiVersion: networking.k8s.io/v1
 metadata:
   name: go2rtc-ingress
+  labels:
+    app: go2rtc
 spec:
   ingressClassName: nginx-private
   rules:
