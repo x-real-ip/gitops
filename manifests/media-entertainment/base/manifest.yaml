@@ -5,10 +5,7 @@ metadata:
   name: plex-claim-token
   namespace: media
   labels:
-    app.kubernetes.io/name: vaultwarden
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: vaultwarden
+    app: plex
 type: Opaque
 stringData:
   token: claim-xxxxxxxxxxxxxxxxxxxxx
@@ -18,6 +15,8 @@ kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: pv-nfs-downloads
+  labels:
+    app: transmission
 spec:
   storageClassName: "freenas-nfs-manual-csi"
   capacity:
@@ -45,6 +44,8 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: pv-nfs-media
+  labels:
+    app: plex
 spec:
   storageClassName: "freenas-nfs-manual-csi"
   capacity:
@@ -73,10 +74,7 @@ apiVersion: v1
 metadata:
   name: pv-nfs-plex-transcodes
   labels:
-    app.kubernetes.io/name: plex
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: media-entertainment
+    app: plex
 spec:
   storageClassName: "freenas-nfs-manual-csi"
   capacity:
@@ -105,10 +103,7 @@ apiVersion: v1
 metadata:
   name: pv-iscsi-plex-config
   labels:
-    app.kubernetes.io/name: plex
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: media-entertainment
+    app: plex
 spec:
   storageClassName: "freenas-iscsi-manual-csi"
   capacity:
@@ -133,6 +128,8 @@ kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: pv-iscsi-prowlarr-config
+  labels:
+    app: prowlarr
 spec:
   storageClassName: "freenas-iscsi-manual-csi"
   capacity:
@@ -157,6 +154,8 @@ kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: pv-iscsi-bazarr-config
+  labels:
+    app: bazarr
 spec:
   storageClassName: "freenas-iscsi-manual-csi"
   capacity:
@@ -181,6 +180,8 @@ kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: pv-iscsi-sonarr-config
+  labels:
+    app: sonarr
 spec:
   storageClassName: "freenas-iscsi-manual-csi"
   capacity:
@@ -205,6 +206,8 @@ kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: pv-iscsi-radarr-config
+  labels:
+    app: radarr
 spec:
   storageClassName: "freenas-iscsi-manual-csi"
   capacity:
@@ -230,10 +233,7 @@ apiVersion: v1
 metadata:
   name: pv-iscsi-overseerr-config
   labels:
-    app.kubernetes.io/name: overseerr
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: media-entertainment
+    app: overseerr
 spec:
   storageClassName: "freenas-iscsi-manual-csi"
   capacity:
@@ -259,6 +259,8 @@ apiVersion: v1
 metadata:
   name: pvc-nfs-downloads
   namespace: media
+  labels:
+    app: transmission
 spec:
   storageClassName: freenas-nfs-manual-csi
   accessModes:
@@ -274,6 +276,8 @@ apiVersion: v1
 metadata:
   name: pvc-nfs-media
   namespace: media
+  labels:
+    app: plex
 spec:
   storageClassName: freenas-nfs-manual-csi
   accessModes:
@@ -290,10 +294,7 @@ metadata:
   name: pvc-nfs-plex-transcodes
   namespace: media
   labels:
-    app.kubernetes.io/name: plex
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: media-entertainment
+    app: plex
 spec:
   storageClassName: freenas-nfs-manual-csi
   accessModes:
@@ -310,10 +311,7 @@ metadata:
   name: pvc-iscsi-plex-config
   namespace: media
   labels:
-    app.kubernetes.io/name: plex
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: media-entertainment
+    app: plex
 spec:
   storageClassName: freenas-iscsi-manual-csi
   accessModes:
@@ -398,10 +396,7 @@ metadata:
   name: pvc-iscsi-overseerr-config
   namespace: media
   labels:
-    app.kubernetes.io/name: overseerr
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: media-entertainment
+    app: overseerr
 spec:
   storageClassName: freenas-iscsi-manual-csi
   accessModes:
@@ -417,19 +412,18 @@ apiVersion: bitnami.com/v1alpha1
 metadata:
   name: transmission-vpn-cred
   namespace: media
+  labels:
+    app: transmission
 spec:
   encryptedData:
     OPENVPN_PASSWORD: AgDhcF2An3Lp/LyJPtSsDOkXl8KT1DOqeWN2qNQGXZeW36se9n54zx54YcpSwvshpWsb2lONsPDnK4hycYWOngmhRRIdeOmEbieOhl1ia/bxlqSrhy73dvQMN+N8nPFLanuEByjrIdb0V4SN+8k1nD9ChfSmtbNVNeYdGXagUXm1Raj23cYICARjO4MzwWF02UjJ+m6ZzgLBRA32bOw7HKKnsecuhsRZ2vtfz1I75NZSe2ZjuCWPTEKYsexofu9V1JieuuQWYB+iuc4W887xj+54Z6DRGzSUNNse/DJciT76mWjU3+bljGL2MEAIWsWc0B2duav05feLFueqxw5W+nwy48epxFhpE//sqFkD/C1nTS5bHiaQPk7O2VjM0RBU9qmiUAVHtmugzvgTki1NFrxKUOZjByN57XQ25tUzvi7sxdhYgKQi96ERmgJY1c6LSZhTYLTL3HSbNzmpuwOsvwUkSpperCGif6G+OgHsVPt+Jq3PbFG04kT1/5pCoFWzQHAT4sXzXh73N80JYvj/Fko33zo3I0eBnS+4nQ20Jwn/jSMxlmvL/NqDd2sDiaHpoPaMEgP19YRb1hiGcpel3nMmngeX9WzWqNJSWDmpYOgKdH+xfnR0wdSRuae5Df2ZXRaiMBRaZPzwABT0Yg6rcLyBhxcxbO2Xkkeiuz2wZLjoZvK0DpHjgZVM23b9WWEy9WuF46HNSZO1qpp2kNmvDmPnUcekgA2xACo=
     OPENVPN_USERNAME: AgApqotmd1kXCWBOrp7VRLvKHnhbFUOwi1+nOFlD+qt8PxrybaATsjy/KFDZx0TSgcSA49zL4BZ5lAto3kXloEU+jZ6e1mChP/J9Sx+ILZyK0DIz7IWL41av0smXORbbMaMGJA37VDx24M4+bHwPqWYM8JPX5Y6JE8lQeMX+nitYso0ZXVBg2/2LL3UO0yHihoRvwGzO+ByEuAwfcX7VfYSMQQZxrBI21YjcctYyuUnapgq1hU5s+eTHtgJiSqh8HrKZL744cyWVXneUkBX5xJ2NZyjDd4F2jC0AdNF8WvEW08SE0K3Ik1canRP+Qvl1kVHgVg/0RIKAAdgq9JS92tgocJKPSuG6IO1USaEEC65qQgpFkOcCZ/ijSMUJ2jtAFAd2lMtbDgZGKOeTDe4CdvsRLooycRDDxafZQASwoWFmv88EHIw3sxMYVUW2wwp74t03Ke+JThgpcA+ZrCYjdVQA7f1j5dffgvXyGNu2yLu1O2U6EcKY0IYsU4Gnsrg6J4O0ThqHpmEo+0iRVZ1GEuHoFthtpJBOxVi1zjfm/rWC77PCiS4/vOQM3qV2P6O1mePO7o2XXy2rxpekjM2RWrajMfhU8SxwSc2/eI74XXTka4e1HF6uQo92dtVSdhq8Ea2KS3tffNehkMCTJHT4SR/fPH68kmjNEWGfLU0WM5Z6ltI0ErCqj6wpGRDxph9UmixGIpNu0wH/MpIhY8EQIENuPD8qW11iTQQ=
   template:
     metadata:
-      labels:
-        app.kubernetes.io/name: transmission-vpn-cred
-        app.kubernetes.io/component: transmission
-        app.kubernetes.io/instance: production
-        app.kubernetes.io/part-of: media-entertainment
       name: transmission-vpn-cred
       namespace: media
+      labels:
+        app: transmission
     type: Opaque
 
 ---
@@ -439,10 +433,7 @@ metadata:
   name: plex-config
   namespace: media
   labels:
-    app.kubernetes.io/name: plex
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: media-entertainment
+    app: plex
 data:
   TZ: "Europe/Amsterdam"
   ADVERTISE_IP: "http://10.0.100.241:32400/"
@@ -482,27 +473,18 @@ metadata:
   name: plex
   namespace: media
   labels:
-    app.kubernetes.io/name: plex
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: media-entertainment
+    app: plex
 spec:
   replicas: 1
   selector:
-    matchLabels:
-      app.kubernetes.io/name: plex
-      app.kubernetes.io/component: server
-      app.kubernetes.io/instance: production
-      app.kubernetes.io/part-of: media-entertainment
+    labels:
+      app: plex
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: plex
-        app.kubernetes.io/component: server
-        app.kubernetes.io/instance: production
-        app.kubernetes.io/part-of: media-entertainment
+        app: plex
       namespace: media
     spec:
       containers:
@@ -967,28 +949,19 @@ metadata:
   name: overseerr
   namespace: media
   labels:
-    app.kubernetes.io/name: overseerr
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: media-entertainment
+    app: overseerr
 spec:
   revisionHistoryLimit: 3
   replicas: 1
   strategy:
     type: Recreate
   selector:
-    matchLabels:
-      app.kubernetes.io/name: overseerr
-      app.kubernetes.io/component: server
-      app.kubernetes.io/instance: production
-      app.kubernetes.io/part-of: media-entertainment
+    labels:
+      app: overseerr
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: overseerr
-        app.kubernetes.io/component: server
-        app.kubernetes.io/instance: production
-        app.kubernetes.io/part-of: media-entertainment
+        app: overseerr
     spec:
       serviceAccountName: default
       automountServiceAccountToken: true
@@ -1064,10 +1037,7 @@ metadata:
   name: plex-service
   namespace: media
   labels:
-    app.kubernetes.io/name: plex
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: media-entertainment
+    app: plex
 spec:
   type: LoadBalancer
   loadBalancerIP: 10.0.100.241
@@ -1114,10 +1084,7 @@ spec:
       protocol: UDP
       targetPort: 32414
   selector:
-    app.kubernetes.io/name: plex
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: media-entertainment
+    app: plex
   sessionAffinity: None
 
 ---
@@ -1199,17 +1166,11 @@ metadata:
   name: overseerr
   namespace: media
   labels:
-    app.kubernetes.io/name: overseerr
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: media-entertainment
+    app: overseerr
 spec:
   type: ClusterIP
   selector:
-    app.kubernetes.io/name: overseerr
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: media-entertainment
+    app: overseerr
   ports:
     - name: http
       protocol: TCP
@@ -1249,10 +1210,7 @@ metadata:
   name: plex-internal-ingress
   namespace: media
   labels:
-    app.kubernetes.io/name: plex
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: media-entertainment
+    app: plex
 spec:
   ingressClassName: nginx-private
   rules:
@@ -1382,10 +1340,7 @@ metadata:
   name: overseerr
   namespace: media
   labels:
-    app.kubernetes.io/name: overseerr
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: media-entertainment
+    app: overseerr
 spec:
   ingressClassName: nginx-private
   rules:

@@ -8,11 +8,8 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/theautomation/gitops"
-    path: manifests/media-entertainment
+    path: manifests/media-entertainment/overlay
     targetRevision: HEAD
-    directory:
-      recurse: true
-      jsonnet: {}
   destination:
     server: "https://kubernetes.default.svc"
     namespace: media
