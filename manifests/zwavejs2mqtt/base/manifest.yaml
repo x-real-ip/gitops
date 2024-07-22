@@ -3,6 +3,8 @@ kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: pv-nfs-zwavejs2mqtt-us-data
+  labels: 
+    app: zwavejs2mqtt-us
 spec:
   storageClassName: "freenas-nfs-manual-csi"
   capacity:
@@ -31,6 +33,8 @@ apiVersion: v1
 metadata:
   name: pvc-nfs-zwavejs2mqtt-us-data
   namespace: home-automation
+  labels: 
+    app: zwavejs2mqtt-us
 spec:
   storageClassName: freenas-nfs-manual-csi
   accessModes:
@@ -46,6 +50,8 @@ kind: SealedSecret
 metadata:
   name: zwavejs2mqtt-us-settings
   namespace: home-automation
+  labels: 
+    app: zwavejs2mqtt-us
 spec:
   encryptedData:
     S0_Legacy: AgBHVO2ZOh21oekAMnQsXBy6LRmCa//gsCanfSLc1prMX2K1qp8nk9VZdbkLXSNpPH+YoqABT2uRiMS0q9E977hf2PmlhiWI60UbSnnJHhf3fPJt193xlq1/pp4iVQvfqNK1rjzcSH9SjJV0mm2lF40Hh+VgYlUlI7YtvRVksdkf99TakUlLXnb/XYKG2rVSMh9Ysb3knoqUPGyc1jOl1AikAmMj6Z74y2hZK9TSZ6FaMaDjRWBpR6oRzTWXHmgFjzuuW/7Xl9TQwH/cOAOYL1cZ44uPjdP0QnS2I+1RtCcHkYctZ1j4/N0UTS2uCYxoD3HrzShfABMYT6KSh0onApbrSG943mq2e1VI0Ce+fnbH9EtKtgfXWtzwqJ0GOJOOUUxEYLoTmLgAR+rP43FTtM6/e+VuBWA4ELpWzmmyOrMt25N5MJNBkuq65TcYVhKRL9xr6BBSCMeokLzAK0ThPy0nGAkudGXpKbtdXr5U4r9md8vWzAST2s4TJHWYJxgpz38QAveYavIjdZQTS+B8ojUGmesKv0tsu19NfgLXuvNIPSiuhOQjcVA1+YjrInkcyLWUKiKDDRh8faIbYqnep3d2VXDkpzn7/UCeHSVVdq67ERIy6TYv1d0A38O6/RC3vQeUnrBP4pZY+xmez/pLNC3IMDu0P3TTjwXjcF97O6Cvm5ilt2rX3z6np69RfaR/eE+YIXBa3qNftHsclWCAhMkhOCMD4x9hyRrC6QdVcTi4wQ==
