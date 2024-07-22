@@ -4,10 +4,7 @@ apiVersion: v1
 metadata:
   name: pv-iscsi-uptime-kuma
   labels:
-    app.kubernetes.io/name: uptime-kuma
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: uptime-kuma
+    app: uptime-kuma
 spec:
   storageClassName: "freenas-iscsi-manual-csi"
   capacity:
@@ -34,10 +31,7 @@ metadata:
   name: uptime-kuma
   namespace: devops
   labels:
-    app.kubernetes.io/name: uptime-kuma
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: uptime-kuma
+    app: uptime-kuma
 spec:
   replicas: 1
   persistentVolumeClaimRetentionPolicy:
@@ -45,17 +39,11 @@ spec:
   serviceName: uptime-kuma
   selector:
     matchLabels:
-      app.kubernetes.io/name: uptime-kuma
-      app.kubernetes.io/component: server
-      app.kubernetes.io/instance: production
-      app.kubernetes.io/part-of: uptime-kuma
+      app: uptime-kuma
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: uptime-kuma
-        app.kubernetes.io/component: server
-        app.kubernetes.io/instance: production
-        app.kubernetes.io/part-of: uptime-kuma
+        app: uptime-kuma
     spec:
       containers:
         - name: uptime-kuma
@@ -77,17 +65,11 @@ spec:
     - metadata:
         name: kuma-data
         labels:
-          app.kubernetes.io/name: uptime-kuma
-          app.kubernetes.io/component: server
-          app.kubernetes.io/instance: production
-          app.kubernetes.io/part-of: uptime-kuma
+          app: uptime-kuma
       spec:
         selector:
           matchLabels:
-            app.kubernetes.io/name: uptime-kuma
-            app.kubernetes.io/component: server
-            app.kubernetes.io/instance: production
-            app.kubernetes.io/part-of: uptime-kuma
+            app: uptime-kuma
         accessModes:
           - "ReadWriteOnce"
         storageClassName: freenas-iscsi-manual-csi
@@ -102,16 +84,10 @@ metadata:
   name: uptime-kuma
   namespace: devops
   labels:
-    app.kubernetes.io/name: uptime-kuma
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: uptime-kuma
+    app: uptime-kuma
 spec:
   selector:
-    app.kubernetes.io/name: uptime-kuma
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: uptime-kuma
+    app: uptime-kuma
   ports:
     - name: uptime-kuma
       protocol: TCP
@@ -125,10 +101,7 @@ metadata:
   name: uptime-kuma
   namespace: devops
   labels:
-    app.kubernetes.io/name: uptime-kuma
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: uptime-kuma
+    app: uptime-kuma
 spec:
   ingressClassName: nginx-private
   rules:
