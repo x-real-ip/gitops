@@ -2,11 +2,11 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - ../base
+- ../base
 
 images:
-  - name: ghcr.io/theautomation/home-assistant
-    newTag: 5b5bc438bc67799b5a67f1fff6381a762eae73a3
+- name: ghcr.io/theautomation/home-assistant
+  newTag: 7c5a86d609d643b082afa7ab0d655f9707e5682f
 
 commonLabels:
   storage: truenas
