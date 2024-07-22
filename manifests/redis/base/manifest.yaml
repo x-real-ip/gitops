@@ -5,8 +5,6 @@ metadata:
   name: pv-iscsi-redis
   labels:
     app: redis
-    instance: prd
-    component: master
 spec:
   storageClassName: "freenas-iscsi-manual-csi"
   capacity:
@@ -34,7 +32,6 @@ metadata:
   namespace: tools
   labels:
     app: redis
-    instance: prd
 data:
   redis.conf: |-
     # User-supplied common configuration:
@@ -64,7 +61,6 @@ metadata:
   namespace: tools
   labels:
     app: redis
-    instance: prd
 data:
   ping_readiness_local.sh: |-
     #!/bin/bash
@@ -169,7 +165,6 @@ metadata:
   namespace: tools
   labels:
     app: redis
-    instance: prd
 data:
   start-master.sh: |
     #!/bin/bash
@@ -245,7 +240,6 @@ metadata:
   namespace: tools
   labels:
     app: redis
-    instance: prd
 
 ---
 kind: StatefulSet
@@ -255,8 +249,6 @@ metadata:
   namespace: tools
   labels:
     app: redis
-    instance: prd
-    component: master
 spec:
   replicas: 1
   persistentVolumeClaimRetentionPolicy:
@@ -264,8 +256,6 @@ spec:
   selector:
     matchLabels:
       app: redis
-      instance: prd
-      component: master
   serviceName: redis-headless
   updateStrategy:
     rollingUpdate: {}
@@ -274,8 +264,6 @@ spec:
     metadata:
       labels:
         app: redis
-        instance: prd
-        component: master
     spec:
       securityContext:
         fsGroup: 2000
@@ -361,13 +349,11 @@ spec:
     - metadata:
         name: redis-data
         labels:
-          app: redis-master
+          app: redis
       spec:
         selector:
           matchLabels:
             app: redis
-            instance: prd
-            component: master
         accessModes:
           - "ReadWriteOnce"
         storageClassName: freenas-iscsi-manual-csi
@@ -383,14 +369,10 @@ metadata:
   namespace: tools
   labels:
     app: redis
-    instance: prd
-    component: master
     service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
 spec:
   selector:
     app: redis
-    instance: prd
-    component: master
   type: ClusterIP
   clusterIP: None
   publishNotReadyAddresses: true

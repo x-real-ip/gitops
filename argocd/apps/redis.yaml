@@ -8,11 +8,8 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/theautomation/gitops"
-    path: manifests/redis
+    path: manifests/redis/overlay
     targetRevision: HEAD
-    directory:
-      recurse: true
-      jsonnet: {}
   destination:
     server: "https://kubernetes.default.svc"
     namespace: tools
