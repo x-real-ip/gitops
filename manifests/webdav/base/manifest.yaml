@@ -4,10 +4,7 @@ apiVersion: v1
 metadata:
   name: pv-nfs-webdav-server-data
   labels:
-    app.kubernetes.io/name: webdav
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: webdav
+    app: webdav
 spec:
   storageClassName: "freenas-nfs-manual-csi"
   capacity:
@@ -37,10 +34,7 @@ metadata:
   name: pvc-nfs-webdav-server-data
   namespace: tools
   labels:
-    app.kubernetes.io/name: webdav
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: webdav
+    app: webdav
 spec:
   storageClassName: freenas-nfs-manual-csi
   accessModes:
@@ -56,6 +50,8 @@ apiVersion: bitnami.com/v1alpha1
 metadata:
   name: webdav-server-secrets
   namespace: tools
+  labels:
+    app: webdav
 spec:
   template:
     type: Opaque
@@ -63,10 +59,7 @@ spec:
       name: webdav-server-secrets
       namespace: tools
       labels:
-        app.kubernetes.io/component: server
-        app.kubernetes.io/instance: production
-        app.kubernetes.io/name: webdav
-        app.kubernetes.io/part-of: webdav
+        app: webdav
   encryptedData:
     PASSWORD: AgALERP2kYvA04fbmjHhBNo6P7Ex8ZGAtHacjHApstdWNkSsRMYcHTMCYI4IIYPzb19Tpf8Mxc83uGgGnlnuRxQ7DnT2JTBm7lBUEPvH63vWgvSxiXLpxXSNawuXWa8a6UKaO7ua2ryiQSxh8icHM8prruZzwYT0KyosTyqEPFA8igz+8rNe8ZtXuDGeTdaeTCuS5lIQ0vcPNSXd9sh3/XdjMzjC/kxPSihGoplfqRu3y+mwjbUZz4IWovSDhqleXXapA7JQASZKmubRlAgrJr05NgGIHVkuOQLdyscfy3kQSxiviysow0ioiv42QACgODVfTqAjf3qVOcdd09iIS6jqghkhWC5nOV9rBrBYMsIf/NwK4D8Mhtl0Iwv8WvzcSSjVXz6tDth8/1ETktdLjLHstFgpiaO1YBaipPVVZiHCgUWHPOkPtBLSP13F6JxAyYa6KajGgg/X+q2EuoaQxSYJ2w9z6f5JqKAXjYwW/QCv4DQ7wQhqf+MQcfsk2FukjBBsGMO+uLSMcEcsOYx0pdJNr1kMkgukaenypKFgSFzxHghchqybyCBX4fr1Qq1rBrPJNM6XFH65cSEjR/WOKjE8KAbsr8TClK/yNrqnUDzdtJ5E9fJs6LnhRMiU6ixhyINw6pzFnb3lF0FcrLuih6AcqOeHG5z/9ltFpKSaadb3DZzAk9xGWOxd3YAG11EmaIoyLIs2i3kGAlttJc0Qm6WHR3R/hHhZ0oQqD/itrsU=
     USERNAME: AgAjQtJf/I/Rgt08NleUUpwFifghpyCGgBnRyaWV6b+IJOcw6cZPFcNm8gnuADzZRnQO8B7Y7WykmwP7On4UcEGYuD7UMHIXxQUza4AD5lzDkDZaxq4EjHM2zjYu1aLO6Hl0qdqPebYFG5e7lwBz7eBnykWTZ5V9AS4Pt5gdqvsD6xzqrVzvzGPniZ4Xw6bo/k0BGv+urGBiq7rrCtavktbmi5kUQt3cbQElZX0VuxjJ88/++375Tw0YF4+5oy1kgtcbsu9Iga6ejkmMzPXQ0vybbIIgalLWRQcxI9pGFbBWIvBkEQqyeN9rmMicUAwOHzZ77aeY1cu092Y30SHj2zoZKp4aZ7e+gSRCQ5f3Ay6ecf4KghdeLJKdblU6e/8u3IiYdAYRew8JnlkkogGcSQhz5drLhvlxmQ/TzD2DZxnURXGBwG5IDLniC4q22vlSl+CRANQSljLbf+KV88TkndHabrD63BSZae/7/VOdqgX848kOFqmBuLwJbrEgXfVo7TKhf40HUiHEEu1ZU/3c43g4cDJ1ppgGoUseFzJDC+Z8DLQzifBgOA5q60zRMxF+Ct7v8LoJ3ouAtPJ7aRjA+rQWVRk5juuP2+TwLn/t4axqUNQyBrV/rRUeOKfxmW27TnbPiR7+678NMgL1fyS62FPdDIhoUn4t5/iOagS7zaSfFeLGg0g8GLFI/X/rk2aGU1b1rDhdJtFtQbpHmuo=
@@ -78,10 +71,7 @@ metadata:
   name: webdav-server-env
   namespace: tools
   labels:
-    app.kubernetes.io/name: webdav
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: webdav
+    app: webdav
 data:
   UDI: "1000"
   GID: "2000"
@@ -94,25 +84,16 @@ metadata:
   name: webdav-server
   namespace: tools
   labels:
-    app.kubernetes.io/name: webdav
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: webdav
+    app: webdav
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: webdav
-      app.kubernetes.io/component: server
-      app.kubernetes.io/instance: production
-      app.kubernetes.io/part-of: webdav
+      app: webdav
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: webdav
-        app.kubernetes.io/component: server
-        app.kubernetes.io/instance: production
-        app.kubernetes.io/part-of: webdav
+        app: webdav
     spec:
       containers:
         - name: webdav-server
@@ -144,16 +125,10 @@ metadata:
   name: webdav-server
   namespace: tools
   labels:
-    app.kubernetes.io/name: webdav
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: webdav
+    app: webdav
 spec:
   selector:
-    app.kubernetes.io/name: webdav
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: webdav
+    app: webdav
   type: ClusterIP
   ports:
     - name: http
@@ -168,10 +143,7 @@ metadata:
   name: webdav-server
   namespace: tools
   labels:
-    app.kubernetes.io/name: webdav
-    app.kubernetes.io/component: server
-    app.kubernetes.io/instance: production
-    app.kubernetes.io/part-of: webdav
+    app: webdav
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: 20480m
 spec:
