@@ -4,6 +4,8 @@ apiVersion: bitnami.com/v1alpha1
 metadata:
   name: settings
   namespace: home-automation
+  labels:
+    app: node-red
 spec:
   encryptedData:
     adminAuth_password: AgDrunVqVva0KwWuS0TH4y4PVsBAf7BCQhmEDH4g/ZtVGEcV8raqMNpOJsc2wJcXQDVlGginpPpcoKssCd9P/od9cJ0Zqc9HKbdBsGz6TG33RxAd0y14SWSKwVDW76ebt3vVzVV01BoVAe6CmFxVwWlNvQakYwsEf65GyMV0MX2NPT+uIkUawzoagKfSRVDl91usgAFXfut0XHU09zqPsvVc/lX/BZGK2vkfBlAOlr6krCkFzFc3SluuaDsNDNm+QNOkBr6oDvGp62xZEwp8zlj679SYo9MD8ePuHv6JSRx3Ij2rc5wtBr/zZs5n52NvrCf+1glZDPut2VvcnmnUx6sQ7P6K8ye5foPb6qpjzWUZsW+VSb0poEhF3b/ys18S2oDKpfcyTOFHqiLOgtB0RIG+Ho9UqV0CANAj6HaihhG1V0RmbRXmWnp+1OpjmMa3wjuKscIM9ctlWHZzoUEyIMoHiCQdJXVHG8Kwx0OIunSz5NNsc2/Dv+Qn4JsF83ejrvNIqRJcEwb/hEJYy3wnDDji4amKod0ifSh3GmgrwKRHMAO8wMilOkuFx61enuAumpqUEbAOnlzAmICNgGdBfPbt4WgfdBfp/7ZHcNWmnhRyQ/b2BPmLdXSc5MbUZIjVMDymjBW/MyED0yedjZs7X591dFc5b+0YQCVcG1eaJqd9rysG/hN5mBQ1Nl4SzcuMNMRo2kOstZ23UEEDJUMoXa75NeJzXv+RInjLZdHHL27dVcIY4e1eA3xvr+u6U+wwlNxxt9bJgCHnXGkxwvc=
@@ -67,6 +69,8 @@ apiVersion: bitnami.com/v1alpha1
 metadata:
   name: spotify-api-credentials
   namespace: home-automation
+  labels:
+    app: node-red
 spec:
   encryptedData:
     SPOTIFY_API_CLIENT_ID: AgDEUeoaWFdyR760gPnYU5zFE2T0SGPwu0VRb/EHyFs+XlJvgvmeaq2BEhrlF04310NukPsvtaYg0cCcYRF3AFsWkMuIcXZ5XJs3Lj3C/xOuiEa5DhKzedRom/umMcJDJxokY9Zs+Clk0/A3Yy9f3FHqV5pQUxwFoENAzfphv380aZMxlzp1EB+IzrC5qdEa0LjhRNMdzxXhMmHVaFD0UcUijbIlCyMV22SS3t/o7HX/pWdXI9HkLhi1L/3v3ieW2dtjCylW6/6DnNy8yixqiwCjvXqKFZscCPKGQZy7YSuuSpA3SzUM7yoCqiDq1m8VsydyWQZI98oUEEExi7C7ILHrwXpwvUhoOEmeuWCX+84a3PaVxmOX4k37lYw0bvUUmmi6Xi+p4pz0K/ebG/+wYOlfyyPbPi6i5fP/4V3VmBshzXEwqSAPV9m/beVd2qMNA44OA1eSjzPWw2gkJwpJhoAwfXYyy/nktxUyaLepfaZ4MHI2uDvr8zAEwvZ35zsNRNm5xVoOCWyEN/Ck0M8nOct8O0XWnKESidqmGx8BDo64Jb2/7NX8+MZduBR9IBkbLyskwKhUwrnX6roWhT7Mi9SRcw21XMCIWsDlTPobG1GTQOhllZC5fS6SzUtyX6ajPU/SZDBzrvt/u1A0v071SOtmMOet59RCyoW2CVDMqonpVlCAppLVEE+sl2jDODxU6wc8GV/IK+ct/GVwKI/TZ0OqiNVf5ifVuzbsMZAdmj65Mw==
@@ -74,10 +78,7 @@ spec:
   template:
     metadata:
       labels:
-        app.kubernetes.io/component: server
-        app.kubernetes.io/instance: production
-        app.kubernetes.io/name: node-red
-        app.kubernetes.io/part-of: node-red
+        app: node-red
       name: spotify-api-credentials
       namespace: home-automation
     type: Opaque
