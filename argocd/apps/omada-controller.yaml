@@ -8,14 +8,11 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/theautomation/gitops"
-    path: manifests/omada-controller
+    path: manifests/omada-controller/overlay
     targetRevision: HEAD
-    directory:
-      recurse: true
-      jsonnet: {}
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: home-automation
+    namespace: tools
   syncPolicy:
     automated:
       prune: true
