@@ -6,4 +6,4 @@ resources:
 
 images:
 - name: ghcr.io/theautomation/esphome
-  newTag: 03b05d022d0434967e3a24a104995c7e37a6ee71
+  newTag: 97dcb1fac79b48a8c8729e011b65cbf29523a8d5
