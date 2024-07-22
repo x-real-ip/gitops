@@ -485,7 +485,6 @@ spec:
     metadata:
       labels:
         app: plex
-      namespace: media
     spec:
       containers:
         - name: plex
@@ -956,7 +955,7 @@ spec:
   strategy:
     type: Recreate
   selector:
-    labels:
+    matchLabels:
       app: overseerr
   template:
     metadata:
@@ -990,14 +989,14 @@ spec:
           readinessProbe:
             tcpSocket:
               port: 5055
-            initialDelaySeconds: 0
+            initialDelaySeconds: 5
             failureThreshold: 3
             timeoutSeconds: 1
             periodSeconds: 10
           startupProbe:
             tcpSocket:
               port: 5055
-            initialDelaySeconds: 0
+            initialDelaySeconds: 5
             failureThreshold: 30
             timeoutSeconds: 1
             periodSeconds: 5
@@ -1005,7 +1004,6 @@ spec:
             - mountPath: /app/config
               name: overseerr-config
           resources: {}
-      restartPolicy: Always
       terminationGracePeriodSeconds: 30
       volumes:
         - name: overseerr-config
