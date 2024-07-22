@@ -29,6 +29,8 @@ kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: pv-nfs-paperless-consume
+  labels:
+    app: paperless
 spec:
   storageClassName: "freenas-nfs-manual-csi"
   capacity:
@@ -56,6 +58,8 @@ kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: pv-nfs-paperless-data
+  labels:
+    app: paperless
 spec:
   storageClassName: "freenas-nfs-manual-csi"
   capacity:
@@ -83,6 +87,8 @@ kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: pv-nfs-paperless-export
+  labels:
+    app: paperless
 spec:
   storageClassName: "freenas-nfs-manual-csi"
   capacity:
@@ -110,6 +116,8 @@ kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: pv-nfs-paperless-media
+  labels:
+    app: paperless
 spec:
   storageClassName: "freenas-nfs-manual-csi"
   capacity:
@@ -138,6 +146,8 @@ apiVersion: v1
 metadata:
   name: pvc-nfs-paperless-consume
   namespace: tools
+  labels:
+    app: paperless
 spec:
   storageClassName: freenas-nfs-manual-csi
   accessModes:
@@ -153,6 +163,8 @@ apiVersion: v1
 metadata:
   name: pvc-nfs-paperless-data
   namespace: tools
+  labels:
+    app: paperless
 spec:
   storageClassName: freenas-nfs-manual-csi
   accessModes:
@@ -168,6 +180,8 @@ apiVersion: v1
 metadata:
   name: pvc-nfs-paperless-export
   namespace: tools
+  labels:
+    app: paperless
 spec:
   storageClassName: freenas-nfs-manual-csi
   accessModes:
@@ -183,6 +197,8 @@ apiVersion: v1
 metadata:
   name: pvc-nfs-paperless-media
   namespace: tools
+  labels:
+    app: paperless
 spec:
   storageClassName: freenas-nfs-manual-csi
   accessModes:
@@ -198,13 +214,15 @@ apiVersion: bitnami.com/v1alpha1
 metadata:
   name: paperless-postgresql
   namespace: tools
+  labels:
+    app: paperless-db
 spec:
   encryptedData:
     postgres-password: AgCaznYATyTFFUCbfEB1PqW9zh6Xk3CHyzx7kFqaHu+/3LLbjXTzTWdNxkeo2VMMxlhEcVrwH8NX8NJVp5PtRPWsvf3Jd53Dix1QZ72J0hT6bj8evQnmEvz2U4yR4XZV7qhjQU+By7UcsuE5Sjd/m5GWoULLARPi5fswnZOCN5rY2wxpjnf2UdGYOjBucU1FwZEcG0VLdo6Mg0QNZg2D//5ULyw5vfwdwBy9BPmg2Qiie44VDBRnC9LK7UTbJ/jmZTB9lzC3j6yakWxzXVvCZzYomd6fBxGedkzF+4unLJic5WH2WWSMp2znwXID4V5kK4cTb+xVpN+2woat08FaW3oGDGixwnWBY0Wv6AWWluaVMzscQvdw1IJa+VOzkr5UJ9uqZCLQTA9e9Mib9sxR0zcbmu1QxGn27kQgSPLl9vGXBBu6kl53+X7MpH46GW5Bx3nhqUln4Kxm3ydvwaf1eJfANPev1bJ6YdE47T4rEa8dePZegCOtlxuSoOTTc69hguuMKyuDj3+un27VblULjMmuZu7qFxalUSc1pZOfxjc68Et5OvuzC5YUFuvtvsF6CTYGI12dXqg+rRqBI9ACiVpR6Xm1w5Vy+nbRzCvksoCryiqtbyuTVmzJ7IkO7t6MOBJ5E6YUItDQibe5l0LWybodfPhj+UFm6oPSx4C2cJ2rwwb6S8yB+8bOGB4U9iMvku4ZUyCy+n6P/yQdoVfOWg==
   template:
     metadata:
       labels:
-        app: paperless-postgresql
+        app: paperless-db
       name: paperless-postgresql
       namespace: tools
     type: Opaque
@@ -215,6 +233,8 @@ apiVersion: bitnami.com/v1alpha1
 metadata:
   name: paperless-admin-password
   namespace: tools
+  labels:
+    app: paperless
 spec:
   encryptedData:
     admin-password: AgA4ybCtOvoNFSR9uMfjJY0UwGQcT+ZQtqpcypdjYbkJxBXsjWQwG4KXRhBJ3lpYrWPy3zNkiiYCmIu/W5VqRT4edcgv2vwxT8Pwy2s4Vsn2ZHvgqKY8Nb+OPBIJylwsI+GVNH8AwqpjvT6z0yQNflIVZVzHcSMUwzhRKVObYSAIY7+lMjdIyY0slZJurQyVJuoTucv/QQ/yqSv4RWFUkXsw7XrWLHCEyIsJSExK2CE4C+rEK5TDBjxKesT05Ium5GdEaqIHeChZfED70MfDJnMemtdTPkKASa+7T0uSqyiAkV8J08BfUijc5b0hsgi87ZB451koRng2HrN3y1UGTJF+vGXx7hop7id2hKi4zxjmLkP+Uu9sved71UFEuHcByNCiVLG6uFPq4QQphBatVl2KxQ1wAzY2TNz/PHDDImD0e5xiEvYrdZMvymOgNs7sw1teWy1kJZd8Pnkd2a4jTzaHZ0CS3gC5txlRC1lpgWiO0WLp8VGVPxTuxrM5WJbMEJ2cgZ7e7E3lzOp2Z12ywOJ08alKceLFCmmYD83PsQ4oPFNQrl7R09IEzoX9F99ZkLgNcRERTOW7E5AlGbjEnw6tg33JAYwFjjA31ZYdRqH3TFIdwK4BjC5U/OK8AL/A7FJN2asyTO/S3X/1u/odFPlx9H6ADUbs2Qd+X40zfxsn1Hz3xx4s7ISI0QIJXhZW5KjJCHkwj5tvsv8P3xw4eQ==
@@ -233,7 +253,7 @@ metadata:
   name: paperless-postgresql
   namespace: tools
   labels:
-    app: paperless-postgresql
+    app: paperless-db
 spec:
   replicas: 1
   persistentVolumeClaimRetentionPolicy:
@@ -244,12 +264,12 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      app: paperless-postgresql
+      app: paperless-db
   template:
     metadata:
       name: paperless-postgresql
       labels:
-        app: paperless-postgresql
+        app: paperless-db
     spec:
       serviceAccountName: default
       affinity:
@@ -258,7 +278,7 @@ spec:
             - podAffinityTerm:
                 labelSelector:
                   matchLabels:
-                    app: paperless-postgresql
+                    app: paperless-db
                 namespaces:
                   - tools
                 topologyKey: kubernetes.io/hostname
@@ -496,11 +516,11 @@ metadata:
   name: paperless-postgresql-hl
   namespace: tools
   labels:
-    app: paperless-postgresql
+    app: paperless-db
     service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
 spec:
   selector:
-    app: paperless-postgresql
+    app: paperless-db
   type: ClusterIP
   clusterIP: None
   publishNotReadyAddresses: true
