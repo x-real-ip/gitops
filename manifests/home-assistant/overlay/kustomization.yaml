@@ -6,7 +6,7 @@ resources:
 
 images:
 - name: ghcr.io/theautomation/home-assistant
-  newTag: 3255ca952f3eb4cdc5ac3176a73d829f670e5f88
+  newTag: e6d4c97516d876e66930c7943b86d253adcc37fe
 
 commonLabels:
   storage: truenas
