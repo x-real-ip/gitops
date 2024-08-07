@@ -6,7 +6,7 @@ resources:
 
 images:
 - name: ghcr.io/theautomation/protonmail-bridge
-  newTag: 508fc65d67a4889310e672a461290d2514b4fcd5
+  newTag: 4934758a71647ad07cb8e5dff487d9f170703c25
 
 commonLabels:
   storage: truenas
