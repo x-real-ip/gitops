@@ -157,7 +157,7 @@ spec:
     spec:
       containers:
         - name: frigate
-          image: "ghcr.io/blakeblackshear/frigate:latest"
+          image: "ghcr.io/blakeblackshear/frigate:stable"
           imagePullPolicy: Always
           ports:
             - name: http

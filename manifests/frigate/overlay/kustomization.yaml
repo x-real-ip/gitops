@@ -11,4 +11,4 @@ commonLabels:
 
 images:
   - name: "ghcr.io/blakeblackshear/frigate"
-    newTag: "latest"
+    newTag: "stable"
