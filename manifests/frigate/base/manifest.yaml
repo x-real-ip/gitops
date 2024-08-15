@@ -1,0 +1,275 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-iscsi-frigate-config
+  labels:
+    app: frigate
+spec:
+  storageClassName: "freenas-iscsi-manual-csi"
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: xfs
+    volumeHandle: pv-iscsi-frigate-config
+    volumeAttributes:
+      portal: truenas-master.lan.theautomation.nl:3260
+      iqn: iqn.2005-10.org.freenas.ctl:frigate-config
+      lun: "0"
+      node_attach_driver: iscsi
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-nfs-frigate-media
+  labels:
+    app: frigate
+spec:
+  storageClassName: "freenas-nfs-manual-csi"
+  capacity:
+    storage: 200Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=4
+    - nolock
+    - noatime
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: nfs
+    volumeHandle: pv-nfs-frigate-media
+    volumeAttributes:
+      server: truenas-master.lan.theautomation.nl
+      share: /mnt/hdd/containers/k8s/frigate-media
+      node_attach_driver: nfs
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-iscsi-frigate-config
+  labels:
+    app: frigate
+spec:
+  storageClassName: freenas-iscsi-manual-csi
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  volumeName: pv-iscsi-frigate-config
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-nfs-frigate-media
+  namespace: home-automation
+  labels:
+    app: frigate
+spec:
+  storageClassName: freenas-nfs-manual-csi
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 200Gi
+  volumeName: pv-nfs-frigate-media
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frigate
+  labels:
+    app: frigate
+data:
+  config.yml: |
+    mqtt:
+      # Required: host name
+      host: mqtt.server.com
+      # Optional: port (default: shown below)
+      port: 1883
+      # Optional: topic prefix (default: shown below)
+      # WARNING: must be unique if you are running multiple instances
+      topic_prefix: frigate
+      # Optional: client id (default: shown below)
+      # WARNING: must be unique if you are running multiple instances
+      client_id: frigate
+      # Optional: user
+      user: mqtt_user
+      # Optional: password
+      # NOTE: Environment variables that begin with 'FRIGATE_' may be referenced in {}.
+      #       eg. password: '{FRIGATE_MQTT_PASSWORD}'
+      password: password
+      # Optional: interval in seconds for publishing stats (default: shown below)
+      stats_interval: 60
+
+    detectors:
+      # coral:
+      #   type: edgetpu
+      #   device: usb
+      cpu1:
+        type: cpu
+
+    # cameras:
+    #   # Name of your camera
+    #   front_door:
+    #     ffmpeg:
+    #       inputs:
+    #         - path: rtsp://{FRIGATE_RSTP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@10.0.10.10:554/cam/realmonitor?channel=1&subtype=2
+    #           roles:
+    #             - detect
+    #             - rtmp
+    #     width: 1280
+    #     height: 720
+    #     fps: 5
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frigate
+  labels:
+    app: frigate
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: frigate
+  template:
+    metadata:
+      labels:
+        app: frigate
+    spec:
+      containers:
+        - name: frigate
+          image: "ghcr.io/blakeblackshear/frigate:latest"
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 5000
+              protocol: TCP
+            - name: rtsp
+              containerPort: 8554
+              protocol: TCP
+            - name: webrtc-tcp
+              containerPort: 8555
+              protocol: TCP
+            - name: webrtc-udp
+              containerPort: 8555
+              protocol: UDP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 30
+            failureThreshold: 5
+            timeoutSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 30
+            failureThreshold: 5
+            timeoutSeconds: 10
+          env:
+            - name: TZ
+              value: "Europe/Amsterdam"
+          volumeMounts:
+            - name: configmap
+              mountPath: /config/config.yml
+              subPath: config.yml
+            - name: config
+              mountPath: /config
+            - name: media
+              mountPath: /media
+            - name: dshm
+              mountPath: /dev/shm
+            - name: tmp
+              mountPath: /tmp
+          resources: {}
+      volumes:
+        - name: configmap
+          configMap:
+            name: frigate
+        - name: config
+          persistentVolumeClaim:
+            claimName: pvc-iscsi-frigate-config
+        - name: media
+          persistentVolumeClaim:
+            claimName: pvc-nfs-frigate-media
+        - name: dshm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 1Gi
+        - name: tmp
+          emptyDir:
+            medium: Memory
+            sizeLimit: 1Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frigate
+  labels:
+    app: frigate
+spec:
+  selector:
+    app: frigate
+  type: ClusterIP
+  ipFamilyPolicy: SingleStack
+  ports:
+    - name: http
+      port: 5000
+      protocol: TCP
+      targetPort: http
+    - name: rtsp
+      port: 8554
+      protocol: TCP
+      targetPort: rtsp
+    - name: webrtc-tcp
+      protocol: TCP
+      port: 8555
+      targetPort: webrtc-tcp
+    - name: webrtc-udp
+      protocol: UDP
+      port: 8555
+      targetPort: webrtc-udp
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: frigate
+  labels:
+    app: frigate
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: frigate.lan.theautomation.nl
+      http:
+        paths:
+          - path: /
+            pathType: "ImplementationSpecific"
+            backend:
+              service:
+                name: frigate
+                port:
+                  name: http
