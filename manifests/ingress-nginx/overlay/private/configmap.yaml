@@ -3,8 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: tcp-services
-data:
-  "8554": "tools/mediamtx-service-tcp:8554"
+data: {}
 
 ---
 apiVersion: v1
