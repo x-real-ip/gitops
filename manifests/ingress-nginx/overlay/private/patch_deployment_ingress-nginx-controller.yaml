@@ -20,5 +20,5 @@ spec:
             - --validating-webhook-key=/usr/local/certificates/key
             - --enable-metrics=false
             - --ingress-class=nginx-private
-            - --tcp-services-configmap=$(POD_NAMESPACE)/tcp-services-private
+            # - --tcp-services-configmap=$(POD_NAMESPACE)/tcp-services-private
             - --udp-services-configmap=$(POD_NAMESPACE)/udp-services-private
