@@ -1,9 +1,9 @@
-# ---
-# apiVersion: v1
-# kind: ConfigMap
-# metadata:
-#   name: tcp-services
-# data: {}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tcp-services
+data:
 
 ---
 apiVersion: v1
