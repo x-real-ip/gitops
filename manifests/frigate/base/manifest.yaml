@@ -49,7 +49,7 @@ spec:
     volumeHandle: pv-nfs-frigate-media
     volumeAttributes:
       server: truenas-master.lan.theautomation.nl
-      share: /mnt/hdd/containers/k8s/frigate-media
+      share: /mnt/ssd/containers/k8s/frigate-media
       node_attach_driver: nfs
       provisioner_driver: node-manual
 
@@ -95,45 +95,77 @@ metadata:
     app: frigate
 data:
   config.yml: |
+    tls:
+      enabled: false
+
+    auth:
+      enabled: True
+      reset_admin_password: False
+
     mqtt:
-      # Required: host name
-      host: mqtt.server.com
-      # Optional: port (default: shown below)
+      host: mosquitto.home-automation.svc.cluster.local
       port: 1883
-      # Optional: topic prefix (default: shown below)
-      # WARNING: must be unique if you are running multiple instances
       topic_prefix: frigate
-      # Optional: client id (default: shown below)
-      # WARNING: must be unique if you are running multiple instances
       client_id: frigate
-      # Optional: user
-      user: mqtt_user
-      # Optional: password
-      # NOTE: Environment variables that begin with 'FRIGATE_' may be referenced in {}.
-      #       eg. password: '{FRIGATE_MQTT_PASSWORD}'
-      password: password
-      # Optional: interval in seconds for publishing stats (default: shown below)
       stats_interval: 60
 
-    detectors:
-      # coral:
-      #   type: edgetpu
-      #   device: usb
-      cpu1:
-        type: cpu
+    go2rtc:
+      streams:
+        ipcam-01: rtsp://admin:L21AC49D@ipcam-01.lan.theautomation.nl:554/cam/realmonitor?channel=1&subtype=0
+        ipcam-02: rtsp://a2yON4rLyqRw:Y4wK8Nf8AXBJ@ipcam-02.lan.theautomation.nl/live0
 
-    # cameras:
-    #   # Name of your camera
-    #   front_door:
-    #     ffmpeg:
-    #       inputs:
-    #         - path: rtsp://{FRIGATE_RSTP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@10.0.10.10:554/cam/realmonitor?channel=1&subtype=2
-    #           roles:
-    #             - detect
-    #             - rtmp
-    #     width: 1280
-    #     height: 720
-    #     fps: 5
+    cameras:
+      backyard:
+        ffmpeg:
+          inputs:
+            - path: rtsp://127.0.0.1:8554/ipcam-01
+              input_args: preset-rtsp-restream
+              roles:
+                - detect
+                - record
+        objects:
+          track:
+            - person
+            - cat
+            - dog
+        detect:
+          width: 1280
+          height: 720
+          fps: 5
+        record:
+          enabled: True
+          retain:
+            days: 3
+            mode: all
+          events:
+            retain:
+              default: 14
+              mode: motion
+
+      baby:
+        ffmpeg:
+          inputs:
+            - path: rtsp://127.0.0.1:8554/ipcam-02
+              input_args: preset-rtsp-restream
+              roles:
+                - detect
+                - record
+        objects:
+          track:
+            - person
+        detect:
+          width: 1280
+          height: 720
+          fps: 5
+        record:
+          enabled: True
+          retain:
+            days: 3
+            mode: all
+          events:
+            retain:
+              default: 14
+              mode: motion
 
 ---
 apiVersion: apps/v1
@@ -159,8 +191,13 @@ spec:
         - name: frigate
           image: "ghcr.io/blakeblackshear/frigate:stable"
           imagePullPolicy: Always
+          securityContext:
+            privileged: true
           ports:
             - name: http
+              containerPort: 8971
+              protocol: TCP
+            - name: http-services
               containerPort: 5000
               protocol: TCP
             - name: rtsp
@@ -175,7 +212,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /
-              port: http
+              port: http-services
               scheme: HTTP
             initialDelaySeconds: 30
             failureThreshold: 5
@@ -183,7 +220,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /
-              port: http
+              port: http-services
               scheme: HTTP
             initialDelaySeconds: 30
             failureThreshold: 5
@@ -237,9 +274,13 @@ spec:
   ipFamilyPolicy: SingleStack
   ports:
     - name: http
-      port: 5000
+      port: 8971
       protocol: TCP
       targetPort: http
+    - name: http-services
+      port: 5000
+      protocol: TCP
+      targetPort: http-services
     - name: rtsp
       port: 8554
       protocol: TCP
@@ -267,9 +308,13 @@ spec:
       http:
         paths:
           - path: /
-            pathType: "ImplementationSpecific"
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: frigate
                 port:
                   name: http
+  tls:
+    - hosts:
+        - "frigate.lan.theautomation.nl"
+      secretName: tls-wildcard-lan-theautomation-nl
