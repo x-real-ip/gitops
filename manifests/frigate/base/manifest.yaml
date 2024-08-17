@@ -87,6 +87,30 @@ spec:
   volumeName: pv-nfs-frigate-media
 
 ---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: "true"
+  creationTimestamp: null
+  name: frigate-secrets
+spec:
+  encryptedData:
+    FRIGATE_CAM01_RTSP_PASSWORD: AgDoWK1xS72IQRQZvPOlVGoLkkHg38rOeGzoYDtU4RZkNtpLXpbYpemQ9NiXs32W8zJJq7Z15Etq3nh9fPIu8wxC6cq5hjVWpyiD+Ww5/9KHn/2ORnZM8qheahA/I9sdi8pp4QQGdCnLSJUspLxqGustJducrVkx0ipOaVA9FPydoCQjmMPbzqIpv8abs104R2Uco7qXKAeKYbcWE8GNI0VCFOe841ZbftPcZFf899IiRc0vyW+pfgpJlMtPrSqPF4JPrFcc++hiSrWZW9erfZczB4bYgR4/NfX2pTK38TBkGQIAiG7eeqKLGmxlWX3msizuyADAMU5ylkh1KvtUmjf3oFVZWs04wqKtlKRhJNgNy7y2A58TEd7jz1vOdScwc2CMDmR9RBMqDWW9GNafjB5CaLB6RcHQ4V1xGEOx8yZGJPlPgaXII/6wMdAxnsa9SkQg/2tX39mRL9BRc7y+APe0F8VG6+diqvnhfTVrsHOd1zciSLzx6ilO84Mbvf3JUDYGbexsqA7SvUShyTQ/IE17BUeGXL4nqpKQFrCLBF3/OpcWQfXNqtjpLj5NkUXz8XL48wE0FFitLv8gqjtb80ri+eeURhtkdoHYIquT6bOCopsk5TUn/jLma85euoCvflwbPIH0QDxvEhV2teDefj7/fOSzMjPYhsFH1qO3xrZdxeVDl3AgFOm79bFlGka1hbu+UgkAldeV2Q==
+    FRIGATE_CAM01_RTSP_USER: AgAeGVQt7QI77iEDclk7LRbxp8FS+D61gIC7QwW8dgb7kiGoHXCBQkOK2IWoEBRJS1ThL8OsxqDS5m+HAw90vNeykMCwpZwknnVbtR+bArKF6yIybk+3daXEvayTvvJ08k5p7keuawkNy3IzSU018+ZGOv8e3o/ZphMgYZEdp3xXuK/F0W1GgisgbI7c7gz2vt6K/DRoU1t31OiKszv/lvMP2uz+45c7HgjnqqYh/1+w4U1BbvGPe5NmEQM5qSvpv4V9gnbsLkvRhw2VcvbgDkkG23LdHffFQP6ctPxdiiiRVpI9kVGd66zHTJ38YYCXx08XBdViKRL9kdwsR4Pf0IypNjE44/l/s6kP6xYMaKJQHWpqqW9MhkBixCmelyKRy2eMJrI6Yx9HYlsdPFOu2tlLOp/MM/Lgj2LnFWf2szeNTch06hAzCKFED+HEskZX3Zr8QQzhWOpqBsXtlWgvLpvZsXrfS3voZ0n4kVCUJIXcv/wWsHYsJlKqbhiZoedHEXyaNAK59c41UHEpfQyTktjhP10mRKuTF5uSiR/N7PtgdGxSrmG2BbWfdsO+XO1dKmvlXisFRO+1AgjbosmXtcaITFyZ2hoRcOP/4GgnVKOPq8HhSMc+tAocCMLKe8uIqy5slJQMBZdLkdluPku3U1qoZmJhEjk5W3KdjT53VS3tc2iG/lBIZ20WVWyniOSywlm+iFm3Eg==
+    FRIGATE_CAM02_RTSP_PASSWORD: AgDW8k+EbURhswGkr/MoxDkxn99MzfyBlebVxXpL2f2C9lBMB3m1tnWycq0NuSTrjJYj3UOtkIiMFCz+hRYOvubqe1S9Wb0t8JeZrpvjJtSE7lc1PzBGwLCElrhShY4R5BfS/LW4jC/k5UIwM+epytql2F1aBrWtRMIqLlujI+rtvyWMNNgL458JZSyt2MaSaLOrd5zwpQLISTtMlKxTlsVzZUAV5MEM1DXmbpSBMyMDcKCI0ENkzFPAbwB59Z3rkQPPe/sk5G4VODJpXDa/mMdpTFYmJWWaXzEk9F5OsGgj7+pHFPQtEh7YxF7oheeeE40Ut7VwFDuEhjcwtJ8IggtdKd5LPC76dNbLawICCUSd674pXYAM4tkQM76h8FQtQsCDrKAdUMPi+cWCHPcgg8GVxR+YgsgUn0f0ZpkKeRWYLLg4udlCJkRQtBJTcFysafQRx+sb6RUm8eWna3NPxTM/ieGYi5W8W7Tdx1N/MBz5D3hrhSqfMxiJq4FOWJN8Vk8Jk4flB+NBiM3q/uMf4U0CuNTTwEYx5OP5F/CISH4nC+k8iQbuyqTtLHXcPGIuUwVePfujsQAu+twTgN167Xbl9KobDp7YKMCAigloKMhWRBLLHOVUdUXN8usdRAG8BJX/BntzO6epxDDTcNHW40UyWVQQrO/0AauFmFxs2FDmDqF+YxxV4o9gD5fyabU+5AUSR46degXaNUs3a/E=
+    FRIGATE_CAM02_RTSP_USER: AgAZLxQ8DjkQQO08in5R+TRFebzzytZjvWA3cn3B1+nsNcapa8JxaqIEQctmle8Zzf+f9qiQG52rbZ5vaF7pSZP8KmTr9trie/0OwhivqQ23Qxz0Uave0hosw94vNEyqj9R4ggTgKTMxrVPYXKvth4Q7vTBrq5TbXxiNtnzhv6oGUEbVJiT+1eHxj2axmkz3Hx08VK0ch1CArBFXp4YsL8QEwLR4La22+nuspsrKc9K1+04dDgHxSQOTXxTRe8faq0QDmf2CFqq2r/YyZZusFnyi6JV8F4UKB+0UIrfRfexoP5NUQG1jn3Pb4G6HGwf3lOMT9gssLgPXdHqAsQJpU/ePZFTlOqHHVs4jtgv9tezp9lvQ+Y0Jk67M0zcrufT5cp3XtS64wVrL3+iAV4ymlcDnzYIVsckooSVi/afTrtchRnAMUZGejYrS9EiVpPyFdplkqmmR9tk22hbgSHJyNdbFYY26rb4nfr8bFZfd1CPGkZq38uBdQfbDsCBUgRk+GyzKMMzzEigmYFCSA/uBafAyYmJ4EMPvkErOyCHq+boHJmCSwlRDvToqkDGsAyK1iAfNoyw3BvyJUpF6cwEXklHyo22q4aw7AnhRLa5/oOJoTeB06hok3OIfZGWxFo0Gk/60CGsNaEBfqUPhduEn7TI1KdhdvkN8R2hEGowrSabN+D0zEQBySsHcmf1pbWYsASa+fcVXkDt9QdjshM4=
+  template:
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/cluster-wide: "true"
+      creationTimestamp: null
+      labels:
+        app: vaultwarden
+      name: frigate-secrets
+    type: Opaque
+
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -111,8 +135,8 @@ data:
 
     go2rtc:
       streams:
-        ipcam-01: rtsp://admin:{FRIGATE_CAM01_RTSP_PASSWORD}@ipcam-01.lan.theautomation.nl:554/cam/realmonitor?channel=1&subtype=0
-        ipcam-02: rtsp://a2yON4rLyqRw:Y4wK8Nf8AXBJ@ipcam-02.lan.theautomation.nl/live0
+        ipcam-01: rtsp://{FRIGATE_CAM01_RTSP_USER}:{FRIGATE_CAM01_RTSP_PASSWORD}@ipcam-01.lan.theautomation.nl:554/cam/realmonitor?channel=1&subtype=0
+        ipcam-02: rtsp://{FRIGATE_CAM02_RTSP_USER}:{FRIGATE_CAM02_RTSP_PASSWORD}@ipcam-02.lan.theautomation.nl/live0
 
     cameras:
       backyard:
@@ -232,10 +256,6 @@ spec:
             failureThreshold: 5
             timeoutSeconds: 10
           env:
-            - name: TZ
-              value: "Europe/Amsterdam"
-            - name: FRIGATE_CAM01_RTSP_PASSWORD
-              value: "L21AC49D"
           volumeMounts:
             - name: configmap
               mountPath: /config/config.yml
