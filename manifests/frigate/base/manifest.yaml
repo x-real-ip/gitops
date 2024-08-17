@@ -255,7 +255,10 @@ spec:
             initialDelaySeconds: 30
             failureThreshold: 5
             timeoutSeconds: 10
-          env:
+          envFrom:
+            - secretRef:
+                name: frigate-secrets
+                optional: false
           volumeMounts:
             - name: configmap
               mountPath: /config/config.yml
