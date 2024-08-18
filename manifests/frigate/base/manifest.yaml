@@ -135,8 +135,12 @@ data:
 
     go2rtc:
       streams:
-        ipcam-01: rtsp://{FRIGATE_CAM01_RTSP_USER}:{FRIGATE_CAM01_RTSP_PASSWORD}@ipcam-01.lan.theautomation.nl:554/cam/realmonitor?channel=1&subtype=0
-        ipcam-02: rtsp://{FRIGATE_CAM02_RTSP_USER}:{FRIGATE_CAM02_RTSP_PASSWORD}@ipcam-02.lan.theautomation.nl/live0
+        ipcam-01: 
+          - rtsp://{FRIGATE_CAM01_RTSP_USER}:{FRIGATE_CAM01_RTSP_PASSWORD}@ipcam-01.lan.theautomation.nl:554/cam/realmonitor?channel=1&subtype=0
+          - "ffmpeg:ipcam-01#audio=opus"
+        ipcam-02: 
+          - rtsp://{FRIGATE_CAM02_RTSP_USER}:{FRIGATE_CAM02_RTSP_PASSWORD}@ipcam-02.lan.theautomation.nl/live0
+          - "ffmpeg:ipcam-02#audio=opus"
 
     cameras:
       backyard:
@@ -165,9 +169,15 @@ data:
             retain:
               default: 14
               mode: motion
+        review:
+          alerts:
+            labels:
+              - person
         motion:
           mask:
-            - 0.819,1,0.84,0.719,0.772,0.722,0.697,0.633,0.681,0.539,0.588,0.549,0.574,0.403,0.319,0.42,0.173,0.47,0.134,0.665,0.142,0.83,0.173,1,0,1,0,0,1,0,1,1
+            - 0,0.7,0.081,0.727,0.067,0.405,0.253,0.371,0.466,0.394,0.45,0.64,0.642,0.664,0.657,0.313,0.755,0.273,0.726,0.78,0.73,1,0.982,0.987,0.98,0,0,0
+          mask:
+            - 0,0.192,0.113,0.207,0.262,0.245,0.258,0.349,0.481,0.376,0.597,0.374,0.638,0.372,0.641,0.344,0.642,0.309,0.753,0.263,0.739,1,0,1
 
       baby:
         ffmpeg:
@@ -175,16 +185,7 @@ data:
             - path: rtsp://127.0.0.1:8554/ipcam-02
               input_args: preset-rtsp-restream
               roles:
-                - detect
                 - record
-        objects:
-          track:
-            - person
-            - cat
-        detect:
-          width: 1280
-          height: 720
-          fps: 5
         record:
           enabled: True
           retain:
