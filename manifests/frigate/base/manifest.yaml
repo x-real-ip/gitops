@@ -124,14 +124,10 @@ data:
 
     auth:
       enabled: True
-      reset_admin_password: False
 
     mqtt:
       host: mosquitto.home-automation.svc.cluster.local
       port: 1883
-      topic_prefix: frigate
-      client_id: frigate
-      stats_interval: 60
 
     go2rtc:
       streams:
@@ -158,7 +154,6 @@ data:
             - dog
           mask:
             - 0,0.192,0.113,0.207,0.262,0.245,0.258,0.349,0.481,0.376,0.597,0.374,0.638,0.372,0.641,0.344,0.642,0.309,0.753,0.263,0.739,1,0,1
-
         detect:
           width: 1280
           height: 720
@@ -172,14 +167,9 @@ data:
             retain:
               default: 14
               mode: motion
-        review:
-          alerts:
-            labels:
-              - person
         motion:
           mask:
             - 0,0.7,0.081,0.727,0.067,0.405,0.253,0.371,0.466,0.394,0.45,0.64,0.642,0.664,0.657,0.313,0.755,0.273,0.726,0.78,0.73,1,0.982,0.987,0.98,0,0,0
-
       baby:
         ffmpeg:
           inputs:
@@ -192,10 +182,11 @@ data:
           retain:
             days: 3
             mode: all
-          events:
-            retain:
-              default: 14
-              mode: motion
+        review:
+          alerts:
+            labels: []
+          detections:
+            labels: []
         motion:
           mask:
             - 0.715,0.015,0.716,0.053,0.979,0.05,0.979,0.01
