@@ -465,6 +465,8 @@ data:
   WEBPROXY_ENABLED: "false"
   CREATE_TUN_DEVICE: "true"
   HEALTH_CHECK_HOST: "google.com"
+  PUID: "1000"
+  PGID: "2000"
 
 ---
 kind: Deployment
@@ -613,7 +615,7 @@ spec:
                 - NET_ADMIN
             privileged: true
           volumeMounts:
-            - mountPath: /data/
+            - mountPath: /data
               name: transmission-data
           resources: {}
       restartPolicy: Always
