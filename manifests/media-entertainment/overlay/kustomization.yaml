@@ -4,5 +4,7 @@ kind: Kustomization
 resources:
   - ../base
 
+namespace: media
+
 commonLabels:
   storage: truenas

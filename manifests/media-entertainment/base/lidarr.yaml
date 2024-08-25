@@ -1,0 +1,208 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-iscsi-lidarr-config
+  labels:
+    app: lidarr
+spec:
+  storageClassName: "freenas-iscsi-manual-csi"
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: xfs
+    volumeHandle: pv-iscsi-lidarr-config
+    volumeAttributes:
+      portal: truenas-master.lan.theautomation.nl:3260
+      iqn: iqn.2005-10.org.freenas.ctl:lidarr-config
+      lun: "0"
+      node_attach_driver: iscsi
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-nfs-music
+  labels:
+    app: lidarr
+spec:
+  storageClassName: "freenas-nfs-manual-csi"
+  capacity:
+    storage: 1Ti
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=4
+    - nolock
+    - noatime
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: nfs
+    volumeHandle: pv-nfs-music
+    volumeAttributes:
+      server: truenas-master.lan.theautomation.nl
+      share: /mnt/hdd/music
+      node_attach_driver: nfs
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-iscsi-lidarr-config
+  labels:
+    app: lidarr
+spec:
+  storageClassName: freenas-iscsi-manual-csi
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  volumeName: pv-iscsi-lidarr-config
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-nfs-music
+  namespace: media
+  labels:
+    app: lidarr
+spec:
+  storageClassName: freenas-nfs-manual-csi
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Ti
+  volumeName: pv-nfs-music
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: lidarr
+  labels:
+    app: lidarr
+spec:
+  revisionHistoryLimit: 3
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: lidarr
+  template:
+    metadata:
+      labels:
+        app: lidarr
+    spec:
+      serviceAccountName: default
+      automountServiceAccountToken: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      containers:
+        - name: lidarr
+          image: "lscr.io/linuxserver/lidarr:latest"
+          imagePullPolicy: Always
+          resources: {}
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "2000"
+            - name: "TZ"
+              value: "Europe/Amsterdam"
+          ports:
+            - name: http
+              containerPort: 8686
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: 8686
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: 8686
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          startupProbe:
+            tcpSocket:
+              port: 8686
+            initialDelaySeconds: 0
+            failureThreshold: 30
+            timeoutSeconds: 1
+            periodSeconds: 5
+          volumeMounts:
+            - name: lidarr-config
+              mountPath: /config
+            - name: music
+              mountPath: /data/music
+            - name: downloads
+              mountPath: /data/downloads
+      volumes:
+        - name: lidarr-config
+          persistentVolumeClaim:
+            claimName: pvc-iscsi-lidarr-config
+        - name: music
+          persistentVolumeClaim:
+            claimName: pvc-nfs-music
+        - name: downloads
+          persistentVolumeClaim:
+            claimName: pvc-nfs-downloads
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: lidarr
+  labels:
+    app: lidarr
+spec:
+  type: ClusterIP
+  selector:
+    app: lidarr
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8686
+      targetPort: http
+
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: lidarr
+  labels:
+    app: lidarr
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: lidarr.lan.theautomation.nl
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: lidarr
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - lidarr.lan.theautomation.nl
+      secretName: tls-wildcard-lan-theautomation-nl
