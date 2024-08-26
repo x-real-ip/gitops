@@ -1,0 +1,194 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-nfs-downloads
+  labels:
+    app: transmission
+spec:
+  storageClassName: "freenas-nfs-manual-csi"
+  capacity:
+    storage: 200Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=4
+    - nolock
+    - noatime
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: nfs
+    volumeHandle: pv-nfs-downloads
+    volumeAttributes:
+      server: truenas-master.lan.theautomation.nl
+      share: /mnt/ssd/containers/k8s/transmission-downloads
+      node_attach_driver: nfs
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-nfs-downloads
+  labels:
+    app: transmission
+spec:
+  storageClassName: freenas-nfs-manual-csi
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 200Gi
+  volumeName: pv-nfs-downloads
+
+---
+kind: SealedSecret
+apiVersion: bitnami.com/v1alpha1
+metadata:
+  name: transmission-vpn-cred
+  labels:
+    app: transmission
+spec:
+  encryptedData:
+    OPENVPN_PASSWORD: AgDhcF2An3Lp/LyJPtSsDOkXl8KT1DOqeWN2qNQGXZeW36se9n54zx54YcpSwvshpWsb2lONsPDnK4hycYWOngmhRRIdeOmEbieOhl1ia/bxlqSrhy73dvQMN+N8nPFLanuEByjrIdb0V4SN+8k1nD9ChfSmtbNVNeYdGXagUXm1Raj23cYICARjO4MzwWF02UjJ+m6ZzgLBRA32bOw7HKKnsecuhsRZ2vtfz1I75NZSe2ZjuCWPTEKYsexofu9V1JieuuQWYB+iuc4W887xj+54Z6DRGzSUNNse/DJciT76mWjU3+bljGL2MEAIWsWc0B2duav05feLFueqxw5W+nwy48epxFhpE//sqFkD/C1nTS5bHiaQPk7O2VjM0RBU9qmiUAVHtmugzvgTki1NFrxKUOZjByN57XQ25tUzvi7sxdhYgKQi96ERmgJY1c6LSZhTYLTL3HSbNzmpuwOsvwUkSpperCGif6G+OgHsVPt+Jq3PbFG04kT1/5pCoFWzQHAT4sXzXh73N80JYvj/Fko33zo3I0eBnS+4nQ20Jwn/jSMxlmvL/NqDd2sDiaHpoPaMEgP19YRb1hiGcpel3nMmngeX9WzWqNJSWDmpYOgKdH+xfnR0wdSRuae5Df2ZXRaiMBRaZPzwABT0Yg6rcLyBhxcxbO2Xkkeiuz2wZLjoZvK0DpHjgZVM23b9WWEy9WuF46HNSZO1qpp2kNmvDmPnUcekgA2xACo=
+    OPENVPN_USERNAME: AgApqotmd1kXCWBOrp7VRLvKHnhbFUOwi1+nOFlD+qt8PxrybaATsjy/KFDZx0TSgcSA49zL4BZ5lAto3kXloEU+jZ6e1mChP/J9Sx+ILZyK0DIz7IWL41av0smXORbbMaMGJA37VDx24M4+bHwPqWYM8JPX5Y6JE8lQeMX+nitYso0ZXVBg2/2LL3UO0yHihoRvwGzO+ByEuAwfcX7VfYSMQQZxrBI21YjcctYyuUnapgq1hU5s+eTHtgJiSqh8HrKZL744cyWVXneUkBX5xJ2NZyjDd4F2jC0AdNF8WvEW08SE0K3Ik1canRP+Qvl1kVHgVg/0RIKAAdgq9JS92tgocJKPSuG6IO1USaEEC65qQgpFkOcCZ/ijSMUJ2jtAFAd2lMtbDgZGKOeTDe4CdvsRLooycRDDxafZQASwoWFmv88EHIw3sxMYVUW2wwp74t03Ke+JThgpcA+ZrCYjdVQA7f1j5dffgvXyGNu2yLu1O2U6EcKY0IYsU4Gnsrg6J4O0ThqHpmEo+0iRVZ1GEuHoFthtpJBOxVi1zjfm/rWC77PCiS4/vOQM3qV2P6O1mePO7o2XXy2rxpekjM2RWrajMfhU8SxwSc2/eI74XXTka4e1HF6uQo92dtVSdhq8Ea2KS3tffNehkMCTJHT4SR/fPH68kmjNEWGfLU0WM5Z6ltI0ErCqj6wpGRDxph9UmixGIpNu0wH/MpIhY8EQIENuPD8qW11iTQQ=
+  template:
+    metadata:
+      name: transmission-vpn-cred
+      labels:
+        app: transmission
+    type: Opaque
+
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: transmission-config
+  labels:
+    app: transmission
+data:
+  LOCAL_NETWORK: 10.0.100.240/32, 10.0.10.0/24
+  NORDVPN_CATEGORY: legacy_p2p
+  NORDVPN_COUNTRY: NL
+  NORDVPN_PROTOCOL: udp
+  OPENVPN_OPTS: --inactive 3600 --ping 10 --ping-exit 60
+  OPENVPN_PROVIDER: NORDVPN
+  TRANSMISSION_DOWNLOAD_DIR: /data/completed
+  TRANSMISSION_INCOMPLETE_DIR: /data/incomplete
+  TRANSMISSION_WATCH_DIR: /data/watch
+  TRANSMISSION_DOWNLOAD_QUEUE_SIZE: "4"
+  TZ: Europe/Amsterdam
+  WEBPROXY_ENABLED: "false"
+  CREATE_TUN_DEVICE: "true"
+  HEALTH_CHECK_HOST: "google.com"
+  PUID: "1000"
+  PGID: "2000"
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: transmission
+  labels:
+    app: transmission
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      app: transmission
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: transmission
+    spec:
+      containers:
+        - name: transmission
+          image: "docker.io/haugene/transmission-openvpn:latest"
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: transmission-config
+                optional: false
+            - secretRef:
+                name: transmission-vpn-cred
+                optional: false
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 10
+            periodSeconds: 2
+            successThreshold: 1
+            tcpSocket:
+              port: 9091
+            timeoutSeconds: 2
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 10
+            periodSeconds: 2
+            successThreshold: 2
+            tcpSocket:
+              port: 9091
+            timeoutSeconds: 2
+          securityContext:
+            allowPrivilegeEscalation: true
+            capabilities:
+              add:
+                - NET_ADMIN
+            privileged: true
+          volumeMounts:
+            - mountPath: /data
+              name: transmission-data
+          resources: {}
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: transmission-data
+          persistentVolumeClaim:
+            claimName: pvc-nfs-downloads
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: transmission
+  labels:
+    app: transmission
+spec:
+  selector:
+    app: transmission
+  type: ClusterIP
+  ports:
+    - port: 9091
+      protocol: TCP
+      targetPort: 9091
+  sessionAffinity: None
+
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: transmission
+  namespace: media
+  labels:
+    app: transmission
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: transmission.lan.theautomation.nl
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: transmission
+                port:
+                  number: 9091
+  tls:
+    - hosts:
+        - transmission.lan.theautomation.nl
+      secretName: tls-wildcard-lan-theautomation-nl
