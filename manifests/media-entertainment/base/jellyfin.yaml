@@ -1,0 +1,220 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-nfs-jellyfin-media
+  labels:
+    app: jellyfin
+spec:
+  storageClassName: "freenas-nfs-manual-csi"
+  capacity:
+    storage: 500Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=4
+    - nolock
+    - noatime
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: nfs
+    volumeHandle: pv-nfs-jellyfin-media
+    volumeAttributes:
+      server: truenas-master.lan.theautomation.nl
+      share: /mnt/hdd/containers/k8s/plex-media
+      node_attach_driver: nfs
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-iscsi-jellyfin-config
+  labels:
+    app: jellyfin
+spec:
+  storageClassName: "freenas-iscsi-manual-csi"
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: xfs
+    volumeHandle: pv-iscsi-jellyfin-config
+    volumeAttributes:
+      portal: truenas-master.lan.theautomation.nl:3260
+      iqn: iqn.2005-10.org.freenas.ctl:jellyfin-config
+      lun: "0"
+      node_attach_driver: iscsi
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-iscsi-jellyfin-cache
+  labels:
+    app: jellyfin
+spec:
+  storageClassName: "freenas-iscsi-manual-csi"
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: xfs
+    volumeHandle: pv-iscsi-jellyfin-cache
+    volumeAttributes:
+      portal: truenas-master.lan.theautomation.nl:3260
+      iqn: iqn.2005-10.org.freenas.ctl:jellyfin-cache
+      lun: "0"
+      node_attach_driver: iscsi
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-nfs-jellyfin-media
+  labels:
+    app: jellyfin
+spec:
+  storageClassName: freenas-nfs-manual-csi
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 500Gi
+  volumeName: pv-nfs-jellyfin-media
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-iscsi-jellyfin-config
+  labels:
+    app: jellyfin
+spec:
+  storageClassName: freenas-iscsi-manual-csi
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  volumeName: pv-iscsi-jellyfin-config
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-iscsi-jellyfin-cache
+  labels:
+    app: jellyfin
+spec:
+  storageClassName: freenas-iscsi-manual-csi
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  volumeName: pv-iscsi-jellyfin-cache
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: jellyfin
+  labels:
+    app: jellyfin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jellyfin
+  template:
+    metadata:
+      labels:
+        app: jellyfin
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 2000
+        fsGroup: 2000
+      containers:
+        - name: jellyfin
+          image: "docker.io/jellyfin/jellyfin:10"
+          ports:
+            - name: http
+              containerPort: 8096
+              protocol: TCP
+          volumeMounts:
+            - name: media
+              mountPath: /media
+            - name: config
+              mountPath: /config
+            - name: cache
+              mountPath: /cache
+            # - name: music
+            #   mountPath: /music
+          resources: {}
+      restartPolicy: Always
+      volumes:
+        - name: media
+          persistentVolumeClaim:
+            claimName: pvc-nfs-jellyfin-media
+        - name: config
+          persistentVolumeClaim:
+            claimName: pvc-iscsi-jellyfin-config
+        - name: cache
+          persistentVolumeClaim:
+            claimName: pvc-iscsi-jellyfin-cache
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: jellyfin
+  labels:
+    app: jellyfin
+spec:
+  type: ClusterIP
+  selector:
+    app: jellyfin
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8096
+      targetPort: http
+
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: jellyfin
+  labels:
+    app: jellyfin
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: jellyfin.lan.theautomation.nl
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: jellyfin
+                port:
+                  name: http
+  # tls:
+  #   - hosts:
+  #       - jellyfin.lan.theautomation.nl
+  #     secretName: tls-wildcard-lan-theautomation-nl
