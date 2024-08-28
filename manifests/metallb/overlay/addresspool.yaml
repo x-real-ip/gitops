@@ -14,7 +14,7 @@ spec:
     - 10.0.100.240/32 # ingress-controller
     - 10.0.100.241/32 # plex
     - 10.0.100.242/32 # omada controller
-
+    - 10.0.100.243/32 # jellyfin
 ---
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
