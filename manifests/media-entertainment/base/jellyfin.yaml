@@ -31,6 +31,35 @@ spec:
 kind: PersistentVolume
 apiVersion: v1
 metadata:
+  name: pv-nfs-jellyfin-music
+  labels:
+    app: jellyfin
+spec:
+  storageClassName: "freenas-nfs-manual-csi"
+  capacity:
+    storage: 1Ti
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=4
+    - nolock
+    - noatime
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: nfs
+    volumeHandle: pv-nfs-jellyfin-music
+    volumeAttributes:
+      server: truenas-master.lan.theautomation.nl
+      share: /mnt/hdd/music
+      node_attach_driver: nfs
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
   name: pv-iscsi-jellyfin-config
   labels:
     app: jellyfin
@@ -99,6 +128,22 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
+  name: pvc-nfs-jellyfin-music
+  labels:
+    app: jellyfin
+spec:
+  storageClassName: freenas-nfs-manual-csi
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Ti
+  volumeName: pv-nfs-jellyfin-music
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
   name: pvc-iscsi-jellyfin-config
   labels:
     app: jellyfin
@@ -155,21 +200,34 @@ spec:
             - name: http
               containerPort: 8096
               protocol: TCP
+            - name: https
+              containerPort: 8920
+              protocol: TCP
+            - name: svc-discovery
+              containerPort: 1900
+              protocol: UDP
+            - name: cl-discovery
+              containerPort: 7359
+              protocol: UDP
           volumeMounts:
             - name: media
               mountPath: /media
+            - name: music
+              mountPath: /music/organized
+              subPath: organized
             - name: config
               mountPath: /config
             - name: cache
               mountPath: /cache
-            # - name: music
-            #   mountPath: /music
           resources: {}
       restartPolicy: Always
       volumes:
         - name: media
           persistentVolumeClaim:
             claimName: pvc-nfs-jellyfin-media
+        - name: music
+          persistentVolumeClaim:
+            claimName: pvc-nfs-jellyfin-music
         - name: config
           persistentVolumeClaim:
             claimName: pvc-iscsi-jellyfin-config
@@ -181,18 +239,33 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: jellyfin
+  name: jellyfin-service
   labels:
     app: jellyfin
 spec:
-  type: ClusterIP
+  type: LoadBalancer
+  loadBalancerIP: 10.0.100.243
+  externalTrafficPolicy: Local
   selector:
     app: jellyfin
+  sessionAffinity: None
   ports:
     - name: http
       protocol: TCP
       port: 8096
       targetPort: http
+    - name: https
+      protocol: TCP
+      port: 8920
+      targetPort: https
+    - name: svc-discovery
+      protocol: UDP
+      port: 1900
+      targetPort: svc-discovery
+    - name: cl-discovery
+      protocol: UDP
+      port: 7359
+      targetPort: cl-discovery
 
 ---
 kind: Ingress
@@ -201,20 +274,78 @@ metadata:
   name: jellyfin
   labels:
     app: jellyfin
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 128m
+    nginx.ingress.kubernetes.io/proxy-buffering: "off"
 spec:
   ingressClassName: nginx-private
   rules:
     - host: jellyfin.lan.theautomation.nl
       http:
         paths:
-          - path: "/"
+          - path: /
             pathType: Prefix
             backend:
               service:
-                name: jellyfin
+                name: jellyfin-service
                 port:
                   name: http
-  # tls:
-  #   - hosts:
-  #       - jellyfin.lan.theautomation.nl
-  #     secretName: tls-wildcard-lan-theautomation-nl
+  tls:
+    - hosts:
+        - jellyfin.lan.theautomation.nl
+      secretName: tls-wildcard-lan-theautomation-nl
+
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: jellyfin-public
+  labels:
+    app: jellyfin
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 128m
+    nginx.ingress.kubernetes.io/proxy-buffering: "off"
+spec:
+  ingressClassName: nginx-public
+  rules:
+    - host: jellyfin.stamx.nl
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: jellyfin-service
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - jellyfin.stamx.nl
+      secretName: tls-wildcard-stamx-nl
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jellyfin-music-redirect
+  labels:
+    app: jellyfin
+  annotations:
+    nginx.ingress.kubernetes.io/permanent-redirect: https://jellyfin.stamx.nl$request_uri
+spec:
+  ingressClassName: nginx-public
+  rules:
+    - host: music.stamx.nl
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: jellyfin-service
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - music.stamx.nl
+      secretName: tls-wildcard-stamx-nl
