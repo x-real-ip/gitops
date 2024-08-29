@@ -2,6 +2,35 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
+  name: pv-nfs-transmission-config
+  labels:
+    app: transmission
+spec:
+  storageClassName: "freenas-nfs-manual-csi"
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=4
+    - nolock
+    - noatime
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: nfs
+    volumeHandle: pv-nfs-transmission-config
+    volumeAttributes:
+      server: truenas-master.lan.theautomation.nl
+      share: /mnt/ssd/containers/k8s/transmission-config
+      node_attach_driver: nfs
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
   name: pv-nfs-downloads
   labels:
     app: transmission
@@ -42,6 +71,22 @@ spec:
     requests:
       storage: 200Gi
   volumeName: pv-nfs-downloads
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-nfs-transmission-config
+  labels:
+    app: transmission
+spec:
+  storageClassName: freenas-nfs-manual-csi
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+  volumeName: pv-nfs-transmission-config
 
 ---
 kind: SealedSecret
@@ -106,6 +151,10 @@ spec:
       labels:
         app: transmission
     spec:
+      # securityContext:
+      #   runAsUser: 1000
+      #   runAsGroup: 1000
+      #   fsGroup: 1000
       containers:
         - name: transmission
           image: "docker.io/haugene/transmission-openvpn:latest"
@@ -142,6 +191,8 @@ spec:
           volumeMounts:
             - mountPath: /data
               name: transmission-data
+            - mountPath: /config
+              name: transmission-config
           resources: {}
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
@@ -149,6 +200,9 @@ spec:
         - name: transmission-data
           persistentVolumeClaim:
             claimName: pvc-nfs-downloads
+        - name: transmission-config
+          persistentVolumeClaim:
+            claimName: pvc-nfs-transmission-config
 
 ---
 kind: Service
