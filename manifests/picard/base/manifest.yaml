@@ -1,0 +1,161 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-iscsi-picard
+  labels:
+    app: picard
+spec:
+  storageClassName: "freenas-iscsi-manual-csi"
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: xfs
+    volumeHandle: pv-iscsi-picard
+    volumeAttributes:
+      portal: truenas-master.lan.theautomation.nl:3260
+      iqn: iqn.2005-10.org.freenas.ctl:picard
+      lun: "0"
+      node_attach_driver: iscsi
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-nfs-picard-music
+  labels:
+    app: picard
+spec:
+  storageClassName: "freenas-nfs-manual-csi"
+  capacity:
+    storage: 1Ti
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=4
+    - nolock
+    - noatime
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: nfs
+    volumeHandle: pv-nfs-picard-music
+    volumeAttributes:
+      server: truenas-master.lan.theautomation.nl
+      share: /mnt/hdd/music
+      node_attach_driver: nfs
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-iscsi-picard
+  labels:
+    app: picard
+spec:
+  storageClassName: freenas-iscsi-manual-csi
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  volumeName: pv-iscsi-picard
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-nfs-picard-music
+  labels:
+    app: picard
+spec:
+  storageClassName: freenas-nfs-manual-csi
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Ti
+  volumeName: pv-nfs-picard-music
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: picard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: picard
+  template:
+    metadata:
+      labels:
+        app: picard
+    spec:
+      containers:
+        - name: picard
+          image: mikenye/picard:latest
+          ports:
+            - name: http
+              containerPort: 5800
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: music
+              mountPath: /storage
+          resources: {}
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: pvc-iscsi-picard
+        - name: music
+          persistentVolumeClaim:
+            claimName: pvc-nfs-picard-music
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: picard
+spec:
+  selector:
+    app: picard
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: http
+  type: ClusterIP
+
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: picard
+  labels:
+    app: picard
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: picard.lan.theautomation.nl
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: picard
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - picard.lan.theautomation.nl
+      secretName: tls-wildcard-lan-theautomation-nl
