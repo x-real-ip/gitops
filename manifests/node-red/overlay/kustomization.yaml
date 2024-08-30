@@ -5,5 +5,5 @@ resources:
 - ../base
 
 images:
-- name: ghcr.io/theautomation/node-red
+- name: ghcr.io/x-real-ip/node-red
   newTag: 5e795184daf993280181d15afca69be1e83cec0b

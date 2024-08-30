@@ -5,5 +5,5 @@ resources:
 - ../base
 
 images:
-- name: ghcr.io/theautomation/esphome
+- name: ghcr.io/x-real-ip/esphome
   newTag: 2e2940d9873250c6578023046453a2a09c45442a

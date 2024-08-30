@@ -5,7 +5,7 @@ resources:
 - ../base
 
 images:
-- name: ghcr.io/theautomation/home-assistant
+- name: ghcr.io/x-real-ip/home-assistant
   newTag: 5664a56d173bb4f23017ef3ba38d0f6ce491c6ee
 
 commonLabels:

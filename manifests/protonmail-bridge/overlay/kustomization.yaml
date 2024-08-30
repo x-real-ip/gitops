@@ -5,7 +5,7 @@ resources:
 - ../base
 
 images:
-- name: ghcr.io/theautomation/protonmail-bridge
+- name: ghcr.io/x-real-ip/protonmail-bridge
   newTag: 4934758a71647ad07cb8e5dff487d9f170703c25
 
 commonLabels:
