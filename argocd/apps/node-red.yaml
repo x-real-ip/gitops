@@ -7,7 +7,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: "https://github.com/theautomation/gitops"
+    repoURL: "https://github.com/x-real-ip/gitops"
     path: manifests/node-red/overlay
     targetRevision: HEAD
   destination:
