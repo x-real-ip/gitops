@@ -6,7 +6,7 @@ resources:
 
 images:
 - name: ghcr.io/x-real-ip/protonmail-bridge
-  newTag: 4934758a71647ad07cb8e5dff487d9f170703c25
+  newTag: 1706e1a1727ddeb4c704a691de2522b5732a64fd
 
 commonLabels:
   storage: truenas
