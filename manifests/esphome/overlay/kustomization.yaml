@@ -6,4 +6,4 @@ resources:
 
 images:
 - name: ghcr.io/x-real-ip/esphome
-  newTag: 2e2940d9873250c6578023046453a2a09c45442a
+  newTag: 6589d2f285f958bac8e881d74575f124bbb560d2
