@@ -2,29 +2,26 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: pv-nfs-transmission-config
+  name: pv-iscsi-transmission-config
   labels:
     app: transmission
 spec:
-  storageClassName: "freenas-nfs-manual-csi"
+  storageClassName: "freenas-iscsi-manual-csi"
   capacity:
     storage: 5Gi
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  mountOptions:
-    - nfsvers=4
-    - nolock
-    - noatime
   csi:
     driver: org.democratic-csi.node-manual
     readOnly: false
-    fsType: nfs
-    volumeHandle: pv-nfs-transmission-config
+    fsType: xfs
+    volumeHandle: pv-iscsi-transmission-config
     volumeAttributes:
-      server: truenas-master.lan.theautomation.nl
-      share: /mnt/ssd/containers/k8s/transmission-config
-      node_attach_driver: nfs
+      portal: truenas-master.lan.theautomation.nl:3260
+      iqn: iqn.2005-10.org.freenas.ctl:transmission-config
+      lun: "0"
+      node_attach_driver: iscsi
       provisioner_driver: node-manual
 
 ---
@@ -76,17 +73,17 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: pvc-nfs-transmission-config
+  name: pvc-iscsi-transmission-config
   labels:
     app: transmission
 spec:
-  storageClassName: freenas-nfs-manual-csi
+  storageClassName: freenas-iscsi-manual-csi
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 5Gi
-  volumeName: pv-nfs-transmission-config
+  volumeName: pv-iscsi-transmission-config
 
 ---
 kind: SealedSecret
@@ -151,10 +148,10 @@ spec:
       labels:
         app: transmission
     spec:
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 2000
-        fsGroup: 2000
+      # securityContext:
+      #   runAsUser: 1000
+      #   runAsGroup: 2000
+      #   fsGroup: 2000
       containers:
         - name: transmission
           image: "docker.io/haugene/transmission-openvpn:latest"
@@ -202,7 +199,7 @@ spec:
             claimName: pvc-nfs-downloads
         - name: transmission-config
           persistentVolumeClaim:
-            claimName: pvc-nfs-transmission-config
+            claimName: pvc-iscsi-transmission-config
 
 ---
 kind: Service
