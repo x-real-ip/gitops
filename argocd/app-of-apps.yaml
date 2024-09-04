@@ -18,4 +18,6 @@ spec:
   sources: []
   project: ""
   syncPolicy:
-    automated: {}
+    automated:
+      prune: true
+      selfHeal: false
