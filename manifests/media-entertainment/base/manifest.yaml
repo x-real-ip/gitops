@@ -1,16 +1,4 @@
 ---
-kind: Secret
-apiVersion: v1
-metadata:
-  name: plex-claim-token
-  namespace: media
-  labels:
-    app: plex
-type: Opaque
-stringData:
-  token: claim-xxxxxxxxxxxxxxxxxxxxx
-
----
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -37,61 +25,6 @@ spec:
       server: truenas-master.lan.theautomation.nl
       share: /mnt/hdd/containers/k8s/plex-media
       node_attach_driver: nfs
-      provisioner_driver: node-manual
-
----
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: pv-nfs-plex-transcodes
-  labels:
-    app: plex
-spec:
-  storageClassName: "freenas-nfs-manual-csi"
-  capacity:
-    storage: 200Gi
-  accessModes:
-    - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  mountOptions:
-    - nfsvers=4
-    - nolock
-    - noatime
-  csi:
-    driver: org.democratic-csi.node-manual
-    readOnly: false
-    fsType: nfs
-    volumeHandle: pv-nfs-plex-transcodes
-    volumeAttributes:
-      server: truenas-master.lan.theautomation.nl
-      share: /mnt/ssd/containers/k8s/plex-transcode
-      node_attach_driver: nfs
-      provisioner_driver: node-manual
-
----
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: pv-iscsi-plex-config
-  labels:
-    app: plex
-spec:
-  storageClassName: "freenas-iscsi-manual-csi"
-  capacity:
-    storage: 10Gi
-  accessModes:
-    - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  csi:
-    driver: org.democratic-csi.node-manual
-    readOnly: false
-    fsType: xfs
-    volumeHandle: pv-iscsi-plex-config
-    volumeAttributes:
-      portal: truenas-master.lan.theautomation.nl:3260
-      iqn: iqn.2005-10.org.freenas.ctl:plex-config-2
-      lun: "0"
-      node_attach_driver: iscsi
       provisioner_driver: node-manual
 
 ---
@@ -245,40 +178,6 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: pvc-nfs-plex-transcodes
-  namespace: media
-  labels:
-    app: plex
-spec:
-  storageClassName: freenas-nfs-manual-csi
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 200Gi
-  volumeName: pv-nfs-plex-transcodes
-
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: pvc-iscsi-plex-config
-  namespace: media
-  labels:
-    app: plex
-spec:
-  storageClassName: freenas-iscsi-manual-csi
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 10Gi
-  volumeName: pv-iscsi-plex-config
-
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
   name: pvc-iscsi-prowlarr-config
   namespace: media
   labels:
@@ -359,114 +258,6 @@ spec:
     requests:
       storage: 10Gi
   volumeName: pv-iscsi-overseerr-config
-
----
-kind: ConfigMap
-apiVersion: v1
-metadata:
-  name: plex-config
-  namespace: media
-  labels:
-    app: plex
-data:
-  TZ: "Europe/Amsterdam"
-  ADVERTISE_IP: "http://10.0.100.241:32400/"
-  PLEX_UID: "1000"
-  PLEX_GID: "1000"
-  CHANGE_CONFIG_DIR_OWNERSHIP: "false"
-  ALLOWED_NETWORKS: "10.0.100.0/24,10.0.10.0/24"
-
----
-kind: Deployment
-apiVersion: apps/v1
-metadata:
-  name: plex
-  namespace: media
-  labels:
-    app: plex
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: plex
-  strategy:
-    type: Recreate
-  template:
-    metadata:
-      labels:
-        app: plex
-    spec:
-      containers:
-        - name: plex
-          image: "docker.io/plexinc/pms-docker:latest"
-          imagePullPolicy: Always
-          resources:
-            requests:
-              memory: "4Gi"
-              cpu: "1"
-              ephemeral-storage: "2Gi"
-            limits:
-              memory: "8Gi"
-              cpu: "2"
-              ephemeral-storage: "4Gi"
-          ports:
-            # https://support.plex.tv/articles/201543147-what-network-ports-do-i-need-to-allow-through-my-firewall/
-            - containerPort: 32400
-              name: pms
-              protocol: TCP
-            - containerPort: 1900
-              name: dnla-udp
-              protocol: UDP
-            - containerPort: 32469
-              name: dnla-tcp
-              protocol: TCP
-            - containerPort: 3005
-              name: home-theatre
-              protocol: TCP
-            - containerPort: 5353
-              name: discovery
-              protocol: TCP
-            - containerPort: 8324
-              name: roku
-              protocol: TCP
-            - containerPort: 32410
-              protocol: UDP
-            - containerPort: 32412
-              protocol: UDP
-            - containerPort: 32413
-              protocol: UDP
-            - containerPort: 32414
-              protocol: UDP
-          envFrom:
-            - configMapRef:
-                name: plex-config
-          env:
-            - name: PLEX_CLAIM
-              valueFrom:
-                secretKeyRef:
-                  name: plex-claim-token
-                  key: token
-          volumeMounts:
-            - mountPath: /config
-              name: config
-            - mountPath: /transcode
-              name: transcode
-            - mountPath: /data
-              name: media
-      dnsPolicy: ClusterFirst
-      dnsConfig:
-        nameservers:
-          - 10.0.100.1
-      volumes:
-        - name: config
-          persistentVolumeClaim:
-            claimName: pvc-iscsi-plex-config
-        - name: media
-          persistentVolumeClaim:
-            claimName: pvc-nfs-media
-        - name: transcode
-          persistentVolumeClaim:
-            claimName: pvc-nfs-plex-transcodes
 
 ---
 kind: Deployment
@@ -859,63 +650,6 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: plex-service
-  namespace: media
-  labels:
-    app: plex
-spec:
-  type: LoadBalancer
-  loadBalancerIP: 10.0.100.241
-  externalTrafficPolicy: Local
-  ports:
-    - name: pms
-      port: 32400
-      protocol: TCP
-      targetPort: pms
-    - name: home-theatre
-      port: 3005
-      protocol: TCP
-      targetPort: home-theatre
-    - name: discovery
-      port: 5353
-      protocol: TCP
-      targetPort: discovery
-    - name: roku
-      port: 8324
-      protocol: TCP
-      targetPort: roku
-    - name: dnla-tcp
-      port: 32469
-      protocol: TCP
-      targetPort: dnla-tcp
-    - name: dnla-udp
-      port: 1900
-      protocol: UDP
-      targetPort: dnla-udp
-    - name: gdm32410
-      port: 32410
-      protocol: UDP
-      targetPort: 32410
-    - name: gdm32412
-      port: 32412
-      protocol: UDP
-      targetPort: 32412
-    - name: gdm32413
-      port: 32413
-      protocol: UDP
-      targetPort: 32413
-    - name: gdm32414
-      port: 32414
-      protocol: UDP
-      targetPort: 32414
-  selector:
-    app: plex
-  sessionAffinity: None
-
----
-kind: Service
-apiVersion: v1
-metadata:
   name: prowlarr
   namespace: media
   labels:
@@ -1001,32 +735,6 @@ spec:
       protocol: TCP
       port: 5055
       targetPort: http
-
----
-kind: Ingress
-apiVersion: networking.k8s.io/v1
-metadata:
-  name: plex-internal-ingress
-  namespace: media
-  labels:
-    app: plex
-spec:
-  ingressClassName: nginx-private
-  rules:
-    - host: plex.lan.theautomation.nl
-      http:
-        paths:
-          - path: "/"
-            pathType: Prefix
-            backend:
-              service:
-                name: plex-service
-                port:
-                  number: 32400
-  tls:
-    - hosts:
-        - plex.lan.theautomation.nl
-      secretName: tls-wildcard-lan-theautomation-nl
 
 ---
 kind: Ingress
