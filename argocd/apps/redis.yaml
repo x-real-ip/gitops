@@ -4,6 +4,8 @@ kind: Application
 metadata:
   name: redis
   namespace: argocd
+  labels:
+    storage: truenas
 spec:
   project: default
   source:

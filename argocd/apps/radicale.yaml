@@ -4,6 +4,8 @@ kind: Application
 metadata:
   name: radicale
   namespace: argocd
+  labels:
+    storage: truenas
 spec:
   project: default
   source:

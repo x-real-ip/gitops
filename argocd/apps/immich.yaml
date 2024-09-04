@@ -4,6 +4,8 @@ kind: Application
 metadata:
   name: immich
   namespace: argocd
+  labels:
+    storage: truenas
 spec:
   project: default
   source:

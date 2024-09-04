@@ -4,6 +4,8 @@ kind: Application
 metadata:
   name: home-assistant
   namespace: argocd
+  labels:
+    storage: truenas
 spec:
   project: default
   source:
