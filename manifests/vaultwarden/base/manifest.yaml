@@ -280,7 +280,7 @@ spec:
         fsGroup: 1000
       containers:
         - name: vaultwarden
-          image: "vaultwarden/server:1.31.0-alpine"
+          image: "vaultwarden/server:1.32.0-alpine"
           imagePullPolicy: Always
           securityContext:
             runAsGroup: 1000
