@@ -41,7 +41,7 @@ spec:
             editorTheme: {
                 palette: {},
                 projects: {
-                    enabled: true,
+                    enabled: false,
                     workflow: {
                         mode: "manual"
                     }
