@@ -6,7 +6,7 @@ resources:
 
 images:
 - name: ghcr.io/x-real-ip/home-assistant
-  newTag: 7d19c4295e1242898a315820ac2d5d185f10b205
+  newTag: 898683cff30a6bf6d257c632d3428884ec4e0fd2
 
 commonLabels:
   storage: truenas
