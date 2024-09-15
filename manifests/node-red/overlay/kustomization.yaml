@@ -6,4 +6,4 @@ resources:
 
 images:
 - name: ghcr.io/x-real-ip/node-red
-  newTag: e4f43ff7ed84640a9fe073af33f4b339d3244d0f
+  newTag: 17d03a8d8f632c68ab5b62897b7c480f55ed1160
