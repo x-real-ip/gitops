@@ -2,8 +2,13 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-- ../base
+  - ../base
 
 images:
-- name: ghcr.io/x-real-ip/node-red
-  newTag: 7719651c9873a37a42800faae8e26775ec41b5a4
+  - name: ghcr.io/x-real-ip/node-red
+    newTag: d85f3c41282810cc8b746752d40dd0e3e980a0c8
+
+namespace: home-automation
+
+commonLabels:
+  storage: truenas
