@@ -120,9 +120,9 @@ spec:
             - name: TZ
               value: Europe/Amsterdam
             - name: PGID
-              value: "1000"
-            - name: PUID
               value: "2000"
+            - name: PUID
+              value: "1000"
           volumeMounts:
             - name: node-red-data
               mountPath: /data
