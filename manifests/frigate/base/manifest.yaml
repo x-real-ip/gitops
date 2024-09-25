@@ -238,6 +238,9 @@ spec:
             - name: webrtc-udp
               containerPort: 8555
               protocol: UDP
+            - name: webrtc-api-tcp
+              containerPort: 1984
+              protocol: TCP
           livenessProbe:
             httpGet:
               path: /
@@ -323,6 +326,10 @@ spec:
       protocol: UDP
       port: 8555
       targetPort: webrtc-udp
+    - name: webrtc-api-tcp
+      protocol: TCP
+      port: 1984
+      targetPort: webrtc-api-tcp
 
 ---
 apiVersion: networking.k8s.io/v1
@@ -353,7 +360,7 @@ spec:
               service:
                 name: frigate
                 port:
-                  name: http-services
+                  name: webrtc-api-tcp
   # tls:
   #   - hosts:
   #       - frigate.lan.theautomation.nl
