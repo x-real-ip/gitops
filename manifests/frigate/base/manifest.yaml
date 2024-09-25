@@ -340,7 +340,18 @@ spec:
                 name: frigate
                 port:
                   name: http
+    - host: frigate-api.lan.theautomation.nl
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frigate
+                port:
+                  name: http-services
   tls:
     - hosts:
-        - "frigate.lan.theautomation.nl"
+        - frigate.lan.theautomation.nl
+        - frigate-api.lan.theautomation.nl
       secretName: tls-wildcard-lan-theautomation-nl
