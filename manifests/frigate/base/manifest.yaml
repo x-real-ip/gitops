@@ -350,8 +350,8 @@ spec:
                 name: frigate
                 port:
                   name: http-services
-  tls:
-    - hosts:
-        - frigate.lan.theautomation.nl
-        - frigate-api.lan.theautomation.nl
-      secretName: tls-wildcard-lan-theautomation-nl
+  # tls:
+  #   - hosts:
+  #       - frigate.lan.theautomation.nl
+  #       - frigate-api.lan.theautomation.nl
+  #     secretName: tls-wildcard-lan-theautomation-nl
