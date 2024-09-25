@@ -142,7 +142,7 @@ data:
       backyard:
         ffmpeg:
           inputs:
-            - path: rtsp://127.0.0.1:8554/ipcam-01
+            - path: rtsp://127.0.0.1:8554/backyard
               input_args: preset-rtsp-restream
               roles:
                 - detect
