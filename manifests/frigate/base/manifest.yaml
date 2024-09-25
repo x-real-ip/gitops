@@ -131,12 +131,12 @@ data:
 
     go2rtc:
       streams:
-        ipcam-01: 
-          - rtsp://{FRIGATE_CAM01_RTSP_USER}:{FRIGATE_CAM01_RTSP_PASSWORD}@ipcam-01.lan.theautomation.nl:554/cam/realmonitor?channel=1&subtype=0
-          - "ffmpeg:ipcam-01#audio=opus"
-        ipcam-02: 
+        backyard:
+          - rtsp://{FRIGATE_CAM01_RTSP_USER}:{FRIGATE_CAM01_RTSP_PASSWORD}@backyard.lan.theautomation.nl:554/cam/realmonitor?channel=1&subtype=0
+          - "ffmpeg:backyard#audio=opus"
+        baby: 
           - rtsp://{FRIGATE_CAM02_RTSP_USER}:{FRIGATE_CAM02_RTSP_PASSWORD}@ipcam-02.lan.theautomation.nl/live0
-          - "ffmpeg:ipcam-02#audio=opus"
+          - "ffmpeg:baby#audio=opus"
 
     cameras:
       backyard:
@@ -174,7 +174,7 @@ data:
       baby:
         ffmpeg:
           inputs:
-            - path: rtsp://127.0.0.1:8554/ipcam-02
+            - path: rtsp://127.0.0.1:8554/baby
               input_args: preset-rtsp-restream
               roles:
                 - record
