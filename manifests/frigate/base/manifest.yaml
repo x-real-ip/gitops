@@ -132,7 +132,7 @@ data:
     go2rtc:
       streams:
         backyard:
-          - rtsp://{FRIGATE_CAM01_RTSP_USER}:{FRIGATE_CAM01_RTSP_PASSWORD}@backyard.lan.theautomation.nl:554/cam/realmonitor?channel=1&subtype=0
+          - rtsp://{FRIGATE_CAM01_RTSP_USER}:{FRIGATE_CAM01_RTSP_PASSWORD}@ipcam-01.lan.theautomation.nl:554/cam/realmonitor?channel=1&subtype=0
           - "ffmpeg:backyard#audio=opus"
         baby: 
           - rtsp://{FRIGATE_CAM02_RTSP_USER}:{FRIGATE_CAM02_RTSP_PASSWORD}@ipcam-02.lan.theautomation.nl/live0
