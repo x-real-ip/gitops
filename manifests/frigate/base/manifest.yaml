@@ -351,7 +351,7 @@ spec:
                 name: frigate
                 port:
                   name: http
-    - host: frigate-api.lan.theautomation.nl
+    - host: frigate-webrtc-api.lan.theautomation.nl
       http:
         paths:
           - path: /
@@ -361,8 +361,8 @@ spec:
                 name: frigate
                 port:
                   name: webrtc-api-tcp
-  # tls:
-  #   - hosts:
-  #       - frigate.lan.theautomation.nl
-  #       - frigate-api.lan.theautomation.nl
-  #     secretName: tls-wildcard-lan-theautomation-nl
+  tls:
+    - hosts:
+        - frigate.lan.theautomation.nl
+        - frigate-webrtc-api.lan.theautomation.nl
+      secretName: tls-wildcard-lan-theautomation-nl
