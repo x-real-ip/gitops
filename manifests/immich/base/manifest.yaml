@@ -223,7 +223,9 @@ spec:
           securityContext:
             runAsUser: 1000
           ports:
-            - containerPort: 3001
+            - name: http
+              containerPort: 3001
+              protocol: TCP
           env:
             - name: DB_PASSWORD
               valueFrom:
@@ -237,16 +239,16 @@ spec:
           livenessProbe:
             failureThreshold: 3
             httpGet:
-              path: /server-info/ping
-              port: 3001
+              path: /api/server-info/ping
+              port: http
             initialDelaySeconds: 0
             periodSeconds: 10
             timeoutSeconds: 1
           readinessProbe:
             failureThreshold: 3
             httpGet:
-              path: /server-info/ping
-              port: 3001
+              path: /api/server-info/ping
+              port: http
             initialDelaySeconds: 0
             periodSeconds: 10
             timeoutSeconds: 1
