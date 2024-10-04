@@ -58,7 +58,6 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: vaultwarden-data-pvc-nfs
-  namespace: tools
   labels:
     app: vaultwarden
 spec:
@@ -75,7 +74,6 @@ kind: SealedSecret
 apiVersion: bitnami.com/v1alpha1
 metadata:
   name: vaultwarden-server-env-secret
-  namespace: tools
 spec:
   encryptedData:
     ADMIN_TOKEN: AgAtxn0TaDUbolYPOK4sHidxyIN9bQzGvUeFXZhXV31McGF8BF/VNuVbQutvxjJ/aMlZr/Bi5E6NcATfJUL6XUWWGXUcrXvLBoFn8JteHud198Gj0P5HUs41uBl3VoIHFgTEN/ZGOzAaahbeIrKq+9CJL4crLpTz/zBoYi1tMsGfHUrt6/TqxbCc3mZNHti4tiHkLLU4Xqhd5Rhs2361XIvLjhHAZc3cneoUbfF/MgNw5wiHbAexNlz3QHGcTaPiZ1ACIP++foF2ixnupAoRaEpNzLjrfDVzuJslVH/3SBVcutdXaZdJkkMZwHeURX76ye8U923CU5Q2FipOEjp0DnfjMvJ2cKm1oS0F1pxin1zPTy3L8HU8Dj9ponzt+c4oCJOjttzU09nHuhnzH117Y4fbmGEzx2KbYEdBLcof7hAO/8tBT6EALpP7H/gSJ0yhn1deAdp4r8IdSJn/3ORm2EIEEgPP9XXwq9btotVdO95UZu7bZIXheB7mSOy/tnhxZuBdUyZmu187BNJLicvZRTPOsB0ivuUL0kCOmgkCCO8jt0Mdc7/SLlE/MAdTOpW+EHiFbvv8N8NWCON+oDsYO7tGAStwaZrlEtlV658FzzXGPpXwSwhIVj2nZWq1HQH1O48yxdafLBprzSNXHor7yxJ5RJo3SdWJ9d+MOaLdQi20dItGFCnFY6cy5n460dIAglsOpyZHYiohnKUQ6KB1CA==
@@ -88,7 +86,6 @@ spec:
       labels:
         app: vaultwarden
       name: vaultwarden-server-env-secret
-      namespace: tools
     type: Opaque
 
 ---
@@ -96,7 +93,6 @@ kind: SealedSecret
 apiVersion: bitnami.com/v1alpha1
 metadata:
   name: vaultwarden-database-env-secret
-  namespace: tools
 spec:
   encryptedData:
     POSTGRESQL_PASSWORD: AgBTaUNFeQ3c6qidTTHGTVIgOfhkz37biKRTWLLGYMCsGc3tFsBEm8sQfqGrhGlrqLXpyQY9DlTd0uZKKOZIsxYXQ/mR7FzVfDSAzru3lSGpIwKzGbTEqw8AtQQjNbBB6rWeCfiPXjdKUEBH0znDdSK4UM70b06GY9MyOrTrahfePg3ExIB6mw8xo5C1FY4jNhEDv5SWL1zZsjrOWPAuN1hGic6UKxtvqbjsffnQ+t5J8SCu0QdszHLNux3G7I5nutkaDYIkv4LjvKZ/2qyMW98drP247HYdKv5FImYSKf2nzt/xspJ4r9ncv5rPLH3+ESEdMuxvYWorOAO+9gtmOIJS0i/JS26s6DpdPhbRFjpE/sP/hzNcC79Sxwsk+jX4/CgvbQidO64Pm/3p3dVKzb96BbUiRp/U8Akx48qEvrRYLJejynzNZ8mOi06J8cGclSh4ytAry7NOHVtEnUPssG39u302h0FC0F1dwJleHjCIDHizuCenswrFH+yCwmY0NJp08GLXPwXKUtaii4ZJWBE3AYCL67MvIvsK8Rl6zCdMjlYqXGP4a+ZEgQdagOP+fucjHxFd+03Hs1scAjCw8TsMgtV7MIEmbscwk1BL8Pv3NbSdX5cJmdu7vzO1lGuZoATHIIJ9BpmIDOf4VOwrpl91QRr1Y5zmavagYbr62GO8Ow1TKKgSDgr1cu35W+CNWTrVgl74kVe+FbZvnr+REOqTyY1eTNubz7wayRRuPYClkf5MPF+KXiI=
@@ -105,7 +101,6 @@ spec:
     type: Opaque
     metadata:
       name: vaultwarden-database-env-secret
-      namespace: tools
       labels:
         app: vaultwarden
 
@@ -114,7 +109,6 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: vaultwarden-database-env-configmap
-  namespace: tools
   labels:
     app: vaultwarden
 data:
@@ -125,7 +119,6 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: vaultwarden-server-env-configmap
-  namespace: tools
   labels:
     app: vaultwarden
 data:
@@ -158,7 +151,6 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: vaultwarden-postgresql
-  namespace: tools
   labels:
     app: vaultwarden
 spec:
@@ -263,7 +255,6 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: vaultwarden
-  namespace: tools
   labels:
     app: vaultwarden
 spec:
@@ -280,7 +271,7 @@ spec:
         fsGroup: 1000
       containers:
         - name: vaultwarden
-          image: "vaultwarden/server:1.32.0-alpine"
+          image: "vaultwarden/server:latest"
           imagePullPolicy: Always
           securityContext:
             runAsGroup: 1000
@@ -317,7 +308,6 @@ kind: Service
 apiVersion: v1
 metadata:
   name: vaultwarden-postgresql-hl
-  namespace: tools
   labels:
     app: vaultwarden
     service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
@@ -337,7 +327,6 @@ kind: Service
 apiVersion: v1
 metadata:
   name: vaultwarden
-  namespace: tools
   labels:
     app: vaultwarden
 spec:
@@ -355,7 +344,6 @@ kind: Ingress
 apiVersion: networking.k8s.io/v1
 metadata:
   name: vaultwarden
-  namespace: tools
   labels:
     app: vaultwarden
   annotations:

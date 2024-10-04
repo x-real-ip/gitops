@@ -4,5 +4,11 @@ kind: Kustomization
 resources:
   - ../base
 
+namespace: tools
+
+images:
+  - name: ghcr.io/dani-garcia/vaultwarden
+    newTag: 1.32.1-alpine
+
 commonLabels:
   storage: truenas
