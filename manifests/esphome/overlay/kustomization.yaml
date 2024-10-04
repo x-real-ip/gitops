@@ -2,8 +2,10 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-- ../base
+  - ../base
+
+namespace: home-automation
 
 images:
-- name: ghcr.io/x-real-ip/esphome
-  newTag: bc06ae463c28a157a333b5d6881a22eef69333b6
+  - name: ghcr.io/x-real-ip/esphome
+    newTag: bc06ae463c28a157a333b5d6881a22eef69333b6

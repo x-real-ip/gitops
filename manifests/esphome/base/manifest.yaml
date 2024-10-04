@@ -3,7 +3,6 @@ kind: SealedSecret
 apiVersion: bitnami.com/v1alpha1
 metadata:
   name: esphome-login
-  namespace: home-automation
   labels:
     app: esphome
 spec:
@@ -14,14 +13,12 @@ spec:
     type: Opaque
     metadata:
       name: esphome-login
-      namespace: home-automation
 
 ---
 kind: SealedSecret
 apiVersion: bitnami.com/v1alpha1
 metadata:
   name: esphome-secrets
-  namespace: home-automation
   labels:
     app: esphome
 spec:
@@ -39,7 +36,6 @@ spec:
         ota_password: "{{ index . "ota_password" }}"
     metadata:
       name: secrets
-      namespace: home-automation
       labels:
         app.kubernetes.io/name: esphome
 
@@ -48,7 +44,6 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: esphome
-  namespace: home-automation
   labels:
     app: esphome
 spec:
@@ -69,7 +64,7 @@ spec:
       enableServiceLinks: true
       containers:
         - name: esphome
-          image: "ghcr.io/x-real-ip/esphome:34dfc9192a52bf8bd8437de7bc4c404f346a4627"
+          image: "ghcr.io/x-real-ip/esphome:main"
           imagePullPolicy: Always
           ports:
             - containerPort: 6052
@@ -127,7 +122,6 @@ kind: Service
 apiVersion: v1
 metadata:
   name: esphome
-  namespace: home-automation
   labels:
     app: esphome
 spec:
@@ -145,7 +139,6 @@ kind: Ingress
 apiVersion: networking.k8s.io/v1
 metadata:
   name: esphome
-  namespace: home-automation
   labels:
     app: esphome
   annotations:
