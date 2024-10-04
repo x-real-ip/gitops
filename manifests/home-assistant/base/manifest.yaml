@@ -58,7 +58,6 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: pvc-nfs-home-assistant-config
-  namespace: home-automation
   labels:
     app: home-assistant
 spec:
@@ -75,7 +74,6 @@ kind: SealedSecret
 apiVersion: bitnami.com/v1alpha1
 metadata:
   name: home-assistant-postgresql-secret
-  namespace: home-automation
   labels:
     app: home-assistant-database
 spec:
@@ -86,7 +84,6 @@ spec:
     type: Opaque
     metadata:
       name: home-assistant-postgresql-secret
-      namespace: home-automation
       labels:
         app: home-assistant
 
@@ -95,7 +92,6 @@ kind: SealedSecret
 apiVersion: bitnami.com/v1alpha1
 metadata:
   name: secrets
-  namespace: home-automation
   labels:
     app: home-assistant
 spec:
@@ -135,14 +131,12 @@ spec:
       labels:
         app: home-assistant
       name: secrets
-      namespace: home-automation
 
 ---
 kind: StatefulSet
 apiVersion: apps/v1
 metadata:
   name: home-assistant-postgresql
-  namespace: home-automation
   labels:
     app: home-assistant-database
 spec:
@@ -257,7 +251,6 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: home-assistant
-  namespace: home-automation
   labels:
     app: home-assistant
 spec:
@@ -336,7 +329,6 @@ kind: Service
 apiVersion: v1
 metadata:
   name: home-assistant-postgresql-hl
-  namespace: home-automation
   labels:
     app: home-assistant-database
     service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
@@ -356,7 +348,6 @@ kind: Service
 apiVersion: v1
 metadata:
   name: home-assistant
-  namespace: home-automation
   labels:
     app: home-assistant
 spec:
@@ -374,7 +365,6 @@ kind: Service
 apiVersion: v1
 metadata:
   name: home-assistant-coiot
-  namespace: home-automation
   labels:
     app: home-assistant
 spec:
@@ -392,7 +382,6 @@ kind: Ingress
 apiVersion: networking.k8s.io/v1
 metadata:
   name: home-assistant-private
-  namespace: home-automation
   labels:
     app: home-assistant
 spec:
@@ -414,7 +403,6 @@ kind: Ingress
 apiVersion: networking.k8s.io/v1
 metadata:
   name: home-assistant-public
-  namespace: home-automation
   labels:
     app: home-assistant
 spec:
