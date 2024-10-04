@@ -60,7 +60,6 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: pvc-nfs-dsmr-reader-backups
-  namespace: home-automation
   labels:
     app: dsmr-reader
 spec:
@@ -77,7 +76,6 @@ kind: SealedSecret
 apiVersion: bitnami.com/v1alpha1
 metadata:
   name: dsmr-reader
-  namespace: home-automation
   labels:
     app: dsmr-reader
   annotations:
@@ -101,7 +99,6 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: dsmr-reader-postgresql-env
-  namespace: home-automation
   labels:
     app: dsmr-reader-database
   annotations:
@@ -115,7 +112,6 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: dsmr-reader-env
-  namespace: home-automation
   labels:
     app: dsmr-reader
 data:
@@ -134,7 +130,6 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: dsmr-reader-postgresql
-  namespace: home-automation
   labels:
     app: dsmr-reader-database
   annotations:
@@ -232,7 +227,6 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: dsmr-reader
-  namespace: home-automation
   labels:
     app: dsmr-reader
 spec:
@@ -317,7 +311,6 @@ kind: Service
 apiVersion: v1
 metadata:
   name: dsmr-reader-postgresql-hl
-  namespace: home-automation
   labels:
     app: dsmr-reader-database
     service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
@@ -339,7 +332,6 @@ kind: Service
 apiVersion: v1
 metadata:
   name: dsmr-reader
-  namespace: home-automation
   labels:
     app: dsmr-reader
 spec:
@@ -357,7 +349,6 @@ kind: Ingress
 apiVersion: networking.k8s.io/v1
 metadata:
   name: dsmr-reader
-  namespace: home-automation
   labels:
     app: dsmr-reader
 spec:
