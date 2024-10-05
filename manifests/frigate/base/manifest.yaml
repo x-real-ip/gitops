@@ -127,7 +127,7 @@ data:
 
     mqtt:
       host: mqtt.lan.theautomation.nl
-      port: 9001
+      port: 80
       # host: mosquitto.home-automation.svc.cluster.local
       # port: 1883
 
