@@ -126,8 +126,10 @@ data:
       enabled: True
 
     mqtt:
-      host: mosquitto.home-automation.svc.cluster.local
-      port: 1883
+      host: mqtt.lan.theautomation.nl
+      port: 9001
+      # host: mosquitto.home-automation.svc.cluster.local
+      # port: 1883
 
     go2rtc:
       streams:
