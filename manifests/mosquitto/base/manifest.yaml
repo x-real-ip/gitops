@@ -29,7 +29,6 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: pvc-iscsi-mosquitto-data
-  namespace: home-automation
   labels:
     app: mosquitto
 spec:
@@ -46,13 +45,14 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mosquitto-configmap
-  namespace: home-automation
   labels:
     app: mosquitto
 data:
   mosquitto.conf: |
     listener 1883
     allow_anonymous true
+    listener 9001
+    protocol websockets
     persistence true
     persistence_location /mosquitto/data
     autosave_interval 1800
@@ -62,7 +62,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mosquitto
-  namespace: home-automation
   labels:
     app: mosquitto
 spec:
@@ -84,7 +83,11 @@ spec:
           imagePullPolicy: Always
           resources: {}
           ports:
-            - containerPort: 1883
+            - name: mqtt
+              containerPort: 1883
+              protocol: TCP
+            - name: mqtt-websocket
+              containerPort: 9001
               protocol: TCP
           env:
             - name: TZ
@@ -140,4 +143,29 @@ spec:
     - name: mqtt
       protocol: TCP
       port: 1883
-      targetPort: 1883
+      targetPort: mqtt
+    - name: mqtt-websocket
+      protocol: TCP
+      port: 9001
+      targetPort: mqtt-websocket
+
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: mqtt-websocket
+  labels:
+    app: mosquitto
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: mqtt.lan.theautomation.nl
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: mosquitto
+                port:
+                  name: mqtt-websocket

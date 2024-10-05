@@ -4,5 +4,11 @@ kind: Kustomization
 resources:
   - ../base
 
+namespace: home-automation
+
+images:
+  - name: docker.io/eclipse-mosquitto
+    newTag: latest
+
 commonLabels:
   storage: truenas
