@@ -8,3 +8,6 @@ namespace: democratic-csi
 
 commonLabels:
   storage: truenas
+
+patches:
+  - path: patch_deamonset_csi-manual-democratic-csi-node.yaml

@@ -52,7 +52,6 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: csi-manual-democratic-csi
-  namespace: democratic-csi
   labels:
     app.kubernetes.io/name: democratic-csi
     app.kubernetes.io/instance: csi-manual
@@ -64,14 +63,12 @@ kind: SealedSecret
 apiVersion: bitnami.com/v1alpha1
 metadata:
   name: smbcredentials-coen
-  namespace: democratic-csi
 spec:
   encryptedData:
     mount_flags: AgBYR77ZbuqI80lABghwHURl6W1h1Fxj/gNroehpqVzZ9s2814YJAbKjtM8hjNKRJiRQhBW9fcN8DlvyHyHx7xigfu25lnTIbg1GbZ29xv0DkGKpe22fXD6WuSst9IBXVE4BccSaNIHVB5r9xOml7sq9NhdArVqIa1+ATTgLI+CXLgWgcFyOjawPUZPZQRcJaNpZ9sacY1IDDfQYXZTU+dD+vq62Dmozs5uHKbjBEdo1WjkJcNpCdXumDjMWBJ/0R3q4MNdeJ9ODztgbhw9G7hFSL8bhChUE8gSVFkx4OBPzbu/VSDJhHHctHiKXzL/Fl9XcsxrW84oGSs5CPd7WP47yP9oNp+LZ7ASqr8qX8zD24xLF2iiRGNx+AJXzDBW5rL0z5bgeIpSyyj8ymj3DdAqWnXXOhzFBW2kHuug3ZcLBr3rbHMz2ZNm1AFQNu2pilowcthCNqAcKwru0ENr9MApNVYhoiHOIyUYU5i3CNVqvjAsW3bFj/sFVcqK5zEseaHExUf2mO85Q/orYzkJC6M+YV/N3yEj/YDXnnKpBKr3gnR3Z37P4s01AdPYBbpVsk2TpISvUxUgR8kO47q4vpaHUzc+yTWoBiLqCpFqQ0toYOtSxW5/I4BJZd7fs0Ibv+mzZiM0LfmCtsuoE62LQshMYMbQXzJRYeRpcGj6+s90pQsVlHAgYanX1XdGfKkrBFuq17xvXXkyGlc2CQoagIn/gYTFssBwiBcfjZ4BoQbpv
   template:
     metadata:
       name: smbcredentials-coen
-      namespace: democratic-csi
 
 ---
 kind: Secret
@@ -79,7 +76,6 @@ apiVersion: v1
 type: Opaque
 metadata:
   name: csi-manual-democratic-csi-driver-config
-  namespace: democratic-csi
   labels:
     app.kubernetes.io/name: democratic-csi
     app.kubernetes.io/instance: csi-manual
@@ -107,7 +103,6 @@ kind: ServiceAccount
 apiVersion: v1
 metadata:
   name: csi-manual-democratic-csi-node-sa
-  namespace: democratic-csi
   labels:
     app.kubernetes.io/name: democratic-csi
     app.kubernetes.io/instance: csi-manual
@@ -156,7 +151,6 @@ kind: DaemonSet
 apiVersion: apps/v1
 metadata:
   name: csi-manual-democratic-csi-node
-  namespace: democratic-csi
   labels:
     app.kubernetes.io/name: democratic-csi
     app.kubernetes.io/instance: csi-manual
@@ -214,7 +208,6 @@ spec:
             initialDelaySeconds: 10
             timeoutSeconds: 15
             periodSeconds: 60
-
           volumeMounts:
             - name: socket-dir
               mountPath: /csi-data

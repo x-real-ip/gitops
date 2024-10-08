@@ -1,0 +1,13 @@
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: csi-manual-democratic-csi-node
+spec:
+  template:
+    spec:
+      tolerations:
+        - key: "machine_type"
+          operator: "Equal"
+          value: "odroid"
+          effect: "NoSchedule"
