@@ -128,3 +128,21 @@ spec:
           hostPath:
             path: /dev/bus/usb
             type: Directory
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cups
+  labels:
+    app: cups
+spec:
+  type: LoadBalancer
+  loadBalancerIP: 10.0.100.241
+  externalTrafficPolicy: Local
+  ports:
+    - name: ipp
+      port: 631
+      targetPort: ipp
+  selector:
+    app: cups
