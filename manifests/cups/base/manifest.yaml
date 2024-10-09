@@ -85,15 +85,15 @@ spec:
           hostNetwork: true
           securityContext:
             privileged: true
-          ports:
-            - name: ipp
-              containerPort: 631
-            - name: mdns
-              containerPort: 5353
-              protocol: TCP
-            - name: mdns
-              containerPort: 5353
-              protocol: UDP
+          # ports:
+          #   - name: ipp
+          #     containerPort: 631
+          #   - name: mdns
+          #     containerPort: 5353
+          #     protocol: TCP
+          #   - name: mdns
+          #     containerPort: 5353
+          #     protocol: UDP
           env:
             - name: CUPSADMIN
               value: "admin"
