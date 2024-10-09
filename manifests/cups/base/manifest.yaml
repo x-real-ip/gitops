@@ -84,7 +84,6 @@ spec:
           image: ghcr.io/anujdatar/cups:latest
           securityContext:
             privileged: true
-            runAsUser: 1000
           ports:
             - name: ipp
               containerPort: 631
