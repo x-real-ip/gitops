@@ -3,7 +3,7 @@ kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: pv-nfs-zwavejs2mqtt-us-data
-  labels: 
+  labels:
     app: zwavejs2mqtt-us
 spec:
   storageClassName: "freenas-nfs-manual-csi"
@@ -32,8 +32,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: pvc-nfs-zwavejs2mqtt-us-data
-  namespace: home-automation
-  labels: 
+  labels:
     app: zwavejs2mqtt-us
 spec:
   storageClassName: freenas-nfs-manual-csi
@@ -49,8 +48,7 @@ apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
   name: zwavejs2mqtt-us-settings
-  namespace: home-automation
-  labels: 
+  labels:
     app: zwavejs2mqtt-us
 spec:
   encryptedData:
@@ -135,7 +133,6 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: zwavejs2mqtt-us
-  namespace: home-automation
   labels:
     app: zwavejs2mqtt-us
 spec:
@@ -206,7 +203,6 @@ kind: Service
 apiVersion: v1
 metadata:
   name: zwavejs2mqtt-us
-  namespace: home-automation
   labels:
     app: zwavejs2mqtt-us
 spec:
@@ -222,7 +218,6 @@ kind: Service
 apiVersion: v1
 metadata:
   name: zwavejs2mqtt-us-ws
-  namespace: home-automation
   labels:
     app: zwavejs2mqtt-us
 spec:
@@ -238,7 +233,6 @@ kind: Ingress
 apiVersion: networking.k8s.io/v1
 metadata:
   name: zwavejs2mqtt-us
-  namespace: home-automation
   labels:
     app: zwavejs2mqtt-us
 spec:
