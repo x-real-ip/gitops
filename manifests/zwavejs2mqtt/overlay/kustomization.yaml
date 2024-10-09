@@ -6,3 +6,6 @@ resources:
 
 commonLabels:
   storage: truenas
+
+patches:
+  - path: patch_deployment_zwavejs2mqtt-us.yaml
