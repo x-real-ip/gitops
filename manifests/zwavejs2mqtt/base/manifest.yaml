@@ -152,6 +152,8 @@ spec:
         - name: zwave-us
           image: "docker.io/zwavejs/zwavejs2mqtt:latest"
           imagePullPolicy: Always
+          securityContext:
+            privileged: true
           resources:
             requests:
               cpu: 1000m
