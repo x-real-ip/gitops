@@ -79,7 +79,6 @@ spec:
       labels:
         app: cups
     spec:
-      hostNetwork: true
       containers:
         - name: cups
           image: ghcr.io/anujdatar/cups:latest
