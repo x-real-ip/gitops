@@ -7,3 +7,8 @@ resources:
 
 patches:
   - path: patch_deamonset_nfd-worker.yaml
+
+configMapGenerator:
+  - files:
+      - nfd-worker.conf
+    name: nfd-worker-conf
