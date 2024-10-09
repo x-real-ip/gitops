@@ -9,6 +9,7 @@ patches:
   - path: patch_deamonset_nfd-worker.yaml
 
 configMapGenerator:
-  - files:
+  - name: nfd-worker-conf
+    behavior: replace
+    files:
       - nfd-worker.conf
-    name: nfd-worker-conf
