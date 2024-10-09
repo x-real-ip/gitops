@@ -7,3 +7,6 @@ resources:
   - addresspool.yaml
 
 namespace: metallb-system
+
+patches:
+  - path: patch_deamonset_speaker.yaml
