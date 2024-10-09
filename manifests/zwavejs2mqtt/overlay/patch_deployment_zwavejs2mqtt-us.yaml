@@ -11,3 +11,5 @@ spec:
           operator: "Equal"
           value: "odroid"
           effect: "NoSchedule"
+      nodeSelector:
+        feature.node.kubernetes.io/usb-02_0658_0200.present: "true"
