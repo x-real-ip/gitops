@@ -1,0 +1,124 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-nfs-cups
+  labels:
+    app: cups
+spec:
+  storageClassName: "freenas-nfs-manual-csi"
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=4
+    - nolock
+    - noatime
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: nfs
+    volumeHandle: pv-nfs-cups
+    volumeAttributes:
+      server: truenas-master.lan.theautomation.nl
+      share: /mnt/ssd/containers/k8s/cups
+      node_attach_driver: nfs
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-nfs-cups
+  labels:
+    app: cups
+spec:
+  storageClassName: freenas-nfs-manual-csi
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+  volumeName: pv-nfs-cups
+
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: "true"
+  name: cups-secret
+spec:
+  encryptedData:
+    CUPSPASSWORD: AgBiCgXsoP3ret2p8zU2oVkQsFFjgqPcd8WrzR6qOmm2buX2WO/K8RHIq+/Ke1cpHsNjmxveodwZFrDM95YhIo2JuZdFjkJ2+Q2CdGdljiCR/p4ybTSfbbuoHaoDvWBL4oARNFqtsvBuSpmvh/kGIgPvog37LX3kX86RVFbOwzp0BxMlLF6Neh1L1rBsZ9ImvO5XzzHQOZ25tocvzgbX5S3vCs9HrEjKT3jd8lbIrRYf5e3EuvZGfnuvwb5CSDMdJnCd5BaV7IUUlrvCq36nUxbzL5bdukL+OF4BrehZHqdtSuv9tdlPiWvW3WRWS7oV1o+wXaBdT8LWNkbxbuI+X5mijqlcktuTtUDxRZZiko29AlsPSRg+i4AdYhUf2zJMsDSSkiO+z4aeSJkuETj2fPU3gtXMG95MMgzwnQNu2EPFJRZJ+a4QCYZm28iLpx2Dp3OcWM8t1Du5prNuRb8uDdhm0teixhXfFi+zy6k74JRjem0X0K7nYEnCtMhR6cVGpjIKrXUFRyr6ZRULLGDdnHPXPQLiUnooWRE6ZHXtR8bfRgFub9HAb+1RdmoHvr++auE7gmHNWO36NP2Eyme9vjc5TfDirMIsKvIaywCzxvWit51Og0b5mAt5NKYVz42HPu/ToPsKBP29xdO5zvF8GpJ2xBBF5HAN5sufyODzqHOzPAosaYftCQ59kgFJEF71A5EC1UGZQYAM
+  template:
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/cluster-wide: "true"
+      labels:
+        app: cups
+      name: cups-secret
+    type: Opaque
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cups
+  labels:
+    app: cups
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cups
+  template:
+    metadata:
+      labels:
+        app: cups
+    spec:
+      hostNetwork: true
+      containers:
+        - name: cups
+          image: ghcr.io/anujdatar/cups:latest
+          securityContext:
+            privileged: true
+          env:
+            - name: CUPSADMIN
+              value: "admin"
+            - name: CUPSPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cups-secret
+                  key: CUPSPASSWORD
+            - name: TZ
+              value: "Europe/Amsterdam"
+          volumeMounts:
+            - mountPath: /etc/cups
+              name: cups-config
+            - mountPath: /var/run/dbus
+              name: dbus
+            - mountPath: /var/run/avahi-daemon/socket
+              name: avahi-socket
+            - mountPath: /dev/bus/usb
+              name: usb-devices
+              mountPropagation: Bidirectional
+          resources: {}
+      volumes:
+        - name: cups-config
+          persistentVolumeClaim:
+            claimName: pvc-nfs-cups
+        - name: dbus
+          hostPath:
+            path: /var/run/dbus
+            type: DirectoryOrCreate
+        - name: avahi-socket
+          hostPath:
+            path: /var/run/avahi-daemon/socket
+            type: Socket
+        - name: usb-devices
+          hostPath:
+            path: /dev/bus/usb
+            type: Directory
