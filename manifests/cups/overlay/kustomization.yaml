@@ -6,8 +6,9 @@ resources:
 
 namespace: tools
 
-commonLabels:
-  storage: truenas
+labels:
+  - pairs:
+      storage: truenas
 
 patches:
-  - path: patch_deployment_cups
+  - path: patch_deployment_cups.yaml
