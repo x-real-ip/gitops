@@ -86,6 +86,11 @@ spec:
           securityContext:
             privileged: true
             runAsUser: 1000
+          ports:
+            - name: ipp
+              containerPort: 631
+            - name: mdns
+              containerPort: 5353
           env:
             - name: CUPSADMIN
               value: "admin"
