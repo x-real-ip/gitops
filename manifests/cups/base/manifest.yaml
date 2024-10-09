@@ -89,6 +89,10 @@ spec:
               containerPort: 631
             - name: mdns
               containerPort: 5353
+              protocol: TCP
+            - name: mdns
+              containerPort: 5353
+              protocol: UDP
           env:
             - name: CUPSADMIN
               value: "admin"
@@ -142,5 +146,13 @@ spec:
     - name: ipp
       port: 631
       targetPort: ipp
+    - name: mdns
+      port: 5353
+      targetPort: mdns
+      protocol: TCP
+    - name: mdns
+      port: 5353
+      targetPort: mdns
+      protocol: UDP
   selector:
     app: cups
