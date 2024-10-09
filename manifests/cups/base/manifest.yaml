@@ -82,6 +82,7 @@ spec:
       containers:
         - name: cups
           image: ghcr.io/anujdatar/cups:latest
+          hostNetwork: true
           securityContext:
             privileged: true
           ports:
@@ -130,29 +131,28 @@ spec:
           hostPath:
             path: /dev/bus/usb
             type: Directory
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: cups
-  labels:
-    app: cups
-spec:
-  type: LoadBalancer
-  loadBalancerIP: 10.0.100.241
-  externalTrafficPolicy: Local
-  ports:
-    - name: ipp
-      port: 631
-      targetPort: ipp
-    - name: mdns
-      port: 5353
-      targetPort: mdns
-      protocol: TCP
-    - name: mdns
-      port: 5353
-      targetPort: mdns
-      protocol: UDP
-  selector:
-    app: cups
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: cups
+#   labels:
+#     app: cups
+# spec:
+#   type: LoadBalancer
+#   loadBalancerIP: 10.0.100.241
+#   externalTrafficPolicy: Local
+#   ports:
+#     - name: ipp
+#       port: 631
+#       targetPort: ipp
+#     - name: mdns
+#       port: 5353
+#       targetPort: mdns
+#       protocol: TCP
+#     - name: mdns
+#       port: 5353
+#       targetPort: mdns
+#       protocol: UDP
+#   selector:
+#     app: cups
