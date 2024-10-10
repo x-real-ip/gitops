@@ -273,6 +273,8 @@ spec:
             - mountPath: /dev/bus/usb
               name: usb-bus
               readOnly: false
+            - mountPath: /dev/dri/renderD128
+              name: dri-render
           resources: {}
       volumes:
         - name: configmap
@@ -296,6 +298,10 @@ spec:
           hostPath:
             path: /dev/bus/usb
             type: Directory
+        - name: dri-render
+          hostPath:
+            path: /dev/dri/renderD128
+            type: CharDevice
 
 ---
 apiVersion: v1
