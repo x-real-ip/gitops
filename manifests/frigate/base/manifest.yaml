@@ -270,6 +270,9 @@ spec:
               mountPath: /dev/shm
             - name: tmp
               mountPath: /tmp
+            - mountPath: /dev/bus/usb
+              name: usb-bus
+              readOnly: false
           resources: {}
       volumes:
         - name: configmap
@@ -289,6 +292,10 @@ spec:
           emptyDir:
             medium: Memory
             sizeLimit: 1Gi
+        - name: usb-bus
+          hostPath:
+            path: /dev/bus/usb
+            type: Directory
 
 ---
 apiVersion: v1
