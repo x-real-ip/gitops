@@ -122,6 +122,11 @@ data:
     auth:
       enabled: True
 
+    detectors:
+      coral:
+        type: edgetpu
+        device: usb
+
     mqtt:
       host: mosquitto.home-automation.svc.cluster.local
       port: 1883
