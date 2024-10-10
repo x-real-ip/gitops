@@ -1,0 +1,15 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frigate
+spec:
+  template:
+    spec:
+      tolerations:
+        - key: "machine_type"
+          operator: "Equal"
+          value: "odroid"
+          effect: "NoSchedule"
+      # nodeSelector:
+      #   feature.node.kubernetes.io/usb-07_04f9_009a.present: "true"

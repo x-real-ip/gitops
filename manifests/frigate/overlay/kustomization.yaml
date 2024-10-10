@@ -12,3 +12,6 @@ commonLabels:
 images:
   - name: "ghcr.io/blakeblackshear/frigate"
     newTag: "stable"
+
+patches:
+  - path: patch_deployment_frigate.yaml

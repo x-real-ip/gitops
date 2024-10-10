@@ -74,7 +74,6 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: pvc-nfs-frigate-media
-  namespace: home-automation
   labels:
     app: frigate
 spec:
@@ -92,7 +91,6 @@ kind: SealedSecret
 metadata:
   annotations:
     sealedsecrets.bitnami.com/cluster-wide: "true"
-  creationTimestamp: null
   name: frigate-secrets
 spec:
   encryptedData:
@@ -104,7 +102,6 @@ spec:
     metadata:
       annotations:
         sealedsecrets.bitnami.com/cluster-wide: "true"
-      creationTimestamp: null
       labels:
         app: vaultwarden
       name: frigate-secrets
