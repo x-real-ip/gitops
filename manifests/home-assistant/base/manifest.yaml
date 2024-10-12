@@ -402,31 +402,6 @@ spec:
 kind: Ingress
 apiVersion: networking.k8s.io/v1
 metadata:
-  name: home-assistant-public-old
-  labels:
-    app: home-assistant
-spec:
-  ingressClassName: nginx-public
-  rules:
-    - host: home-assistant.theautomation.nl
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: home-assistant
-                port:
-                  number: 80
-  tls:
-    - hosts:
-        - home-assistant.theautomation.nl
-      secretName: tls-wildcard-theautomation-nl
-
----
-kind: Ingress
-apiVersion: networking.k8s.io/v1
-metadata:
   name: home-assistant-public
   labels:
     app: home-assistant

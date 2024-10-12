@@ -168,32 +168,6 @@ spec:
 kind: Ingress
 apiVersion: networking.k8s.io/v1
 metadata:
-  name: radicale-public-old
-  namespace: tools
-  labels:
-    app: radicale
-spec:
-  ingressClassName: nginx-public
-  rules:
-    - host: radicale.theautomation.nl
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: radicale
-                port:
-                  number: 5232
-  tls:
-    - hosts:
-        - radicale.theautomation.nl
-      secretName: tls-wildcard-theautomation-nl
-
----
-kind: Ingress
-apiVersion: networking.k8s.io/v1
-metadata:
   name: radicale-public
   namespace: tools
   labels:
