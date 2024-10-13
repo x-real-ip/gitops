@@ -381,3 +381,30 @@ spec:
         - frigate.lan.stamx.nl
         - frigate-webrtc-api.lan.stamx.nl
       secretName: tls-wildcard-lan-stamx-nl
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: frigate-rewrite
+  labels:
+    app: frigate
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /stream.html?src=baby
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: camera.lan.stamx.nl
+      http:
+        paths:
+          - path: /baby
+            pathType: Prefix
+            backend:
+              service:
+                name: frigate
+                port:
+                  name: webrtc-api-tcp
+  tls:
+    - hosts:
+        - camera.lan.stamx.nl
+      secretName: tls-wildcard-lan-stamx-nl
