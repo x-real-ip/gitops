@@ -394,13 +394,16 @@ metadata:
 spec:
   ingressClassName: nginx-private
   rules:
-    - path: /01
-      pathType: ImplementationSpecific
-      backend:
-        service:
-          name: frigate
-          port:
-            name: webrtc-api-tcp
+    - host: camera.lan.stamx.nl
+      http:
+        paths:
+          - path: /01
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: frigate
+                port:
+                  name: webrtc-api-tcp
   tls:
     - hosts:
         - camera.lan.stamx.nl
