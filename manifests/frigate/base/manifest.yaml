@@ -392,10 +392,9 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /stream.html?src=baby
     nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      rewrite ^(/video-stream.js)$ /video-stream.js break;
-      rewrite ^(/video-rtc.js)$ /video-rtc.js break;
-      rewrite ^(/api/ws)$ /api/ws break;
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/websocket-services: "frigate"
 spec:
   ingressClassName: nginx-private
   rules:
@@ -404,6 +403,27 @@ spec:
         paths:
           - path: /01
             pathType: ImplementationSpecific
+            backend:
+              service:
+                name: frigate
+                port:
+                  name: webrtc-api-tcp
+          - path: /video-stream.js
+            pathType: Prefix
+            backend:
+              service:
+                name: frigate
+                port:
+                  name: webrtc-api-tcp
+          - path: /video-rtc.js
+            pathType: Prefix
+            backend:
+              service:
+                name: frigate
+                port:
+                  name: webrtc-api-tcp
+          - path: /api/ws
+            pathType: Prefix
             backend:
               service:
                 name: frigate
