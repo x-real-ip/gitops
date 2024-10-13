@@ -32,7 +32,6 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: pvc-nfs-radicale-data
-  namespace: tools
   labels:
     app: radicale
 spec:
@@ -49,7 +48,6 @@ kind: SealedSecret
 apiVersion: bitnami.com/v1alpha1
 metadata:
   name: radicale-users
-  namespace: tools
   labels:
     app: radicale
 spec:
@@ -60,7 +58,6 @@ spec:
       labels:
         app: radicale
       name: users
-      namespace: tools
     type: Opaque
 
 ---
@@ -68,7 +65,6 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: radicale-config
-  namespace: tools
   labels:
     app: radicale
 data:
@@ -93,7 +89,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: radicale
-  namespace: tools
   labels:
     app: radicale
 spec:
@@ -110,7 +105,7 @@ spec:
         fsGroup: 1000
       containers:
         - name: radicale
-          image: "ghcr.io/x-real-ip/radicale:dccab9526d5ba935cc7cc59be87614a82854abc4"
+          image: "ghcr.io/x-real-ip/radicale:latest"
           imagePullPolicy: Always
           resources: {}
           command: ["/bin/sh", "/usr/local/bin/docker-entrypoint.sh"]
@@ -151,7 +146,6 @@ kind: Service
 apiVersion: v1
 metadata:
   name: radicale
-  namespace: tools
   labels:
     app: radicale
 spec:
@@ -169,7 +163,6 @@ kind: Ingress
 apiVersion: networking.k8s.io/v1
 metadata:
   name: radicale-public
-  namespace: tools
   labels:
     app: radicale
 spec:
