@@ -356,7 +356,7 @@ metadata:
 spec:
   ingressClassName: nginx-private
   rules:
-    - host: frigate.lan.theautomation.nl
+    - host: frigate.lan.stamx.nl
       http:
         paths:
           - path: /
@@ -366,7 +366,7 @@ spec:
                 name: frigate
                 port:
                   name: http
-    - host: frigate-webrtc-api.lan.theautomation.nl
+    - host: frigate-webrtc-api.lan.stamx.nl
       http:
         paths:
           - path: /
@@ -378,6 +378,6 @@ spec:
                   name: webrtc-api-tcp
   tls:
     - hosts:
-        - frigate.lan.theautomation.nl
-        - frigate-webrtc-api.lan.theautomation.nl
-      secretName: tls-wildcard-lan-theautomation-nl
+        - frigate.lan.stamx.nl
+        - frigate-webrtc-api.lan.stamx.nl
+      secretName: tls-wildcard-lan-stamx-nl

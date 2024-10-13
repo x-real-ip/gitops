@@ -149,7 +149,7 @@ metadata:
 spec:
   ingressClassName: nginx-private
   rules:
-    - host: "webdav.lan.theautomation.nl"
+    - host: "webdav.lan.stamx.nl"
       http:
         paths:
           - path: "/"

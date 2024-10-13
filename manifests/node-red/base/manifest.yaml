@@ -162,7 +162,7 @@ metadata:
 spec:
   ingressClassName: nginx-private
   rules:
-    - host: node-red.lan.theautomation.nl
+    - host: node-red.lan.stamx.nl
       http:
         paths:
           - path: "/"

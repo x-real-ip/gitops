@@ -280,7 +280,7 @@ metadata:
 spec:
   ingressClassName: nginx-private
   rules:
-    - host: jellyfin.lan.theautomation.nl
+    - host: jellyfin.lan.stamx.nl
       http:
         paths:
           - path: /
@@ -292,8 +292,8 @@ spec:
                   name: http
   tls:
     - hosts:
-        - jellyfin.lan.theautomation.nl
-      secretName: tls-wildcard-lan-theautomation-nl
+        - jellyfin.lan.stamx.nl
+      secretName: tls-wildcard-lan-stamx-nl
 
 ---
 kind: Ingress

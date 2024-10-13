@@ -747,7 +747,7 @@ metadata:
 spec:
   ingressClassName: nginx-private
   rules:
-    - host: prowlarr.lan.theautomation.nl
+    - host: prowlarr.lan.stamx.nl
       http:
         paths:
           - path: "/"
@@ -759,8 +759,8 @@ spec:
                   number: 9696
   tls:
     - hosts:
-        - prowlarr.lan.theautomation.nl
-      secretName: tls-wildcard-lan-theautomation-nl
+        - prowlarr.lan.stamx.nl
+      secretName: tls-wildcard-lan-stamx-nl
 
 ---
 kind: Ingress
@@ -773,7 +773,7 @@ metadata:
 spec:
   ingressClassName: nginx-private
   rules:
-    - host: bazarr.lan.theautomation.nl
+    - host: bazarr.lan.stamx.nl
       http:
         paths:
           - path: "/"
@@ -785,8 +785,8 @@ spec:
                   number: 6767
   tls:
     - hosts:
-        - bazarr.lan.theautomation.nl
-      secretName: tls-wildcard-lan-theautomation-nl
+        - bazarr.lan.stamx.nl
+      secretName: tls-wildcard-lan-stamx-nl
 
 ---
 kind: Ingress
@@ -799,7 +799,7 @@ metadata:
 spec:
   ingressClassName: nginx-private
   rules:
-    - host: sonarr.lan.theautomation.nl
+    - host: sonarr.lan.stamx.nl
       http:
         paths:
           - path: "/"
@@ -811,8 +811,8 @@ spec:
                   number: 8989
   tls:
     - hosts:
-        - sonarr.lan.theautomation.nl
-      secretName: tls-wildcard-lan-theautomation-nl
+        - sonarr.lan.stamx.nl
+      secretName: tls-wildcard-lan-stamx-nl
 
 ---
 kind: Ingress
@@ -825,7 +825,7 @@ metadata:
 spec:
   ingressClassName: nginx-private
   rules:
-    - host: radarr.lan.theautomation.nl
+    - host: radarr.lan.stamx.nl
       http:
         paths:
           - path: "/"
@@ -837,8 +837,8 @@ spec:
                   number: 7878
   tls:
     - hosts:
-        - radarr.lan.theautomation.nl
-      secretName: tls-wildcard-lan-theautomation-nl
+        - radarr.lan.stamx.nl
+      secretName: tls-wildcard-lan-stamx-nl
 
 ---
 kind: Ingress
@@ -851,7 +851,7 @@ metadata:
 spec:
   ingressClassName: nginx-private
   rules:
-    - host: overseerr.lan.theautomation.nl
+    - host: overseerr.lan.stamx.nl
       http:
         paths:
           - path: "/"
@@ -863,5 +863,5 @@ spec:
                   name: http
   tls:
     - hosts:
-        - overseerr.lan.theautomation.nl
-      secretName: tls-wildcard-lan-theautomation-nl
+        - overseerr.lan.stamx.nl
+      secretName: tls-wildcard-lan-stamx-nl

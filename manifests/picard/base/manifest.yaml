@@ -145,7 +145,7 @@ metadata:
 spec:
   ingressClassName: nginx-private
   rules:
-    - host: picard.lan.theautomation.nl
+    - host: picard.lan.stamx.nl
       http:
         paths:
           - path: "/"
@@ -157,5 +157,5 @@ spec:
                   name: http
   tls:
     - hosts:
-        - picard.lan.theautomation.nl
-      secretName: tls-wildcard-lan-theautomation-nl
+        - picard.lan.stamx.nl
+      secretName: tls-wildcard-lan-stamx-nl

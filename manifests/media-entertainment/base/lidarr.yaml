@@ -192,7 +192,7 @@ metadata:
 spec:
   ingressClassName: nginx-private
   rules:
-    - host: lidarr.lan.theautomation.nl
+    - host: lidarr.lan.stamx.nl
       http:
         paths:
           - path: "/"
@@ -204,5 +204,5 @@ spec:
                   name: http
   tls:
     - hosts:
-        - lidarr.lan.theautomation.nl
-      secretName: tls-wildcard-lan-theautomation-nl
+        - lidarr.lan.stamx.nl
+      secretName: tls-wildcard-lan-stamx-nl

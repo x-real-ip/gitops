@@ -199,7 +199,7 @@ metadata:
 spec:
   ingressClassName: nginx-private
   rules:
-    - host: music.lan.theautomation.nl
+    - host: music.lan.stamx.nl
       http:
         paths:
           - path: "/"
@@ -211,8 +211,8 @@ spec:
                   name: http
   tls:
     - hosts:
-        - music.lan.theautomation.nl
-      secretName: tls-wildcard-lan-theautomation-nl
+        - music.lan.stamx.nl
+      secretName: tls-wildcard-lan-stamx-nl
 
 ---
 kind: Ingress

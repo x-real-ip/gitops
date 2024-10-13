@@ -229,7 +229,7 @@ metadata:
 spec:
   ingressClassName: nginx-private
   rules:
-    - host: transmission.lan.theautomation.nl
+    - host: transmission.lan.stamx.nl
       http:
         paths:
           - path: "/"
@@ -241,5 +241,5 @@ spec:
                   number: 9091
   tls:
     - hosts:
-        - transmission.lan.theautomation.nl
-      secretName: tls-wildcard-lan-theautomation-nl
+        - transmission.lan.stamx.nl
+      secretName: tls-wildcard-lan-stamx-nl

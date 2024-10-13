@@ -105,7 +105,7 @@ metadata:
 spec:
   ingressClassName: nginx-private
   rules:
-    - host: uptime-kuma.lan.theautomation.nl
+    - host: uptime-kuma.lan.stamx.nl
       http:
         paths:
           - path: /
@@ -117,5 +117,5 @@ spec:
                   number: 3001
   tls:
     - hosts:
-        - uptime-kuma.lan.theautomation.nl
-      secretName: tls-wildcard-lan-theautomation-nl
+        - uptime-kuma.lan.stamx.nl
+      secretName: tls-wildcard-lan-stamx-nl

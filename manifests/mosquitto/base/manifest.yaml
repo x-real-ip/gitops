@@ -159,7 +159,7 @@ metadata:
 spec:
   ingressClassName: nginx-private
   rules:
-    - host: mqtt.lan.theautomation.nl
+    - host: mqtt.lan.stamx.nl
       http:
         paths:
           - path: /

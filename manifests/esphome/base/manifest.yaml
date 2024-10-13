@@ -146,7 +146,7 @@ metadata:
 spec:
   ingressClassName: nginx-private
   rules:
-    - host: esphome.lan.theautomation.nl
+    - host: esphome.lan.stamx.nl
       http:
         paths:
           - path: "/"

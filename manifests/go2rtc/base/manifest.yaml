@@ -157,7 +157,7 @@ metadata:
 spec:
   ingressClassName: nginx-private
   rules:
-    - host: go2rtc.lan.theautomation.nl
+    - host: go2rtc.lan.stamx.nl
       http:
         paths:
           - path: /

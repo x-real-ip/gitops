@@ -560,7 +560,7 @@ metadata:
 spec:
   ingressClassName: nginx-private
   rules:
-    - host: paperless.lan.theautomation.nl
+    - host: paperless.lan.stamx.nl
       http:
         paths:
           - path: "/"
@@ -572,5 +572,5 @@ spec:
                   number: 8000
   tls:
     - hosts:
-        - paperless.lan.theautomation.nl
-      secretName: tls-wildcard-lan-theautomation-nl
+        - paperless.lan.stamx.nl
+      secretName: tls-wildcard-lan-stamx-nl

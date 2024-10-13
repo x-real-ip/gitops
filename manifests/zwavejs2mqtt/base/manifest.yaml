@@ -253,7 +253,7 @@ metadata:
 spec:
   ingressClassName: nginx-private
   rules:
-    - host: zwave-us.lan.theautomation.nl
+    - host: zwave-us.lan.stamx.nl
       http:
         paths:
           - path: "/"
@@ -265,5 +265,5 @@ spec:
                   number: 80
   tls:
     - hosts:
-        - zwave-us.lan.theautomation.nl
-      secretName: tls-wildcard-lan-theautomation-nl
+        - zwave-us.lan.stamx.nl
+      secretName: tls-wildcard-lan-stamx-nl

@@ -387,7 +387,7 @@ metadata:
 spec:
   ingressClassName: nginx-private
   rules:
-    - host: home-assistant.lan.theautomation.nl
+    - host: home-assistant.lan.stamx.nl
       http:
         paths:
           - path: /

@@ -387,7 +387,7 @@ metadata:
 spec:
   ingressClassName: nginx-private
   rules:
-    - host: "photos.lan.theautomation.nl"
+    - host: "photos.lan.stamx.nl"
       http:
         paths:
           - path: "/"
@@ -399,5 +399,5 @@ spec:
                   number: 3001
   tls:
     - hosts:
-        - "photos.lan.theautomation.nl"
-      secretName: tls-wildcard-lan-theautomation-nl
+        - "photos.lan.stamx.nl"
+      secretName: tls-wildcard-lan-stamx-nl
