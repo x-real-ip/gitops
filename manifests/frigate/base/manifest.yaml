@@ -397,7 +397,17 @@ spec:
     - host: camera.lan.stamx.nl
       http:
         paths:
-          - path: /baby/01/(.*)
+          # Serve static files directly (JS, CSS, PNG, etc.)
+          - path: /.*\.(js|css|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|ico)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: frigate
+                port:
+                  name: webrtc-api-tcp
+
+          # Rewrite requests to /01 and preserve everything after /01
+          - path: /01/(.*)
             pathType: ImplementationSpecific
             backend:
               service:
