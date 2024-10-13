@@ -394,26 +394,13 @@ metadata:
 spec:
   ingressClassName: nginx-private
   rules:
-    - host: camera.lan.stamx.nl
-      http:
-        paths:
-          # Serve static files directly (JS, CSS, PNG, etc.)
-          - path: /.*\.(js|css|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|ico)
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: frigate
-                port:
-                  name: webrtc-api-tcp
-
-          # Rewrite requests to /01 and preserve everything after /01
-          - path: /01
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: frigate
-                port:
-                  name: webrtc-api-tcp
+    - path: /01
+      pathType: ImplementationSpecific
+      backend:
+        service:
+          name: frigate
+          port:
+            name: webrtc-api-tcp
   tls:
     - hosts:
         - camera.lan.stamx.nl
