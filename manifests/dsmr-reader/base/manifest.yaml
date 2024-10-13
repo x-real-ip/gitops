@@ -354,7 +354,7 @@ metadata:
 spec:
   ingressClassName: nginx-private
   rules:
-    - host: dsmr-reader.lan.theautomation.nl
+    - host: dsmr-reader.lan.stamx.nl
       http:
         paths:
           - path: "/"
@@ -366,5 +366,5 @@ spec:
                   name: http
   tls:
     - hosts:
-        - dsmr-reader.lan.theautomation.nl
-      secretName: tls-wildcard-lan-theautomation-nl
+        - dsmr-reader.lan.stamx.nl
+      secretName: tls-wildcard-lan-stamx-nl
