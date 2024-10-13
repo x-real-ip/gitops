@@ -390,15 +390,15 @@ metadata:
   labels:
     app: frigate
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /stream.html?src=baby
+    nginx.ingress.kubernetes.io/rewrite-target: /stream.html?src=baby/$1
 spec:
   ingressClassName: nginx-private
   rules:
     - host: camera.lan.stamx.nl
       http:
         paths:
-          - path: /baby
-            pathType: Prefix
+          - path: /baby/01/(.*)
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: frigate
