@@ -123,7 +123,7 @@ metadata:
     app: vaultwarden
 data:
   DATA_FOLDER: "data"
-  DOMAIN: "https://bitwarden.theautomation.nl"
+  DOMAIN: "https://bitwarden.stamx.nl"
   DATABASE_MAX_CONNS: "10"
   IP_HEADER: "X-Real-IP"
   ENABLE_DB_WAL: "true"
@@ -140,7 +140,7 @@ data:
   DB_CONNECTION_RETRIES: "15"
   EMERGENCY_ACCESS_ALLOWED: "false"
   DISABLE_ADMIN_TOKEN: "false"
-  SMTP_FROM_NAME: "Bitwarden | Theautomation"
+  SMTP_FROM_NAME: "Bitwarden | Stamx"
   SMTP_SECURITY: "starttls"
   SMTP_TIMEOUT: "15"
   SMTP_PORT: "25"
