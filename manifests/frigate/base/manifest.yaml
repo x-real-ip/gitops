@@ -392,13 +392,17 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /stream.html?src=baby
     nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite ^(/video-stream.js)$ /video-stream.js break;
+      rewrite ^(/video-rtc.js)$ /video-rtc.js break;
+      rewrite ^(/api/ws)$ /api/ws break;
 spec:
   ingressClassName: nginx-private
   rules:
     - host: camera.lan.stamx.nl
       http:
         paths:
-          - path: /01(/|$)(.*)
+          - path: /01
             pathType: ImplementationSpecific
             backend:
               service:
