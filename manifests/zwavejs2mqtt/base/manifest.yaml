@@ -22,7 +22,7 @@ spec:
     fsType: nfs
     volumeHandle: pv-nfs-zwavejs2mqtt-us-data
     volumeAttributes:
-      server: truenas-master.lan.theautomation.nl
+      server: truenas-master.lan.stamx.nl
       share: /mnt/ssd/containers/k8s/zwavejs2mqtt-data/us
       node_attach_driver: nfs
       provisioner_driver: node-manual

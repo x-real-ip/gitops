@@ -22,7 +22,7 @@ spec:
     fsType: nfs
     volumeHandle: pv-nfs-media
     volumeAttributes:
-      server: truenas-master.lan.theautomation.nl
+      server: truenas-master.lan.stamx.nl
       share: /mnt/hdd/containers/k8s/plex-media
       node_attach_driver: nfs
       provisioner_driver: node-manual
@@ -47,7 +47,7 @@ spec:
     fsType: xfs
     volumeHandle: pv-iscsi-prowlarr-config
     volumeAttributes:
-      portal: truenas-master.lan.theautomation.nl:3260
+      portal: truenas-master.lan.stamx.nl:3260
       iqn: iqn.2005-10.org.freenas.ctl:prowlarr-config
       lun: "0"
       node_attach_driver: iscsi
@@ -73,7 +73,7 @@ spec:
     fsType: xfs
     volumeHandle: pv-iscsi-bazarr-config
     volumeAttributes:
-      portal: truenas-master.lan.theautomation.nl:3260
+      portal: truenas-master.lan.stamx.nl:3260
       iqn: iqn.2005-10.org.freenas.ctl:bazarr-config
       lun: "0"
       node_attach_driver: iscsi
@@ -99,7 +99,7 @@ spec:
     fsType: ext4
     volumeHandle: pv-iscsi-sonarr-config
     volumeAttributes:
-      portal: truenas-master.lan.theautomation.nl:3260
+      portal: truenas-master.lan.stamx.nl:3260
       iqn: iqn.2005-10.org.freenas.ctl:sonarr-config
       lun: "0"
       node_attach_driver: iscsi
@@ -125,7 +125,7 @@ spec:
     fsType: xfs
     volumeHandle: pv-iscsi-radarr-config
     volumeAttributes:
-      portal: truenas-master.lan.theautomation.nl:3260
+      portal: truenas-master.lan.stamx.nl:3260
       iqn: iqn.2005-10.org.freenas.ctl:radarr-config
       lun: "0"
       node_attach_driver: iscsi
@@ -151,7 +151,7 @@ spec:
     fsType: xfs
     volumeHandle: pv-iscsi-overseerr-config
     volumeAttributes:
-      portal: truenas-master.lan.theautomation.nl:3260
+      portal: truenas-master.lan.stamx.nl:3260
       iqn: iqn.2005-10.org.freenas.ctl:overseerr-config
       lun: "0"
       node_attach_driver: iscsi

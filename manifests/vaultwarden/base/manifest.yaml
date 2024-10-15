@@ -18,7 +18,7 @@ spec:
     fsType: xfs
     volumeHandle: pv-iscsi-vaultwarden-db
     volumeAttributes:
-      portal: truenas-master.lan.theautomation.nl:3260
+      portal: truenas-master.lan.stamx.nl:3260
       iqn: iqn.2005-10.org.freenas.ctl:vaultwarden-db
       lun: "0"
       node_attach_driver: iscsi
@@ -48,7 +48,7 @@ spec:
     fsType: nfs
     volumeHandle: vaultwarden-data-pv-nfs
     volumeAttributes:
-      server: truenas-master.lan.theautomation.nl
+      server: truenas-master.lan.stamx.nl
       share: /mnt/ssd/containers/k8s/vaultwarden-data
       node_attach_driver: nfs
       provisioner_driver: node-manual

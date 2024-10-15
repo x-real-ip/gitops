@@ -18,7 +18,7 @@ spec:
     fsType: xfs
     volumeHandle: pv-iscsi-paperless-db
     volumeAttributes:
-      portal: truenas-master.lan.theautomation.nl:3260
+      portal: truenas-master.lan.stamx.nl:3260
       iqn: iqn.2005-10.org.freenas.ctl:paperless-db
       lun: "0"
       node_attach_driver: iscsi
@@ -48,7 +48,7 @@ spec:
     fsType: nfs
     volumeHandle: pv-nfs-paperless-consume
     volumeAttributes:
-      server: truenas-master.lan.theautomation.nl
+      server: truenas-master.lan.stamx.nl
       share: /mnt/ssd/webdav/paperless-consume
       node_attach_driver: nfs
       provisioner_driver: node-manual
@@ -77,7 +77,7 @@ spec:
     fsType: nfs
     volumeHandle: pv-nfs-paperless-data
     volumeAttributes:
-      server: truenas-master.lan.theautomation.nl
+      server: truenas-master.lan.stamx.nl
       share: /mnt/ssd/containers/k8s/paperless-data
       node_attach_driver: nfs
       provisioner_driver: node-manual
@@ -106,7 +106,7 @@ spec:
     fsType: nfs
     volumeHandle: pv-nfs-paperless-export
     volumeAttributes:
-      server: truenas-master.lan.theautomation.nl
+      server: truenas-master.lan.stamx.nl
       share: /mnt/ssd/containers/k8s/paperless-export
       node_attach_driver: nfs
       provisioner_driver: node-manual
@@ -135,7 +135,7 @@ spec:
     fsType: nfs
     volumeHandle: pv-nfs-paperless-media
     volumeAttributes:
-      server: truenas-master.lan.theautomation.nl
+      server: truenas-master.lan.stamx.nl
       share: /mnt/ssd/containers/k8s/paperless-media
       node_attach_driver: nfs
       provisioner_driver: node-manual
@@ -440,7 +440,7 @@ spec:
             - name: PAPERLESS_TIME_ZONE
               value: "Europe/Amsterdam"
             - name: PAPERLESS_URL
-              value: "https://paperless.lan.theautomation.nl"
+              value: "https://paperless.lan.stamx.nl"
             - name: USERMAP_GID
               value: "1000"
             - name: USERMAP_UID

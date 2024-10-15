@@ -22,7 +22,7 @@ spec:
     fsType: nfs
     volumeHandle: pv-nfs-jellyfin-media
     volumeAttributes:
-      server: truenas-master.lan.theautomation.nl
+      server: truenas-master.lan.stamx.nl
       share: /mnt/hdd/containers/k8s/plex-media
       node_attach_driver: nfs
       provisioner_driver: node-manual
@@ -51,7 +51,7 @@ spec:
     fsType: nfs
     volumeHandle: pv-nfs-jellyfin-music
     volumeAttributes:
-      server: truenas-master.lan.theautomation.nl
+      server: truenas-master.lan.stamx.nl
       share: /mnt/hdd/music
       node_attach_driver: nfs
       provisioner_driver: node-manual
@@ -76,7 +76,7 @@ spec:
     fsType: xfs
     volumeHandle: pv-iscsi-jellyfin-config
     volumeAttributes:
-      portal: truenas-master.lan.theautomation.nl:3260
+      portal: truenas-master.lan.stamx.nl:3260
       iqn: iqn.2005-10.org.freenas.ctl:jellyfin-config
       lun: "0"
       node_attach_driver: iscsi
@@ -102,7 +102,7 @@ spec:
     fsType: xfs
     volumeHandle: pv-iscsi-jellyfin-cache
     volumeAttributes:
-      portal: truenas-master.lan.theautomation.nl:3260
+      portal: truenas-master.lan.stamx.nl:3260
       iqn: iqn.2005-10.org.freenas.ctl:jellyfin-cache
       lun: "0"
       node_attach_driver: iscsi

@@ -31,7 +31,7 @@ spec:
       secrets.yaml: |-
         wifi_ssid: WIFI-NOT
         wifi_password: "{{ index . "wifi_password" }}"
-        wifi_domain: ".lan.theautomation.nl"
+        wifi_domain: ".lan.stamx.nl"
         api_encryption_key: "{{ index . "api_encryption_key" }}"
         ota_password: "{{ index . "ota_password" }}"
     metadata:

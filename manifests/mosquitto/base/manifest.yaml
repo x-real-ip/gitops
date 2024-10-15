@@ -18,7 +18,7 @@ spec:
     fsType: xfs
     volumeHandle: pv-iscsi-mosquitto-data
     volumeAttributes:
-      portal: truenas-master.lan.theautomation.nl:3260
+      portal: truenas-master.lan.stamx.nl:3260
       iqn: iqn.2005-10.org.freenas.ctl:mosquitto-data
       lun: "0"
       node_attach_driver: iscsi
