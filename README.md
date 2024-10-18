@@ -7,9 +7,18 @@
 
 - [GitOps](#gitops)
   - [Start ArgoCD WebUI](#start-argocd-webui)
+  - [Uptime Kuma](#uptime-kuma)
 
 ## Start ArgoCD WebUI
 
 ```bash
 argocd admin dashboard -n argocd
+```
+
+## Uptime Kuma
+
+A sqlite query to find and replace a part in the monitor url.
+
+```
+UPDATE monitor SET url = REPLACE(url, 'old', 'new') WHERE url LIKE '%old%';
 ```

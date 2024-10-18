@@ -215,6 +215,9 @@ spec:
     - metadata:
         name: data
       spec:
+        selector:
+          matchLabels:
+            app: dsmr-reader-database
         accessModes:
           - "ReadWriteOnce"
         storageClassName: freenas-iscsi-manual-csi
