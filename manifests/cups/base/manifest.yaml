@@ -316,4 +316,4 @@ spec:
               service:
                 name: cups
                 port:
-                  number: 6052
+                  name: http
