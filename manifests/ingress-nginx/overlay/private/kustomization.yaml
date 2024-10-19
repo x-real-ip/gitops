@@ -6,14 +6,19 @@ nameSuffix: -private
 
 resources:
   - ../../base
-  - configmap.yaml
+  - configmap_tcp-services.yaml
+  - configmap_udp-services.yaml
 
 replicas:
   - count: 2
     name: ingress-nginx-controller
+
 patches:
   - path: patch_deployment_ingress-nginx-controller.yaml
   - path: patch_ingressclass_nginx.yaml
   - path: patch_job_ingress-nginx-admission-create.yaml
   - path: patch_job_ingress-nginx-admission-patch.yaml
   - path: patch_service_ingress-nginx-controller.yaml
+
+patchesStrategicMerge:
+  - configmap_ingress-nginx-controller.yaml
