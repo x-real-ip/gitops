@@ -356,7 +356,7 @@ metadata:
     app: dsmr-reader
   annotations:
     nginx.ingress.kubernetes.io/configuration-snippet: |
-      add_header X-Frame-Options "ALLOW-FROM http://home-assistant.lan.stamx.nl";
+      more_set_headers X-Frame-Options "ALLOW-FROM http://home-assistant.lan.stamx.nl";
 spec:
   ingressClassName: nginx-private
   rules:
