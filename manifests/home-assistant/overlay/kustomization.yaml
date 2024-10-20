@@ -8,7 +8,7 @@ namespace: home-automation
 
 images:
 - name: ghcr.io/x-real-ip/home-assistant
-  newTag: d62d186a33d5e4485184e103df7ee689c79faa51
+  newTag: 4a0dbdca22e22becb0e3a8791ce56584ae3202bc
 
 commonLabels:
   storage: truenas
