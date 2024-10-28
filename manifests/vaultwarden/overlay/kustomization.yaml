@@ -8,7 +8,7 @@ namespace: tools
 
 images:
   - name: ghcr.io/dani-garcia/vaultwarden
-    newTag: 1.32.2-alpine
+    newTag: 1.32.3-alpine
 
 commonLabels:
   storage: truenas
