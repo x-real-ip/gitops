@@ -1,0 +1,159 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: go2rtc-config
+  namespace: home-automation
+  labels:
+    app: go2rtc
+spec:
+  encryptedData:
+    ipcam-01-password: AgDQ0XmDaUf7tt9IPYcy9l0P3wQP4blXQzfxcqXmQX2+ZVwZ3HijT5RB/So3mvKlL444DdoTkAx/YD0s1lkodwcXZl2sOeXfUTYA0fzKWALonlXv0jJ3XMw6YfUOnshDwdG80txBmObyaOPbZLlZOL6AbtgKCFCgxZD/IJm5rmVW5EOlRxnfR112NkU+KbzBQw8Bmm4cRxNP5htZZolqFuYom9rjvfSnny+slYg4H7Q9wKELA6vIlQZB7ypkjBj0G5JsJ8pJagYfTtn/2Vb+lbw14ZU4hXdW4FnCRiNLicmG/fwzjlq+9aal6n83XZubCje/WUdpbV4iyu8WGVrdEAxNifVEZX9szW38qpHvHxhPH1HoJB68x5ZpKdA9LgDtKEUxm/HCvN44qcC4A8XeEFBKE2iiHs9paqSji+3NoldQFhdr+Ds/6/24vUGzq1lKm+FV8zePa9yh5LSDNTmGclcgHZXFqIICjEM5XYbUVLPGVCQSW2a2uHyakZTCbCUhzWoL02yCaZD8euResK2+gvp8EpphBO6AMufZfj9egq3ACGOkU72B8zVkUzbyIqfRN4kzMeqeKGS9botZ9bjIrMRiC68TnD4Z2lIcbbk/4CTlKGXPIY8mVxKdTl0UYcpBUoecqPZGIjRKKm/hMNPgil9D3VW/MkS+vvGNcQ0i+YcvE1sUORzgbwHZX05bWVzdGJ5gKrxwwstsGQ==
+    ipcam-02-password: AgA/73bfQSnLreurpwdJaVb5xw1pVjliDqnq2wtoR2oUmzl4jZSiLHElDB58JvF7oSrbphAa0+58uPO/qNAC1imQl8VLibXXpXqsrvSJ4Bw7DqBPJKH0yRAqWMrpZl0rg2X/HU3qjMk5NEo3fJDLl6gEihdjmmu+gKbFKevdavzo8qEslS+nmpSJhk8OoaAtNDimmqe7EhA4guN4/Je/Fgrmt5XJWQ1ZiEVBhlwESkGo6VzH1US16tpXjhrCSYm1HGHvEyyHk1HdivkHncfJ6lIvrqPTzSaDuueCtt/tIoND4T5EF5w5gK/gVigPDlCa64fJasCykQl/G4rZl36EDKr3YI7HsQ2UyfKwW1NTnWyp5qbdBYCUb7nHXmtBRhpu5ngfAnjEIXCZgEJDlXvgDb9PUnDBMT+nUwUm+JsmbP5zbvOjRmAKOOET04BBEGPs12j/YdoGAfmVeICueOpo8FgAzwOqEq5l3CoXyr6xN087ZCJonqK+tOaR+uo7/DlcSr3mKwaxtFBq2HYEzV2RCjr3lOHIAAT28iTkIWlWS8e10us6xWiPRGBnbjYpgwa1u0ZEfCaNuqXtzvvTcnwQ7HpMcFd72Er4iLoAloX364JF8TLiVoiCMep/HBAveKlxR5e/wLsA9Ea2l4oK1dNT0jGQR6VsfrJl8RLf05NBPXHJlD83t+QD88Bjd/tu/XiEh5JZbg+YX7RAt+nhLzA=
+  template:
+    data:
+      go2rtc.yaml: |-
+        api:
+          listen: ":1984"
+          base_path: ""
+          static_dir: ""
+          origin: ""
+
+        hass:
+          config: ""
+
+        rtsp:
+          listen: ":8554"
+          username: ""
+          password: ""
+
+        srtp:
+          listen: ":8443"
+
+        webrtc:
+          listen: ":8555"
+
+        streams:
+          ipcam-01: rtsp://admin:{{ index . "ipcam-01-password" }}@ipcam-01.lan.stamx.nl:554/cam/realmonitor?channel=1&subtype=0
+          ipcam-02: rtsp://a2yON4rLyqRw:{{ index . "ipcam-02-password" }}@ipcam-02.lan.stamx.nl/live0
+
+        ffmpeg:
+          bin: "ffmpeg"
+          global: "-hide_banner"
+          file: "-re -stream_loop -1 -i {input}"
+          http: "-fflags nobuffer -flags low_delay -i {input}"
+          rtsp: "-fflags nobuffer -flags low_delay -timeout 5000000 -user_agent go2rtc/ffmpeg -rtsp_transport tcp -i {input}"
+          output: "-user_agent ffmpeg/go2rtc -rtsp_transport tcp -f rtsp {output}"
+          # ... different presets for codecs
+
+
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: go2rtc
+  labels:
+    app: go2rtc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go2rtc
+  template:
+    spec:
+      containers:
+        - name: go2rtc
+          image: "docker.io/alexxit/go2rtc:latest"
+          imagePullPolicy: Always
+          ports:
+            - name: rtsp-tcp
+              containerPort: 8554
+              protocol: TCP
+            - name: api-tcp
+              containerPort: 1984
+              protocol: TCP
+            - name: webrtc-tcp
+              containerPort: 8555
+              protocol: TCP
+            - name: webrtc-udp
+              containerPort: 8555
+              protocol: UDP
+          livenessProbe:
+            tcpSocket:
+              port: api-tcp
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: api-tcp
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          startupProbe:
+            tcpSocket:
+              port: api-tcp
+            initialDelaySeconds: 0
+            failureThreshold: 30
+            timeoutSeconds: 1
+            periodSeconds: 5
+          volumeMounts:
+            - name: go2rtc-config
+              mountPath: /config/go2rtc.yaml
+              subPath: go2rtc.yaml
+          resources: {}
+      volumes:
+        - name: go2rtc-config
+          secret:
+            secretName: go2rtc-config
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: go2rtc-service
+  labels:
+    app: go2rtc
+spec:
+  type: ClusterIP
+  ports:
+    - name: rtsp-tcp
+      protocol: TCP
+      port: 8554
+      targetPort: rtsp-tcp
+    - name: api-tcp
+      protocol: TCP
+      port: 1984
+      targetPort: api-tcp
+    - name: webrtc-tcp
+      protocol: TCP
+      port: 8555
+      targetPort: webrtc-tcp
+    - name: webrtc-udp
+      protocol: UDP
+      port: 8555
+      targetPort: webrtc-udp
+
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: go2rtc-ingress
+  labels:
+    app: go2rtc
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: go2rtc.lan.stamx.nl
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: go2rtc-service
+                port:
+                  name: api-tcp
