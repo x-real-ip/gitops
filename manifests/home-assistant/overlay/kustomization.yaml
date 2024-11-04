@@ -1,14 +1,17 @@
+---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-- ../base
+  - ../base
 
 namespace: home-automation
 
 images:
-- name: ghcr.io/x-real-ip/home-assistant
-  newTag: 53cb8a024f023d9afb90edebb9f53975e3c7f114
+  - name: ghcr.io/x-real-ip/home-assistant
+    newTag: 53cb8a024f023d9afb90edebb9f53975e3c7f114
 
-commonLabels:
-  storage: truenas
+labels:
+  - includeSelectors: true
+    pairs:
+      storage: truenas

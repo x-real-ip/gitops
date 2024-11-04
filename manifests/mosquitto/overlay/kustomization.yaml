@@ -1,3 +1,4 @@
+---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
@@ -10,5 +11,7 @@ images:
   - name: docker.io/eclipse-mosquitto
     newTag: latest
 
-commonLabels:
-  storage: truenas
+labels:
+  - includeSelectors: true
+    pairs:
+      storage: truenas

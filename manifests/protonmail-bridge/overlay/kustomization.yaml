@@ -1,12 +1,15 @@
+---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-- ../base
+  - ../base
 
 images:
-- name: ghcr.io/x-real-ip/protonmail-bridge
-  newTag: 1706e1a1727ddeb4c704a691de2522b5732a64fd
+  - name: ghcr.io/x-real-ip/protonmail-bridge
+    newTag: 1706e1a1727ddeb4c704a691de2522b5732a64fd
 
-commonLabels:
-  storage: truenas
+labels:
+  - includeSelectors: true
+    pairs:
+      storage: truenas

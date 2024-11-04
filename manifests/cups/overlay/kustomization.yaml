@@ -1,3 +1,4 @@
+---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
@@ -7,8 +8,10 @@ resources:
 namespace: tools
 
 labels:
-  - pairs:
-      storage: truenas
+- includeSelectors: true
+  pairs:
+    app: cups
+    storage: truenas
 
 patches:
   - path: patch_deployment_cups.yaml

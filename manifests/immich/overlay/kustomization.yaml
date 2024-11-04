@@ -13,5 +13,7 @@ images:
   - name: ghcr.io/immich-app/immich-machine-learning
     newTag: v1.119.1
 
-commonLabels:
-  storage: truenas
+labels:
+  - includeSelectors: true
+    pairs:
+      storage: truenas
