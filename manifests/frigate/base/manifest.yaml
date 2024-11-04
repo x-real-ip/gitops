@@ -142,6 +142,7 @@ data:
               roles:
                 - detect
                 - record
+          hwaccel_args: -hwaccel drm -hwaccel_device /dev/dri/renderD128
         objects:
           track:
             - person
@@ -175,6 +176,7 @@ data:
               input_args: preset-rtsp-restream
               roles:
                 - record
+          hwaccel_args: -hwaccel drm -hwaccel_device /dev/dri/renderD128
         record:
           enabled: True
           retain:
@@ -332,10 +334,6 @@ spec:
       protocol: UDP
       port: 8555
       targetPort: webrtc-udp
-    - name: webrtc-api-tcp
-      protocol: TCP
-      port: 1984
-      targetPort: webrtc-api-tcp
 
 ---
 apiVersion: networking.k8s.io/v1
@@ -357,18 +355,7 @@ spec:
                 name: frigate
                 port:
                   name: http
-    - host: frigate-webrtc-api.lan.stamx.nl
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: frigate
-                port:
-                  name: webrtc-api-tcp
   tls:
     - hosts:
         - frigate.lan.stamx.nl
-        - frigate-webrtc-api.lan.stamx.nl
       secretName: tls-wildcard-lan-stamx-nl
