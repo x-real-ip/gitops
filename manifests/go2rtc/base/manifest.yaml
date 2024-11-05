@@ -46,8 +46,6 @@ spec:
           output: "-user_agent ffmpeg/go2rtc -rtsp_transport tcp -f rtsp {output}"
           # ... different presets for codecs
 
-
-
 ---
 kind: Deployment
 apiVersion: apps/v1
@@ -157,3 +155,7 @@ spec:
                 name: go2rtc-service
                 port:
                   name: api-tcp
+  tls:
+    - hosts:
+        - go2rtc.lan.stamx.nl
+      secretName: tls-wildcard-lan-stamx-nl
