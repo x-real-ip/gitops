@@ -1,0 +1,120 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-iscsi-jellyseerr-config
+  labels:
+    app: jellyseerr
+spec:
+  storageClassName: "freenas-iscsi-manual-csi"
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: xfs
+    volumeHandle: pv-iscsi-jellyseerr-config
+    volumeAttributes:
+      portal: truenas-master.lan.stamx.nl:3260
+      iqn: iqn.2005-10.org.freenas.ctl:jellyseerr-config
+      lun: "0"
+      node_attach_driver: iscsi
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-iscsi-jellyseerr-config
+  labels:
+    app: jellyseerr
+spec:
+  storageClassName: freenas-iscsi-manual-csi
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  volumeName: pv-iscsi-jellyseerr-config
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jellyseerr
+  labels:
+    app: jellyseerr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jellyseerr
+  template:
+    metadata:
+      labels:
+        app: jellyseerr
+    spec:
+      containers:
+        - name: jellyseerr
+          image: fallenbagel/jellyseerr:latest
+          env:
+            - name: LOG_LEVEL
+              value: "info"
+            - name: TZ
+              value: "Europe/Amsterdam"
+            - name: PORT
+              value: "5055"
+          ports:
+            - name: http
+              containerPort: 5055
+          volumeMounts:
+            - name: config
+              mountPath: /app/config
+          resources: {}
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: pvc-iscsi-jellyseerr-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jellyseerr-service
+spec:
+  selector:
+    app: jellyseerr
+  ports:
+    - name: http
+      protocol: TCP
+      port: 5055
+      targetPort: http
+  type: ClusterIP
+
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: jellyseerr
+  labels:
+    app: jellyseerr
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: jellyseerr.lan.stamx.nl
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: jellyseerr-service
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - jellyseerr.lan.stamx.nl
+      secretName: tls-wildcard-lan-stamx-nl
