@@ -4,21 +4,10 @@
     "threads": 0,
     "preset": "ultrafast",
     "targetVideoCodec": "h264",
-    "acceptedVideoCodecs": [
-      "h264"
-    ],
+    "acceptedVideoCodecs": ["h264"],
     "targetAudioCodec": "aac",
-    "acceptedAudioCodecs": [
-      "aac",
-      "mp3",
-      "libopus",
-      "pcm_s16le"
-    ],
-    "acceptedContainers": [
-      "mov",
-      "ogg",
-      "webm"
-    ],
+    "acceptedAudioCodecs": ["aac", "mp3", "libopus", "pcm_s16le"],
+    "acceptedContainers": ["mov", "ogg", "webm"],
     "targetResolution": "720",
     "maxBitrate": "0",
     "bframes": -1,
