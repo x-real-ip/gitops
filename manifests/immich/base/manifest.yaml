@@ -256,8 +256,8 @@ spec:
           volumeMounts:
             - name: immich-config
               mountPath: /opt/immich
-            - name: extra-ca-certs
-              mountPath: /tmp/certs
+            - name: library
+              mountPath: /usr/src/app/upload
           resources: {}
       volumes:
         - name: immich-config
