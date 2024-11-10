@@ -132,32 +132,6 @@ spec:
       provisioner_driver: node-manual
 
 ---
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: pv-iscsi-overseerr-config
-  labels:
-    app: overseerr
-spec:
-  storageClassName: "freenas-iscsi-manual-csi"
-  capacity:
-    storage: 10Gi
-  accessModes:
-    - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  csi:
-    driver: org.democratic-csi.node-manual
-    readOnly: false
-    fsType: xfs
-    volumeHandle: pv-iscsi-overseerr-config
-    volumeAttributes:
-      portal: truenas-master.lan.stamx.nl:3260
-      iqn: iqn.2005-10.org.freenas.ctl:overseerr-config
-      lun: "0"
-      node_attach_driver: iscsi
-      provisioner_driver: node-manual
-
----
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -241,23 +215,6 @@ spec:
     requests:
       storage: 1Gi
   volumeName: pv-iscsi-radarr-config
-
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: pvc-iscsi-overseerr-config
-  namespace: media
-  labels:
-    app: overseerr
-spec:
-  storageClassName: freenas-iscsi-manual-csi
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 10Gi
-  volumeName: pv-iscsi-overseerr-config
 
 ---
 kind: Deployment
@@ -578,75 +535,6 @@ spec:
             claimName: pvc-iscsi-radarr-config
 
 ---
-kind: Deployment
-apiVersion: apps/v1
-metadata:
-  name: overseerr
-  namespace: media
-  labels:
-    app: overseerr
-spec:
-  revisionHistoryLimit: 3
-  replicas: 1
-  strategy:
-    type: Recreate
-  selector:
-    matchLabels:
-      app: overseerr
-  template:
-    metadata:
-      labels:
-        app: overseerr
-    spec:
-      serviceAccountName: default
-      automountServiceAccountToken: true
-      dnsPolicy: ClusterFirst
-      enableServiceLinks: true
-      containers:
-        - name: overseerr
-          image: "lscr.io/linuxserver/overseerr:latest"
-          imagePullPolicy: Always
-          env:
-            - name: LOG_LEVEL
-              value: info
-            - name: TZ
-              value: Europe/Amsterdam
-          ports:
-            - name: http
-              containerPort: 5055
-              protocol: TCP
-          livenessProbe:
-            tcpSocket:
-              port: 5055
-            initialDelaySeconds: 0
-            failureThreshold: 3
-            timeoutSeconds: 1
-            periodSeconds: 10
-          readinessProbe:
-            tcpSocket:
-              port: 5055
-            initialDelaySeconds: 5
-            failureThreshold: 3
-            timeoutSeconds: 1
-            periodSeconds: 10
-          startupProbe:
-            tcpSocket:
-              port: 5055
-            initialDelaySeconds: 5
-            failureThreshold: 30
-            timeoutSeconds: 1
-            periodSeconds: 5
-          volumeMounts:
-            - mountPath: /app/config
-              name: overseerr-config
-          resources: {}
-      terminationGracePeriodSeconds: 30
-      volumes:
-        - name: overseerr-config
-          persistentVolumeClaim:
-            claimName: pvc-iscsi-overseerr-config
-
----
 kind: Service
 apiVersion: v1
 metadata:
@@ -716,24 +604,6 @@ spec:
     - name: http
       protocol: TCP
       port: 7878
-      targetPort: http
-
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: overseerr
-  namespace: media
-  labels:
-    app: overseerr
-spec:
-  type: ClusterIP
-  selector:
-    app: overseerr
-  ports:
-    - name: http
-      protocol: TCP
-      port: 5055
       targetPort: http
 
 ---
@@ -840,28 +710,3 @@ spec:
         - radarr.lan.stamx.nl
       secretName: tls-wildcard-lan-stamx-nl
 
----
-kind: Ingress
-apiVersion: networking.k8s.io/v1
-metadata:
-  name: overseerr
-  namespace: media
-  labels:
-    app: overseerr
-spec:
-  ingressClassName: nginx-private
-  rules:
-    - host: overseerr.lan.stamx.nl
-      http:
-        paths:
-          - path: "/"
-            pathType: Prefix
-            backend:
-              service:
-                name: overseerr
-                port:
-                  name: http
-  tls:
-    - hosts:
-        - overseerr.lan.stamx.nl
-      secretName: tls-wildcard-lan-stamx-nl
