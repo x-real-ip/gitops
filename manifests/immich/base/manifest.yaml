@@ -125,6 +125,7 @@ data:
   PUBLIC_LOGIN_PAGE_MESSAGE: ""
   PUID: "1000"
   PGID: "2000"
+  IMMICH_CONFIG_FILE: "/opt/immich/immich-config.json"
 
 ---
 apiVersion: apps/v1
@@ -253,10 +254,15 @@ spec:
           #   periodSeconds: 10
           #   timeoutSeconds: 1
           volumeMounts:
-            - name: library
-              mountPath: /usr/src/app/upload
+            - name: immich-config
+              mountPath: /opt/immich
+            - name: extra-ca-certs
+              mountPath: /tmp/certs
           resources: {}
       volumes:
+        - name: immich-config
+          configMap:
+            name: immich-config
         - name: library
           persistentVolumeClaim:
             claimName: pvc-nfs-immich-library
