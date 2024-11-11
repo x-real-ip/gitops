@@ -1,0 +1,15 @@
+# Add this as an workaround for Music Assistant
+# https://github.com/home-assistant/core/issues/127966#issuecomment-2468391662
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: home-assistant
+spec:
+  template:
+    spec:
+      containers:
+        - name: home-assistant
+          env:
+            - name: "PYTHONPATH"
+              value: "/config/deps"
