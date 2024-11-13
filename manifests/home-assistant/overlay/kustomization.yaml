@@ -15,5 +15,5 @@ labels:
     pairs:
       storage: truenas
 
-patchesStrategicMerge:
-  - env-patch-workaround.yaml
+# patchesStrategicMerge:
+#   - env-patch-workaround.yaml
