@@ -8,7 +8,7 @@ namespace: home-automation
 
 images:
 - name: ghcr.io/x-real-ip/home-assistant
-  newTag: a675beb7aee8258c80507607f06f9c84cf28a536
+  newTag: ff55bf6da23807f9f13f2b45e7120a729a8a45fb
 
 labels:
 - includeSelectors: true
