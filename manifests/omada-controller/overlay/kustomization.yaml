@@ -9,3 +9,7 @@ labels:
   - includeSelectors: true
     pairs:
       storage: truenas
+
+images:
+  - name: docker.io/mbentley/omada-controller
+    newTag: "5.13"
