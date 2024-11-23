@@ -9,7 +9,7 @@ namespace: tools
 
 images:
   - name: ghcr.io/dani-garcia/vaultwarden
-    newTag: 1.32.4-alpine
+    newTag: 1.32.5-alpine
 
 labels:
   - includeSelectors: true
