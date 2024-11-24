@@ -16,6 +16,7 @@ spec:
     - 10.0.100.242/32 # omada controller
     - 10.0.100.243/32 # jellyfin
     - 10.0.100.244/32 # music-assistant
+    - 10.0.100.245/32 #
 
 ---
 apiVersion: metallb.io/v1beta1
