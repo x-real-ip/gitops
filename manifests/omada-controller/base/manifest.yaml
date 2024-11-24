@@ -68,6 +68,10 @@ spec:
           env:
             - name: "TZ"
               value: "Europe/Amsterdam"
+            - name: SHOW_SERVER_LOGS
+              value: "true"
+            - name: SHOW_MONGODB_LOGS
+              value: "true"
           ports:
             - name: manage-http
               containerPort: 8088
@@ -112,8 +116,9 @@ spec:
           - 10.0.100.1
       volumes:
         - name: omada-controller-data
-          persistentVolumeClaim:
-            claimName: pvc-iscsi-omada-controller-config
+          emptyDir: {}
+          # persistentVolumeClaim:
+          #   claimName: pvc-iscsi-omada-controller-config
 
 ---
 apiVersion: v1
