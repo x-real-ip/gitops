@@ -12,4 +12,4 @@ labels:
 
 images:
   - name: docker.io/mbentley/omada-controller
-    newTag: "latest-chromium"
+    newTag: "5.14"
