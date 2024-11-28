@@ -119,9 +119,9 @@ spec:
           - 10.0.100.1
       volumes:
         - name: omada-controller-data
-          emptyDir: {}
-          # persistentVolumeClaim:
-          #   claimName: pvc-iscsi-omada-controller-config
+          # emptyDir: {}
+          persistentVolumeClaim:
+            claimName: pvc-iscsi-omada-controller-config
         - name: omada-controller-logs
           emptyDir: {}
 
