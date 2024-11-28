@@ -110,15 +110,20 @@ spec:
             - name: omada-controller-data
               mountPath: /opt/tplink/EAPController/data
               readOnly: false
+            - name: omada-controller-logs
+              mountPath: /opt/tplink/EAPController/logs
+              readOnly: false
       dnsPolicy: ClusterFirst
       dnsConfig:
         nameservers:
           - 10.0.100.1
       volumes:
         - name: omada-controller-data
-          # emptyDir: {}
-          persistentVolumeClaim:
-            claimName: pvc-iscsi-omada-controller-config
+          emptyDir: {}
+          # persistentVolumeClaim:
+          #   claimName: pvc-iscsi-omada-controller-config
+        - name: omada-controller-logs
+          emptyDir: {}
 
 ---
 apiVersion: v1
