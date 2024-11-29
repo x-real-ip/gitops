@@ -9,7 +9,7 @@ namespace: home-automation
 
 images:
   - name: ghcr.io/music-assistant/server
-    newTag: beta
+    newTag: latest
 
 labels:
   - includeSelectors: true
