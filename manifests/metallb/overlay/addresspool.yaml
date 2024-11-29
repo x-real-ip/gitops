@@ -15,7 +15,7 @@ spec:
     - 10.0.100.241/32 # cups
     - 10.0.100.242/32 # tplink-omada-controller
     - 10.0.100.243/32 # jellyfin
-    - 10.0.100.244/32 # music-assistant
+    - 10.0.100.244/32
     - 10.0.100.245/32
 
 ---
@@ -25,4 +25,4 @@ metadata:
   name: public-lan-ips
 spec:
   addresses:
-    - 10.0.100.250/32
+    - 10.0.100.250/32 # ingress-controller
