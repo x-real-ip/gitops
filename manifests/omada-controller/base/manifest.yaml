@@ -138,7 +138,7 @@ spec:
     app: omada-controller
   type: LoadBalancer
   loadBalancerIP: 10.0.100.242
-  externalTrafficPolicy: Local
+  externalTrafficPolicy: Cluster
   sessionAffinity: None
   ports:
     - name: manage-http
