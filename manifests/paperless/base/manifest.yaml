@@ -364,7 +364,7 @@ spec:
       spec:
         selector:
           matchLabels:
-            app: paperless-db
+            app: paperless-database
         accessModes:
           - "ReadWriteOnce"
         storageClassName: freenas-iscsi-manual-csi
