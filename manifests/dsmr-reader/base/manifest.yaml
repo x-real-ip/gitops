@@ -246,6 +246,13 @@ spec:
     spec:
       securityContext:
         fsGroup: 1000
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: dsmr-reader
+              topologyKey: "kubernetes.io/hostname"
       containers:
         - name: dsmr-reader
           image: "docker.io/xirixiz/dsmr-reader-docker:latest"
