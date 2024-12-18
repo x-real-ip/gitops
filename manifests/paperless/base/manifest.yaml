@@ -271,18 +271,6 @@ spec:
       labels:
         app: paperless-db
     spec:
-      serviceAccountName: default
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - podAffinityTerm:
-                labelSelector:
-                  matchLabels:
-                    app: paperless-db
-                namespaces:
-                  - tools
-                topologyKey: kubernetes.io/hostname
-              weight: 1
       securityContext:
         fsGroup: 1000
       hostNetwork: false
@@ -405,10 +393,13 @@ spec:
       labels:
         app: paperless
     spec:
-      serviceAccountName: default
-      automountServiceAccountToken: true
-      dnsPolicy: ClusterFirst
-      enableServiceLinks: true
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: paperless-postgresql
+              topologyKey: "kubernetes.io/hostname"
       securityContext:
         fsGroup: 1000
       initContainers:
