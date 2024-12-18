@@ -193,6 +193,13 @@ spec:
       labels:
         app: immich-server
     spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: immich-database
+              topologyKey: "kubernetes.io/hostname"
       securityContext:
         fsGroup: 2000
       serviceAccountName: default
@@ -285,6 +292,13 @@ spec:
       labels:
         app: immich-machine-learning
     spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: immich-database
+              topologyKey: "kubernetes.io/hostname"
       securityContext:
         fsGroup: 2000
       serviceAccountName: default
