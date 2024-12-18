@@ -4,7 +4,7 @@ apiVersion: v1
 metadata:
   name: pv-iscsi-vaultwarden-db
   labels:
-    app: vaultwarden
+    app: vaultwarden-database
 spec:
   storageClassName: "freenas-iscsi-manual-csi"
   capacity:
@@ -102,7 +102,7 @@ spec:
     metadata:
       name: vaultwarden-database-env-secret
       labels:
-        app: vaultwarden
+        app: vaultwarden-database
 
 ---
 kind: ConfigMap
@@ -152,7 +152,7 @@ kind: StatefulSet
 metadata:
   name: vaultwarden-postgresql
   labels:
-    app: vaultwarden
+    app: vaultwarden-database
 spec:
   replicas: 1
   persistentVolumeClaimRetentionPolicy:
@@ -163,12 +163,12 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      app: vaultwarden
+      app: vaultwarden-database
   template:
     metadata:
       name: vaultwarden-postgresql
       labels:
-        app: vaultwarden
+        app: vaultwarden-database
     spec:
       serviceAccountName: default
       securityContext:
@@ -272,7 +272,7 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
                 matchLabels:
-                  app: vaultwarden-postgresql
+                  app: vaultwarden-database
               topologyKey: "kubernetes.io/hostname"
       securityContext:
         fsGroup: 1000
@@ -316,11 +316,11 @@ apiVersion: v1
 metadata:
   name: vaultwarden-postgresql-hl
   labels:
-    app: vaultwarden
+    app: vaultwarden-database
     service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
 spec:
   selector:
-    app: vaultwarden
+    app: vaultwarden-database
   type: ClusterIP
   clusterIP: None
   publishNotReadyAddresses: true
