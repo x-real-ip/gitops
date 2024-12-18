@@ -269,6 +269,13 @@ spec:
     spec:
       securityContext:
         fsGroup: 1000
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: vaultwarden-postgresql
+              topologyKey: "kubernetes.io/hostname"
       containers:
         - name: vaultwarden
           image: "vaultwarden/server:latest"
