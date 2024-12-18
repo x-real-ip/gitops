@@ -251,7 +251,7 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
                 matchLabels:
-                  app: dsmr-reader
+                  app: dsmr-reader-database
               topologyKey: "kubernetes.io/hostname"
       containers:
         - name: dsmr-reader
