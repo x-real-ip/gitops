@@ -110,7 +110,7 @@ apiVersion: v1
 metadata:
   name: vaultwarden-database-env-configmap
   labels:
-    app: vaultwarden
+    app: vaultwarden-database
 data:
   POSTGRESQL_DATABASE: "vaultwarden"
 
@@ -242,7 +242,7 @@ spec:
       spec:
         selector:
           matchLabels:
-            app: vaultwarden
+            app: vaultwarden-database
         accessModes:
           - "ReadWriteOnce"
         storageClassName: freenas-iscsi-manual-csi
