@@ -4,7 +4,7 @@ apiVersion: v1
 metadata:
   name: pv-iscsi-paperless-db
   labels:
-    app: paperless-db
+    app: paperless-database
 spec:
   storageClassName: "freenas-iscsi-manual-csi"
   capacity:
@@ -215,14 +215,14 @@ metadata:
   name: paperless-postgresql
   namespace: tools
   labels:
-    app: paperless-db
+    app: paperless-database
 spec:
   encryptedData:
     postgres-password: AgCaznYATyTFFUCbfEB1PqW9zh6Xk3CHyzx7kFqaHu+/3LLbjXTzTWdNxkeo2VMMxlhEcVrwH8NX8NJVp5PtRPWsvf3Jd53Dix1QZ72J0hT6bj8evQnmEvz2U4yR4XZV7qhjQU+By7UcsuE5Sjd/m5GWoULLARPi5fswnZOCN5rY2wxpjnf2UdGYOjBucU1FwZEcG0VLdo6Mg0QNZg2D//5ULyw5vfwdwBy9BPmg2Qiie44VDBRnC9LK7UTbJ/jmZTB9lzC3j6yakWxzXVvCZzYomd6fBxGedkzF+4unLJic5WH2WWSMp2znwXID4V5kK4cTb+xVpN+2woat08FaW3oGDGixwnWBY0Wv6AWWluaVMzscQvdw1IJa+VOzkr5UJ9uqZCLQTA9e9Mib9sxR0zcbmu1QxGn27kQgSPLl9vGXBBu6kl53+X7MpH46GW5Bx3nhqUln4Kxm3ydvwaf1eJfANPev1bJ6YdE47T4rEa8dePZegCOtlxuSoOTTc69hguuMKyuDj3+un27VblULjMmuZu7qFxalUSc1pZOfxjc68Et5OvuzC5YUFuvtvsF6CTYGI12dXqg+rRqBI9ACiVpR6Xm1w5Vy+nbRzCvksoCryiqtbyuTVmzJ7IkO7t6MOBJ5E6YUItDQibe5l0LWybodfPhj+UFm6oPSx4C2cJ2rwwb6S8yB+8bOGB4U9iMvku4ZUyCy+n6P/yQdoVfOWg==
   template:
     metadata:
       labels:
-        app: paperless-db
+        app: paperless-database
       name: paperless-postgresql
       namespace: tools
     type: Opaque
@@ -253,7 +253,7 @@ metadata:
   name: paperless-postgresql
   namespace: tools
   labels:
-    app: paperless-db
+    app: paperless-database
 spec:
   replicas: 1
   persistentVolumeClaimRetentionPolicy:
@@ -264,12 +264,12 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      app: paperless-db
+      app: paperless-database
   template:
     metadata:
       name: paperless-postgresql
       labels:
-        app: paperless-db
+        app: paperless-database
     spec:
       securityContext:
         fsGroup: 1000
@@ -360,7 +360,7 @@ spec:
     - metadata:
         name: data
         labels:
-          app: paperless-postgresql
+          app: paperless-database
       spec:
         selector:
           matchLabels:
@@ -398,7 +398,7 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
                 matchLabels:
-                  app: paperless-postgresql
+                  app: paperless-database
               topologyKey: "kubernetes.io/hostname"
       securityContext:
         fsGroup: 1000
@@ -507,11 +507,11 @@ metadata:
   name: paperless-postgresql-hl
   namespace: tools
   labels:
-    app: paperless-db
+    app: paperless-database
     service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
 spec:
   selector:
-    app: paperless-db
+    app: paperless-database
   type: ClusterIP
   clusterIP: None
   publishNotReadyAddresses: true
