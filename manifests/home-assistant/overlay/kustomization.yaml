@@ -8,11 +8,7 @@ namespace: home-automation
 
 images:
 - name: ghcr.io/x-real-ip/home-assistant
-<<<<<<< Updated upstream
   newTag: 82f7a7e2fa3c6ef0a0459243c6ab4fb238c4afc5
-=======
-  newTag: latest
->>>>>>> Stashed changes
 
 labels:
 - includeSelectors: true
