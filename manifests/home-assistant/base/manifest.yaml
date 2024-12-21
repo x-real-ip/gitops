@@ -315,13 +315,17 @@ spec:
               port: 8123
           readinessProbe:
             httpGet:
-              path: /api/websocket
+              path: /manifest.json
               port: 8123
             initialDelaySeconds: 30
             periodSeconds: 10
             timeoutSeconds: 5
             failureThreshold: 3
             successThreshold: 1
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "nc -l -u -p 5683 < /dev/null & sleep 10 && kill $!"]
           volumeMounts:
             - name: home-assistant-config
               mountPath: /config/.storage
