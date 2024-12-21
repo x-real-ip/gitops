@@ -325,7 +325,7 @@ spec:
           lifecycle:
             preStop:
               exec:
-                command: ["/bin/sh", "-c", "nc -l -u -p 5683 < /dev/null & sleep 10 && kill $!"]
+                command: ["/bin/sh", "-c", "nc -l -u -p 5683 < /dev/null & sleep 10 && exit 0"]
           volumeMounts:
             - name: home-assistant-config
               mountPath: /config/.storage
