@@ -260,6 +260,9 @@ spec:
       app: home-assistant
   strategy:
     type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
   template:
     metadata:
       labels:
@@ -287,6 +290,7 @@ spec:
             - "-c"
             - until pg_isready -h home-assistant-postgresql-hl -U
               ${POSTGRESQL_USERNAME} ; do sleep 2 ; done
+      terminationGracePeriodSeconds: 60
       containers:
         - name: home-assistant
           image: "ghcr.io/x-real-ip/home-assistant:latest"
@@ -310,9 +314,10 @@ spec:
               path: /manifest.json
               port: 8123
           readinessProbe:
-            httpGet:
-              path: /manifest.json
-              port: 8123
+            tcpSocket:
+              port: 5683
+            initialDelaySeconds: 5
+            periodSeconds: 5
           volumeMounts:
             - name: home-assistant-config
               mountPath: /config/.storage
