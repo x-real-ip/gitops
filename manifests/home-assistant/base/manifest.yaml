@@ -259,7 +259,7 @@ spec:
     matchLabels:
       app: home-assistant
   strategy:
-    type: Recreate
+    type: RollingUpdate
   template:
     metadata:
       labels:
