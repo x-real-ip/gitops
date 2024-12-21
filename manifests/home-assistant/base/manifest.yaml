@@ -314,10 +314,14 @@ spec:
               path: /manifest.json
               port: 8123
           readinessProbe:
-            tcpSocket:
-              port: 5683
-            initialDelaySeconds: 5
-            periodSeconds: 5
+            httpGet:
+              path: /api/websocket
+              port: 8123
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+            successThreshold: 1
           volumeMounts:
             - name: home-assistant-config
               mountPath: /config/.storage
