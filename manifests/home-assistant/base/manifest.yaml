@@ -327,7 +327,7 @@ spec:
           lifecycle:
             preStop:
               exec:
-                command: ["/bin/sh", "-c", "nc -l -u -p 5683 < /dev/null & sleep 10 && exit 0"]
+                command: ["/bin/sh", "-c", "iptables -A INPUT -p udp --dport 5683 -j REJECT && sleep 10"]
           volumeMounts:
             - name: home-assistant-config
               mountPath: /config/.storage
