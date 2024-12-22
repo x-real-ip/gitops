@@ -11,6 +11,17 @@ spec:
           operator: "Equal"
           value: "odroid"
           effect: "NoSchedule"
-      nodeSelector:
-        # feature.node.kubernetes.io/usb-ff_18d1_9302.present: "true"
-        feature.node.kubernetes.io/usb-fe_1a6e_089a.present: "true"
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: "feature.node.kubernetes.io/usb-ff_18d1_9302.present"
+                    operator: "In"
+                    values:
+                      - "true"
+              - matchExpressions:
+                  - key: "feature.node.kubernetes.io/usb-fe_1a6e_089a.present"
+                    operator: "In"
+                    values:
+                      - "true"
