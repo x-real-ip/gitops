@@ -290,15 +290,12 @@ spec:
             - "-c"
             - until pg_isready -h home-assistant-postgresql-hl -U
               ${POSTGRESQL_USERNAME} ; do sleep 2 ; done
-      terminationGracePeriodSeconds: 60
       containers:
         - name: home-assistant
           image: "ghcr.io/x-real-ip/home-assistant:latest"
           imagePullPolicy: Always
           securityContext:
             privileged: true
-            capabilities:
-              add: ["NET_ADMIN", "NET_RAW"] # To allow block UDP traffic (shelly CoIot)
           ports:
             - containerPort: 8123
               protocol: TCP
@@ -324,10 +321,6 @@ spec:
             timeoutSeconds: 5
             failureThreshold: 3
             successThreshold: 1
-          lifecycle:
-            preStop:
-              exec:
-                command: ["/bin/sh", "-c", "iptables -A INPUT -p udp --dport 5683 -j REJECT && sleep 10"]
           volumeMounts:
             - name: home-assistant-config
               mountPath: /config/.storage
