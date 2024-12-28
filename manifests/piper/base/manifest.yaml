@@ -1,0 +1,62 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: piper
+  labels:
+    app: piper
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: piper
+  template:
+    metadata:
+      labels:
+        app: piper
+    spec:
+      containers:
+        - name: piper
+          image: docker.io/rhasspy/wyoming-piper:latest
+          args:
+            - "--voice"
+            - "en_US-lessac-medium"
+          ports:
+            - containerPort: 10200
+          volumeMounts:
+            - name: piper-data
+              mountPath: /data
+          resources: {}
+      volumes:
+        - name: piper-data
+          emptyDir: {}
+          # persistentVolumeClaim:
+          #   claimName: piper-data-pvc
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: piper
+  labels:
+    app: piper
+spec:
+  selector:
+    app: piper
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 10200
+      targetPort: 10200
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: piper-data-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi

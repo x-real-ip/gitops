@@ -1,0 +1,64 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whisper
+  labels:
+    app: whisper
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: whisper
+  template:
+    metadata:
+      labels:
+        app: whisper
+    spec:
+      containers:
+        - name: whisper
+          image: docker.io/rhasspy/wyoming-whisper:latest
+          args:
+            - "--model"
+            - "tiny-int8"
+            - "--language"
+            - "en"
+          ports:
+            - containerPort: 10300
+          volumeMounts:
+            - name: whisper-data
+              mountPath: /data
+          resources: {}
+      volumes:
+        - name: whisper-data
+          emptyDir: {}
+          # persistentVolumeClaim:
+          #   claimName: whisper-data-pvc
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: whisper
+  labels:
+    app: whisper
+spec:
+  selector:
+    app: whisper
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 10300
+      targetPort: 10300
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: whisper-data-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
