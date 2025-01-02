@@ -361,6 +361,8 @@ metadata:
   name: dsmr-reader
   labels:
     app: dsmr-reader
+  annotations:
+    nginx.ingress.kubernetes.io/x-frame-options: "ALLOWALL"
 spec:
   ingressClassName: nginx-private
   rules:
