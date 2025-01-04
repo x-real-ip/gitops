@@ -71,7 +71,7 @@ spec:
               protocol: TCP
           env:
             - name: "ESPHOME_DASHBOARD_USE_PING"
-              value: "true"
+              value: "false"
             - name: "TZ"
               value: "Europe/Amsterdam"
             - name: "USERNAME"
