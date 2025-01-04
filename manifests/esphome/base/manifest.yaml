@@ -156,3 +156,7 @@ spec:
                 name: esphome
                 port:
                   number: 6052
+  tls:
+    - hosts:
+        - home-assistant.lan.stamx.nl
+      secretName: tls-wildcard-lan-stamx-nl
