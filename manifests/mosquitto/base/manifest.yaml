@@ -147,6 +147,7 @@ spec:
         - name: passwd
           secret:
             secretName: mqtt-passwd
+            defaultMode: 0700
 
 ---
 kind: Service
