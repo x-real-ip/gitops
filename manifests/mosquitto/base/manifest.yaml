@@ -144,10 +144,11 @@ spec:
         - name: config
           configMap:
             name: mosquitto-configmap
+          
         - name: passwd
           secret:
             secretName: mqtt-passwd
-            defaultMode: 0700
+            readOnly: true
 
 ---
 kind: Service
