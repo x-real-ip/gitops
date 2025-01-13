@@ -134,9 +134,11 @@ spec:
             - name: config
               mountPath: /mosquitto/config/mosquitto.conf
               subPath: mosquitto.conf
+              readOnly: true
             - name: passwd
               mountPath: /mosquitto/config/passwd
               subPath: passwd
+              readOnly: true
       volumes:
         - name: data
           persistentVolumeClaim:
@@ -144,11 +146,9 @@ spec:
         - name: config
           configMap:
             name: mosquitto-configmap
-          
         - name: passwd
           secret:
             secretName: mqtt-passwd
-            readOnly: true
 
 ---
 kind: Service
