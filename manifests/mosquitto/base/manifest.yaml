@@ -166,16 +166,12 @@ spec:
       protocol: TCP
       port: 1883
       targetPort: mqtt
-    - name: mqtt-websocket
-      protocol: TCP
-      port: 9001
-      targetPort: mqtt-websocket
 
 ---
 kind: Ingress
 apiVersion: networking.k8s.io/v1
 metadata:
-  name: mqtt-websocket
+  name: mosquitto
   labels:
     app: mosquitto
 spec:
@@ -190,4 +186,4 @@ spec:
               service:
                 name: mosquitto
                 port:
-                  name: mqtt-websocket
+                  name: mqtt
