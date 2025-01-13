@@ -91,6 +91,22 @@ kind: SealedSecret
 metadata:
   annotations:
     sealedsecrets.bitnami.com/cluster-wide: "true"
+  name: mqtt-password
+spec:
+  encryptedData:
+    FRIGATE_MQTT_PASSWORD: AgCUaDivd/Ze+kRqGc/emXOI/hg1ugYGbT1y31hiPulrMBxmBqQPjqdIM0SDwU+cMFVkztIqHQtvQPsDqHZiMm+4X5Ut8kFeV0MBwqtRRubl0It7wUq9c9Oi+czyFI3SXrMxr34V6371xjUMRE6ytwmJpK882asWThTYfqh6g8lTTbwqV2RToBNv3XI4x5YxbYlXCWFE2MJiii2yAIlOCyNz1h/angQQ7EUZD0WXMiPxKRifcHq5R8rvRpO6rKnKbJDS2pX6l5hZedPkEOeme3BVU+ffOcR7pBJsl9hkbuf2YZyIfEf/LHe/N3p18C5006adGC0U9UzhfU6PZaQI7B6YMdV6hmYEuKBNF5FaLJaqZUxk4AbF1n5FamPCCGl9laPj6W1Z7whkQcx+jTrqYjNTMEqqWASEZjPZNIfnmd05It4tfaHEq0jTBWWn6Q5iw0MYiCxpWjt7fQ+Gt87YvD5s4nC3UfseqvMG7RaXvy9lOS1sBxk7Bod6TSRUXPD12S29MBqESLWUmdmCMSBsLZbYpeeikxPVwAOQ4gzKfc4hF8kKMiKt+cimWvfd9F70p4dXN5TAeEMLg81YSaj2Ife9q9BsbFypYta6cinfONoewYOp935PqiREBjK5aA4evLEL8woHXMM5BplqFDT+hZkzNJ6j6W1sm0Ld3DS9cwIeo7gsVlh+Oqs8qmOfyzA+39H+8Kz+uZQt98QwsUI=
+  template:
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/cluster-wide: "true"
+      name: mqtt-password
+
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: "true"
   name: frigate-secrets
 spec:
   encryptedData:
@@ -130,6 +146,8 @@ data:
     mqtt:
       host: mosquitto.home-automation.svc.cluster.local
       port: 1883
+      user: mqttuser
+      password: "{FRIGATE_MQTT_PASSWORD}"
 
     cameras:
       backyard:
@@ -257,6 +275,9 @@ spec:
             - secretRef:
                 name: frigate-secrets
                 optional: false
+            - secretRef:
+                name: mqtt-password
+                optional: true
           volumeMounts:
             - name: configmap
               mountPath: /config/config.yml
