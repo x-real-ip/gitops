@@ -41,6 +41,22 @@ spec:
   volumeName: pv-iscsi-mosquitto-data
 
 ---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: "true"
+  name: mqtt-passwd
+spec:
+  encryptedData:
+    passwd: AgCF9GgaUKD/UsHs7qb3i7QvhjdwgYZUkypURFmrf6Da+O1Y1VvXoVnpFAZr6WEF/rL25XLVoS3r+ExWB0xq5PeqNjx5jlm3H8L4iAVqd2wyd8OqR3zSsbn/gv6dOLmV/8zWhzvIxWaZ9hx7DmEtDbfkEOic/nfMqsVYgXuGh3qV7+2tZ9Xrae3GRZVGks+zYRIIh/dcR8aO/hhJmEea0EAdTQzwzLurZR66LGj3HGaxmDl9jI9Q0KT7kPGXpbD5agIxIoRvysPN84cnEV1tF4C/Wn64ia4m2FKPa4zxZgjkOD1/8iGI0/lOv07YSy0n/p8rfkdMAA+demwqnd0WyJhKzR1gGcuehU6k38AYz19ycGPvux/8jVN4nKXqwNbEX5AhLh2EnRi7eb12tzrNWoAnRS79b4cup9zzNKq2dusARHlzw1pxPW3I2U0M/J9aWmkOpKgyg1QtoASQg7lvXsmvOLzC3CAhiHrezJ13d3wriz0MQ39iyn49iJhsbwiQhsEFwKfUVM/cU/lqGBnVjxR2opuliyVJ9z2da7jj0DnnrJxizo/WfSJAy+HNO8Q8dO7PdW5CKGlMcMJQlRuZn5uR2De3vOo73Vm0Jv+7+EyRokkSHHdTgF3mjbEEBuh/4QKT5WpCg2oYzASVMUK4kWC4kEmwtv6N2ibmGD0KcJ+skoqzf6/7M3s67zwG2wV6gHjM12P4nXdVpaQOCK3k9oXx7Q7KZ4JEMZqYrIp0xKuDSNxlA+bjoB/jhdB9SE+z1J1HolXoR0duj8J+Y5cRkO7FfrzxGtG++2DUxxtgUDSD+Ub0P72sDO/PbsCKMt9BU+R6GEoRhR7W/6LkmmVvf4hqbcTphlzCUW1c
+  template:
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/cluster-wide: "true"
+      name: mqtt-passwd
+
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -50,9 +66,8 @@ metadata:
 data:
   mosquitto.conf: |
     listener 1883
-    allow_anonymous true
-    listener 9001
-    protocol websockets
+    allow_anonymous false
+    password_file /mosquitto/config/passwd
     persistence true
     persistence_location /mosquitto/data
     autosave_interval 1800
@@ -119,6 +134,9 @@ spec:
             - name: config
               mountPath: /mosquitto/config/mosquitto.conf
               subPath: mosquitto.conf
+            - name: passwd
+              mountPath: /mosquitto/config/passwd
+              subPath: passwd
       volumes:
         - name: data
           persistentVolumeClaim:
@@ -126,6 +144,9 @@ spec:
         - name: config
           configMap:
             name: mosquitto-configmap
+        - name: passwd
+          secret:
+            secretName: mqtt-passwd
 
 ---
 kind: Service
