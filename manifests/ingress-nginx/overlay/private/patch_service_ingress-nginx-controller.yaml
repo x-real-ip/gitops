@@ -16,3 +16,7 @@ spec:
       port: 8554
       targetPort: 8554
       protocol: TCP
+    - name: mosquitto
+      port: 1883
+      targetPort: 1883
+      protocol: TCP

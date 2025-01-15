@@ -19,6 +19,4 @@ patches:
   - path: patch_job_ingress-nginx-admission-create.yaml
   - path: patch_job_ingress-nginx-admission-patch.yaml
   - path: patch_service_ingress-nginx-controller.yaml
-
-patchesStrategicMerge:
-  - configmap_ingress-nginx-controller.yaml
+  # - path: configmap_ingress-nginx-controller.yaml
