@@ -4,4 +4,4 @@ kind: ConfigMap
 metadata:
   name: udp-services
 data:
-  "5683": home-automation/home-assistant-coiot:5683
+  "5683": "home-automation/home-assistant-coiot:5683"
