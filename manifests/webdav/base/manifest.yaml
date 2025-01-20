@@ -73,7 +73,7 @@ metadata:
   labels:
     app: webdav
 data:
-  UDI: "1000"
+  UID: "1000"
   GID: "2000"
   TZ: "Europe/Amsterdam"
 
