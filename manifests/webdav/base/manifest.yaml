@@ -159,3 +159,7 @@ spec:
                 name: webdav-server
                 port:
                   name: http
+  tls:
+    - hosts:
+        - webdav.lan.stamx.nl
+      secretName: tls-wildcard-lan-stamx-nl
