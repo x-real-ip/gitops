@@ -9,3 +9,7 @@ labels:
   - includeSelectors: true
     pairs:
       storage: truenas
+
+images:
+  - name: ghcr.io/x-real-ip/webdav
+    newTag: dummy
