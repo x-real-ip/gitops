@@ -11,4 +11,4 @@ labels:
 
 images:
 - name: ghcr.io/x-real-ip/webdav
-  newTag: bbe64ed424ffa240f2605de510e44d958662337d
+  newTag: 7b3780a44d812818fa2c269a3e8d1529b9cf76b0
