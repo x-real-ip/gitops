@@ -60,7 +60,6 @@ spec:
         sealedsecrets.bitnami.com/cluster-wide: "true"
       name: htpasswd
 
-
 ---
 kind: Deployment
 apiVersion: apps/v1
@@ -94,6 +93,24 @@ spec:
               mountPath: /usr/local/apache2/conf/.htpasswd
               subPath: .htpasswd
               readOnly: true
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          #   initialDelaySeconds: 10
+          #   periodSeconds: 10
+          #   timeoutSeconds: 5
+          #   failureThreshold: 3
+          #   successThreshold: 1
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 5
+          #   timeoutSeconds: 3
+          #   failureThreshold: 3
+          #   successThreshold: 1
       volumes:
         - name: webdav-server-data
           persistentVolumeClaim:
@@ -101,7 +118,6 @@ spec:
         - name: htpasswd
           secret:
             secretName: htpasswd
-
 
 ---
 kind: Service
