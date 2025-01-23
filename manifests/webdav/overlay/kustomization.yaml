@@ -4,6 +4,8 @@ kind: Kustomization
 resources:
 - ../base
 
+namespace: tools
+
 labels:
 - includeSelectors: true
   pairs:

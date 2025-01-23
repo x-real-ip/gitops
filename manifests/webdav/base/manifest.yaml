@@ -45,44 +45,27 @@ spec:
   volumeName: pv-nfs-webdav-server-data
 
 ---
-kind: SealedSecret
 apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
 metadata:
-  name: webdav-server-secrets
-  namespace: tools
-  labels:
-    app: webdav
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: "true"
+  name: htpasswd
 spec:
-  template:
-    type: Opaque
-    metadata:
-      name: webdav-server-secrets
-      namespace: tools
-      labels:
-        app: webdav
   encryptedData:
-    PASSWORD: AgALERP2kYvA04fbmjHhBNo6P7Ex8ZGAtHacjHApstdWNkSsRMYcHTMCYI4IIYPzb19Tpf8Mxc83uGgGnlnuRxQ7DnT2JTBm7lBUEPvH63vWgvSxiXLpxXSNawuXWa8a6UKaO7ua2ryiQSxh8icHM8prruZzwYT0KyosTyqEPFA8igz+8rNe8ZtXuDGeTdaeTCuS5lIQ0vcPNSXd9sh3/XdjMzjC/kxPSihGoplfqRu3y+mwjbUZz4IWovSDhqleXXapA7JQASZKmubRlAgrJr05NgGIHVkuOQLdyscfy3kQSxiviysow0ioiv42QACgODVfTqAjf3qVOcdd09iIS6jqghkhWC5nOV9rBrBYMsIf/NwK4D8Mhtl0Iwv8WvzcSSjVXz6tDth8/1ETktdLjLHstFgpiaO1YBaipPVVZiHCgUWHPOkPtBLSP13F6JxAyYa6KajGgg/X+q2EuoaQxSYJ2w9z6f5JqKAXjYwW/QCv4DQ7wQhqf+MQcfsk2FukjBBsGMO+uLSMcEcsOYx0pdJNr1kMkgukaenypKFgSFzxHghchqybyCBX4fr1Qq1rBrPJNM6XFH65cSEjR/WOKjE8KAbsr8TClK/yNrqnUDzdtJ5E9fJs6LnhRMiU6ixhyINw6pzFnb3lF0FcrLuih6AcqOeHG5z/9ltFpKSaadb3DZzAk9xGWOxd3YAG11EmaIoyLIs2i3kGAlttJc0Qm6WHR3R/hHhZ0oQqD/itrsU=
-    USERNAME: AgAjQtJf/I/Rgt08NleUUpwFifghpyCGgBnRyaWV6b+IJOcw6cZPFcNm8gnuADzZRnQO8B7Y7WykmwP7On4UcEGYuD7UMHIXxQUza4AD5lzDkDZaxq4EjHM2zjYu1aLO6Hl0qdqPebYFG5e7lwBz7eBnykWTZ5V9AS4Pt5gdqvsD6xzqrVzvzGPniZ4Xw6bo/k0BGv+urGBiq7rrCtavktbmi5kUQt3cbQElZX0VuxjJ88/++375Tw0YF4+5oy1kgtcbsu9Iga6ejkmMzPXQ0vybbIIgalLWRQcxI9pGFbBWIvBkEQqyeN9rmMicUAwOHzZ77aeY1cu092Y30SHj2zoZKp4aZ7e+gSRCQ5f3Ay6ecf4KghdeLJKdblU6e/8u3IiYdAYRew8JnlkkogGcSQhz5drLhvlxmQ/TzD2DZxnURXGBwG5IDLniC4q22vlSl+CRANQSljLbf+KV88TkndHabrD63BSZae/7/VOdqgX848kOFqmBuLwJbrEgXfVo7TKhf40HUiHEEu1ZU/3c43g4cDJ1ppgGoUseFzJDC+Z8DLQzifBgOA5q60zRMxF+Ct7v8LoJ3ouAtPJ7aRjA+rQWVRk5juuP2+TwLn/t4axqUNQyBrV/rRUeOKfxmW27TnbPiR7+678NMgL1fyS62FPdDIhoUn4t5/iOagS7zaSfFeLGg0g8GLFI/X/rk2aGU1b1rDhdJtFtQbpHmuo=
+    .htpasswd: AgC3iIc+hLchM/L0QO9TAs96A8Vve9iaPZQrRRtERD+UU3VBmpVzNv0kepa/phGLv50Ps1B9pa2axLeB88j75HJQjZ3N0aLnOv1ftK2j9NyrJIwi9uOtV1KWpRR985wQyiurota18ASk5xLIPnf9dvtfvQ3QhF4FQeGbVCHmvYlzvDacsjwVgXUl39koQ81vuUuPYc8vPJIKNps8vjMu9ZRsr3UzMF6gnB/iar4sHPoMit3hFjyxSGf31nn9P5j+lYKXIcm0UHbahKeFsV8XlvDMGD4yL9CvFVSH/lJu1hgyp3c9o2qf33Praa+d7xTagu2gxx7+4PEhpfnSpiFZYK8uXcG6E1MpGJEg3v85zn7YPX9btJoZZfuueTohJ5PNO9hamk1dt3GCUrMyLUZOsaM/dhSJ0qDi97gK4OuOYxzT82wsWHy50d3Hw59fki7yddQck1kGOZ/QSbeteL9c4uZpY7t24Nw5iLpVfWANWVrwFdEaEd+J2Ifg7npxJt0nr/C6Eb+j9nBrAT+bFQ5+gnQOJpJ4B9AEPmLrlikLSUp2gVCvEOFpKpb0CP5xaieRxgf/v/qtRBHp2UIY59Ti7ipEqYxSs7NMRgI79O8Ur7C8kEz4f6ZKUQlNjblc0FUYi8DnPf8LdMkei8hjdID3vqkkW4Njjh1uIbGVMdDJ3kw6nDcuuToHxuiRGn41run/F/1H8RitTpWtD64kP7HeqdjqMvXyi3n2kGsefCd0tTAmHgf5xlkgHo7uIR1Yaa792iVYAQCarbUq8N6IPr9s5KQZm0MofxuYLwIl
+  template:
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/cluster-wide: "true"
+      name: htpasswd
 
----
-kind: ConfigMap
-apiVersion: v1
-metadata:
-  name: webdav-server-env
-  namespace: tools
-  labels:
-    app: webdav
-data:
-  UID: "1000"
-  GID: "2000"
-  TZ: "Europe/Amsterdam"
 
 ---
 kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: webdav-server
-  namespace: tools
   labels:
     app: webdav
 spec:
@@ -97,33 +80,34 @@ spec:
     spec:
       containers:
         - name: webdav-server
-          image: docker.io/ugeek/webdav:amd64
+          image: ghcr.io/x-real-ip/webdav:latest
           imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 80
-          envFrom:
-            - configMapRef:
-                name: webdav-server-env
-            - secretRef:
-                name: webdav-server-secrets
-                optional: true
           resources: {}
           volumeMounts:
             - name: webdav-server-data
-              mountPath: /media
+              mountPath: /var/www/webdav
               readOnly: false
+            - name: htpasswd
+              mountPath: /usr/local/apache2/conf/.htpasswd
+              subPath: .htpasswd
+              readOnly: true
       volumes:
         - name: webdav-server-data
           persistentVolumeClaim:
             claimName: pvc-nfs-webdav-server-data
+        - name: htpasswd
+          secret:
+            secretName: htpasswd
+
 
 ---
 kind: Service
 apiVersion: v1
 metadata:
   name: webdav-server
-  namespace: tools
   labels:
     app: webdav
 spec:
@@ -141,11 +125,12 @@ kind: Ingress
 apiVersion: networking.k8s.io/v1
 metadata:
   name: webdav-server
-  namespace: tools
   labels:
     app: webdav
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: 20480m
+    nginx.ingress.kubernetes.io/limit-connections: "5"
+    nginx.ingress.kubernetes.io/limit-rpm: "15"
 spec:
   ingressClassName: nginx-private
   rules:
