@@ -89,6 +89,9 @@ spec:
             - name: webdav-server-data
               mountPath: /var/www/webdav
               readOnly: false
+            - name: webdav-server-db
+              mountPath: /usr/local/apache2/var/
+              readOnly: false
             - name: htpasswd
               mountPath: /usr/local/apache2/conf/.htpasswd
               subPath: .htpasswd
@@ -115,6 +118,8 @@ spec:
         - name: webdav-server-data
           persistentVolumeClaim:
             claimName: pvc-nfs-webdav-server-data
+        - name: webdav-server-db
+          emptyDir: {}
         - name: htpasswd
           secret:
             secretName: htpasswd
