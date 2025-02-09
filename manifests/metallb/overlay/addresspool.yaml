@@ -11,7 +11,7 @@ metadata:
   name: private-lan-ips
 spec:
   addresses:
-    - 10.0.100.240/32 # ingress-controller
+    - 10.0.100.240/32 # private ingress-controller
     - 10.0.100.241/32 # cups
     - 10.0.100.242/32 # tplink-omada-controller
     - 10.0.100.243/32 # jellyfin
@@ -25,4 +25,15 @@ metadata:
   name: public-lan-ips
 spec:
   addresses:
-    - 10.0.100.250/32 # ingress-controller
+    - 10.0.100.250/32 # public ingress-controller
+
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: L2Advertisement
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+    - private-lan-ips
+    - public-lan-ips

@@ -2,11 +2,11 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+namespace: metallb-system
+
 resources:
   - ../base
   - addresspool.yaml
-
-namespace: metallb-system
 
 patches:
   - path: patch_deamonset_speaker.yaml
