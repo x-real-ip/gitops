@@ -8,8 +8,9 @@ resources:
   - ../../base
 
 replicas:
-  - count: 2
+  - count: 1
     name: ingress-nginx-controller
+
 patches:
   - path: patch_deployment_ingress-nginx-controller.yaml
   - path: patch_ingressclass_nginx.yaml

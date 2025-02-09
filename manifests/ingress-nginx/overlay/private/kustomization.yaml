@@ -10,7 +10,7 @@ resources:
   - configmap_udp-services.yaml
 
 replicas:
-  - count: 2
+  - count: 1
     name: ingress-nginx-controller
 
 patches:
