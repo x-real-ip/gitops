@@ -5,7 +5,7 @@ metadata:
   name: ingress-nginx-controller
   namespace: ingress-nginx
   annotations:
-    metallb.universe.tf/address-pool: private-lan-ips
+    metallb.universe.tf/loadBalancerIPs: 10.0.100.240
 spec:
   ports:
     - name: home-assistant-coiot
