@@ -6,7 +6,9 @@ namespace: metallb-system
 
 resources:
   - ../base
-  - addresspool.yaml
+  - bgpadvertisement.yaml
+  - bgppeer.yaml
+  - ipaddresspool.yaml
 
 patches:
   - path: patch_deamonset_speaker.yaml

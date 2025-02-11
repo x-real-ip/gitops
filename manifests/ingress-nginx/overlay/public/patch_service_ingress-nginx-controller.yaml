@@ -5,4 +5,4 @@ metadata:
   name: ingress-nginx-controller
   namespace: ingress-nginx
   annotations:
-    metallb.universe.tf/loadBalancerIPs: 10.0.100.250
+    metallb.universe.tf/loadBalancerIPs: 10.33.33.200
