@@ -6,9 +6,9 @@ metadata:
 spec:
   addresses:
     - 10.33.33.100/32 # private ingress-controller
-    - 10.33.33.101/32 # cups
+    - 10.33.33.101/32 # jellyfin
     - 10.33.33.102/32 # tplink-omada-controller
-    - 10.33.33.103/32 # jellyfin
+    - 10.33.33.103/32 # cups
     - 10.33.33.104/32
     - 10.33.33.105/32
   avoidBuggyIPs: true

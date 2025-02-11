@@ -111,7 +111,7 @@ metadata:
   labels:
     app: transmission
 data:
-  LOCAL_NETWORK: 10.0.100.240/32, 10.0.10.0/24
+  LOCAL_NETWORK: 10.33.33.100/32, 10.0.10.0/24
   NORDVPN_CATEGORY: legacy_p2p
   NORDVPN_COUNTRY: NL
   NORDVPN_PROTOCOL: udp

@@ -137,7 +137,7 @@ spec:
   selector:
     app: omada-controller
   type: LoadBalancer
-  loadBalancerIP: 10.0.100.242
+  loadBalancerIP: 10.33.33.102
   externalTrafficPolicy: Cluster
   sessionAffinity: None
   ports:

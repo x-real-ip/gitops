@@ -244,7 +244,7 @@ metadata:
     app: jellyfin
 spec:
   type: LoadBalancer
-  loadBalancerIP: 10.0.100.243
+  loadBalancerIP: 10.33.33.101
   externalTrafficPolicy: Local
   selector:
     app: jellyfin
