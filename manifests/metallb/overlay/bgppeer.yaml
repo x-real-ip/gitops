@@ -2,7 +2,7 @@
 apiVersion: metallb.io/v1beta2
 kind: BGPPeer
 metadata:
-  name: sample
+  name: bgp-pfsense
 spec:
   myASN: 64500
   peerASN: 64501
