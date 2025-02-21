@@ -124,93 +124,6 @@ spec:
     type: Opaque
 
 ---
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: frigate
-  labels:
-    app: frigate
-data:
-  config.yml: |
-    tls:
-      enabled: false
-
-    auth:
-      enabled: True
-
-    detectors:
-      coral:
-        type: edgetpu
-        device: usb
-
-    mqtt:
-      host: mosquitto.home-automation.svc.cluster.local
-      port: 1883
-      user: mqttuser
-      password: "{FRIGATE_MQTT_PASSWORD}"
-
-    cameras:
-      backyard:
-        live:
-          stream_name: backyard
-        ffmpeg:
-          inputs:
-            - path: rtsp://go2rtc-service.home-automation.svc.cluster.local:8554/backyard
-              input_args: preset-rtsp-restream
-              roles:
-                - detect
-                - record
-          hwaccel_args: -hwaccel drm -hwaccel_device /dev/dri/renderD128
-        objects:
-          track:
-            - person
-            - cat
-            - dog
-          mask:
-            - 0,0,0,0.265,0.368,0.273,0.466,0.396,0.447,0.635,0.638,0.669,0.726,0.99,1,1,1,0
-            - 0.197,0.881,0.195,0.732,0.12,0.738,0.097,0.825,0.15,0.919
-        detect:
-          width: 1280
-          height: 720
-          fps: 5
-        record:
-          enabled: True
-          retain:
-            days: 3
-            mode: all
-          events:
-            retain:
-              default: 14
-              mode: motion
-        motion:
-          mask:
-            - 0,0.699,0.081,0.727,0.067,0.405,0.253,0.371,0.466,0.394,0.45,0.64,0.642,0.664,0.657,0.313,0.755,0.273,0.708,0.763,0.726,1,1,1,1,0,0,0
-            - 0.197,0.881,0.195,0.732,0.12,0.738,0.097,0.825,0.15,0.919
-      baby:
-        live:
-          stream_name: baby
-        ffmpeg:
-          inputs:
-            - path: rtsp://go2rtc-service.home-automation.svc.cluster.local:8554/baby
-              input_args: preset-rtsp-restream
-              roles:
-                - record
-          hwaccel_args: -hwaccel drm -hwaccel_device /dev/dri/renderD128
-        record:
-          enabled: True
-          retain:
-            days: 3
-            mode: all
-        review:
-          alerts:
-            labels: []
-          detections:
-            labels: []
-        motion:
-          mask:
-            - 0.715,0.015,0.716,0.053,0.979,0.05,0.979,0.01
-
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -230,9 +143,16 @@ spec:
       labels:
         app: frigate
     spec:
+      initContainers:
+        - name: init-delete-config-file
+          image: busybox
+          command: ["/bin/sh", "-c", "rm -f /config/config.yml"]
+          volumeMounts:
+            - name: config
+              mountPath: /config
       containers:
         - name: frigate
-          image: "ghcr.io/blakeblackshear/frigate:stable"
+          image: "ghcr.io/x-real-ip/frigate:latest"
           imagePullPolicy: Always
           securityContext:
             privileged: true
@@ -279,9 +199,6 @@ spec:
                 name: mqtt-password
                 optional: true
           volumeMounts:
-            - name: configmap
-              mountPath: /config/config.yml
-              subPath: config.yml
             - name: config
               mountPath: /config
             - name: media
@@ -297,9 +214,6 @@ spec:
               name: dri-render
           resources: {}
       volumes:
-        - name: configmap
-          configMap:
-            name: frigate
         - name: config
           persistentVolumeClaim:
             claimName: pvc-iscsi-frigate-config
