@@ -136,7 +136,7 @@ data:
       enabled: false
 
     auth:
-      enabled: True
+      enabled: true
 
     detectors:
       coral:
@@ -147,7 +147,7 @@ data:
       host: mosquitto.home-automation.svc.cluster.local
       port: 1883
       user: mqttuser
-      password: "{FRIGATE_MQTT_PASSWORD}"
+      password: '{FRIGATE_MQTT_PASSWORD}'
 
     cameras:
       backyard:
@@ -174,7 +174,7 @@ data:
           height: 720
           fps: 5
         record:
-          enabled: True
+          enabled: true
           retain:
             days: 3
             mode: all
@@ -197,7 +197,7 @@ data:
                 - record
           hwaccel_args: -hwaccel drm -hwaccel_device /dev/dri/renderD128
         record:
-          enabled: True
+          enabled: true
           retain:
             days: 3
             mode: all
