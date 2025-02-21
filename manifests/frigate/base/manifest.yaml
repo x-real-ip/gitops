@@ -303,7 +303,11 @@ spec:
               readOnly: false
             - mountPath: /dev/dri/renderD128
               name: dri-render
-          resources: {}
+          resources:
+            requests: {}
+            limits:
+              memory: "2560Mi"
+              cpu: "2500m"
       volumes:
         - name: configmap
           configMap:
