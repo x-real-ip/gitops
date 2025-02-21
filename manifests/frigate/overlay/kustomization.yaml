@@ -13,7 +13,7 @@ labels:
 
 images:
   - name: "ghcr.io/blakeblackshear/frigate"
-    newTag: "0.14.1-standard-arm64"
+    newTag: "0.15.0-standard-arm64"
 
 patches:
 - path: patch_deployment_frigate.yaml
