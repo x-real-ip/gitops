@@ -12,10 +12,8 @@ labels:
     storage: truenas
 
 images:
-- name: ghcr.io/blakeblackshear/frigate
-  newTag: 0.15.0-standard-arm64
-- name: ghcr.io/x-real-ip/frigate
-  newTag: bace91c028304ea07ca89f4c5fb7617202a38212
+  - name: "ghcr.io/blakeblackshear/frigate"
+    newTag: "0.14.1-standard-arm64"
 
 patches:
 - path: patch_deployment_frigate.yaml
