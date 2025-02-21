@@ -1,0 +1,173 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-iscsi-radarr-config
+  labels:
+    app: radarr
+spec:
+  storageClassName: "freenas-iscsi-manual-csi"
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: xfs
+    volumeHandle: pv-iscsi-radarr-config
+    volumeAttributes:
+      portal: truenas-master.lan.stamx.nl:3260
+      iqn: iqn.2005-10.org.freenas.ctl:radarr-config
+      lun: "0"
+      node_attach_driver: iscsi
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-iscsi-radarr-config
+  namespace: media
+  labels:
+    app: radarr
+spec:
+  storageClassName: freenas-iscsi-manual-csi
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  volumeName: pv-iscsi-radarr-config
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: radarr
+  namespace: media
+  labels:
+    app: radarr
+spec:
+  revisionHistoryLimit: 3
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: radarr
+  template:
+    metadata:
+      labels:
+        app: radarr
+    spec:
+      serviceAccountName: default
+      automountServiceAccountToken: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      containers:
+        - name: radarr
+          image: "lscr.io/linuxserver/radarr:latest"
+          imagePullPolicy: Always
+          resources: {}
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: "TZ"
+              value: "Europe/Amsterdam"
+          ports:
+            - name: http
+              containerPort: 7878
+              protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+                - /usr/bin/env
+                - bash
+                - -c
+                - curl --fail localhost:7878/api/v3/system/status?apiKey=`IFS=\>
+                  && while read -d \< E C; do if [[ $E = "ApiKey" ]]; then echo
+                  $C; fi; done < /config/config.xml`
+            failureThreshold: 5
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: 7878
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          startupProbe:
+            tcpSocket:
+              port: 7878
+            initialDelaySeconds: 0
+            failureThreshold: 30
+            timeoutSeconds: 1
+            periodSeconds: 5
+          volumeMounts:
+            - name: downloads
+              mountPath: /data/downloads
+            - name: media
+              mountPath: /data/media
+            - name: radarr-config
+              mountPath: /config
+      volumes:
+        - name: downloads
+          persistentVolumeClaim:
+            claimName: pvc-nfs-downloads
+        - name: media
+          persistentVolumeClaim:
+            claimName: pvc-nfs-media
+        - name: radarr-config
+          persistentVolumeClaim:
+            claimName: pvc-iscsi-radarr-config
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: radarr
+  namespace: media
+  labels:
+    app: radarr
+spec:
+  selector:
+    app: radarr
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 7878
+      targetPort: http
+
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: radarr
+  namespace: media
+  labels:
+    app: radarr
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: radarr.lan.stamx.nl
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: radarr
+                port:
+                  number: 7878
+  tls:
+    - hosts:
+        - radarr.lan.stamx.nl
+      secretName: tls-wildcard-lan-stamx-nl

@@ -2,97 +2,53 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: pv-iscsi-lidarr-config
+  name: pv-iscsi-sonarr-config
   labels:
-    app: lidarr
+    app: sonarr
 spec:
   storageClassName: "freenas-iscsi-manual-csi"
   capacity:
-    storage: 10Gi
+    storage: 3Gi
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   csi:
     driver: org.democratic-csi.node-manual
     readOnly: false
-    fsType: xfs
-    volumeHandle: pv-iscsi-lidarr-config
+    fsType: ext4
+    volumeHandle: pv-iscsi-sonarr-config
     volumeAttributes:
       portal: truenas-master.lan.stamx.nl:3260
-      iqn: iqn.2005-10.org.freenas.ctl:lidarr-config
+      iqn: iqn.2005-10.org.freenas.ctl:sonarr-config
       lun: "0"
       node_attach_driver: iscsi
-      provisioner_driver: node-manual
-
----
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: pv-nfs-music
-  labels:
-    app: lidarr
-spec:
-  storageClassName: "freenas-nfs-manual-csi"
-  capacity:
-    storage: 1Ti
-  accessModes:
-    - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  mountOptions:
-    - nfsvers=4
-    - nolock
-    - noatime
-  csi:
-    driver: org.democratic-csi.node-manual
-    readOnly: false
-    fsType: nfs
-    volumeHandle: pv-nfs-music
-    volumeAttributes:
-      server: truenas-master.lan.stamx.nl
-      share: /mnt/hdd/music
-      node_attach_driver: nfs
       provisioner_driver: node-manual
 
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: pvc-iscsi-lidarr-config
+  name: pvc-iscsi-sonarr-config
+  namespace: media
   labels:
-    app: lidarr
+    app: sonarr
 spec:
   storageClassName: freenas-iscsi-manual-csi
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 10Gi
-  volumeName: pv-iscsi-lidarr-config
-
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: pvc-nfs-music
-  namespace: media
-  labels:
-    app: lidarr
-spec:
-  storageClassName: freenas-nfs-manual-csi
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Ti
-  volumeName: pv-nfs-music
+      storage: 3Gi
+  volumeName: pv-iscsi-sonarr-config
 
 ---
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: lidarr
+  name: sonarr
+  namespace: media
   labels:
-    app: lidarr
+    app: sonarr
 spec:
   revisionHistoryLimit: 3
   replicas: 1
@@ -100,109 +56,119 @@ spec:
     type: Recreate
   selector:
     matchLabels:
-      app: lidarr
+      app: sonarr
   template:
     metadata:
       labels:
-        app: lidarr
+        app: sonarr
     spec:
       serviceAccountName: default
       automountServiceAccountToken: true
       dnsPolicy: ClusterFirst
       enableServiceLinks: true
       containers:
-        - name: lidarr
-          image: "lscr.io/linuxserver/lidarr:latest"
+        - name: sonarr
+          image: "lscr.io/linuxserver/sonarr:latest"
           imagePullPolicy: Always
           resources: {}
           env:
             - name: PUID
               value: "1000"
             - name: PGID
-              value: "2000"
+              value: "1000"
             - name: "TZ"
               value: "Europe/Amsterdam"
           ports:
             - name: http
-              containerPort: 8686
+              containerPort: 8989
               protocol: TCP
           livenessProbe:
-            tcpSocket:
-              port: 8686
-            initialDelaySeconds: 0
-            failureThreshold: 3
-            timeoutSeconds: 1
+            exec:
+              command:
+                - /usr/bin/env
+                - bash
+                - -c
+                - curl --fail localhost:8989/api/v3/system/status?apiKey=`IFS=\>
+                  && while read -d \< E C; do if [[ $E = "ApiKey" ]]; then echo
+                  $C; fi; done < /config/config.xml`
+            failureThreshold: 5
+            initialDelaySeconds: 60
             periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10
           readinessProbe:
             tcpSocket:
-              port: 8686
+              port: 8989
             initialDelaySeconds: 0
             failureThreshold: 3
             timeoutSeconds: 1
             periodSeconds: 10
           startupProbe:
             tcpSocket:
-              port: 8686
+              port: 8989
             initialDelaySeconds: 0
             failureThreshold: 30
             timeoutSeconds: 1
             periodSeconds: 5
           volumeMounts:
-            - name: lidarr-config
-              mountPath: /config
-            - name: music
-              mountPath: /data/music
             - name: downloads
               mountPath: /data/downloads
+            - name: media
+              mountPath: /data/media
+            - name: sonarr-config
+              mountPath: /config
       volumes:
-        - name: lidarr-config
-          persistentVolumeClaim:
-            claimName: pvc-iscsi-lidarr-config
-        - name: music
-          persistentVolumeClaim:
-            claimName: pvc-nfs-music
         - name: downloads
           persistentVolumeClaim:
             claimName: pvc-nfs-downloads
+        - name: media
+          persistentVolumeClaim:
+            claimName: pvc-nfs-media
+        - name: sonarr-config
+          persistentVolumeClaim:
+            claimName: pvc-iscsi-sonarr-config
 
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: lidarr
+  name: sonarr
+  namespace: media
   labels:
-    app: lidarr
+    app: sonarr
 spec:
-  type: ClusterIP
   selector:
-    app: lidarr
+    app: sonarr
+  type: ClusterIP
   ports:
     - name: http
       protocol: TCP
-      port: 8686
+      port: 8989
       targetPort: http
 
 ---
 kind: Ingress
 apiVersion: networking.k8s.io/v1
 metadata:
-  name: lidarr
+  name: sonarr
+  namespace: media
   labels:
-    app: lidarr
+    app: sonarr
 spec:
   ingressClassName: nginx-private
   rules:
-    - host: lidarr.lan.stamx.nl
+    - host: sonarr.lan.stamx.nl
       http:
         paths:
           - path: "/"
             pathType: Prefix
             backend:
               service:
-                name: lidarr
+                name: sonarr
                 port:
-                  name: http
+                  number: 8989
   tls:
     - hosts:
-        - lidarr.lan.stamx.nl
+        - sonarr.lan.stamx.nl
       secretName: tls-wildcard-lan-stamx-nl
+
