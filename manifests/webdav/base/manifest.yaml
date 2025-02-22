@@ -139,11 +139,8 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: pvc-nfs-webdav-server-data
-        - name: db
+        - name: config
           emptyDir: {}
-        - name: htpasswd
-          secret:
-            secretName: htpasswd
 
 ---
 kind: Service
