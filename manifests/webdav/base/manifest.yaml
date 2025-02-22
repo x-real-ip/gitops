@@ -50,15 +50,33 @@ kind: SealedSecret
 metadata:
   annotations:
     sealedsecrets.bitnami.com/cluster-wide: "true"
-  name: htpasswd
+  name: webdav-secret-env
 spec:
   encryptedData:
-    .htpasswd: AgC3iIc+hLchM/L0QO9TAs96A8Vve9iaPZQrRRtERD+UU3VBmpVzNv0kepa/phGLv50Ps1B9pa2axLeB88j75HJQjZ3N0aLnOv1ftK2j9NyrJIwi9uOtV1KWpRR985wQyiurota18ASk5xLIPnf9dvtfvQ3QhF4FQeGbVCHmvYlzvDacsjwVgXUl39koQ81vuUuPYc8vPJIKNps8vjMu9ZRsr3UzMF6gnB/iar4sHPoMit3hFjyxSGf31nn9P5j+lYKXIcm0UHbahKeFsV8XlvDMGD4yL9CvFVSH/lJu1hgyp3c9o2qf33Praa+d7xTagu2gxx7+4PEhpfnSpiFZYK8uXcG6E1MpGJEg3v85zn7YPX9btJoZZfuueTohJ5PNO9hamk1dt3GCUrMyLUZOsaM/dhSJ0qDi97gK4OuOYxzT82wsWHy50d3Hw59fki7yddQck1kGOZ/QSbeteL9c4uZpY7t24Nw5iLpVfWANWVrwFdEaEd+J2Ifg7npxJt0nr/C6Eb+j9nBrAT+bFQ5+gnQOJpJ4B9AEPmLrlikLSUp2gVCvEOFpKpb0CP5xaieRxgf/v/qtRBHp2UIY59Ti7ipEqYxSs7NMRgI79O8Ur7C8kEz4f6ZKUQlNjblc0FUYi8DnPf8LdMkei8hjdID3vqkkW4Njjh1uIbGVMdDJ3kw6nDcuuToHxuiRGn41run/F/1H8RitTpWtD64kP7HeqdjqMvXyi3n2kGsefCd0tTAmHgf5xlkgHo7uIR1Yaa792iVYAQCarbUq8N6IPr9s5KQZm0MofxuYLwIl
+    WEBDAV_PASSWORD: AgCDx+vLngmwRvnKiO8rbixPA35JdpRXPN19DlMzB/yx0t2+Wm1lz5ArWffH9vr78Hgg+UA2YkC7aCEr0rZm6qZMxMhSKqIbT6DhuLyTjOnxFwCcWx5nKawivJJejduLqdSs2MzDu7txO+kpD6oWLM/i8VwwrN44vVShDEUxp++PIGJuA49KLWNqN2Ca5fY2jkfOTjfvMhdJeEBOEOeqtbe46XomQTTyRGKWzcmzDIOOmh3vG4HDB1CAO/6E+P4O9JEGvbADV4701RZOkcz8KQkL5oIHXEefsPkmrFw8I4F5m/A4OvEBf80zERqRywpvKGf0N0OwUoqFhjVZtYYoGcX0EfLjHbyodAQoVpakWcqSiHE5L7eA9/Vcyk9UmgfgrXgj2UjaDo6iFxWrG06N2/Qphm9n9u/owQSVMxeArlbX2Cw1Po3wlYz5Dqx9scUNDsjbGwjZswEBFQh4PE1pwfqJ6OQgoD51cPFhJTd1LeOPyxstii4qSLugU7jF10OmqNg/RQwK0ZudYyo2FIuIIj0pZ0IY9LvALdQBq9rZRxLVL3d6KIX405iu0hauyw0Os0YUyY40SMMpdw/zde8BkArhbikh2qd90s7lHutfQEdismqh4zD+B7XyhpvALFDTj209579nl50OP6ahxWzuS9SUavhJGUFJFriUlasB9nuvwp4I77ekrlB8dbhWy4QT+u/KlE4Xi7mpfOzYc60xPLBY04s2I7mrXMzZ8s/Nk6c=
+    WEBDAV_USERNAME: AgBnl06yo3QU9O8jiRchk4XN8NABZ7+n2jjyCZEgplsNY10ixAp41MJBhvuS3nQbzl+01iX4qcIC/DivXad5aFOXnxgv7msj+oaR9VQf8DRQs0XTEFshqsPSd+Pal/39XQP2qRMno+IQeP3/19jtr6/6EPZiA9Z7mHEljr1e3pdYZ5KpjDKVu751KPiw6S8JsKrdp4ULbHuuago6rLvRd+zVdT02LRqoihrs7eayCud/4rOuTeD9s6n5zEfEpEseq1m5dxawcwHQmEIku31Rp6JRPo7PbOGETP2eSHUe2ETIwYW59g7O4UO2WJuxvySZhDu5nBHz2vIrIQkEZX0ijyy2soaA3vpD17NEspe8JLLgnHnW6M0BFdrZuLZLHnlyzKYdNBmkr7qYnqoHfk8GM1qpAXWRy37YXTGcgGa7xPKO/GZdNxkBySP/LQ/9t+FPK8cJvNQjHscaUuSRdtunVg8GrilW8Fta32cjq6IHKA+KUvgCfI9NeGIeiRD51bxoIpHcgdkgGwaNMnegTJH9Bhi+FfNpvIUAL/qncFlI+mOGc8LsbTkj62KcbMvy94SKuq4tAcSnz9EJagixU7MoKMdVBEZhk02vJ5kVu/wJevH6kIUUCD9fdBO8vipD/sIF3ZvfPZtZehRBqWkPAIDbea61b5yl6fTV5w1qngA97h5VK7XTFTdo3/vI6gw+OGM7eUf7bSIM
   template:
     metadata:
       annotations:
         sealedsecrets.bitnami.com/cluster-wide: "true"
-      name: htpasswd
+      labels:
+        app: webdav
+      name: webdav-secret-env
+
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: webdav-env
+  labels:
+    app: webdav
+data:
+  TZ: "Europe/Amsterdam"
+  PUID: "1000"
+  PGID: "2000"
+  SERVER_NAMES: "localhost"
+  TIMEOUTS_S: "1200"
+  CLIENT_MAX_BODY_SIZE: "100G" # must end with M(egabytes) or G(igabytes)
 
 ---
 kind: Deployment
@@ -79,23 +97,26 @@ spec:
     spec:
       containers:
         - name: webdav-server
-          image: ghcr.io/x-real-ip/webdav:latest
+          image: docker.io/dgraziotin/nginx-webdav-nononsense:latest
           imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: webdav-env
+                optional: false
+            - secretRef:
+                name: webdav-secret-env
+                optional: false
           ports:
             - name: http
               containerPort: 80
           resources: {}
           volumeMounts:
-            - name: webdav-server-data
-              mountPath: /var/www/webdav
+            - name: data
+              mountPath: /data
               readOnly: false
-            - name: webdav-server-db
-              mountPath: /usr/local/apache2/var/
+            - name: config
+              mountPath: /config
               readOnly: false
-            - name: htpasswd
-              mountPath: /usr/local/apache2/conf/.htpasswd
-              subPath: .htpasswd
-              readOnly: true
           # livenessProbe:
           #   httpGet:
           #     path: /
@@ -115,10 +136,10 @@ spec:
           #   failureThreshold: 3
           #   successThreshold: 1
       volumes:
-        - name: webdav-server-data
+        - name: data
           persistentVolumeClaim:
             claimName: pvc-nfs-webdav-server-data
-        - name: webdav-server-db
+        - name: db
           emptyDir: {}
         - name: htpasswd
           secret:
