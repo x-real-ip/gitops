@@ -76,7 +76,6 @@ data:
   PGID: "2000"
   SERVER_NAMES: "localhost"
   TIMEOUTS_S: "1200"
-  CLIENT_MAX_BODY_SIZE: "100G" # must end with M(egabytes) or G(igabytes)
 
 ---
 kind: Deployment
@@ -117,24 +116,24 @@ spec:
             - name: config
               mountPath: /config
               readOnly: false
-          # livenessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
-          #   initialDelaySeconds: 10
-          #   periodSeconds: 10
-          #   timeoutSeconds: 5
-          #   failureThreshold: 3
-          #   successThreshold: 1
-          # readinessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
-          #   initialDelaySeconds: 5
-          #   periodSeconds: 5
-          #   timeoutSeconds: 3
-          #   failureThreshold: 3
-          #   successThreshold: 1
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+            successThreshold: 1
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+            successThreshold: 1
       volumes:
         - name: data
           persistentVolumeClaim:
