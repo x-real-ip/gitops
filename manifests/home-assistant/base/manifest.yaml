@@ -383,8 +383,9 @@ metadata:
 spec:
   selector:
     app: home-assistant
-  type: ClusterIP
-  clusterIP: None
+  type: LoadBalancer
+  loadBalancerIP: 10.0.100.243
+  externalTrafficPolicy: Local
   ports:
     - name: coiot
       protocol: UDP
