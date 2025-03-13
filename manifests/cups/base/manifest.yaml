@@ -317,7 +317,3 @@ spec:
                 name: cups
                 port:
                   name: http
-  tls:
-    - hosts:
-        - cups.lan.stamx.nl
-      secretName: tls-wildcard-lan-stamx-nl
