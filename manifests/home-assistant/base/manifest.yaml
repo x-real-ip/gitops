@@ -88,12 +88,12 @@ spec:
         app: home-assistant
 
 ---
-apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
+apiVersion: bitnami.com/v1alpha1
 metadata:
+  name: secrets
   labels:
     app: home-assistant
-  name: secrets
 spec:
   encryptedData:
     home_city: AgDUbLU7L334basktEdTU5hynRJUhT7u/850mkvKP/EXIgtzpZTwkQCnaFQRQAhFKVwjvlcCqaHxGCVfjg3F2kGivIamRxlDKt2FF8kVQHm1cYuqn708CjOrPOvlUm/Yd+GBNE30T7c5I2YoEizKhLsZjf8zaSNsv9BEscgE/dqRCSDgK9xcurdOK1TY1foxh+1UuWjpg++H4GHnMsuyJsKE2HnyrZ1vcG54l2usRpd7d37rkcmihtywcHs8PSBLqydIjQxRMrYtnTHwtC+ZoxLoqPWjjpBZ0ndNlGcBKpkt2e6ypR0vgCmHO2RE5H3eeAS1PqbWBfTCRsPeCCKiPDLx2IZlCcIdWomBgJ2tk+UzPWRaYKYwt3Iv+3+AB78kIiycPsAQNTpJgs0JWhVjx3kA42eVI71rNAndbVffofs8CYihhQSuK9ZEnna9gKPoDM80HWqQyRX4rgdwwS4xsuil1sWXWF87tn9EMmxh/ox2sBbJWxo3FnTe4z/gBD7k3zzAhOxbPh1noJCRvOBg1N4tJ5fz/8JAkwzF0tkI1AIsnqoiOyBlvA4wzAFrUf+EJFYnArpvj2P2W9sajoTvizIG2scYaLCl5hYdextwzmLki+G9+PPGVoWmHT8x9jGjeuZj4eHMRS4syc9Hx2tkMdPBqq07G6wzdy7cWAPGMUR8zJpUABgWXC01WX2dBbXZSXcUyso=
@@ -126,6 +126,7 @@ spec:
         xiaomi_cloud_password: {{ index . "xiaomi_cloud_password" }}
         xiaomi_cloud_username: {{ index . "xiaomi_cloud_username" }}
         xiaomi_vacuum_s6_token: {{ index . "xiaomi_vacuum_s6_token" }}
+        wifi_guest_password: {{ index . "wifi_guest_password" }}
         opnsense_api_key: {{ index . "opnsense_api_key" }}
         opnsense_api_secret: {{ index . "opnsense_api_secret" }}
     metadata:
