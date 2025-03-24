@@ -30,8 +30,6 @@ spec:
       volumes:
         - name: piper-data
           emptyDir: {}
-          # persistentVolumeClaim:
-          #   claimName: piper-data-pvc
 
 ---
 kind: Service
@@ -49,14 +47,4 @@ spec:
       port: 10200
       targetPort: 10200
 
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: piper-data-pvc
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 10Gi
+
