@@ -54,6 +54,8 @@ metadata:
     app: protonmail-bridge
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: protonmail-bridge
