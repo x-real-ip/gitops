@@ -1,0 +1,23 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: piper
+  namespace: argocd
+  labels:
+    storage: truenas
+spec:
+  project: default
+  source:
+    repoURL: "https://github.com/x-real-ip/gitops"
+    path: manifests/piper/overlay
+    targetRevision: HEAD
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: home-automation
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
