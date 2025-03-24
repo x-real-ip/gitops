@@ -32,8 +32,6 @@ spec:
       volumes:
         - name: whisper-data
           emptyDir: {}
-          # persistentVolumeClaim:
-          #   claimName: whisper-data-pvc
 
 ---
 kind: Service
@@ -50,15 +48,3 @@ spec:
     - protocol: TCP
       port: 10300
       targetPort: 10300
-
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: whisper-data-pvc
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 10Gi
