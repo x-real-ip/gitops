@@ -9,6 +9,7 @@ spec:
     - 10.0.100.241/32 # jellyfin
     - 10.0.100.242/32 # tplink-omada-controller
     - 10.0.100.243/32 # home-assistant coiot
+    - 10.0.100.244/32 # syncthing
   avoidBuggyIPs: true
 
 ---
