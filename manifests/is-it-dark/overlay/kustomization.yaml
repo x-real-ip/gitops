@@ -8,4 +8,4 @@ namespace: home-automation
 
 images:
 - name: ghcr.io/x-real-ip/is-it-dark
-  newTag: 786c27cb1b6351f30cfd245ffa2c1f1e9653b773
+  newTag: b47e9f90bca1d1d18069ebfc95aad7d8983bfcb9
