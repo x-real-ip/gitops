@@ -1,12 +1,11 @@
----
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - ../base
+- ../base
 
 namespace: home-automation
 
 images:
 - name: ghcr.io/x-real-ip/is-it-dark
-  newTag: 5b8e231013d17b0936f6824839f06787d72ff17b
+  newTag: fbbc62bece308a5c72e8721561f0e0cff39abd5b
