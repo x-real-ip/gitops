@@ -1,0 +1,21 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: is-it-dark
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: "https://github.com/x-real-ip/gitops"
+    path: manifests/is-it-dark/overlay
+    targetRevision: HEAD
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: home-automation
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

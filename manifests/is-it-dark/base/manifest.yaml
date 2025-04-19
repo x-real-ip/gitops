@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: is-it-dark
+  namespace: image-analyzer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: is-it-dark
+  template:
+    metadata:
+      labels:
+        app: is-it-dark
+    spec:
+      containers:
+        - name: is-it-dark
+          image: your-dockerhub-username/is-it-dark:latest
+          ports:
+            - containerPort: 5000
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+            requests: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: is-it-dark
+spec:
+  selector:
+    app: is-it-dark
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: ClusterIP
