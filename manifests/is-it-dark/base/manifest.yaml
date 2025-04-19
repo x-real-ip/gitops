@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: is-it-dark
-          image: your-dockerhub-username/is-it-dark:latest
+          image: ghcr.io/x-real-ip/is-it-dark:latest
           ports:
             - containerPort: 5000
           resources:
