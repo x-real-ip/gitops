@@ -9,7 +9,7 @@ data:
       dark: 85
       medium: 170
 
-    infrared_threshold: 10
+    infrared_threshold: 9
 
 ---
 apiVersion: apps/v1
