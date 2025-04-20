@@ -6,7 +6,7 @@ metadata:
 data:
   config.yaml: |
     brightness_thresholds:
-      dark: 85
+      dark: 50
       medium: 170
 
     infrared_threshold: 9
