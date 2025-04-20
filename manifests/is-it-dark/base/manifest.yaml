@@ -1,9 +1,21 @@
 ---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: is-it-dark-config
+data:
+  config.yaml: |
+    brightness_thresholds:
+      dark: 85
+      medium: 170
+
+    infrared_threshold: 10
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: is-it-dark
-  namespace: image-analyzer
 spec:
   replicas: 1
   selector:
@@ -24,6 +36,15 @@ spec:
               memory: "512Mi"
               cpu: "200m"
             requests: {}
+          volumeMounts:
+            - name: config
+              mountPath: /app/config.yaml
+              subPath: config.yaml
+      volumes:
+        - name: config
+          configMap:
+            name: is-it-dark-config
+
 
 ---
 apiVersion: v1
