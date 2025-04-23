@@ -9,9 +9,9 @@ namespace: tools
 
 images:
   - name: ghcr.io/immich-app/immich-server
-    newTag: v1.131.3
+    newTag: v1.132.0
   - name: ghcr.io/immich-app/immich-machine-learning
-    newTag: v1.131.3
+    newTag: v1.132.0
 
 labels:
   - includeSelectors: true
