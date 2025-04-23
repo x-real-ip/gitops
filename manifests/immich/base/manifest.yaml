@@ -206,7 +206,7 @@ spec:
       dnsPolicy: ClusterFirst
       initContainers:
         - name: postgresql-isready
-          image: "docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0"
+          image: "docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:739cdd626151ff1f796dc95a6591b55a714f341c737e27f045019ceabf8e8c52"
           imagePullPolicy: Always
           env:
             - name: POSTGRES_USER
@@ -244,22 +244,30 @@ spec:
             - configMapRef:
                 name: immich-env
                 optional: false
-          # livenessProbe:
-          #   failureThreshold: 3
-          #   httpGet:
-          #     path: /api/server-info/ping
-          #     port: http
-          #   initialDelaySeconds: 0
-          #   periodSeconds: 10
-          #   timeoutSeconds: 1
-          # readinessProbe:
-          #   failureThreshold: 3
-          #   httpGet:
-          #     path: /api/server-info/ping
-          #     port: http
-          #   initialDelaySeconds: 0
-          #   periodSeconds: 10
-          #   timeoutSeconds: 1
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /api/server/ping
+              port: http
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            timeoutSeconds: 1
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /api/server/ping
+              port: http
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            timeoutSeconds: 1
+          startupProbe:
+            failureThreshold: 30
+            httpGet:
+              path: /api/server/ping
+              port: http
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            timeoutSeconds: 1
           volumeMounts:
             - name: immich-config
               mountPath: /opt/immich
@@ -310,7 +318,9 @@ spec:
           image: "ghcr.io/immich-app/immich-machine-learning:release"
           imagePullPolicy: Always
           ports:
-            - containerPort: 3003
+            - name: http
+              containerPort: 3003
+              protocol: TCP
           env:
             - name: DB_PASSWORD
               valueFrom:
@@ -327,7 +337,7 @@ spec:
             failureThreshold: 3
             httpGet:
               path: /ping
-              port: 3003
+              port: http
             initialDelaySeconds: 0
             periodSeconds: 10
             timeoutSeconds: 1
@@ -335,7 +345,15 @@ spec:
             failureThreshold: 3
             httpGet:
               path: /ping
-              port: 3003
+              port: http
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            timeoutSeconds: 1
+          startupProbe:
+            failureThreshold: 60
+            httpGet:
+              path: /ping
+              port: http
             initialDelaySeconds: 0
             periodSeconds: 10
             timeoutSeconds: 1
@@ -418,7 +436,7 @@ spec:
                 name: immich-server
                 port:
                   name: http
-  tls:
-    - hosts:
-        - "photos.lan.stamx.nl"
-      secretName: tls-wildcard-lan-stamx-nl
+  # tls:
+  #   - hosts:
+  #       - "photos.lan.stamx.nl"
+  #     secretName: tls-wildcard-lan-stamx-nl
