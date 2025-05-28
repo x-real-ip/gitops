@@ -146,7 +146,7 @@ spec:
     spec:
       containers:
         - name: immich-postgres
-          image: "docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0"
+          image: "ghcr.io/immich-app/postgres:14-vectorchord0.3.0-pgvectors0.2.0"
           imagePullPolicy: Always
           ports:
             - containerPort: 5432
@@ -206,7 +206,7 @@ spec:
       dnsPolicy: ClusterFirst
       initContainers:
         - name: postgresql-isready
-          image: "docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:739cdd626151ff1f796dc95a6591b55a714f341c737e27f045019ceabf8e8c52"
+          image: "ghcr.io/immich-app/postgres:14-vectorchord0.3.0-pgvectors0.2.0"
           imagePullPolicy: Always
           env:
             - name: POSTGRES_USER
