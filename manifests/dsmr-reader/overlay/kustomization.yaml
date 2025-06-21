@@ -9,7 +9,7 @@ namespace: home-automation
 
 images:
   - name: ghcr.io/xirixiz/dsmr-reader-docker
-    newTag: 5.11.0-2024.04.03
+    newTag: 5.11.0-2025.01.03
 
 labels:
 - includeSelectors: true
