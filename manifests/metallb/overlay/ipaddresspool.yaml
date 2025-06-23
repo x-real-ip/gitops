@@ -20,4 +20,5 @@ metadata:
 spec:
   addresses:
     - 10.33.33.200/32 # public ingress-controller
+    - 10.33.33.201/32 # temp counterstrike
   avoidBuggyIPs: true
