@@ -13,4 +13,4 @@ namespace: tools
 
 images:
   - name: "docker.io/syncthing/syncthing"
-    newTag: latest
+    newTag: "2"
