@@ -10,3 +10,7 @@ labels:
   - includeSelectors: true
     pairs:
       storage: truenas
+
+images:
+  - name: "docker.io/dgraziotin/nginx-webdav-nononsense"
+    newTag: latest

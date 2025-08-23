@@ -9,9 +9,10 @@ namespace: home-automation
 
 images:
 - name: alexxit/go2rtc
-  newTag: latest
+  newTag: "1.9.9"
 
 labels:
 - includeSelectors: true
   pairs:
     app: go2rtc
+

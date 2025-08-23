@@ -9,3 +9,7 @@ labels:
   - includeSelectors: true
     pairs:
       storage: truenas
+
+images:
+  - name: "docker.io/louislam/uptime-kuma"
+    newTag: latest

@@ -7,11 +7,11 @@ resources:
 
 namespace: tools
 
-images:
-  - name: ghcr.io/dani-garcia/vaultwarden
-    newTag: 1.34.3-alpine
-
 labels:
   - includeSelectors: true
     pairs:
       storage: truenas
+
+images:
+  - name: ghcr.io/dani-garcia/vaultwarden
+    newTag: 1.34.3-alpine

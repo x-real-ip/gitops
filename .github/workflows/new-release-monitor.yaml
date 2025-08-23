@@ -24,6 +24,40 @@ jobs:
           - name: DSMR-Reader
             type: image
             target: xirixiz/dsmr-reader-docker
+          - name: Democratic CSI
+            type: image
+            target: democratic-csi/democratic-csi
+          - name: Frigate
+            type: release
+            target: blakeblackshear/frigate
+          - name: go2rtc
+            type: release
+            target: AlexxIT/go2rtc
+          - name: MetalLB
+            type: release
+            target: metallb/metallb
+          - name: Kubernetes Node Feature Discovery
+            type: release
+            target: kubernetes-sigs/node-feature-discovery
+          - name: Omada Controller
+            type: release
+            target: mbentley/docker-omada-controller
+          - name: Paperless-NGX
+            type: release
+            target: paperless-ngx/paperless-ngx
+          - name: Syncthing
+            type: release
+            target: syncthing/syncthing
+          - name: Uptime Kuma
+            type: release
+            target: louislam/uptime-kuma
+          - name: Vaultwarden
+            type: release
+            target: dani-garcia/vaultwarden
+          - name: Z-WaveJS2MQTT
+            type: release
+            target: zwave-js/zwave-js-ui
+
     with:
       name: ${{ matrix.name }}
       target: ${{ matrix.target }}
