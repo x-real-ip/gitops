@@ -8,7 +8,7 @@ resources:
 namespace: home-automation
 
 images:
-- name: alexxit/go2rtc
+- name: "ghcr.io/alexxit/go2rtc"
   newTag: "1.9.9"
 
 labels:
