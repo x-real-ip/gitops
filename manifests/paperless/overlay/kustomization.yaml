@@ -12,4 +12,4 @@ labels:
 
 images:
   - name: docker.io/paperlessngx/paperless-ngx
-    newTag: "5.15"
+    newTag: "2.18"
