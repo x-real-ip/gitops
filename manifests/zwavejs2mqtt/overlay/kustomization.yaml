@@ -16,5 +16,5 @@ patches:
   - path: patch_deployment_zwavejs2mqtt-us.yaml
 
 images:
-  - name: "docker.io/zwavejs/zwavejs2mqtt"
-    newTag: latest
+  - name: "ghcr.io/zwave-js/zwave-js-ui"
+    newTag: "11"

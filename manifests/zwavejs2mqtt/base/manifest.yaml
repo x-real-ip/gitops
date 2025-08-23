@@ -156,7 +156,7 @@ spec:
     spec:
       containers:
         - name: zwave-us
-          image: "docker.io/zwavejs/zwavejs2mqtt:latest"
+          image: "ghcr.io/zwave-js/zwave-js-ui:latest"
           imagePullPolicy: Always
           securityContext:
             privileged: true
