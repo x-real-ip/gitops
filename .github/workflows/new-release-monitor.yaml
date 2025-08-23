@@ -57,7 +57,6 @@ jobs:
           - name: Z-WaveJS2MQTT
             type: release
             target: zwave-js/zwave-js-ui
-
     with:
       name: ${{ matrix.name }}
       target: ${{ matrix.target }}
