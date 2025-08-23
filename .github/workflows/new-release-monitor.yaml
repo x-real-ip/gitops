@@ -1,0 +1,30 @@
+name: Check releases
+
+on:
+  schedule:
+    - cron: "0 9 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-releases:
+    uses: x-real-ip/github-actions/.github/workflows/new-release-issue.yaml@main
+    strategy:
+      matrix:
+        include:
+          - name: Ingress NGINX Controller
+            type: release
+            target: kubernetes/ingress-nginx
+          - name: Immich
+            type: release
+            target: immich-app/immich
+          - name: DSMR-Reader
+            type: image
+            target: xirixiz/dsmr-reader-docker
+    with:
+      name: ${{ matrix.name }}
+      target: ${{ matrix.target }}
+      type: ${{ matrix.type }}
