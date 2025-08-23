@@ -8,9 +8,13 @@ resources:
 namespace: democratic-csi
 
 labels:
-- includeSelectors: true
-  pairs:
-    storage: truenas
+  - includeSelectors: true
+    pairs:
+      storage: truenas
 
 patches:
   - path: patch_deamonset_csi-manual-democratic-csi-node.yaml
+
+images:
+  - name: ghcr.io/democratic-csi/democratic-csi
+    newTag: v1.9.3
