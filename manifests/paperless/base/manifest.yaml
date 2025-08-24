@@ -413,7 +413,7 @@ spec:
               sleep 2 ; done
       containers:
         - name: paperless
-          image: "docker.io/paperlessngx/paperless-ngx:latest"
+          image: "ghcr.io/paperless-ngx/paperless-ngx:latest"
           imagePullPolicy: Always
           env:
             - name: COMPOSE_PROJECT_NAME

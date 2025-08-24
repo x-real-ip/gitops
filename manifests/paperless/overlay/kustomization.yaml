@@ -11,5 +11,5 @@ labels:
       storage: truenas
 
 images:
-  - name: "docker.io/paperlessngx/paperless-ngx"
-    newTag: "2.17"
+  - name: "ghcr.io/paperless-ngx/paperless-ngx:2.18"
+    newTag: "2.18"
