@@ -277,7 +277,7 @@ spec:
       hostIPC: false
       containers:
         - name: postgresql
-          image: "docker.io/bitnami/postgresql:13"
+          image: "docker.io/bitnami/postgresql:14"
           imagePullPolicy: "Always"
           securityContext:
             runAsUser: 1000

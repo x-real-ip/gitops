@@ -13,3 +13,5 @@ labels:
 images:
   - name: "ghcr.io/paperless-ngx/paperless-ngx:2.18"
     newTag: "2.18"
+  - name: "docker.io/bitnami/postgresql"
+    newTag: "14"
