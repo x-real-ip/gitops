@@ -372,133 +372,133 @@ spec:
           requests:
             storage: "10Gi"
 
-# ---
-# kind: Deployment
-# apiVersion: apps/v1
-# metadata:
-#   name: paperless
-#   namespace: tools
-#   labels:
-#     app: paperless
-# spec:
-#   revisionHistoryLimit: 3
-#   replicas: 1
-#   strategy:
-#     type: Recreate
-#   selector:
-#     matchLabels:
-#       app: paperless
-#   template:
-#     metadata:
-#       labels:
-#         app: paperless
-#     spec:
-#       affinity:
-#         podAffinity:
-#           requiredDuringSchedulingIgnoredDuringExecution:
-#             - labelSelector:
-#                 matchLabels:
-#                   app: paperless-database
-#               topologyKey: "kubernetes.io/hostname"
-#       securityContext:
-#         fsGroup: 1000
-#       initContainers:
-#         - name: postgresql-isready
-#           image: "docker.io/bitnami/postgresql:14"
-#           imagePullPolicy: "Always"
-#           command:
-#             - "sh"
-#             - "-c"
-#             - until pg_isready -h paperless-postgresql-hl -U paperless ; do
-#               sleep 2 ; done
-#       containers:
-#         - name: paperless
-#           image: "ghcr.io/paperless-ngx/paperless-ngx:latest"
-#           imagePullPolicy: Always
-#           env:
-#             - name: COMPOSE_PROJECT_NAME
-#               value: paperless
-#             - name: PAPERLESS_OCR_LANGUAGES
-#               value: nld
-#             - name: PAPERLESS_OCR_LANGUAGE
-#               value: nld
-#             - name: PAPERLESS_PORT
-#               value: "8000"
-#             - name: PAPERLESS_CONSUMER_POLLING
-#               value: "60"
-#             - name: PAPERLESS_FILENAME_FORMAT
-#               value: "{created_year}/{correspondent}/{title}"
-#             - name: PAPERLESS_TIME_ZONE
-#               value: "Europe/Amsterdam"
-#             - name: PAPERLESS_URL
-#               value: "https://paperless.lan.stamx.nl"
-#             - name: USERMAP_GID
-#               value: "1000"
-#             - name: USERMAP_UID
-#               value: "1000"
-#             - name: PAPERLESS_ADMIN_USER
-#               value: admin
-#             - name: PAPERLESS_REDIS
-#               value: "redis://redis-hl.tools.svc.cluster.local:6379"
-#             - name: PAPERLESS_DBHOST
-#               value: "paperless-postgresql-hl"
-#             - name: PAPERLESS_DBPASS
-#               valueFrom:
-#                 secretKeyRef:
-#                   name: paperless-postgresql
-#                   key: postgres-password
-#             - name: PAPERLESS_ADMIN_PASSWORD
-#               valueFrom:
-#                 secretKeyRef:
-#                   name: paperless-admin-password
-#                   key: admin-password
-#           ports:
-#             - containerPort: 8000
-#               protocol: TCP
-#           livenessProbe:
-#             tcpSocket:
-#               port: 8000
-#             initialDelaySeconds: 0
-#             failureThreshold: 3
-#             timeoutSeconds: 1
-#             periodSeconds: 10
-#           readinessProbe:
-#             tcpSocket:
-#               port: 8000
-#             initialDelaySeconds: 0
-#             failureThreshold: 3
-#             timeoutSeconds: 1
-#             periodSeconds: 10
-#           startupProbe:
-#             tcpSocket:
-#               port: 8000
-#             initialDelaySeconds: 0
-#             failureThreshold: 30
-#             timeoutSeconds: 1
-#             periodSeconds: 5
-#           resources: {}
-#           volumeMounts:
-#             - name: consume
-#               mountPath: /usr/src/paperless/consume
-#             - name: data
-#               mountPath: /usr/src/paperless/data
-#             - name: export
-#               mountPath: /usr/src/paperless/export
-#             - name: media
-#               mountPath: /usr/src/paperless/media
-#       volumes:
-#         - name: consume
-#           persistentVolumeClaim:
-#             claimName: pvc-nfs-paperless-consume
-#         - name: data
-#           persistentVolumeClaim:
-#             claimName: pvc-nfs-paperless-data
-#         - name: export
-#           persistentVolumeClaim:
-#             claimName: pvc-nfs-paperless-export
-#         - name: media
-#           persistentVolumeClaim:
-#             claimName: pvc-nfs-paperless-media
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: paperless
+  namespace: tools
+  labels:
+    app: paperless
+spec:
+  revisionHistoryLimit: 3
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: paperless
+  template:
+    metadata:
+      labels:
+        app: paperless
+    spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: paperless-database
+              topologyKey: "kubernetes.io/hostname"
+      securityContext:
+        fsGroup: 1000
+      initContainers:
+        - name: postgresql-isready
+          image: "docker.io/bitnami/postgresql:14"
+          imagePullPolicy: "Always"
+          command:
+            - "sh"
+            - "-c"
+            - until pg_isready -h paperless-postgresql-hl -U paperless ; do
+              sleep 2 ; done
+      containers:
+        - name: paperless
+          image: "ghcr.io/paperless-ngx/paperless-ngx:latest"
+          imagePullPolicy: Always
+          env:
+            - name: COMPOSE_PROJECT_NAME
+              value: paperless
+            - name: PAPERLESS_OCR_LANGUAGES
+              value: nld
+            - name: PAPERLESS_OCR_LANGUAGE
+              value: nld
+            - name: PAPERLESS_PORT
+              value: "8000"
+            - name: PAPERLESS_CONSUMER_POLLING
+              value: "60"
+            - name: PAPERLESS_FILENAME_FORMAT
+              value: "{created_year}/{correspondent}/{title}"
+            - name: PAPERLESS_TIME_ZONE
+              value: "Europe/Amsterdam"
+            - name: PAPERLESS_URL
+              value: "https://paperless.lan.stamx.nl"
+            - name: USERMAP_GID
+              value: "1000"
+            - name: USERMAP_UID
+              value: "1000"
+            - name: PAPERLESS_ADMIN_USER
+              value: admin
+            - name: PAPERLESS_REDIS
+              value: "redis://redis-hl.tools.svc.cluster.local:6379"
+            - name: PAPERLESS_DBHOST
+              value: "paperless-postgresql-hl"
+            - name: PAPERLESS_DBPASS
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-postgresql
+                  key: postgres-password
+            - name: PAPERLESS_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-admin-password
+                  key: admin-password
+          ports:
+            - containerPort: 8000
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: 8000
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: 8000
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          startupProbe:
+            tcpSocket:
+              port: 8000
+            initialDelaySeconds: 0
+            failureThreshold: 30
+            timeoutSeconds: 1
+            periodSeconds: 5
+          resources: {}
+          volumeMounts:
+            - name: consume
+              mountPath: /usr/src/paperless/consume
+            - name: data
+              mountPath: /usr/src/paperless/data
+            - name: export
+              mountPath: /usr/src/paperless/export
+            - name: media
+              mountPath: /usr/src/paperless/media
+      volumes:
+        - name: consume
+          persistentVolumeClaim:
+            claimName: pvc-nfs-paperless-consume
+        - name: data
+          persistentVolumeClaim:
+            claimName: pvc-nfs-paperless-data
+        - name: export
+          persistentVolumeClaim:
+            claimName: pvc-nfs-paperless-export
+        - name: media
+          persistentVolumeClaim:
+            claimName: pvc-nfs-paperless-media
 
 ---
 kind: Service
