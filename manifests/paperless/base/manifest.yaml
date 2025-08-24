@@ -19,7 +19,7 @@ spec:
     volumeHandle: pv-iscsi-paperless-db
     volumeAttributes:
       portal: truenas-master.lan.stamx.nl:3260
-      iqn: iqn.2005-10.org.freenas.ctl:paperless-db
+      iqn: iqn.2005-10.org.freenas.ctl:paperless-14-db
       lun: "0"
       node_attach_driver: iscsi
       provisioner_driver: node-manual
