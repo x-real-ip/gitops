@@ -143,6 +143,10 @@ data:
         type: edgetpu
         device: usb
 
+    face_recognition:
+      enabled: true
+      model_size: small
+
     mqtt:
       host: mosquitto.home-automation.svc.cluster.local
       port: 1883
