@@ -57,6 +57,9 @@ jobs:
           - name: Z-WaveJS2MQTT
             type: release
             target: zwave-js/zwave-js-ui
+          - name: Radicale
+            type: release
+            target: tomsquest/docker-radicale
     with:
       name: ${{ matrix.name }}
       target: ${{ matrix.target }}
