@@ -433,7 +433,7 @@ spec:
             - name: PAPERLESS_URL
               value: "https://paperless.lan.stamx.nl"
             - name: USERMAP_GID
-              value: "1000"
+              value: "2000"
             - name: USERMAP_UID
               value: "1000"
             - name: PAPERLESS_ADMIN_USER
@@ -442,6 +442,8 @@ spec:
               value: "redis://redis-hl.tools.svc.cluster.local:6379"
             - name: PAPERLESS_DBHOST
               value: "paperless-postgresql-hl"
+            - name: PAPERLESS_DB_READ_CACHE_ENABLED
+              value: "true"
             - name: PAPERLESS_DBPASS
               valueFrom:
                 secretKeyRef:
