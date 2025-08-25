@@ -60,6 +60,9 @@ jobs:
           - name: Radicale
             type: release
             target: tomsquest/docker-radicale
+          - name: Transmission OpenVPN
+            type: release
+            target: haugene/docker-transmission-openvpn
     with:
       name: ${{ matrix.name }}
       target: ${{ matrix.target }}
