@@ -164,9 +164,10 @@ data:
             - path: rtsp://go2rtc-service.home-automation.svc.cluster.local:8554/ipcam-01
               roles:
                 - record
-            - path: rtsp://go2rtc-service.home-automation.svc.cluster.local:8554/ipcam-01_sub
-              roles:
                 - detect
+            # - path: rtsp://go2rtc-service.home-automation.svc.cluster.local:8554/ipcam-01_sub
+            #   roles:
+            #     - detect
         objects:
           track:
             - person
@@ -192,6 +193,34 @@ data:
           mask:
             - 0,0.699,0.081,0.727,0.067,0.405,0.253,0.371,0.466,0.394,0.45,0.64,0.642,0.664,0.657,0.313,0.755,0.273,0.708,0.763,0.726,1,1,1,1,0,0,0
             - 0.197,0.881,0.195,0.732,0.12,0.738,0.097,0.825,0.15,0.919
+      frontyard:
+        live:
+          stream_name: frontyard
+        ffmpeg:
+          inputs:
+            - path: rtsp://go2rtc-service.home-automation.svc.cluster.local:8554/ipcam-04
+              roles:
+                - record
+                - detect
+        objects:
+          track:
+            - person
+        detect:
+          width: 1280
+          height: 720
+          fps: 5
+        record:
+          enabled: true
+          retain:
+            days: 3
+            mode: all
+          alerts:
+            retain:
+              days: 14
+          detections:
+            retain:
+              days: 14
+        motion:
       baby:
         live:
           stream_name: baby
