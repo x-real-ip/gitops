@@ -102,30 +102,6 @@ spec:
       name: mqtt-password
 
 ---
-apiVersion: bitnami.com/v1alpha1
-kind: SealedSecret
-metadata:
-  annotations:
-    sealedsecrets.bitnami.com/cluster-wide: "true"
-  name: frigate-secrets
-spec:
-  encryptedData:
-    FRIGATE_CAM01_RTSP_PASSWORD: AgBRxImySaKnhRXh/DgRa/8/jJJ/CmiW+018c9y2EJZ9D/rw4enHV5u1RHoku9FzmqXCjmW2Gx7vam+nRDDoiodYesWE5w2m7Wvo61vJ07g0e0FwRBYYw9blDc+aWom47UGq8wDFS7b2ZihNJhf/JJtvE7L/zlZfmVSG2xDQDUcm+A/vg920w1/J+o3CbNQkQZy8JMA0PcWU0PwXvuTDE0RTDp+Zon1/n92X2+Iynu1kjYGRfQbgq6IqW/tnmuF/wKip6Out6gvSfQcNLclVNKSGhSn5mgu8n60C4IE3GSCohRTzCgd9yEIpHipXs/vCAAT0/WjZ2wIYzIk/TOY7A3UhneWdijOkETv0Bci8vEF/P0e/wKcV0jt6S52KNyQUmUV6ztyoQ5O2MYuk7ncBTKSlD9CzLocCz8ORSLHJnxR5XjoJurpuslg6zvtA2wGMM2g1IiSdeAj2YXCG5JPIhXb141MT/k/UGfmntuW8hf9R/hvHdA86zND1Wu4izU6GzY49v901OgiDpgb4+8No1AhMz4OOcEcqEipHxhkS6TESTAbXYEcpOI13X/Hb3Z1kSk0OxiNCGy6EI+yM6A40Bpv5fPvlKFBn04XD7GO5TQPBuoyjbG9oCPowCcHsrmfBij35pnYN1/2gGKkM+e060316xXIZhFhgCJxJKbJqPgR9N78ZJ77R+7Nc3Lw6oABIRQLm7WMBvL6d9g==
-    FRIGATE_CAM01_RTSP_USER: AgAtxfZyoIH7g3QgUGXo47qZrcQgJY+lHwiFOfLTrYzHBUd2GpHHDFD3Gg2AVRlwK7GimVrCeUBP4EeToqHrh39Ig6q/7CR+/N0zPDUkuDGHKm4+COlqXGhrSdMWRCbeFrKjvNXKjB65vrnkUb0OuMioXV7wVZYmfGgEgp8TANrHAzx0xSQ2jXYdzYu+XLtuKtMOxGD2DnDmX1ysaYR06KrUagfAn33Z0Qnoi/l9k9j6qtMfGiGfRDvVuRo1azNIC/0lLzvY4ZboniEaNn3qrlHZy8zUr4hsIgO7QKhlow7NsQp9kG9XQRZ0cpXr6vX9SzA1MTfNwIUN+9kmRDAI/KpNsBKeWZ30C58O4ZDjd3WyPC05sXPhCKIBwqRyGTtIA3TeFbbfeUHBgPAnwYIeppnPzEUcnwItSgrW5dNM3AOcqhPtsps/8zM5WRaNZA8a/b8qaRyb6A/YPa3F+UsGKvO+iYNZfumHHByIvhnRGIbkO/IXrT7vps0m8hNMnOW0n3ffaaSwhc+vZVxqLp+hMKh2V4v98dBWdate4DCZgyzrDYaTix3F2g4W96y4shPIPgxrKXonGzMQyHp/HJMqOKZMQ0n9Ih1Zmq5NRB4QjrSJX8+HYLefdt6m4QdxweF6X2yyBnWqxuv5xQg1NH9f0HHx6UKru7cH5CGT/Sjtql7bjrXGw8y/I0WjkgLxy1bLCOh4WbeC5A==
-    FRIGATE_CAM02_RTSP_PASSWORD: AgCcQgnCO5KKKM3huqgFB9soIZ7AxtnZITs5FDy4WHNM4JnJCFfasLHxJrddKNp/Z6QgWuqhizVcfl+HkgiWlGQvquRaHHZC4uJYiRTPxIM8szE8jZjh1aMNrF9dGyW4oKwP+o/nmGHDiiDiCi28JrVMolGzWvKZqSwRbNHHu1rtNGi1SCN8kvGFhET9IX8aAoTADcrPu2z9QZBBvCIYd68sPBviEagEbraqjDSveqiR25rA9spbJGK9EK57tDfzOBmi/k3synZQMPSMWeHl+pJZDuLXCDbRwRy3COKDfzDJH3Oi60R1CyxE6H5DCE5OTGviq6kApr5UecVWIfndgX2OD+9vmwOdts/YPTL7h2T5JcKmuVBM9lMs0FHGsUeKPGv5eEJZlXinOIJk7pX5AkytmBi/mIGl4JUxWMG7W7tSrHEQBZ38NySaYssFfgGmW3v0GFnyw7LrHlC19CRLsv7sOsFWWA75Ww2sXGKM0BmopJUGnC70hhaT3O7VUHhI3Molc6XMJ7eBc0UzzRf/rl4oRU4gJ2nP2nnKcnLBKyE/db2LNBO6xJAtacDf/YLJQtwwpQfcHQDoXFVRO4swUqvSc1l7vEp+ksdeuddmSAUwtdcigVoUQNrZwoa0IRaSw5Y5HLOMsDPm++j0TY18l9xOsqN70snKJ9Tn064PfyYvnPkLskEsmkh2JXu9CvhJP2OcSowQmVFoODOf560=
-    FRIGATE_CAM02_RTSP_USER: AgB1W9D0DCEdsr72brfRtG+0dSL1DtI9eqsjuB/ULuwoGaZ7ggY1bmpdTMSxAAj3Uhg8O5IsbBg6oepxjPfnwTfI8eepQGQwUSlagCxFHTzj+qrOMHsYIFVe69qkqt0qwMtJXHcWhxe9IH4lFfbU6RjTeKA2s2Eifst0lEgiYrmhNdpxiayyPjhmwozBwsJV5frbCZm+2eR1MyzKkyWWXkYq3jmHCzY+HAPvHuMP90xf30RbVNCW2Z0lLEK2KIeNau18f9BeTXI+u0DIs2lhSkW9EDkwIdPgH7vRoIchxwqwgAU6CVl6tF+pPxZOp/0XjHutN/IrDIvYcK3RBxVkD/LCeoosKFk+fI/8o8RD9wWKQ/JGyrvZmKcCFfN/VWX4K/rNSncJ/WtC38T5xSGSsSsXmUMPLcc+tODckb5VkNKMyK/q6AzP4VH2XW9uUjt7yPxES/zC9qZvsgn1JN7DT7qut7tokRJSRxQ/W4dfDwZgJmMYGwtMx4fqGfpiupOC4DyfncfRq8Q3sSlBn724NJW1qaFMkbT3ZX0y8zdFDy7hTWTsOWT+5g3fB93NWWf609GPjAVYQt4yqsjOepDU+6ms+CXZ2STmAo8B8r6yoS6g7X/cLmU6QrX/naBWDu26SEwfHRtNZuGMGUPBPQaod377s8mZG5oV8QLJrakLxl++kIz37O0NWZZf9Evk+n/vUsscZhBiGv9jQSGR4UE=
-    FRIGATE_CAM03_RTSP_PASSWORD: AgBcWF5xVk9VdrXHmGhyDIt7f+WwI8JK09ICDO682qYIoVANZBnel7aYUb641aahjmK6BaVxF/VPJwVqTDdnF1V2nLqgino9iH4+CNMC1fz3/UoeZfT8kduHOhuDj7dl7mSpFIx1UoxlnIgNFmWNuK06zAOpGxZPQCRjVox5brHUe/JNQJYoY2W2kCadMngBNWyFOEgs5/JrPVKB0IsD0a9Qbw1bKIuobPw11441Nb52RDhTXyH+7BYOwHtHYd6ZVRfwwoeaHYbL10GKyDWqRBja71zpUuylMkbiLupuQVoRtINbg2bqz/jYRe+qw79+Q+zRmfP3Kwq62o1v/wrUDhSsQUOfqeCdOPICwSznTIxpuvwgYa7H2LW9jzK5Ug7Nwh3OLRzFE5kHhU+/AMXTDXjSl0/THC7o/h1KtRLyCHCLv+aCgxFxwS8k1yR8u7/ycZlEvdLGs4457oyF8I+EkmmSNwZAMbVVAgM6HcKGSWtQUHMAwlquESTI9M1v3YopoKeeqhpWyiI1v/p23oPdTzVvo/k82xFOPWfBYakrwa0MGydk9lN/+B1xuiCvVO9N3A1dpZ4OkzAs5AuodTlYCIaycSJl0Vhui5fTEV7VGBGWq/e8xFc9Gs1CbsWrHwpBO0DO9jg4L+7HTaoEnpXB1PXUXEEJnAPp1AzUe5itfzF3EsxaljDY7hV+XP4jdeyeFn3kpuaV3ofyew==
-    FRIGATE_CAM03_RTSP_USER: AgBop9Z5koNAzQDstN9sXNI+VKHCuteXFa1LO1nPUjsj9WxUg9PZ4jp1AhvBaI92vnlNxnm/1jEOdRfY0PeoDClwpmFOo3xo0W1/q7t1cmMZh0JvF/wq2BMZLhj57b6j1xVl/RsrB5/gh0OqrY/VEDsjKpZL13FZg4d79u0CdtUjDzegu/Ps5CCtXKuwX35X2uWlB8DU+og2PZ4tCPb4FfMzs5yIFMf/NSB0qI06A4PmhM2yn7PyBNIIUukiPySDp1329lGAklah0WGmzs2wHww/+zH3Z0JiSCi5OZtIT3+qZQGnBvUjrI66iZ4qKTFWkgfJj9l91XPa/aEK27UE3kX71BtL1UeCWksM6Sr6n5NS0hjNI6MbvCejR5VdCFixwhrRoZouWudTmV/jthqQCtOOMluIY4W+CLT8oONew6Kcd/85MDIT8oEa82PI4BWLo1SRAgBu1Wrw/djbi1czugMRbFvviCD/LujMXOc+07L8YdlTREXigIjwVEGZz7trlxuomG5/6s9Og/Qjk0oIez3w9TdhFLuRrlLyEvMYhGzYwIQBDEwCMzsyWqasK3SvWK3TQknsxTA3xS20GtPa74kl7kQNJ+lXVPiiR8A6NcZNDb/bsB+dZa9Syr8WOq/TCE8y6b1qfMnw0RzWFmNDF2Tv5uY/bwardtikY6Auqrkpz783zz/oAJAATrv2Ij1MqMABDKb66+KnAmn9RQ==
-  template:
-    metadata:
-      annotations:
-        sealedsecrets.bitnami.com/cluster-wide: "true"
-      labels:
-        app: friate
-      name: frigate-secrets
-    type: Opaque
-
----
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -164,10 +140,9 @@ data:
             - path: rtsp://go2rtc-service.home-automation.svc.cluster.local:8554/ipcam-01
               roles:
                 - record
+            - path: rtsp://go2rtc-service.home-automation.svc.cluster.local:8554/ipcam-01_sub
+              roles:
                 - detect
-            # - path: rtsp://go2rtc-service.home-automation.svc.cluster.local:8554/ipcam-01_sub
-            #   roles:
-            #     - detect
         objects:
           track:
             - person
@@ -175,8 +150,8 @@ data:
             - 0,0,0,0.265,0.368,0.273,0.466,0.396,0.447,0.635,0.638,0.669,0.726,0.99,1,1,1,0
             - 0.197,0.881,0.195,0.732,0.12,0.738,0.097,0.825,0.15,0.919
         detect:
-          width: 1280
-          height: 720
+          width: 640
+          height: 360
           fps: 5
         record:
           enabled: true
@@ -206,8 +181,8 @@ data:
           track:
             - person
         detect:
-          width: 1280
-          height: 720
+          width: 640
+          height: 360
           fps: 5
         record:
           enabled: true
