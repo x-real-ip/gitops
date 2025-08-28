@@ -211,7 +211,12 @@ data:
             - path: rtsp://go2rtc-service.home-automation.svc.cluster.local:8554/ipcam-02
               roles:
                 - record
-          hwaccel_args: -hwaccel drm -hwaccel_device /dev/dri/renderD128
+                - detect
+        objects:
+          track:
+            - person
+          mask:
+            - 0.35,0,0.371,0.559,0.401,1,0,1,0,0
         record:
           enabled: true
           retain:
