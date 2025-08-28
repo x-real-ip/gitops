@@ -162,16 +162,14 @@ data:
         ffmpeg:
           inputs:
             - path: rtsp://go2rtc-service.home-automation.svc.cluster.local:8554/ipcam-01
-              input_args: preset-rtsp-restream
+              roles:
+                - record
+            - path: rtsp://go2rtc-service.home-automation.svc.cluster.local:8554/ipcam-01_sub
               roles:
                 - detect
-                - record
-          hwaccel_args: -hwaccel drm -hwaccel_device /dev/dri/renderD128
         objects:
           track:
             - person
-            - cat
-            - dog
           mask:
             - 0,0,0,0.265,0.368,0.273,0.466,0.396,0.447,0.635,0.638,0.669,0.726,0.99,1,1,1,0
             - 0.197,0.881,0.195,0.732,0.12,0.738,0.097,0.825,0.15,0.919
@@ -200,7 +198,6 @@ data:
         ffmpeg:
           inputs:
             - path: rtsp://go2rtc-service.home-automation.svc.cluster.local:8554/ipcam-02
-              input_args: preset-rtsp-restream
               roles:
                 - record
           hwaccel_args: -hwaccel drm -hwaccel_device /dev/dri/renderD128
