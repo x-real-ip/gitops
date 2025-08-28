@@ -298,9 +298,6 @@ spec:
             timeoutSeconds: 10
           envFrom:
             - secretRef:
-                name: frigate-secrets
-                optional: false
-            - secretRef:
                 name: mqtt-password
                 optional: true
           volumeMounts:
