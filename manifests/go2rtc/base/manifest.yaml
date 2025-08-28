@@ -43,7 +43,8 @@ spec:
             - rtsp://a2yON4rLyqRw:{{ index . "ipcam-02-password" }}@ipcam-02.lan.stamx.nl/live0
           ipcam-03:
             - rtsp://ipcam-03:{{ index . "ipcam-03-password" }}@ipcam-03.lan.stamx.nl:554/stream1
-
+          ipcam-04:
+            - rtsp://ipcam-04.lan.stamx.nl:8080/h264_aac.sdp
         ffmpeg:
           bin: "ffmpeg"
           global: "-hide_banner"
