@@ -37,8 +37,8 @@ spec:
         streams:
           ipcam-01:
             - rtsp://admin:{{ index . "ipcam-01-password" }}@ipcam-01.lan.stamx.nl:554/cam/realmonitor?channel=1&subtype=0
-          ipcam-01_sub:
-            - rtsp://admin:{{ index . "ipcam-01-password" }}@ipcam-01.lan.stamx.nl:554/cam/realmonitor?channel=1&subtype=1
+          # ipcam-01_sub:
+          #   - rtsp://admin:{{ index . "ipcam-01-password" }}@ipcam-01.lan.stamx.nl:554/cam/realmonitor?channel=1&subtype=1
           ipcam-02: 
             - rtsp://a2yON4rLyqRw:{{ index . "ipcam-02-password" }}@ipcam-02.lan.stamx.nl/live0
           ipcam-03:
