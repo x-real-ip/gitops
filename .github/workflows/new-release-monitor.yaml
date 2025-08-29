@@ -96,7 +96,7 @@ jobs:
             bump_type: kustomize
             image: ""
           - name: zwavejs2mqtt
-            type: release
+            type: image
             target: zwave-js/zwave-js-ui
             bump: true
             bump_type: kustomize
