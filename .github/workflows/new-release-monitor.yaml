@@ -23,15 +23,15 @@ jobs:
             bump: false
             bump_type: ""
             image: ""
-          - name: Immich
+          - name: immich
             type: release
-            target: immich-app/immich
+            target: ghcr.io/immich-app/immich
             bump: false
             bump_type: kustomize
             image: "ghcr.io/immich-app/immich-server ghcr.io/immich-app/immich-machine-learning"
-          - name: DSMR-Reader
+          - name: dsmr-reader
             type: image
-            target: xirixiz/dsmr-reader-docker
+            target: ghcr.io/xirixiz/dsmr-reader-docker
             bump: false
             bump_type: kustomize
             image: ""
