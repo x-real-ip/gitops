@@ -35,12 +35,12 @@ jobs:
             bump: true
             bump_type: kustomize
             image: "ghcr.io/xirixiz/dsmr-reader-docker"
-          - name: democratic-csi
-            type: image
-            target: ghcr.io/democratic-csi/democratic-csi
-            bump: true
-            bump_type: kustomize
-            image: "ghcr.io/democratic-csi/democratic-csi"
+          # - name: democratic-csi
+          #   type: image
+          #   target: ghcr.io/democratic-csi/democratic-csi
+          #   bump: true
+          #   bump_type: kustomize
+          #   image: "ghcr.io/democratic-csi/democratic-csi"
           # - name: Frigate
           #   type: release
           #   target: blakeblackshear/frigate
