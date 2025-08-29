@@ -17,30 +17,30 @@ jobs:
     strategy:
       matrix:
         include:
-          # - name: Ingress NGINX Controller
-          #   type: release
-          #   target: kubernetes/ingress-nginx
-          #   bump: false
-          #   bump_type: ""
-          #   image: ""
+          - name: ingress-nginx
+            type: release
+            target: ghcr.io/kubernetes/ingress-nginx
+            bump: false
+            bump_type: ""
+            image: ""
           - name: immich
             type: release
             target: ghcr.io/immich-app/immich
             bump: true
             bump_type: kustomize
             image: "ghcr.io/immich-app/immich-server ghcr.io/immich-app/immich-machine-learning"
-          # - name: dsmr-reader
-          #   type: image
-          #   target: ghcr.io/xirixiz/dsmr-reader-docker
-          #   bump: false
-          #   bump_type: kustomize
-          #   image: ""
-          # - name: Democratic CSI
-          #   type: image
-          #   target: democratic-csi/democratic-csi
-          #   bump: false
-          #   bump_type: kustomize
-          #   image: ""
+          - name: dsmr-reader
+            type: image
+            target: ghcr.io/xirixiz/dsmr-reader-docker
+            bump: true
+            bump_type: kustomize
+            image: "ghcr.io/xirixiz/dsmr-reader-docker"
+          - name: democratic-csi
+            type: image
+            target: ghcr.io/democratic-csi/democratic-csi
+            bump: true
+            bump_type: kustomize
+            image: "ghcr.io/democratic-csi/democratic-csi"
           # - name: Frigate
           #   type: release
           #   target: blakeblackshear/frigate
