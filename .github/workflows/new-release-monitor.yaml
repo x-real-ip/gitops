@@ -17,102 +17,102 @@ jobs:
     strategy:
       matrix:
         include:
-          - name: Ingress NGINX Controller
-            type: release
-            target: kubernetes/ingress-nginx
-            bump: false
-            bump_type: ""
-            image: ""
-          - name: immich
-            type: release
-            target: ghcr.io/immich-app/immich
-            bump: false
-            bump_type: kustomize
-            image: "ghcr.io/immich-app/immich-server ghcr.io/immich-app/immich-machine-learning"
-          - name: dsmr-reader
-            type: image
-            target: ghcr.io/xirixiz/dsmr-reader-docker
-            bump: false
-            bump_type: kustomize
-            image: ""
-          - name: Democratic CSI
-            type: image
-            target: democratic-csi/democratic-csi
-            bump: false
-            bump_type: kustomize
-            image: ""
-          - name: Frigate
-            type: release
-            target: blakeblackshear/frigate
-            bump: false
-            bump_type: kustomize
-            image: ""
-          - name: go2rtc
-            type: release
-            target: AlexxIT/go2rtc
-            bump: false
-            bump_type: kustomize
-            image: ""
-          - name: MetalLB
-            type: release
-            target: metallb/metallb
-            bump: false
-            bump_type: kustomize
-            image: ""
-          - name: Kubernetes Node Feature Discovery
-            type: release
-            target: kubernetes-sigs/node-feature-discovery
-            bump: false
-            bump_type: kustomize
-            image: ""
-          - name: Omada Controller
-            type: release
-            target: mbentley/docker-omada-controller
-            bump: false
-            bump_type: kustomize
-            image: ""
-          - name: Paperless-NGX
-            type: release
-            target: paperless-ngx/paperless-ngx
-            bump: false
-            bump_type: kustomize
-            image: ""
-          - name: Syncthing
-            type: release
-            target: syncthing/syncthing
-            bump: false
-            bump_type: kustomize
-            image: ""
-          - name: Uptime Kuma
-            type: release
-            target: louislam/uptime-kuma
-            bump: false
-            bump_type: kustomize
-            image: ""
-          - name: Vaultwarden
-            type: release
-            target: dani-garcia/vaultwarden
-            bump: false
-            bump_type: kustomize
-            image: ""
+          # - name: Ingress NGINX Controller
+          #   type: release
+          #   target: kubernetes/ingress-nginx
+          #   bump: false
+          #   bump_type: ""
+          #   image: ""
+          # - name: immich
+          #   type: release
+          #   target: ghcr.io/immich-app/immich
+          #   bump: false
+          #   bump_type: kustomize
+          #   image: "ghcr.io/immich-app/immich-server ghcr.io/immich-app/immich-machine-learning"
+          # - name: dsmr-reader
+          #   type: image
+          #   target: ghcr.io/xirixiz/dsmr-reader-docker
+          #   bump: false
+          #   bump_type: kustomize
+          #   image: ""
+          # - name: Democratic CSI
+          #   type: image
+          #   target: democratic-csi/democratic-csi
+          #   bump: false
+          #   bump_type: kustomize
+          #   image: ""
+          # - name: Frigate
+          #   type: release
+          #   target: blakeblackshear/frigate
+          #   bump: false
+          #   bump_type: kustomize
+          #   image: ""
+          # - name: go2rtc
+          #   type: release
+          #   target: AlexxIT/go2rtc
+          #   bump: false
+          #   bump_type: kustomize
+          #   image: ""
+          # - name: MetalLB
+          #   type: release
+          #   target: metallb/metallb
+          #   bump: false
+          #   bump_type: kustomize
+          #   image: ""
+          # - name: Kubernetes Node Feature Discovery
+          #   type: release
+          #   target: kubernetes-sigs/node-feature-discovery
+          #   bump: false
+          #   bump_type: kustomize
+          #   image: ""
+          # - name: Omada Controller
+          #   type: release
+          #   target: mbentley/docker-omada-controller
+          #   bump: false
+          #   bump_type: kustomize
+          #   image: ""
+          # - name: Paperless-NGX
+          #   type: release
+          #   target: paperless-ngx/paperless-ngx
+          #   bump: false
+          #   bump_type: kustomize
+          #   image: ""
+          # - name: Syncthing
+          #   type: release
+          #   target: syncthing/syncthing
+          #   bump: false
+          #   bump_type: kustomize
+          #   image: ""
+          # - name: Uptime Kuma
+          #   type: release
+          #   target: louislam/uptime-kuma
+          #   bump: false
+          #   bump_type: kustomize
+          #   image: ""
+          # - name: Vaultwarden
+          #   type: release
+          #   target: dani-garcia/vaultwarden
+          #   bump: false
+          #   bump_type: kustomize
+          #   image: ""
           - name: zwavejs2mqtt
             type: image
-            target: zwave-js/zwave-js-ui
+            target: ghcr.io/zwave-js/zwave-js-ui
             bump: true
             bump_type: kustomize
             image: ghcr.io/zwave-js/zwave-js-ui
-          - name: Radicale
-            type: release
-            target: tomsquest/docker-radicale
-            bump: false
-            bump_type: kustomize
-            image: ""
-          - name: Transmission OpenVPN
-            type: release
-            target: haugene/docker-transmission-openvpn
-            bump: false
-            bump_type: kustomize
-            image: ""
+          # - name: radicale
+          #   type: release
+          #   target: tomsquest/docker-radicale
+          #   bump: false
+          #   bump_type: kustomize
+          #   image: ""
+          # - name: Transmission OpenVPN
+          #   type: release
+          #   target: haugene/docker-transmission-openvpn
+          #   bump: false
+          #   bump_type: kustomize
+          #   image: ""
     with:
       name: ${{ matrix.name }}
       target: ${{ matrix.target }}
