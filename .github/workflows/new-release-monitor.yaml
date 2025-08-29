@@ -12,6 +12,8 @@ concurrency:
 jobs:
   check-releases:
     uses: x-real-ip/github-actions/.github/workflows/new-release-issue.yaml@main
+    secrets:
+      PAT: ${{ secrets.PAT }}
     strategy:
       matrix:
         include:
