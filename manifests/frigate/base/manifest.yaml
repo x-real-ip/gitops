@@ -173,7 +173,7 @@ data:
           stream_name: frontyard
         ffmpeg:
           inputs:
-            - path: rtsp://go2rtc-service.home-automation.svc.cluster.local:8554/ipcam-04
+            - path: rtsp://go2rtc-service.home-automation.svc.cluster.local:8554/ipcam-03
               roles:
                 - record
                 - detect
