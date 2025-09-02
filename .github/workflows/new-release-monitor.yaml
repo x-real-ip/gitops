@@ -71,12 +71,12 @@ jobs:
             bump: false
             bump_type: kustomize
             image: ""
-          - name: peperless
+          - name: paperless
             type: release
             target: ghcr.io/paperless-ngx/paperless-ngx
-            bump: false
+            bump: true
             bump_type: kustomize
-            image: ""
+            image: "ghcr.io/paperless-ngx/paperless-ngx"
           - name: Syncthing
             type: release
             target: syncthing/syncthing
