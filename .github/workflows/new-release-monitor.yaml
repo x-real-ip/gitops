@@ -73,7 +73,7 @@ jobs:
             image: ""
           - name: Paperless-NGX
             type: release
-            target: paperless-ngx/paperless-ngx
+            target: ghcr.io/paperless-ngx/paperless-ngx
             bump: false
             bump_type: kustomize
             image: ""
