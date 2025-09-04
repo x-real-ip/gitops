@@ -44,9 +44,9 @@ jobs:
           - name: frigate
             type: release
             target: ghcr.io/blakeblackshear/frigate
-            bump: false
+            bump: true
             bump_type: kustomize
-            image: ""
+            image: "ghcr.io/blakeblackshear/frigate"
           - name: go2rtc
             type: release
             target: AlexxIT/go2rtc
