@@ -22,9 +22,8 @@ jobs:
           echo "REPO_NAME=$repo" >> $GITHUB_ENV
           echo "REPO_OWNER=$owner" >> $GITHUB_ENV
 
-      - uses: alexellis/arkade-get@master
-        with:
-          kubectl: latest
+      - name: Setup Kustomize
+        uses: imranismail/setup-kustomize@v2
 
       - name: Print kubectl & kustomize versions
         run: |
