@@ -97,14 +97,14 @@ jobs:
             image: "ghcr.io/paperless-ngx/paperless-ngx"
             include_tags : ""
             exclude_tags : ""
-          - name: Syncthing
+          - name: syncthing
             type: release
             target: syncthing/syncthing
-            bump: false
+            bump: true
             bump_type: kustomize
-            image: ""
+            image: "ghcr.io/syncthing/syncthing"
             include_tags : ""
-            exclude_tags : ""
+            exclude_tags : "latest,nightly,edge,rc,infrastructure,gotools,beta,v2"
           - name: Uptime Kuma
             type: release
             target: louislam/uptime-kuma

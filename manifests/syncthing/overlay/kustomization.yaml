@@ -12,5 +12,5 @@ labels:
 namespace: tools
 
 images:
-  - name: "docker.io/syncthing/syncthing"
+  - name: "ghcr.io/syncthing/syncthing"
     newTag: "2"
