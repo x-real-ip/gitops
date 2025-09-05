@@ -51,7 +51,7 @@ jobs:
             include_tags : ""
             exclude_tags : "next,latest"
           - name: frigate
-            type: release
+            type: image
             target: ghcr.io/blakeblackshear/frigate
             bump: true
             bump_type: kustomize
