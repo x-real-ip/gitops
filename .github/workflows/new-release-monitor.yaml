@@ -129,7 +129,7 @@ jobs:
             bump_type: kustomize
             image: ghcr.io/zwave-js/zwave-js-ui
             include_tags : ""
-            exclude_tags : "sha-*,master,latest"
+            exclude_tags : "sha-*,master,latest,test,test*"
           # - name: radicale
           #   type: release
           #   target: tomsquest/docker-radicale
