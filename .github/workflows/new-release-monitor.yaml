@@ -15,6 +15,7 @@ jobs:
     secrets:
       PAT: ${{ secrets.PAT }}
     strategy:
+      fail-fast: false
       matrix:
         include:
           - name: ingress-nginx
