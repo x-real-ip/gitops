@@ -49,7 +49,7 @@ jobs:
             bump_type: kustomize
             image: "ghcr.io/democratic-csi/democratic-csi"
             include_tags : ""
-            exclude_tags : "next,latest"
+            exclude_tags : "latest"
           - name: frigate
             type: image
             target: ghcr.io/blakeblackshear/frigate
