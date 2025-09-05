@@ -106,7 +106,7 @@ jobs:
             image: "ghcr.io/syncthing/syncthing"
             include_tags : ""
             exclude_tags : "latest,nightly,edge,rc,infrastructure,gotools,beta,v2"
-          - name: Uptime Kuma
+          - name: uptime-kuma
             type: release
             target: louislam/uptime-kuma
             bump: false
@@ -130,22 +130,6 @@ jobs:
             image: ghcr.io/zwave-js/zwave-js-ui
             include_tags : ""
             exclude_tags : "sha-*,master,latest,test,test*"
-          # - name: radicale
-          #   type: release
-          #   target: tomsquest/docker-radicale
-          #   bump: false
-          #   bump_type: kustomize
-          #   image: ""
-          #   include_tags : ""
-          #   exclude_tags : ""
-          # - name: Transmission OpenVPN
-          #   type: release
-          #   target: haugene/docker-transmission-openvpn
-          #   bump: false
-          #   bump_type: kustomize
-          #   image: ""
-          #   include_tags : ""
-          #   exclude_tags : ""
     with:
       name: ${{ matrix.name }}
       target: ${{ matrix.target }}
