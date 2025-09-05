@@ -113,14 +113,14 @@ jobs:
             image: ""
             include_tags : ""
             exclude_tags : ""
-          - name: Vaultwarden
+          - name: vaultwarden
             type: release
             target: dani-garcia/vaultwarden
-            bump: false
+            bump: true
             bump_type: kustomize
-            image: ""
-            include_tags : ""
-            exclude_tags : ""
+            image: "ghcr.io/dani-garcia/vaultwarden"
+            include_tags : "*-alpine"
+            exclude_tags : "testing,sha256,latest,latest-*"
           - name: zwavejs2mqtt
             type: image
             target: ghcr.io/zwave-js/zwave-js-ui
@@ -128,7 +128,7 @@ jobs:
             bump_type: kustomize
             image: ghcr.io/zwave-js/zwave-js-ui
             include_tags : ""
-            exclude_tags : "sha-*,master"
+            exclude_tags : "sha-*,master,latest"
           # - name: radicale
           #   type: release
           #   target: tomsquest/docker-radicale
