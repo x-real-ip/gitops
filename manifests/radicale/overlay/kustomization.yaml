@@ -13,4 +13,4 @@ namespace: tools
 
 images:
 - name: ghcr.io/x-real-ip/radicale
-  newTag: a0226c8febe940be33a5575ee3b00a965fcb2fd1
+  newTag: bc56334b44f1c5b08b1db8e50de2143afa924647
