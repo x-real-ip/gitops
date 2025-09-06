@@ -12,5 +12,5 @@ labels:
 namespace: tools
 
 images:
-- name: ghcr.io/x-real-ip/docker-radicale
+- name: ghcr.io/x-real-ip/radicale
   newTag: 16eb07d5d608ca9471f262f44539db076ea772c7
