@@ -116,6 +116,11 @@ spec:
           ports:
             - containerPort: 5232
               protocol: TCP
+          env:
+            - name: UID
+              value: "1000"
+            - name: GID
+              value: "2000"
           volumeMounts:
             - name: collections
               mountPath: /data/collections
