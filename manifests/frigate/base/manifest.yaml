@@ -134,10 +134,14 @@ data:
       user: mqttuser
       password: '{FRIGATE_MQTT_PASSWORD}'
 
+    detect:
+      enabled: true
+
     cameras:
       backyard:
         live:
-          stream_name: backyard
+          streams:
+            backyard: backyard
         ffmpeg:
           inputs:
             - path: rtsp://go2rtc-service.home-automation.svc.cluster.local:8554/ipcam-01
@@ -170,10 +174,13 @@ data:
           mask:
             - 0,0.6,0.085,0.573,0.153,0.542,0.285,0.535,0.357,0.524,0.36,0.755,0.414,0.747,0.533,0.754,0.532,0.715,0.527,0.433,0.607,0.353,0.621,1,1,1,1,0,0,0
             - 0.161,1,0.16,0.906,0.102,0.891,0.064,0.966
-          threshold: 40
+          threshold: 45
+          contour_area: 15
+          improve_contrast: true
       frontyard:
         live:
-          stream_name: frontyard
+          streams:
+            frontyard: frontyard
         ffmpeg:
           inputs:
             - path: rtsp://go2rtc-service.home-automation.svc.cluster.local:8554/ipcam-03
@@ -208,7 +215,8 @@ data:
           improve_contrast: true
       baby:
         live:
-          stream_name: baby
+          streams:
+            baby: baby
         ffmpeg:
           inputs:
             - path: rtsp://go2rtc-service.home-automation.svc.cluster.local:8554/ipcam-02
