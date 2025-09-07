@@ -171,41 +171,41 @@ data:
           mask:
             - 0,0.6,0.085,0.573,0.156,0.555,0.273,0.563,0.338,0.564,0.338,0.795,0.402,0.802,0.537,0.799,0.534,0.7,0.533,0.465,0.617,0.579,0.604,1,1,1,1,0,0,0
             - 0.161,1,0.16,0.906,0.074,0.901,0.05,1
-      # frontyard:
-      #   live:
-      #     stream_name: frontyard
-      #   ffmpeg:
-      #     inputs:
-      #       - path: rtsp://go2rtc-service.home-automation.svc.cluster.local:8554/ipcam-03
-      #         roles:
-      #           - record
-      #           - detect
-      #   objects:
-      #     track:
-      #       - person
-      #     mask:
-      #       - 0,0.456,0.446,0.479,0.519,0.454,0.57,0.397,1,0.214,1,0,0,0
-      #   detect:
-      #     width: 640
-      #     height: 360
-      #     fps: 5
-      #   record:
-      #     enabled: true
-      #     retain:
-      #       days: 3
-      #       mode: all
-      #     alerts:
-      #       retain:
-      #         days: 14
-      #     detections:
-      #       retain:
-      #         days: 14
-      #   motion:
-      #     mask:
-      #       - 0.519,0.741,0,0.685,0,0,1,0,1,0.841,0.539,0.619
-      #     threshold: 40
-      #     contour_area: 10
-      #     improve_contrast: true
+      frontyard:
+        live:
+          stream_name: frontyard
+        ffmpeg:
+          inputs:
+            - path: rtsp://go2rtc-service.home-automation.svc.cluster.local:8554/ipcam-03
+              roles:
+                - record
+                - detect
+        objects:
+          track:
+            - person
+          mask:
+            - 0,0.456,0.446,0.479,0.519,0.454,0.57,0.397,1,0.214,1,0,0,0
+        detect:
+          width: 640
+          height: 360
+          fps: 5
+        record:
+          enabled: true
+          retain:
+            days: 3
+            mode: all
+          alerts:
+            retain:
+              days: 14
+          detections:
+            retain:
+              days: 14
+        motion:
+          mask:
+            - 0.519,0.741,0,0.685,0,0,1,0,1,0.841,0.539,0.619
+          threshold: 40
+          contour_area: 10
+          improve_contrast: true
       baby:
         live:
           stream_name: baby
