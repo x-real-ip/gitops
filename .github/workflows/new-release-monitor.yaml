@@ -56,7 +56,7 @@ jobs:
             bump: true
             bump_type: kustomize
             image: "ghcr.io/blakeblackshear/frigate"
-            include_tags : "*-standard-arm64"
+            include_tags : ".*-standard-arm64"
             exclude_tags : ""
           - name: go2rtc
             type: release
