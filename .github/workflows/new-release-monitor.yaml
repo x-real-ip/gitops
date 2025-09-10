@@ -91,7 +91,7 @@ jobs:
             include_tags : ""
             exclude_tags : ""
           - name: paperless
-            type: release
+            type: image
             target: ghcr.io/paperless-ngx/paperless-ngx
             bump: true
             bump_type: kustomize
