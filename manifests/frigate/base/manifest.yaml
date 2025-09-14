@@ -157,7 +157,7 @@ data:
             - 0.002,0.601,0.15,0.532,0.361,0.522,0.364,0.76,0.531,0.756,0.529,0.425,1,0,0,0
           filters:
             person:
-              min_area: 0.01 # 1% of image area
+              min_area: 0.02 # 2% of image area
         detect:
           width: 640
           height: 360
@@ -197,7 +197,7 @@ data:
             - 0,0.309,0.35,0.452,0.491,0.467,0.592,0.45,1,0,1,0,0,0
           filters:
             person:
-              min_area: 0.01 # 1% of image area
+              min_area: 0.02 # 2% of image area
         detect:
           width: 640
           height: 360
@@ -236,7 +236,7 @@ data:
             - 0.35,0,0.371,0.559,0.401,1,0,1,0,0
           filters:
             person:
-              min_area: 0.01 # 1% of image area
+              min_area: 0.02 # 2% of image area
         record:
           enabled: true
           retain:
