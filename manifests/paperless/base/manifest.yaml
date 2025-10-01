@@ -277,7 +277,7 @@ spec:
       hostIPC: false
       containers:
         - name: postgresql
-          image: "docker.io/bitnami/postgresql:14"
+          image: "docker.io/bitnamilegacy/postgresql:14"
           imagePullPolicy: "Always"
           securityContext:
             runAsUser: 1000
@@ -404,7 +404,7 @@ spec:
         fsGroup: 1000
       initContainers:
         - name: postgresql-isready
-          image: "docker.io/bitnami/postgresql:14"
+          image: "docker.io/bitnamilegacy/postgresql:14"
           imagePullPolicy: "Always"
           command:
             - "sh"

@@ -10,7 +10,7 @@ labels:
     storage: truenas
 
 images:
-- name: docker.io/bitnami/postgresql
+- name: docker.io/bitnamilegacy/postgresql
   newTag: "14"
 - name: ghcr.io/paperless-ngx/paperless-ngx
   newName: ghcr.io/paperless-ngx/paperless-ngx
