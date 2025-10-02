@@ -24,112 +24,112 @@ jobs:
             bump: false
             bump_type: ""
             image: ""
-            include_tags : ""
-            exclude_tags : ""
+            include_tags: ""
+            exclude_tags: ""
           - name: immich
             type: release
             target: ghcr.io/immich-app/immich
             bump: true
             bump_type: kustomize
             image: "ghcr.io/immich-app/immich-server ghcr.io/immich-app/immich-machine-learning"
-            include_tags : ""
-            exclude_tags : ""
+            include_tags: ""
+            exclude_tags: ""
           - name: dsmr-reader
             type: image
             target: ghcr.io/xirixiz/dsmr-reader-docker
             bump: true
             bump_type: kustomize
             image: "ghcr.io/xirixiz/dsmr-reader-docker"
-            include_tags : ""
-            exclude_tags : ""
+            include_tags: ""
+            exclude_tags: ""
           - name: democratic-csi
             type: image
             target: ghcr.io/democratic-csi/democratic-csi
             bump: true
             bump_type: kustomize
             image: "ghcr.io/democratic-csi/democratic-csi"
-            include_tags : ""
-            exclude_tags : "latest"
+            include_tags: ""
+            exclude_tags: "latest"
           - name: frigate
             type: image
             target: ghcr.io/blakeblackshear/frigate
             bump: true
             bump_type: kustomize
             image: "ghcr.io/blakeblackshear/frigate"
-            include_tags : ".*-standard-arm64"
-            exclude_tags : "stable,latest"
+            include_tags: ".*-standard-arm64"
+            exclude_tags: "stable,latest"
           - name: go2rtc
             type: image
             target: ghcr.io/alexxit/go2rtc
             bump: true
             bump_type: kustomize
             image: "ghcr.io/alexxit/go2rtc"
-            include_tags : ""
-            exclude_tags : "latest,stable,master,master-*.,.*-rockship"
+            include_tags: ""
+            exclude_tags: "latest,stable,master,^master-.*,.*-rockship,.*-hardware"
           - name: MetalLB
             type: release
             target: metallb/metallb
             bump: false
             bump_type: kustomize
             image: ""
-            include_tags : ""
-            exclude_tags : ""
+            include_tags: ""
+            exclude_tags: ""
           - name: Kubernetes Node Feature Discovery
             type: release
             target: kubernetes-sigs/node-feature-discovery
             bump: false
             bump_type: kustomize
             image: ""
-            include_tags : ""
-            exclude_tags : ""
+            include_tags: ""
+            exclude_tags: ""
           - name: Omada Controller
             type: release
             target: mbentley/docker-omada-controller
             bump: false
             bump_type: kustomize
             image: ""
-            include_tags : ""
-            exclude_tags : ""
+            include_tags: ""
+            exclude_tags: ""
           - name: paperless
             type: image
             target: ghcr.io/paperless-ngx/paperless-ngx
             bump: true
             bump_type: kustomize
             image: "ghcr.io/paperless-ngx/paperless-ngx"
-            include_tags : ""
-            exclude_tags : "dev,latest,stable,fix,feature,ngx-,beta"
+            include_tags: ""
+            exclude_tags: "dev,latest,stable,fix,feature,ngx-,beta"
           - name: syncthing
             type: image
             target: syncthing/syncthing
             bump: true
             bump_type: kustomize
             image: "ghcr.io/syncthing/syncthing"
-            include_tags : ""
-            exclude_tags : "latest,nightly,edge,rc,infrastructure,gotools,beta,v2"
+            include_tags: ""
+            exclude_tags: "latest,nightly,edge,rc,infrastructure,gotools,beta,v2"
           - name: uptime-kuma
             type: release
             target: louislam/uptime-kuma
             bump: false
             bump_type: kustomize
             image: ""
-            include_tags : ""
-            exclude_tags : ""
+            include_tags: ""
+            exclude_tags: ""
           - name: vaultwarden
             type: release
             target: dani-garcia/vaultwarden
             bump: true
             bump_type: kustomize
             image: "ghcr.io/dani-garcia/vaultwarden"
-            include_tags : "*-alpine"
-            exclude_tags : "testing,sha256,latest,latest-*"
+            include_tags: "*-alpine"
+            exclude_tags: "testing,sha256,latest,latest-*"
           - name: zwavejs2mqtt
             type: image
             target: ghcr.io/zwave-js/zwave-js-ui
             bump: true
             bump_type: kustomize
             image: ghcr.io/zwave-js/zwave-js-ui
-            include_tags : ""
-            exclude_tags : "sha-*,master,latest,test,test*"
+            include_tags: ""
+            exclude_tags: "sha-*,master,latest,test,test*"
     with:
       name: ${{ matrix.name }}
       target: ${{ matrix.target }}
