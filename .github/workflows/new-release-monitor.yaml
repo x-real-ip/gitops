@@ -59,13 +59,13 @@ jobs:
             include_tags : ".*-standard-arm64"
             exclude_tags : "stable,latest"
           - name: go2rtc
-            type: release
-            target: AlexxIT/go2rtc
-            bump: false
+            type: image
+            target: ghcr.io/alexxit/go2rtc
+            bump: true
             bump_type: kustomize
-            image: ""
+            image: "ghcr.io/alexxit/go2rtc"
             include_tags : ""
-            exclude_tags : ""
+            exclude_tags : "latest,stable,master,master-*.,.*-rockship"
           - name: MetalLB
             type: release
             target: metallb/metallb
