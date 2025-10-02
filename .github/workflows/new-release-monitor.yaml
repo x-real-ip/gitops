@@ -65,7 +65,7 @@ jobs:
             bump_type: kustomize
             image: "ghcr.io/alexxit/go2rtc"
             include_tags: ""
-            exclude_tags: "latest,stable,master,^master-.*,.*-rockship,.*-hardware"
+            exclude_tags: "latest,stable,master,^master-.*,.*-rockchip,.*-hardware"
           - name: MetalLB
             type: release
             target: metallb/metallb
