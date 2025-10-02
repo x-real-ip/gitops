@@ -1,4 +1,3 @@
----
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
@@ -8,11 +7,11 @@ resources:
 namespace: home-automation
 
 images:
-- name: "ghcr.io/alexxit/go2rtc"
-  newTag: "1.9.9"
+- name: ghcr.io/alexxit/go2rtc
+  newName: ghcr.io/alexxit/go2rtc
+  newTag: 1.9.10
 
 labels:
 - includeSelectors: true
   pairs:
     app: go2rtc
-
