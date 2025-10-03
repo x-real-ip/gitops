@@ -101,8 +101,8 @@ spec:
       labels:
         app: radicale
     spec:
-      # securityContext:
-      #   fsGroup: 1000
+      securityContext:
+        fsGroup: 1000
       containers:
         - name: radicale
           image: "ghcr.io/x-real-ip/radicale:latest"
