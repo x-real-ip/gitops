@@ -101,18 +101,10 @@ spec:
       labels:
         app: radicale
     spec:
-      securityContext:
-        fsGroup: 1000
       containers:
         - name: radicale
-          image: "ghcr.io/x-real-ip/radicale:latest"
-          imagePullPolicy: Always
-          command: ["/bin/sh", "/usr/local/bin/docker-entrypoint.sh"]
-          args: ["/venv/bin/radicale", "--config", "/config/config"]
-          # securityContext:
-          #   allowPrivilegeEscalation: false
-          #   runAsUser: 1000
-          #   runAsGroup: 2000
+          image: "docker.io/tomsquest/docker-radicale:latest"
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5232
               protocol: TCP
@@ -121,9 +113,11 @@ spec:
               value: "1000"
             - name: GID
               value: "2000"
+            - name: "TAKE_FILE_OWNERSHIP"
+              value: "false"
           volumeMounts:
             - name: collections
-              mountPath: /data/collections
+              mountPath: /data
             - name: config
               mountPath: /config/config
               subPath: config

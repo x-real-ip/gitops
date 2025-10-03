@@ -130,6 +130,14 @@ jobs:
             image: ghcr.io/zwave-js/zwave-js-ui
             include_tags: ""
             exclude_tags: "sha-*,master,latest,test,test*"
+          - name: radicale
+            type: release
+            target: ghcr.io/tomsquest/docker-radicale
+            bump: true
+            bump_type: "kustomize"
+            image: "docker.io/tomsquest/docker-radicale"
+            include_tags: ""
+            exclude_tags: ""
     with:
       name: ${{ matrix.name }}
       target: ${{ matrix.target }}

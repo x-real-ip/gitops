@@ -12,5 +12,5 @@ labels:
 namespace: tools
 
 images:
-- name: ghcr.io/x-real-ip/radicale
-  newTag: 0366fe75e7127d1451e79f01b000245261311991
+- name: "docker.io/tomsquest/docker-radicale"
+  newTag: latest
