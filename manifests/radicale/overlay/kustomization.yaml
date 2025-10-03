@@ -12,5 +12,6 @@ labels:
 namespace: tools
 
 images:
-- name: "docker.io/tomsquest/docker-radicale"
-  newTag: latest
+- name: docker.io/tomsquest/docker-radicale
+  newName: docker.io/tomsquest/docker-radicale
+  newTag: 3.5.7.0
