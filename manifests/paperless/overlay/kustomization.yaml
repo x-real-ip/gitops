@@ -4,13 +4,15 @@ kind: Kustomization
 resources:
 - ../base
 
+namespace: tools
+
 labels:
 - includeSelectors: true
   pairs:
     storage: truenas
 
 images:
-- name: docker.io/bitnamilegacy/postgresql
+- name: docker.io/postgres
   newTag: "14"
 - name: ghcr.io/paperless-ngx/paperless-ngx
   newName: ghcr.io/paperless-ngx/paperless-ngx

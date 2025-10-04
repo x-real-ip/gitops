@@ -19,7 +19,7 @@ spec:
     volumeHandle: pv-iscsi-paperless-db
     volumeAttributes:
       portal: truenas-master.lan.stamx.nl:3260
-      iqn: iqn.2005-10.org.freenas.ctl:paperless-14-db
+      iqn: iqn.2005-10.org.freenas.ctl:paperless-db
       lun: "0"
       node_attach_driver: iscsi
       provisioner_driver: node-manual
@@ -247,69 +247,36 @@ spec:
     type: Opaque
 
 ---
-kind: StatefulSet
 apiVersion: apps/v1
+kind: StatefulSet
 metadata:
   name: paperless-postgresql
-  namespace: tools
   labels:
     app: paperless-database
 spec:
   replicas: 1
+  serviceName: paperless-postgresql-hl
   persistentVolumeClaimRetentionPolicy:
     whenDeleted: Delete
-  serviceName: paperless-postgresql-hl
   updateStrategy:
-    rollingUpdate: {}
     type: RollingUpdate
   selector:
     matchLabels:
       app: paperless-database
   template:
     metadata:
-      name: paperless-postgresql
       labels:
         app: paperless-database
     spec:
-      securityContext:
-        fsGroup: 1000
-      hostNetwork: false
-      hostIPC: false
       containers:
         - name: postgresql
-          image: "docker.io/bitnamilegacy/postgresql:14"
-          imagePullPolicy: "Always"
-          securityContext:
-            runAsUser: 1000
+          image: "docker.io/postgres:14"
+          imagePullPolicy: IfNotPresent
           env:
-            - name: BITNAMI_DEBUG
-              value: "false"
-            - name: POSTGRESQL_PORT_NUMBER
-              value: "5432"
-            - name: POSTGRESQL_VOLUME_DIR
-              value: "/bitnami/postgresql"
-            - name: PGDATA
-              value: "/bitnami/postgresql/data"
-            - name: POSTGRESQL_ENABLE_LDAP
-              value: "no"
-            - name: POSTGRESQL_ENABLE_TLS
-              value: "no"
-            - name: POSTGRESQL_LOG_HOSTNAME
-              value: "false"
-            - name: POSTGRESQL_LOG_CONNECTIONS
-              value: "false"
-            - name: POSTGRESQL_LOG_DISCONNECTIONS
-              value: "false"
-            - name: POSTGRESQL_PGAUDIT_LOG_CATALOG
-              value: "off"
-            - name: POSTGRESQL_CLIENT_MIN_MESSAGES
-              value: "error"
-            - name: POSTGRESQL_SHARED_PRELOAD_LIBRARIES
-              value: "pgaudit"
-            - name: POSTGRESQL_DATABASE
-              value: "paperless"
-            - name: POSTGRESQL_USERNAME
-              value: "paperless"
+            - name: POSTGRES_DB
+              value: paperless
+            - name: POSTGRES_USER
+              value: paperless
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -317,41 +284,38 @@ spec:
                   key: postgres-password
           ports:
             - containerPort: 5432
-          livenessProbe:
+              name: postgres
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - pg_isready -U "$POSTGRES_USER" -h 127.0.0.1 -p 5432
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
             failureThreshold: 6
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - pg_isready -U "$POSTGRES_USER" -h 127.0.0.1 -p 5432
             initialDelaySeconds: 30
             periodSeconds: 10
-            successThreshold: 1
             timeoutSeconds: 5
-            exec:
-              command:
-                - /bin/sh
-                - -c
-                - exec pg_isready -U "paperless" -h 127.0.0.1 -p 5432
-          readinessProbe:
             failureThreshold: 6
-            initialDelaySeconds: 5
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 5
-            exec:
-              command:
-                - /bin/sh
-                - -c
-                - -e
-                - |
-                  exec pg_isready -U "paperless" -h 127.0.0.1 -p 5432
-                  [ -f /opt/bitnami/postgresql/tmp/.initialized ] || [ -f /bitnami/postgresql/.initialized ]
           resources:
-            limits: {}
             requests:
               cpu: 250m
               memory: 256Mi
+            limits: {}
           volumeMounts:
             - name: dshm
               mountPath: /dev/shm
             - name: data
-              mountPath: /bitnami/postgresql
+              mountPath: /var/lib/postgresql/data
+              subPath: data
       volumes:
         - name: dshm
           emptyDir:
@@ -362,15 +326,11 @@ spec:
         labels:
           app: paperless-database
       spec:
-        selector:
-          matchLabels:
-            app: paperless-database
-        accessModes:
-          - "ReadWriteOnce"
+        accessModes: ["ReadWriteOnce"]
         storageClassName: freenas-iscsi-manual-csi
         resources:
           requests:
-            storage: "10Gi"
+            storage: 10Gi
 
 ---
 kind: Deployment
@@ -404,12 +364,12 @@ spec:
         fsGroup: 1000
       initContainers:
         - name: postgresql-isready
-          image: "docker.io/bitnamilegacy/postgresql:14"
-          imagePullPolicy: "Always"
+          image: "docker.io/postgres:14"
+          imagePullPolicy: IfNotPresent
           command:
             - "sh"
             - "-c"
-            - until pg_isready -h paperless-postgresql-hl -U paperless ; do
+            - until pg_isready -U paperless -h paperless-postgresql-hl -p 5432 ; do
               sleep 2 ; done
       containers:
         - name: paperless
