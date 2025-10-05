@@ -145,7 +145,6 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: pvc-nfs-paperless-consume
-  namespace: tools
   labels:
     app: paperless
 spec:
@@ -162,7 +161,6 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: pvc-nfs-paperless-data
-  namespace: tools
   labels:
     app: paperless
 spec:
@@ -179,7 +177,6 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: pvc-nfs-paperless-export
-  namespace: tools
   labels:
     app: paperless
 spec:
@@ -196,7 +193,6 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: pvc-nfs-paperless-media
-  namespace: tools
   labels:
     app: paperless
 spec:
@@ -213,7 +209,6 @@ kind: SealedSecret
 apiVersion: bitnami.com/v1alpha1
 metadata:
   name: paperless-postgresql
-  namespace: tools
   labels:
     app: paperless-database
 spec:
@@ -337,7 +332,6 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: paperless
-  namespace: tools
   labels:
     app: paperless
 spec:
@@ -369,8 +363,8 @@ spec:
           command:
             - "sh"
             - "-c"
-            - until pg_isready -U paperless -h paperless-postgresql-hl -p 5432 ; do
-              sleep 2 ; done
+            - until pg_isready -U paperless -h paperless-postgresql-hl -p 5432 ;
+              do sleep 2 ; done
       containers:
         - name: paperless
           image: "ghcr.io/paperless-ngx/paperless-ngx:latest"
@@ -467,7 +461,6 @@ kind: Service
 apiVersion: v1
 metadata:
   name: paperless-postgresql-hl
-  namespace: tools
   labels:
     app: paperless-database
     service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
@@ -487,7 +480,6 @@ kind: Service
 apiVersion: v1
 metadata:
   name: paperless
-  namespace: tools
   labels:
     app: paperless
 spec:
@@ -505,7 +497,6 @@ kind: Ingress
 apiVersion: networking.k8s.io/v1
 metadata:
   name: paperless
-  namespace: tools
   labels:
     app: paperless
   annotations:
