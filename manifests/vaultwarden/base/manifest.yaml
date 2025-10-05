@@ -19,7 +19,7 @@ spec:
     volumeHandle: pv-iscsi-vaultwarden-db
     volumeAttributes:
       portal: truenas-master.lan.stamx.nl:3260
-      iqn: iqn.2005-10.org.freenas.ctl:vaultwarden-db
+      iqn: iqn.2005-10.org.freenas.ctl:vaultwarden-db-2
       lun: "0"
       node_attach_driver: iscsi
       provisioner_driver: node-manual
@@ -116,7 +116,7 @@ metadata:
   labels:
     app: vaultwarden-database
 data:
-  POSTGRESQL_DATABASE: "vaultwarden"
+  POSTGRES_DB: "vaultwarden"
 
 ---
 kind: ConfigMap
@@ -163,7 +163,6 @@ spec:
     whenDeleted: Delete
   serviceName: vaultwarden-postgresql-hl
   updateStrategy:
-    rollingUpdate: {}
     type: RollingUpdate
   selector:
     matchLabels:
@@ -175,67 +174,58 @@ spec:
         app: vaultwarden-database
     spec:
       serviceAccountName: default
-      securityContext:
-        fsGroup: 1000
       containers:
-        - name: postgresql
-          image: "docker.io/bitnamilegacy/postgresql:14.16.0"
-          imagePullPolicy: Always
-          securityContext:
-            runAsUser: 1000
+        - name: postgres
+          image: docker.io/postgres:14
+          imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:
                 name: vaultwarden-database-env-configmap
                 optional: false
           env:
-            - name: POSTGRESQL_PASSWORD
+            - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: vaultwarden-database-env-secret
                   key: POSTGRESQL_PASSWORD
-            - name: POSTGRESQL_USERNAME
+            - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
                   name: vaultwarden-database-env-secret
                   key: POSTGRESQL_USERNAME
           ports:
             - containerPort: 5432
+              name: postgres
           livenessProbe:
-            failureThreshold: 6
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - exec pg_isready -U "$POSTGRES_USER" -h 127.0.0.1 -p 5432
             initialDelaySeconds: 30
             periodSeconds: 10
-            successThreshold: 1
             timeoutSeconds: 5
+            failureThreshold: 6
+          readinessProbe:
             exec:
               command:
                 - /bin/sh
                 - -c
-                - exec pg_isready -U "${POSTGRESQL_USERNAME}" -h 127.0.0.1 -p
-                  5432
-          readinessProbe:
-            failureThreshold: 6
+                - exec pg_isready -U "$POSTGRES_USER" -h 127.0.0.1 -p 5432
             initialDelaySeconds: 5
             periodSeconds: 10
-            successThreshold: 1
             timeoutSeconds: 5
-            exec:
-              command:
-                - /bin/sh
-                - -c
-                - -e
-                - |
-                  exec pg_isready -U "${POSTGRESQL_USERNAME}" -h 127.0.0.1 -p 5432
-                  [ -f /opt/bitnami/postgresql/tmp/.initialized ] || [ -f /bitnami/postgresql/.initialized ]
+            failureThreshold: 6
           resources:
-            limits: {}
             requests:
               cpu: 250m
               memory: 256Mi
+            limits: {}
           volumeMounts:
             - name: dshm
               mountPath: /dev/shm
             - name: data
-              mountPath: /bitnami/postgresql
+              mountPath: /var/lib/postgresql/data
       volumes:
         - name: dshm
           emptyDir:
@@ -244,15 +234,12 @@ spec:
     - metadata:
         name: data
       spec:
-        selector:
-          matchLabels:
-            app: vaultwarden-database
         accessModes:
-          - "ReadWriteOnce"
+          - ReadWriteOnce
         storageClassName: freenas-iscsi-manual-csi
         resources:
           requests:
-            storage: "20Gi"
+            storage: 20Gi
 
 ---
 kind: Deployment
@@ -282,7 +269,7 @@ spec:
         fsGroup: 1000
       containers:
         - name: vaultwarden
-          image: "vaultwarden/server:latest"
+          image: ghcr.io/dani-garcia/vaultwarden:latest
           imagePullPolicy: Always
           securityContext:
             runAsGroup: 1000
