@@ -8,6 +8,8 @@ resources:
 namespace: home-automation
 
 images:
+  - name: docker.io/postgres
+    newTag: "14"
   - name: ghcr.io/xirixiz/dsmr-reader-docker
     newTag: 5.11.0-2025.01.03
 

@@ -10,7 +10,7 @@ metadata:
 spec:
   storageClassName: "freenas-iscsi-manual-csi"
   capacity:
-    storage: 20Gi
+    storage: 10Gi
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
@@ -21,7 +21,7 @@ spec:
     volumeHandle: pv-iscsi-dsmr-reader-db
     volumeAttributes:
       portal: truenas-master.lan.stamx.nl:3260
-      iqn: iqn.2005-10.org.freenas.ctl:dsmr-reader-db
+      iqn: iqn.2005-10.org.freenas.ctl:dsmr-reader-db-2
       lun: "0"
       node_attach_driver: iscsi
       provisioner_driver: node-manual
@@ -104,8 +104,8 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
 data:
-  POSTGRESQL_DATABASE: "dsmrreader"
-  POSTGRESQL_USERNAME: "dsmrreader"
+  POSTGRES_DB: "dsmrreader"
+  POSTGRES_USER: "dsmrreader"
 
 ---
 kind: ConfigMap
@@ -136,30 +136,23 @@ metadata:
     argocd.argoproj.io/sync-wave: "-1"
 spec:
   replicas: 1
+  serviceName: dsmr-reader-postgresql-hl
   persistentVolumeClaimRetentionPolicy:
     whenDeleted: Delete
-  serviceName: dsmr-reader-postgresql-hl
   updateStrategy:
-    rollingUpdate: {}
     type: RollingUpdate
   selector:
     matchLabels:
       app: dsmr-reader-database
   template:
     metadata:
-      name: dsmr-reader-postgresql
       labels:
         app: dsmr-reader-database
     spec:
-      serviceAccountName: default
-      securityContext:
-        fsGroup: 1000
       containers:
         - name: postgresql
-          image: "docker.io/bitnamilegacy/postgresql:14.16.0"
-          imagePullPolicy: Always
-          securityContext:
-            runAsUser: 1000
+          image: docker.io/postgres:14
+          imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:
                 name: dsmr-reader-postgresql-env
@@ -172,41 +165,37 @@ spec:
                   key: POSTGRES_PASSWORD
           ports:
             - containerPort: 5432
+              name: postgres
           livenessProbe:
-            failureThreshold: 6
+            exec:
+              command:
+                - sh
+                - -c
+                - pg_isready -U "$POSTGRES_USER" -h 127.0.0.1 -p 5432
             initialDelaySeconds: 30
             periodSeconds: 10
-            successThreshold: 1
             timeoutSeconds: 5
+            failureThreshold: 6
+          readinessProbe:
             exec:
               command:
-                - /bin/sh
+                - sh
                 - -c
-                - exec pg_isready -U ${POSTGRESQL_USERNAME} -h 127.0.0.1 -p 5432
-          readinessProbe:
-            failureThreshold: 6
+                - pg_isready -U "$POSTGRES_USER" -h 127.0.0.1 -p 5432
             initialDelaySeconds: 5
             periodSeconds: 10
-            successThreshold: 1
             timeoutSeconds: 5
-            exec:
-              command:
-                - /bin/sh
-                - -c
-                - -e
-                - |
-                  exec pg_isready -U ${POSTGRESQL_USERNAME} -h 127.0.0.1 -p 5432
-                  [ -f /opt/bitnami/postgresql/tmp/.initialized ] || [ -f /bitnami/postgresql/.initialized ]
+            failureThreshold: 6
           resources:
-            limits: {}
             requests:
               cpu: 250m
               memory: 256Mi
+            limits: {}
           volumeMounts:
             - name: dshm
               mountPath: /dev/shm
             - name: data
-              mountPath: /bitnami/postgresql
+              mountPath: /var/lib/postgresql/data
       volumes:
         - name: dshm
           emptyDir:
@@ -219,11 +208,11 @@ spec:
           matchLabels:
             app: dsmr-reader-database
         accessModes:
-          - "ReadWriteOnce"
+          - ReadWriteOnce
         storageClassName: freenas-iscsi-manual-csi
         resources:
           requests:
-            storage: "10Gi"
+            storage: 10Gi
 
 ---
 kind: Deployment
@@ -256,7 +245,7 @@ spec:
       containers:
         - name: dsmr-reader
           image: "docker.io/xirixiz/dsmr-reader-docker:latest"
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           ports:
             - name: http
               containerPort: 80
@@ -309,7 +298,7 @@ spec:
             periodSeconds: 5
           volumeMounts:
             - name: backups
-              mountPath: /app/backups
+              mountPath: /backups
           resources: {}
       volumes:
         - name: backups
