@@ -19,7 +19,7 @@ spec:
     volumeHandle: pv-iscsi-home-assistant-db
     volumeAttributes:
       portal: truenas-master.lan.stamx.nl:3260
-      iqn: iqn.2005-10.org.freenas.ctl:home-assistant-db
+      iqn: iqn.2005-10.org.freenas.ctl:home-assistant-db-2
       lun: "0"
       node_attach_driver: iscsi
       provisioner_driver: node-manual
@@ -127,56 +127,37 @@ spec:
       name: secrets
 
 ---
-kind: StatefulSet
 apiVersion: apps/v1
+kind: StatefulSet
 metadata:
   name: home-assistant-postgresql
   labels:
     app: home-assistant-database
 spec:
   replicas: 1
-  persistentVolumeClaimRetentionPolicy:
-    whenDeleted: Delete
   serviceName: home-assistant-postgresql-hl
-  updateStrategy:
-    rollingUpdate: {}
-    type: RollingUpdate
   selector:
     matchLabels:
       app: home-assistant-database
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Delete
+  updateStrategy:
+    type: RollingUpdate
   template:
     metadata:
-      name: home-assistant-postgresql
       labels:
         app: home-assistant-database
     spec:
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - podAffinityTerm:
-                labelSelector:
-                  matchLabels:
-                    app: home-assistant
-                namespaces:
-                  - home-automation
-                topologyKey: kubernetes.io/hostname
-              weight: 1
-      securityContext:
-        fsGroup: 1000
-      hostNetwork: false
-      hostIPC: false
       containers:
-        - name: postgresql
-          image: "docker.io/bitnamilegacy/postgresql:14.16.0"
-          imagePullPolicy: Always
-          securityContext:
-            runAsUser: 1000
+        - name: postgres
+          image: docker.io/postgres:14
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5432
           env:
-            - name: POSTGRESQL_DATABASE
+            - name: POSTGRES_DB
               value: "home-assistant"
-            - name: POSTGRESQL_USERNAME
+            - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
                   name: home-assistant-postgresql-secret
@@ -187,58 +168,54 @@ spec:
                   name: home-assistant-postgresql-secret
                   key: postgresql-password
           livenessProbe:
-            failureThreshold: 6
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - exec pg_isready -U "$POSTGRES_USER" -h 127.0.0.1 -p 5432
             initialDelaySeconds: 30
             periodSeconds: 10
-            successThreshold: 1
             timeoutSeconds: 5
+            failureThreshold: 6
+          readinessProbe:
             exec:
               command:
                 - /bin/sh
                 - -c
-                - exec pg_isready -U "${POSTGRESQL_USERNAME}" -h 127.0.0.1 -p
-                  5432
-          readinessProbe:
-            failureThreshold: 6
+                - exec pg_isready -U "$POSTGRES_USER" -h 127.0.0.1 -p 5432
             initialDelaySeconds: 5
             periodSeconds: 10
-            successThreshold: 1
             timeoutSeconds: 5
-            exec:
-              command:
-                - /bin/sh
-                - -c
-                - -e
-                - |
-                  exec pg_isready -U "${POSTGRESQL_USERNAME}" -h 127.0.0.1 -p 5432
-                  [ -f /opt/bitnami/postgresql/tmp/.initialized ] || [ -f /bitnami/postgresql/.initialized ]
+            failureThreshold: 6
           resources:
             requests:
               cpu: 250m
               memory: 256Mi
             limits: {}
           volumeMounts:
-            - name: dshm
-              mountPath: /dev/shm
             - name: data
-              mountPath: /bitnami/postgresql
-      volumes:
-        - name: dshm
-          emptyDir:
-            medium: Memory
+              mountPath: /var/lib/postgresql/data
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app: home-assistant
+                namespaces:
+                  - home-automation
+                topologyKey: kubernetes.io/hostname
   volumeClaimTemplates:
     - metadata:
         name: data
       spec:
-        selector:
-          matchLabels:
-            app: home-assistant-database
         accessModes:
-          - "ReadWriteOnce"
+          - ReadWriteOnce
         storageClassName: freenas-iscsi-manual-csi
         resources:
           requests:
-            storage: "100Gi"
+            storage: 100Gi
 
 ---
 kind: Deployment
@@ -271,8 +248,8 @@ spec:
               topologyKey: "kubernetes.io/hostname"
       initContainers:
         - name: postgresql-isready
-          image: "docker.io/bitnamilegacy/postgresql:14.16.0"
-          imagePullPolicy: Always
+          image: "docker.io/postgres:14"
+          imagePullPolicy: IfNotPresent
           env:
             - name: POSTGRESQL_USERNAME
               valueFrom:
@@ -282,8 +259,8 @@ spec:
           command:
             - "sh"
             - "-c"
-            - until pg_isready -h home-assistant-postgresql-hl -U
-              ${POSTGRESQL_USERNAME} ; do sleep 2 ; done
+            - until pg_isready -U ${POSTGRESQL_USERNAME} -h home-assistant-postgresql-hl -p 5432 ;
+              do sleep 2 ; done
       containers:
         - name: home-assistant
           image: "ghcr.io/x-real-ip/home-assistant:latest"
