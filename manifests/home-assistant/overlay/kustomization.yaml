@@ -2,17 +2,17 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - ../base
+- ../base
 
 namespace: home-automation
 
 labels:
-  - includeSelectors: true
-    pairs:
-      storage: truenas
+- includeSelectors: true
+  pairs:
+    storage: truenas
 
 images:
-  - name: docker.io/postgres
-    newTag: "14"
-  - name: ghcr.io/x-real-ip/home-assistant
-    newTag: 677183f51183518da4a9635a384783acd7b6ad03
+- name: docker.io/postgres
+  newTag: "14"
+- name: ghcr.io/x-real-ip/home-assistant
+  newTag: 2afe324f2b67978d2c612109c7e3b07504f9fc57
