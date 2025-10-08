@@ -296,12 +296,12 @@ spec:
             - name: home-assistant-config
               mountPath: /config/.storage
               subPath: .storage
-            # - name: home-assistant-config
-            #   mountPath: /config/www
-            #   subPath: www
-            # - name: home-assistant-config
-            #   mountPath: /config/custom_components
-            #   subPath: custom_components
+            - name: home-assistant-config
+              mountPath: /config/www
+              subPath: www
+            - name: home-assistant-config
+              mountPath: /config/custom_components
+              subPath: custom_components
             - name: secrets
               mountPath: /config/secrets.yaml
               subPath: secrets.yaml
