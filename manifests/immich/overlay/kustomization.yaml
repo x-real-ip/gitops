@@ -18,8 +18,3 @@ labels:
 - includeSelectors: true
   pairs:
     storage: truenas
-
-configMapGenerator:
-- files:
-  - configs/immich-config.json
-  name: immich-config
