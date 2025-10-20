@@ -113,49 +113,93 @@ metadata:
   name: immich-config
 spec:
   encryptedData:
-    notifications_smtp_from: AgCb2v56oa6Tc2IWO1eaTkc+D3xmFyxHIZOMKXbQd0rRmX2Wcy3Qqf6Tcy0nvpwZWnELdo1tZGHtOCCu21GxfBdxEO2XlCNLVJVzdc42Av8LJ+6kYo5aai53MrN6ipmeIdtWzpANmnVA3USdO+inPb7YwzG4CO+x7iEq3fWtQsl0S1euwfi/hFzL/m6tWFxOxAa2SGv8rw1O8mydYsOJ+7xfMH2PuQciK5F5C4sNGY8wAL6vSG3wPLzeuaj3WPKGrEUc6ETq+Yg0B4EbYjL1pGvHh0sPjrLKx7uOtrs0JIrDlNcj76Y+/Je12QmE+IiumnzgaOWHvD3bQRXVTbeFA2rIYmqMwVVSGGsB8BoVcQHhHP8w5oqe3rT+IHBVyNOwEjc54qpeP994046JdzHvscTPLajBAFjNc5sA3gpEYd5I2+hlPWIfrGnwCvg379gtvb58hVnSw3RKYlCKf2e+P93T0FQGlZZhT12XlXO3TM0EyKK/g6dXjTPd4n1XtTzkw62+5RvGWxKRElKOTKjInC74TZCbm9n31qlDtT4Jhv+rVdTB1MtgzNFYa0o/evrjRiJBQReO2DZP8PKAQ0V8mJ/2Yq5Zs375FnhqBf13sUcV1iOvbjQXo+740kM2/psrL7/rBiQXB35yEXwy5D2g1n4Yaoph7BdvbD9BKdO3esErZ3a99/E8bUi9FVRt4l8VHFSmtJso4PvPZh4lmMFSelMgtQ==
+    notifications_smtp_from: AgBJTtf+44DyPxUkICltXEvmp6yZ5k9O7yhhUq0MQvjK4wfVegDGG6rx6tqMFRv1X1+XFVhzlBzmC23tHz+a6taMMXrFiW2JV+MnX6glV+YLYYNWFIqHyuZ6DzQ76m+SErrxPge7ipbxn3eHLKlqQ1ocV8CdPr2UGqGZzMs8VApDHonm92iWYdO5aLQBL54lhEM2rjwnU4KWNc/SZOmgtCZs7MDAAFJO5XMrzpigfYbEiOwTyfhSY+K+O7fNZc/7rW0lhlZi47QCDWTlxCpLhJ/iU3m178MvLAcpQrjKLIcxfpFo6TDjy8/G9O4NjJFiwVRPGIWOl/EmE5oAeg6G9pYYXZB7p4FAAJ5S11QVDdOJ4qQFhysMlMtC18y3q8P1duY5T3BBrkTBvIg80x/1DM8aJQGpVZtMNhRDZriGVzm2U87dsVcsg07AjPXVZk5fOA58Ovo5wH7zY+oCDZx6ddB7uQTxlw/xzyjoOcGbKq7qFcun6peXd+VDEYfzLeofIRBWw7PKk+ZzM3C2gEkLAS4yr2zKoHXkcJ/yZ2aSKr4JtvvdJwO00nlgasb9WZ4umhbHA7WgvKollWGn/TMz0RqpI8KEu/n3bGFwlEoES22o9IjhJcKIDDNklmGsMPWCc4QsKT+0U0ySxsDJfCl1Pjal91HuxiW9LDM0ElG0ouSxL4PXUhWOGGXY79KfgTEmyc0P+LHUz2ild5RVXQ/ezfqBGQFsKNM=
     notifications_smtp_transport_password: AgBpwrheEaUcJfQBup0orAlTSeEd/sgteKYHIfIcvaCLWYxTfHQe427Be05oxUhGvvoT2OH5IYFTqwmmq8kuSMvrAbZ55rbSSPO2APVONfnS+14VhUrmvacqZRwtiINEuPX5tda2V67YxUUGxv8HnGtOLO5iJkzgeskwGFNCFC5JrLFNfTXS1CW76Ocst7KGGK6DZDJQHxn0uljhrZIg58wH2tq9TMeE9dfTnrUsqGy3+6x4XfYapLepOM4gxXVJG/b1NZOFpSgaQ+sOQ6C6h/UicVoQ1/Gu9FuBcQssCkuVqWDEMit67hVWl+W66HVhfXAdYUcsdXUA7X76lC4C1snDWLxDJ1PDcdE0hZ133KB0SESTUDTe0XlSUyr4TFdr5e7KyI8ABC1bd6y8yQFm0doBLkf3922K+fbuXWuTqqPL7ZGRpE5b+tQNXuKumM5exvBFMJvEbcGnraYqdZX9wHGF8wtmlpuG0e0bMyBls+2BskfmElH2w3yJOeSa+L1/aLAOPnixqgaytQUeyc5PjVC5gZlxdoOI+aHPvLUAfNUxEBfomXnhbwLHjJovhLqsu25KPcok/f+OJzHL6sWvC+pQ9K5O4JQZcyh9wzOf3Wjv1P3eF5yXhwbFD6/JKVRhaCRXM2CDmU9Lgtic/1aqLMJGoqzOkGq50SQmHMvodvV29TsMRFOZKPnCkoqZ0DbwNJjkQ2uN47fYCnPNGMqnWTOT2wpR62ht
     notifications_smtp_transport_username: AgCvy1PFuyXV6PGp/Lvy8i/xQFwEnk0o7zUJLeHT9qkUoPl6gFM98CHPz9R0YBPPbFu3wPjOdsq1G9p/P6rP/I5S2zUT4HBUaKFq8ezzSKo9Su7WZfWiDPQuZ2f9oypWXMGrpQpDH5B4Yhs0QXMs3GpA0jlmDZNY/n72wWP5sAAd2zH3M39lKj6mw3LhfKxbZtdQNygaS+GjLxRx8mK9DiyOOpRsipy5Pp8TrGUL2YHrGWaqhw2HeHA88O8C942nv3ovd/Gw0JDu5mPSH+ySIM8WmHR/ecVa4pfvxAtqnH7Q2qdId2TiNATWgHubnFYGjejmy3a48ywlSUjn0W0U+lKlilwgyyESTwe8FwvrYK87WUTFPKLVS1NxsHzDGd1o2buBwJfGPxxHGDUWgSEg8j/hAEnoF7EmbUr06vXX5QG+ILncgFtzyrJvai2WJ9swn61GpJAMQne3Dp0VCqCdmLqDVjXJNzt/PoEozN0OVCUkrWCzuBYRUAuEJReDu4hRzNPM38aQJ3OPRe+tzr/ojsyoutStxzkEHYyRsnZIY7vAIPRsMnZsSwvPVSTvbXTuPKunKOPsRzjXEPLCvnuDS73ln8dkCIoLzB5La3CqzCnS0GORwgop0To0pgZWWQSAPjn1S7MYn4iBJ9R5Jm63EBQTOMUWvEXzK8fOcxw0to3f1H1NNATGHOqk35IBVsrB0s+sjdtTUApHEVaX4yM=
+    storageTemplate_template: AgCWzkFOvN+e8J9UiasJ7N8wPq2qEx4U+OUh3KYBiwB9K59jULFs/j14RIbVhbew5AjV5AGG2AbEjIP3DDUfaA8bjGFPRFaObpEmTiJoBH5SoZR5br/BqANZBSbk7/nnBe6HYSRqdxK1cNJO8mU7GP76wlo5pl96Ce4KWfuLMj5hPclPRdv7E7YYm94yGRIUSgVqM4JlnRXiKJRtaoSIvBgF/2KnAVLRvEdkLxK8VQdKtm37Jwfq9X7Vpal/pzTAd0FrnK7281cGrxcRKGhWvYuO7ioFT5BzuO4alxakxJ0RjwBdtT1KfV1oGHj4foxiZiORdPcfaXXmyuo8iqjncMFU4EbYtebWpQ25e5T0MKsLfSPcv4zwXh/LyhwGpriZvlB4NZ4gLJYUqW40RVK2B0yEpLK4sMudkXe+U0OuB+0luNF03d0J7938mTOv629GaB6X19X9XjQ81eANaZpj5MOHdcmsvU0mPuCqda2vtV0SrhCP5mW7YtpW4bBS/B1Gcs3lkmilYScviZYMZtG3bd3Du70h27mbS+L092EMHE9VcoYyr+2ch7tFUyeC+LkzotIVKyO26otKz8IjncuRZy7xVdOGoQhb8Yiuu1dBIYgs1LyCRJpM99infCDuIIAIoZCNqwXFzo32wnzj93sQ9X3Wo8rtjg/H22Qg4746wFOEEhT9AGqe77wI99BB5dbnDwNb5nbd+PYKrlveqOLMMACh1UpXHlyDUDuR19gfC6AZAZYSeIc3VvC8tO0pK1sROqj+nZRb8ZcKKmyzFyNduS7rUqWk6r7ncw0FSw==
   template:
     data:
       immich-config.json: |-
         {
+          "backup": {
+            "database": {
+              "cronExpression": "0 02 * * *",
+              "enabled": true,
+              "keepLastAmount": 14
+            }
+          },
           "ffmpeg": {
-            "crf": 23,
-            "threads": 0,
-            "preset": "ultrafast",
-            "targetVideoCodec": "h264",
-            "acceptedVideoCodecs": ["h264"],
-            "targetAudioCodec": "aac",
-            "acceptedAudioCodecs": ["aac", "mp3", "libopus", "pcm_s16le"],
-            "acceptedContainers": ["mov", "ogg", "webm"],
-            "targetResolution": "720",
-            "maxBitrate": "0",
-            "bframes": -1,
-            "refs": 0,
-            "gopSize": 0,
-            "npl": 0,
-            "temporalAQ": false,
-            "cqMode": "auto",
-            "twoPass": false,
-            "preferredHwDevice": "auto",
-            "transcode": "required",
-            "tonemap": "hable",
             "accel": "disabled",
-            "accelDecode": false
+            "accelDecode": false,
+            "acceptedAudioCodecs": [
+              "aac",
+              "mp3",
+              "libopus",
+              "pcm_s16le"
+            ],
+            "acceptedContainers": [
+              "mov",
+              "ogg",
+              "webm"
+            ],
+            "acceptedVideoCodecs": [
+              "h264"
+            ],
+            "bframes": -1,
+            "cqMode": "auto",
+            "crf": 23,
+            "gopSize": 0,
+            "maxBitrate": "0",
+            "npl": 0,
+            "preferredHwDevice": "auto",
+            "preset": "ultrafast",
+            "refs": 0,
+            "targetAudioCodec": "aac",
+            "targetResolution": "720",
+            "targetVideoCodec": "h264",
+            "temporalAQ": false,
+            "threads": 0,
+            "tonemap": "hable",
+            "transcode": "required",
+            "twoPass": false
+          },
+          "image": {
+            "colorspace": "p3",
+            "extractEmbedded": false,
+            "fullsize": {
+              "enabled": false,
+              "format": "jpeg",
+              "quality": 80
+            },
+            "preview": {
+              "format": "jpeg",
+              "quality": 80,
+              "size": 1440
+            },
+            "thumbnail": {
+              "format": "webp",
+              "quality": 80,
+              "size": 250
+            }
           },
           "job": {
             "backgroundTask": {
               "concurrency": 5
             },
-            "smartSearch": {
+            "faceDetection": {
               "concurrency": 2
+            },
+            "library": {
+              "concurrency": 1
             },
             "metadataExtraction": {
               "concurrency": 1
             },
-            "faceDetection": {
-              "concurrency": 2
+            "migration": {
+              "concurrency": 1
+            },
+            "notifications": {
+              "concurrency": 5
             },
             "search": {
               "concurrency": 5
@@ -163,20 +207,23 @@ spec:
             "sidecar": {
               "concurrency": 1
             },
-            "library": {
-              "concurrency": 1
-            },
-            "migration": {
-              "concurrency": 1
+            "smartSearch": {
+              "concurrency": 2
             },
             "thumbnailGeneration": {
               "concurrency": 1
             },
             "videoConversion": {
               "concurrency": 1
+            }
+          },
+          "library": {
+            "scan": {
+              "cronExpression": "0 0 * * *",
+              "enabled": true
             },
-            "notifications": {
-              "concurrency": 5
+            "watch": {
+              "enabled": false
             }
           },
           "logging": {
@@ -184,8 +231,11 @@ spec:
             "level": "log"
           },
           "machineLearning": {
-            "enabled": true,
-            "url": "http://immich-machine-learning:3003",
+            "availabilityChecks": {
+              "enabled": true,
+              "interval": 30000,
+              "timeout": 2000
+            },
             "clip": {
               "enabled": true,
               "modelName": "ViT-B-32__openai"
@@ -194,25 +244,52 @@ spec:
               "enabled": true,
               "maxDistance": 0.01
             },
+            "enabled": true,
             "facialRecognition": {
               "enabled": true,
-              "modelName": "buffalo_l",
-              "minScore": 0.7,
               "maxDistance": 0.5,
-              "minFaces": 3
-            }
+              "minFaces": 3,
+              "minScore": 0.7,
+              "modelName": "buffalo_l"
+            },
+            "url": "http://immich-machine-learning:3003",
+            "urls": [
+              "http://immich-machine-learning:3003"
+            ]
           },
           "map": {
+            "darkStyle": "https://tiles.immich.cloud/v1/style/dark.json",
             "enabled": true,
-            "lightStyle": "https://tiles.immich.cloud/v1/style/light.json",
-            "darkStyle": "https://tiles.immich.cloud/v1/style/dark.json"
-          },
-          "reverseGeocoding": {
-            "enabled": true
+            "lightStyle": "https://tiles.immich.cloud/v1/style/light.json"
           },
           "metadata": {
             "faces": {
               "import": false
+            }
+          },
+          "newVersionCheck": {
+            "enabled": true
+          },
+          "nightlyTasks": {
+            "clusterNewFaces": true,
+            "databaseCleanup": true,
+            "generateMemories": true,
+            "missingThumbnails": true,
+            "startTime": "00:00",
+            "syncQuotaUsage": true
+          },
+          "notifications": {
+            "smtp": {
+              "enabled": true,
+              "from": "{{ index . "notifications_smtp_from" }}",
+              "replyTo": "",
+              "transport": {
+                "host": "protonmail-bridge-smtp.tools.svc.cluster.local",
+                "ignoreCert": true,
+                "password": "{{ index . "notifications_smtp_transport_password" }}",
+                "port": 25,
+                "username": "{{ index . "notifications_smtp_transport_username" }}"
+              }
             }
           },
           "oauth": {
@@ -226,70 +303,44 @@ spec:
             "issuerUrl": "",
             "mobileOverrideEnabled": false,
             "mobileRedirectUri": "",
+            "profileSigningAlgorithm": "none",
+            "roleClaim": "immich_role",
             "scope": "openid email profile",
             "signingAlgorithm": "RS256",
-            "profileSigningAlgorithm": "none",
             "storageLabelClaim": "preferred_username",
-            "storageQuotaClaim": "immich_quota"
+            "storageQuotaClaim": "immich_quota",
+            "timeout": 30000,
+            "tokenEndpointAuthMethod": "client_secret_post"
           },
           "passwordLogin": {
             "enabled": true
           },
+          "reverseGeocoding": {
+            "enabled": true
+          },
+          "server": {
+            "externalDomain": "",
+            "loginPageMessage": "",
+            "publicUsers": true
+          },
           "storageTemplate": {
             "enabled": true,
             "hashVerificationEnabled": true,
-            "template": "{{y}}/{{MM}}/{{y}}{{MM}}{{dd}}_{{H}}{{mm}}{{ss}}_{{filetype}}_{{filename}}"
+            "template": "{{ index . "storageTemplate_template" }}"
           },
-          "image": {
-            "thumbnail": {
-              "format": "webp",
-              "size": 250,
-              "quality": 80
-            },
-            "preview": {
-              "format": "jpeg",
-              "size": 1440,
-              "quality": 80
-            },
-            "colorspace": "p3",
-            "extractEmbedded": false
-          },
-          "newVersionCheck": {
-            "enabled": true
-          },
-          "trash": {
-            "enabled": true,
-            "days": 30
+          "templates": {
+            "email": {
+              "albumInviteTemplate": "",
+              "albumUpdateTemplate": "",
+              "welcomeTemplate": ""
+            }
           },
           "theme": {
             "customCss": ""
           },
-          "library": {
-            "scan": {
-              "enabled": true,
-              "cronExpression": "0 0 * * *"
-            },
-            "watch": {
-              "enabled": false
-            }
-          },
-          "server": {
-            "externalDomain": "",
-            "loginPageMessage": ""
-          },
-          "notifications": {
-            "smtp": {
-              "enabled": true,
-              "from": "{{ index . "notifications_smtp_from" }}",
-              "replyTo": "",
-              "transport": {
-                "ignoreCert": true,
-                "host": "protonmail-bridge-smtp.tools.svc.cluster.local",
-                "port": 587,
-                "username": "{{ index . "notifications_smtp_transport_username" }}",
-                "password": "{{ index . "notifications_smtp_transport_password" }}"
-              }
-            }
+          "trash": {
+            "days": 30,
+            "enabled": true
           },
           "user": {
             "deleteDelay": 7
