@@ -12,4 +12,4 @@ labels:
 
 images:
   - name: "docker.io/louislam/uptime-kuma"
-    newTag: "2.0.1"
+    newTag: "2.0.0"
