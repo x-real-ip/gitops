@@ -1,15 +1,15 @@
----
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - ../base
+- ../base
 
 labels:
-  - includeSelectors: true
-    pairs:
-      storage: truenas
+- includeSelectors: true
+  pairs:
+    storage: truenas
 
 images:
-  - name: "docker.io/louislam/uptime-kuma"
-    newTag: "2.0.0"
+- name: docker.io/louislam/uptime-kuma
+  newName: docker.io/louislam/uptime-kuma
+  newTag: 2.0.1
