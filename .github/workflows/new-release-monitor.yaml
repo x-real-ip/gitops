@@ -109,11 +109,11 @@ jobs:
           - name: uptime-kuma
             type: release
             target: louislam/uptime-kuma
-            bump: false
+            bump: true
             bump_type: kustomize
-            image: ""
+            image: "docker.io/louislam/uptime-kuma"
             include_tags: ""
-            exclude_tags: ""
+            exclude_tags: "latest,beta"
           - name: vaultwarden
             type: release
             target: dani-garcia/vaultwarden
