@@ -9,7 +9,7 @@ namespace: home-automation
 images:
 - name: ghcr.io/alexxit/go2rtc
   newName: ghcr.io/alexxit/go2rtc
-  newTag: 1.9.10
+  newTag: 1.9.11
 
 labels:
 - includeSelectors: true
