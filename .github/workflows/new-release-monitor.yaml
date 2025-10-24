@@ -105,7 +105,7 @@ jobs:
             bump_type: kustomize
             image: "ghcr.io/syncthing/syncthing"
             include_tags: ""
-            exclude_tags: "latest,nightly,edge,rc,infrastructure,gotools,beta,v2"
+            exclude_tags: "latest,nightly,edge,rc,infrastructure,gotools,beta,v2,jb-orgmembers"
           - name: uptime-kuma
             type: release
             target: louislam/uptime-kuma
