@@ -17,4 +17,4 @@ patches:
 images:
 - name: ghcr.io/zwave-js/zwave-js-ui
   newName: ghcr.io/zwave-js/zwave-js-ui
-  newTag: 11.6.1
+  newTag: 11.7.0
