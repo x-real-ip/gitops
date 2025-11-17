@@ -121,7 +121,7 @@ spec:
             - name: config
               mountPath: /config/config
               subPath: config
-              readOnly: true
+              readOnly: false
             - name: users
               mountPath: /etc/radicale/users
               subPath: users
