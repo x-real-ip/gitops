@@ -101,6 +101,7 @@ spec:
       labels:
         app: radicale
     spec:
+      enableServiceLinks: false
       containers:
         - name: radicale
           image: "docker.io/tomsquest/docker-radicale:latest"
@@ -121,7 +122,6 @@ spec:
             - name: config
               mountPath: /config/config
               subPath: config
-              readOnly: false
             - name: users
               mountPath: /etc/radicale/users
               subPath: users
