@@ -16,4 +16,4 @@ images:
   newTag: "14"
 - name: ghcr.io/paperless-ngx/paperless-ngx
   newName: ghcr.io/paperless-ngx/paperless-ngx
-  newTag: 2.19.6
+  newTag: 2.20.0
