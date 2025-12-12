@@ -1,6 +1,6 @@
 ---
 kind: GatewayClass
 metadata:
-  name: cluster-gateway
+  name: envoy-gateway-class
 spec:
   controllerName: "gateway.envoyproxy.io/gatewayclass-controller"
