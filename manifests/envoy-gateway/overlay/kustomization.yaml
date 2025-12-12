@@ -4,4 +4,4 @@ kind: Kustomization
 
 resources:
   - ../base
-  # - gatewayclass.yaml
+  - gatewayclass.yaml
