@@ -268,7 +268,8 @@ spec:
           securityContext:
             privileged: true
           ports:
-            - containerPort: 8123
+            - name: http
+              containerPort: 8123
               protocol: TCP
             - containerPort: 5683
               protocol: UDP
