@@ -165,3 +165,22 @@ spec:
     - hosts:
         - go2rtc.lan.stamx.nl
       secretName: tls-wildcard-lan-stamx-nl
+
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: go2rtc
+  labels:
+    gateway: private
+spec:
+  hostnames:
+    - go2rtc.lan.stamx.nl
+  parentRefs:
+    - name: private
+      namespace: gateway-private
+      sectionName: https
+  rules:
+    - backendRefs:
+        - name: go2rtc-service
+          port: 1984
