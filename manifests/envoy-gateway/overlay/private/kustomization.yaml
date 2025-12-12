@@ -5,4 +5,5 @@ namespace: gateway-private
 
 resources:
   - ../../base
+  - namespace.yaml
   - gateway.yaml
