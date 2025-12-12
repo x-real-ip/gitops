@@ -15,7 +15,7 @@ spec:
       tls:
         mode: Terminate
         certificateRefs:
-          - name: wildcard-cert
+          - name: tls-wildcard-lan-stamx-nl
             kind: Secret
   addresses:
     - type: IPAddress
