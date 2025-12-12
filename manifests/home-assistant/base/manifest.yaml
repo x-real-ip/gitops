@@ -259,8 +259,8 @@ spec:
           command:
             - "sh"
             - "-c"
-            - until pg_isready -U ${POSTGRESQL_USERNAME} -h home-assistant-postgresql-hl -p 5432 ;
-              do sleep 2 ; done
+            - until pg_isready -U ${POSTGRESQL_USERNAME} -h
+              home-assistant-postgresql-hl -p 5432 ; do sleep 2 ; done
       containers:
         - name: home-assistant
           image: "ghcr.io/x-real-ip/home-assistant:latest"
@@ -416,3 +416,23 @@ spec:
     - hosts:
         - home-assistant.stamx.nl
       secretName: tls-wildcard-stamx-nl
+
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: home-assistant-private
+  labels:
+    gateway: private
+spec:
+  hostnames:
+    - home-assistant.lan.stamx.nl
+  parentRefs:
+    - name: private
+      namespace: gateway-private
+      sectionName: http
+  rules:
+    - backendRefs:
+        - name: home-assistant
+          port: 80
+
