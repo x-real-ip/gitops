@@ -5,7 +5,7 @@ metadata:
   name: private-lan-ips
 spec:
   addresses:
-    - 10.33.33.100/32 # private ingress-controller
+    - 10.33.33.100/32 # private
     - 10.0.100.241/32 # jellyfin
     - 10.0.100.242/32 # tplink-omada-controller
     - 10.0.100.243/32 # home-assistant coiot
@@ -19,6 +19,5 @@ metadata:
   name: public-lan-ips
 spec:
   addresses:
-    - 10.33.33.200/32 # public ingress-controller
-    - 10.33.33.201/32 # temp counterstrike
+    - 10.33.33.200/32 # public
   avoidBuggyIPs: true
