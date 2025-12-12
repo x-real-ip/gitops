@@ -384,5 +384,5 @@ spec:
       sectionName: https
   rules:
     - backendRefs:
-        - name: dsmr-reader.lan.stamx.nl
+        - name: dsmr-reader
           port: 80
