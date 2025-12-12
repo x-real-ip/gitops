@@ -4,4 +4,6 @@ kind: Kustomization
 
 resources:
   - ../base
+  - internet
+  - private
   - gatewayclass.yaml
