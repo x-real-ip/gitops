@@ -12,6 +12,7 @@ spec:
     targetRevision: HEAD
   destination:
     server: "https://kubernetes.default.svc"
+    createNamespace: true
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
