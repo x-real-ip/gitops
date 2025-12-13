@@ -1,7 +1,0 @@
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: tcp-services
-data:
-  "1883": "home-automation/mosquitto:1883"
