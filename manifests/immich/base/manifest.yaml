@@ -662,33 +662,6 @@ spec:
       protocol: TCP
 
 ---
-kind: Ingress
-apiVersion: networking.k8s.io/v1
-metadata:
-  name: immich-private
-  labels:
-    app: immich
-  annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: 20480m
-spec:
-  ingressClassName: nginx-private
-  rules:
-    - host: "photos.lan.stamx.nl"
-      http:
-        paths:
-          - path: "/"
-            pathType: Prefix
-            backend:
-              service:
-                name: immich-server
-                port:
-                  name: http
-  # tls:
-  #   - hosts:
-  #       - "photos.lan.stamx.nl"
-  #     secretName: tls-wildcard-lan-stamx-nl
-
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:

@@ -95,32 +95,6 @@ spec:
       targetPort: 3001
 
 ---
-kind: Ingress
-apiVersion: networking.k8s.io/v1
-metadata:
-  name: uptime-kuma
-  namespace: devops
-  labels:
-    app: uptime-kuma
-spec:
-  ingressClassName: nginx-private
-  rules:
-    - host: uptime-kuma.lan.stamx.nl
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: uptime-kuma
-                port:
-                  number: 3001
-  tls:
-    - hosts:
-        - uptime-kuma.lan.stamx.nl
-      secretName: tls-wildcard-lan-stamx-nl
-
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:

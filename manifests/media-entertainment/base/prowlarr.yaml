@@ -130,32 +130,6 @@ spec:
       targetPort: 9696
 
 ---
-kind: Ingress
-apiVersion: networking.k8s.io/v1
-metadata:
-  name: prowlarr
-  namespace: media
-  labels:
-    app: prowlarr
-spec:
-  ingressClassName: nginx-private
-  rules:
-    - host: prowlarr.lan.stamx.nl
-      http:
-        paths:
-          - path: "/"
-            pathType: Prefix
-            backend:
-              service:
-                name: prowlarr
-                port:
-                  number: 9696
-  tls:
-    - hosts:
-        - prowlarr.lan.stamx.nl
-      secretName: tls-wildcard-lan-stamx-nl
-
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:

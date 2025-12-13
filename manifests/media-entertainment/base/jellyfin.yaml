@@ -268,30 +268,6 @@ spec:
       targetPort: cl-discovery
 
 ---
-kind: Ingress
-apiVersion: networking.k8s.io/v1
-metadata:
-  name: jellyfin
-  labels:
-    app: jellyfin
-  annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: 128m
-    nginx.ingress.kubernetes.io/proxy-buffering: "off"
-spec:
-  ingressClassName: nginx-private
-  rules:
-    - host: jellyfin.lan.stamx.nl
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: jellyfin-service
-                port:
-                  name: http
-
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:

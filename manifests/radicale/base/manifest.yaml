@@ -158,31 +158,6 @@ spec:
       port: 5232
 
 ---
-kind: Ingress
-apiVersion: networking.k8s.io/v1
-metadata:
-  name: radicale-public
-  labels:
-    app: radicale
-spec:
-  ingressClassName: nginx-public
-  rules:
-    - host: radicale.stamx.nl
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: radicale
-                port:
-                  number: 5232
-  tls:
-    - hosts:
-        - radicale.stamx.nl
-      secretName: tls-wildcard-stamx-nl
-
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:

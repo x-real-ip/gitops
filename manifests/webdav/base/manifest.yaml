@@ -141,35 +141,6 @@ spec:
       targetPort: http
 
 ---
-kind: Ingress
-apiVersion: networking.k8s.io/v1
-metadata:
-  name: webdav-server
-  labels:
-    app: webdav
-  annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: 20480m
-    nginx.ingress.kubernetes.io/limit-connections: "5"
-    nginx.ingress.kubernetes.io/limit-rpm: "15"
-spec:
-  ingressClassName: nginx-private
-  rules:
-    - host: "webdav.lan.stamx.nl"
-      http:
-        paths:
-          - path: "/"
-            pathType: Prefix
-            backend:
-              service:
-                name: webdav-server
-                port:
-                  name: http
-  tls:
-    - hosts:
-        - webdav.lan.stamx.nl
-      secretName: tls-wildcard-lan-stamx-nl
-
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:

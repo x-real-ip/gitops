@@ -147,32 +147,6 @@ spec:
       targetPort: http
 
 ---
-kind: Ingress
-apiVersion: networking.k8s.io/v1
-metadata:
-  name: radarr
-  namespace: media
-  labels:
-    app: radarr
-spec:
-  ingressClassName: nginx-private
-  rules:
-    - host: radarr.lan.stamx.nl
-      http:
-        paths:
-          - path: "/"
-            pathType: Prefix
-            backend:
-              service:
-                name: radarr
-                port:
-                  number: 7878
-  tls:
-    - hosts:
-        - radarr.lan.stamx.nl
-      secretName: tls-wildcard-lan-stamx-nl
-
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:

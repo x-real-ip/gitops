@@ -215,32 +215,6 @@ spec:
   sessionAffinity: None
 
 ---
-kind: Ingress
-apiVersion: networking.k8s.io/v1
-metadata:
-  name: transmission
-  namespace: media
-  labels:
-    app: transmission
-spec:
-  ingressClassName: nginx-private
-  rules:
-    - host: transmission.lan.stamx.nl
-      http:
-        paths:
-          - path: "/"
-            pathType: Prefix
-            backend:
-              service:
-                name: transmission
-                port:
-                  number: 9091
-  tls:
-    - hosts:
-        - transmission.lan.stamx.nl
-      secretName: tls-wildcard-lan-stamx-nl
-
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:

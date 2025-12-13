@@ -338,35 +338,6 @@ spec:
       targetPort: 8080
 
 ---
-kind: Ingress
-apiVersion: networking.k8s.io/v1
-metadata:
-  name: vaultwarden-public
-  labels:
-    app: vaultwarden
-  annotations:
-    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/proxy-body-size: 250m
-spec:
-  ingressClassName: nginx-public
-  rules:
-    - host: "bitwarden.stamx.nl"
-      http:
-        paths:
-          - path: "/"
-            pathType: Prefix
-            backend:
-              service:
-                name: vaultwarden
-                port:
-                  name: http
-  tls:
-    - hosts:
-        - bitwarden.stamx.nl
-      secretName: tls-wildcard-stamx-nl
-
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:

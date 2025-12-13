@@ -493,33 +493,6 @@ spec:
       targetPort: 8000
 
 ---
-kind: Ingress
-apiVersion: networking.k8s.io/v1
-metadata:
-  name: paperless
-  labels:
-    app: paperless
-  annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: 128m
-spec:
-  ingressClassName: nginx-private
-  rules:
-    - host: paperless.lan.stamx.nl
-      http:
-        paths:
-          - path: "/"
-            pathType: Prefix
-            backend:
-              service:
-                name: paperless
-                port:
-                  number: 8000
-  tls:
-    - hosts:
-        - paperless.lan.stamx.nl
-      secretName: tls-wildcard-lan-stamx-nl
-
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:

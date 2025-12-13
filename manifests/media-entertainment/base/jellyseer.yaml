@@ -95,31 +95,6 @@ spec:
   type: ClusterIP
 
 ---
-kind: Ingress
-apiVersion: networking.k8s.io/v1
-metadata:
-  name: jellyseerr
-  labels:
-    app: jellyseerr
-spec:
-  ingressClassName: nginx-private
-  rules:
-    - host: jellyseerr.lan.stamx.nl
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: jellyseerr-service
-                port:
-                  name: http
-  tls:
-    - hosts:
-        - jellyseerr.lan.stamx.nl
-      secretName: tls-wildcard-lan-stamx-nl
-
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:

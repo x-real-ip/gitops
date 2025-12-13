@@ -169,27 +169,6 @@ spec:
       targetPort: mqtt
 
 ---
-kind: Ingress
-apiVersion: networking.k8s.io/v1
-metadata:
-  name: mosquitto
-  labels:
-    app: mosquitto
-spec:
-  ingressClassName: nginx-private
-  rules:
-    - host: mqtt.lan.stamx.nl
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: mosquitto
-                port:
-                  name: mqtt
-
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
