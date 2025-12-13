@@ -186,5 +186,5 @@ spec:
       sectionName: https
   rules:
     - backendRefs:
-        - name: webdav
+        - name: webdav-server
           port: 80
