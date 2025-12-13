@@ -177,8 +177,6 @@ metadata:
     gateway: private
     app: mosquitto
 spec:
-  hostnames:
-    - mqtt.lan.stamx.nl
   parentRefs:
     - name: private
       namespace: gateway-private
