@@ -344,31 +344,6 @@ spec:
       targetPort: http
 
 ---
-kind: Ingress
-apiVersion: networking.k8s.io/v1
-metadata:
-  name: dsmr-reader
-  labels:
-    app: dsmr-reader
-spec:
-  ingressClassName: nginx-private
-  rules:
-    - host: dsmr-reader.lan.stamx.nl
-      http:
-        paths:
-          - path: "/"
-            pathType: Prefix
-            backend:
-              service:
-                name: dsmr-reader
-                port:
-                  name: http
-  tls:
-    - hosts:
-        - dsmr-reader.lan.stamx.nl
-      secretName: tls-wildcard-lan-stamx-nl
-
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
