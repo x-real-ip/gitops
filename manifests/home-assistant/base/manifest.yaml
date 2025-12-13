@@ -373,52 +373,6 @@ spec:
       targetPort: 5683
 
 ---
-kind: Ingress
-apiVersion: networking.k8s.io/v1
-metadata:
-  name: home-assistant-private
-  labels:
-    app: home-assistant
-spec:
-  ingressClassName: nginx-private
-  rules:
-    - host: home-assistant.lan.stamx.nl
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: home-assistant
-                port:
-                  number: 80
-
----
-kind: Ingress
-apiVersion: networking.k8s.io/v1
-metadata:
-  name: home-assistant-public
-  labels:
-    app: home-assistant
-spec:
-  ingressClassName: nginx-public
-  rules:
-    - host: home-assistant.stamx.nl
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: home-assistant
-                port:
-                  number: 80
-  tls:
-    - hosts:
-        - home-assistant.stamx.nl
-      secretName: tls-wildcard-stamx-nl
-
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
