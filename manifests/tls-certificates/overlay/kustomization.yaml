@@ -7,3 +7,4 @@ resources:
   - media
   - tools
   - gateway-private
+  - gateway-public
