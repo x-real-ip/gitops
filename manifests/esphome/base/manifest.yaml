@@ -139,33 +139,6 @@ spec:
       targetPort: 6052
 
 ---
-kind: Ingress
-apiVersion: networking.k8s.io/v1
-metadata:
-  name: esphome
-  labels:
-    app: esphome
-  annotations:
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
-spec:
-  ingressClassName: nginx-private
-  rules:
-    - host: esphome.lan.stamx.nl
-      http:
-        paths:
-          - path: "/"
-            pathType: Prefix
-            backend:
-              service:
-                name: esphome
-                port:
-                  number: 6052
-  tls:
-    - hosts:
-        - home-assistant.lan.stamx.nl
-      secretName: tls-wildcard-lan-stamx-nl
-
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -178,7 +151,7 @@ spec:
   parentRefs:
     - name: private
       namespace: gateway-private
-      sectionName: http
+      sectionName: https
   rules:
     - backendRefs:
         - name: esphome
