@@ -407,31 +407,6 @@ spec:
       targetPort: webrtc-udp
 
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: frigate
-  labels:
-    app: frigate
-spec:
-  ingressClassName: nginx-private
-  rules:
-    - host: frigate.lan.stamx.nl
-      http:
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: frigate
-                port:
-                  name: http
-  tls:
-    - hosts:
-        - frigate.lan.stamx.nl
-      secretName: tls-wildcard-lan-stamx-nl
-
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
