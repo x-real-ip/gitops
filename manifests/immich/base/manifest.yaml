@@ -698,7 +698,6 @@ metadata:
 spec:
   hostnames:
     - photos.lan.stamx.nl
-    - immich.lan.stamx.nl
   parentRefs:
     - name: private
       namespace: gateway-private
