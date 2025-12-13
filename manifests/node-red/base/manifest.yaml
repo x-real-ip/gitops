@@ -172,3 +172,23 @@ spec:
                 name: node-red
                 port:
                   number: 1880
+
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: node-red
+  labels:
+    gateway: private
+    app: node-red
+spec:
+  hostnames:
+    - node-red.lan.stamx.nl
+  parentRefs:
+    - name: private
+      namespace: gateway-private
+      sectionName: http
+  rules:
+    - backendRefs:
+        - name: node-red
+          port: 1880

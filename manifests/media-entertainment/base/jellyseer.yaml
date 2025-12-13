@@ -118,3 +118,23 @@ spec:
     - hosts:
         - jellyseerr.lan.stamx.nl
       secretName: tls-wildcard-lan-stamx-nl
+
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: jellyseerr
+  labels:
+    gateway: private
+    app: jellyseerr
+spec:
+  hostnames:
+    - jellyseerr.lan.stamx.nl
+  parentRefs:
+    - name: private
+      namespace: gateway-private
+      sectionName: https
+  rules:
+    - backendRefs:
+        - name: jellyseerr-service
+          port: 5055

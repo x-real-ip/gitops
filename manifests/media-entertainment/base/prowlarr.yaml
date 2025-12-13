@@ -154,3 +154,23 @@ spec:
     - hosts:
         - prowlarr.lan.stamx.nl
       secretName: tls-wildcard-lan-stamx-nl
+
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: prowlarr
+  labels:
+    gateway: private
+    app: prowlarr
+spec:
+  hostnames:
+    - prowlarr.lan.stamx.nl
+  parentRefs:
+    - name: private
+      namespace: gateway-private
+      sectionName: https
+  rules:
+    - backendRefs:
+        - name: prowlarr
+          port: 9696
