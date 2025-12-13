@@ -325,6 +325,7 @@ metadata:
   name: cups
   labels:
     gateway: private
+    app: cups
 spec:
   hostnames:
     - cups.lan.stamx.nl
