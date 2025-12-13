@@ -258,4 +258,4 @@ spec:
   rules:
     - backendRefs:
         - name: transmission
-          port: 8989
+          port: 9091

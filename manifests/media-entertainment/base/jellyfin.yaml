@@ -307,5 +307,5 @@ spec:
       sectionName: http
   rules:
     - backendRefs:
-        - name: jellyfin
+        - name: jellyfin-service
           port: 8096
