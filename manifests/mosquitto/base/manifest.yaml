@@ -170,7 +170,7 @@ spec:
 
 ---
 apiVersion: gateway.networking.k8s.io/v1
-kind: HTTPRoute
+kind: TCPRoute
 metadata:
   name: mosquitto
   labels:
@@ -182,7 +182,7 @@ spec:
   parentRefs:
     - name: private
       namespace: gateway-private
-      sectionName: http
+      sectionName: mqtt
   rules:
     - backendRefs:
         - name: mosquitto
