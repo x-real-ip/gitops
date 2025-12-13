@@ -352,25 +352,27 @@ spec:
       protocol: TCP
       port: 80
       targetPort: 8123
-
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: home-assistant-coiot
-  labels:
-    app: home-assistant
-spec:
-  selector:
-    app: home-assistant
-  type: LoadBalancer
-  loadBalancerIP: 10.0.100.243
-  externalTrafficPolicy: Local
-  ports:
     - name: coiot
       protocol: UDP
       port: 5683
       targetPort: 5683
+
+---
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: UDPRoute
+metadata:
+  name: home-assistant-coiot
+  labels:
+    gateway: private
+spec:
+  parentRefs:
+    - name: private
+      namespace: gateway-private
+      sectionName: coiot
+  rules:
+    - backendRefs:
+        - name: home-assistant
+          port: 5683
 
 ---
 apiVersion: gateway.networking.k8s.io/v1
