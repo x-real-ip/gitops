@@ -142,31 +142,6 @@ spec:
       targetPort: webrtc-udp
 
 ---
-kind: Ingress
-apiVersion: networking.k8s.io/v1
-metadata:
-  name: go2rtc-ingress
-  labels:
-    app: go2rtc
-spec:
-  ingressClassName: nginx-private
-  rules:
-    - host: go2rtc.lan.stamx.nl
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: go2rtc-service
-                port:
-                  name: api-tcp
-  tls:
-    - hosts:
-        - go2rtc.lan.stamx.nl
-      secretName: tls-wildcard-lan-stamx-nl
-
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
