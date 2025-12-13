@@ -18,9 +18,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - name: ingress-nginx
+          - name: envoy-gateway
             type: release
-            target: ghcr.io/kubernetes/ingress-nginx
+            target: envoyproxy/gateway
             bump: false
             bump_type: ""
             image: ""
