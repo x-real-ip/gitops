@@ -200,4 +200,4 @@ spec:
   rules:
     - backendRefs:
         - name: radicale
-          port: 8000
+          port: 5232
