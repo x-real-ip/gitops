@@ -19,7 +19,7 @@ spec:
     volumeHandle: pv-iscsi-omada-controller-data
     volumeAttributes:
       portal: truenas-master.lan.stamx.nl:3260
-      iqn: iqn.2005-10.org.freenas.ctl:omada-controller-config
+      iqn: iqn.2005-10.org.freenas.ctl:omada-controller-config-2
       lun: "0"
       node_attach_driver: iscsi
       provisioner_driver: node-manual
@@ -119,9 +119,9 @@ spec:
           - 10.0.100.1
       volumes:
         - name: omada-controller-data
-          emptyDir: {}
-          # persistentVolumeClaim:
-          #   claimName: pvc-iscsi-omada-controller-config
+          # emptyDir: {}
+          persistentVolumeClaim:
+            claimName: pvc-iscsi-omada-controller-config
         - name: omada-controller-logs
           emptyDir: {}
 
