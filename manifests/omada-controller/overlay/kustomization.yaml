@@ -12,4 +12,4 @@ labels:
 
 images:
   - name: docker.io/mbentley/omada-controller
-    newTag: "5.15"
+    newTag: "6.0.0.25"
