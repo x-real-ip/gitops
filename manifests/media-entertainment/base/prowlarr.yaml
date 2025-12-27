@@ -65,15 +65,7 @@ spec:
       serviceAccountName: default
       automountServiceAccountToken: true
       enableServiceLinks: true
-      dnsPolicy: None
-      dnsConfig:
-        nameservers:
-          - 8.8.8.8
-          - 8.8.4.4
-        searches:
-          - default.svc.cluster.local
-          - svc.cluster.local
-          - cluster.local
+      dnsPolicy: ClusterFirst
       containers:
         - name: prowlarr
           image: "lscr.io/linuxserver/prowlarr:latest"
