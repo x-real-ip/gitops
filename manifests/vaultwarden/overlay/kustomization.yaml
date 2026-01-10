@@ -16,4 +16,4 @@ images:
   newTag: "14"
 - name: ghcr.io/dani-garcia/vaultwarden
   newName: ghcr.io/dani-garcia/vaultwarden
-  newTag: 1.35.1
+  newTag: 1.35.2
