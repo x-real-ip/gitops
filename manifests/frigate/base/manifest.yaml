@@ -19,7 +19,7 @@ spec:
     volumeHandle: pv-iscsi-frigate-config
     volumeAttributes:
       portal: truenas-master.lan.stamx.nl:3260
-      iqn: iqn.2005-10.org.freenas.ctl:frigate-config
+      iqn: iqn.2005-10.org.freenas.ctl:frigate-config-2
       lun: "0"
       node_attach_driver: iscsi
       provisioner_driver: node-manual
