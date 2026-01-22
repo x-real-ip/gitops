@@ -96,8 +96,8 @@ jobs:
             bump: true
             bump_type: kustomize
             image: "ghcr.io/paperless-ngx/paperless-ngx"
-            include_tags: ""
-            exclude_tags: "dev,latest,stable,fix,feature,ngx-,beta"
+            include_tags: "v*"
+            exclude_tags: "dev,latest,stable,fix,feature,ngx-,beta,dependabot-*"
           - name: syncthing
             type: image
             target: syncthing/syncthing
