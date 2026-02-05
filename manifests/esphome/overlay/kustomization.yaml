@@ -8,4 +8,4 @@ namespace: home-automation
 
 images:
 - name: ghcr.io/x-real-ip/esphome
-  newTag: cdefa5a41bb7dd110ba849f394e4ccca3d682164
+  newTag: 37ea1ef5f97bc944e4d3f3a41de6476e5a32d190
