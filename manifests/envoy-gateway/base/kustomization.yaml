@@ -3,4 +3,4 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - https://github.com/envoyproxy/gateway/releases/download/v1.6.3/install.yaml
+  - https://github.com/envoyproxy/gateway/releases/download/v1.7.0/install.yaml
