@@ -11,7 +11,7 @@ images:
   newTag: "14"
 - name: ghcr.io/xirixiz/dsmr-reader-docker
   newName: ghcr.io/xirixiz/dsmr-reader-docker
-  newTag: 6.0.1
+  newTag: 6.0.2
 
 labels:
 - includeSelectors: true
