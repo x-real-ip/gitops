@@ -242,6 +242,20 @@ spec:
     type: Opaque
 
 ---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: paperless-secret
+  namespace: tools
+spec:
+  encryptedData:
+    PAPERLESS_SECRET_KEY: AgA/R0ujXEPZm8f4YVhh12bhdYJdG1SUe/haUuI0e3gl9SN5QQ1YCvdqXXnO8SIJLeszdbaWgUbx08tUBafJgSNyVhS3Tykm0jIHbbIboHGT4SAQ9nauK1vTopOHfF1vPmqOIIXhd28nEvSTYfsDVAhTtSkKBT5WU1w3W2z20YkBAlWg/vUho8ZAMcMgC1wxYTUJ/Jw3sbUR6H7dpw+EhVX5nuqTn0nk+YSuGDfS9OQxUgUjoK4jxMg/ix3pTSHW/xG8bQKAqpysXXYEps6eS1I1b7kC7E3OOh5Xe/PEkJpzgzFVCxtGLf9rVVHfdHFNDv82XiFvryj1AWs6DPJDVvrJJu1rec7A78TbfNW0qdw7f1mBHl9bvbcGVZWbxKVqBDjBsuzj69gwYbob6N8yh0mBAqugxbE+9H0X+X3098fpCZQAx7kFC9YTaCDzelPx6JEZITP8vQCWwQyEk1btzOpTGh718UKodUIoG4fnLWiNA+yHNS1E5RxEIWW+4encHvTbw4BrXhS6H4oMbZ2EEip8MADLt5QPEioj+9IIahRbpU/ze4XUIMYhUhlYF3WP9KwzlQon0l8F29W+Pf1Nj9bo9d/hMVIxPpSmy0gRZCwvXUglDrhEPFEsg5N9asgkEwrg4uC3gOD+T12xAY2mx505ek+HrW0tXwcltG5dIq7t1Um5YHsVkrij/Mmg2iObTs48oExmNUCvmHQz+fmXw9Y1bPzST14HbVK+tBOLwpy2U1AiwdUHCexq
+  template:
+    metadata:
+      name: paperless-secret
+      namespace: tools
+
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -408,6 +422,11 @@ spec:
                 secretKeyRef:
                   name: paperless-admin-password
                   key: admin-password
+            - name: PAPERLESS_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-secret
+                  key: PAPERLESS_SECRET_KEY
           ports:
             - containerPort: 8000
               protocol: TCP
