@@ -675,6 +675,9 @@ spec:
     - name: private
       namespace: gateway-private
       sectionName: http
+    - name: private
+      namespace: gateway-private
+      sectionName: https
   rules:
     - backendRefs:
         - name: immich-server
