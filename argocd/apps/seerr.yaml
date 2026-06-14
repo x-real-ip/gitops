@@ -1,0 +1,29 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: seerr
+  namespace: argocd
+  labels:
+    storage: truenas
+spec:
+  project: default
+  sources:
+    - repoURL: ghcr.io/seerr-team/seerr
+      chart: seerr-chart
+      targetRevision: 3.7.0
+      helm:
+        valueFiles:
+          - $values/apps/seerr/values.yaml
+    - repoURL: "https://github.com/x-real-ip/gitops"
+      targetRevision: main
+      ref: values
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: media
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
