@@ -14,7 +14,7 @@ spec:
       targetRevision: 3.7.0
       helm:
         valueFiles:
-          - $values/apps/seerr/values.yaml
+          - $values/apps/$ARGOCD_APP_NAME/values.yaml
     - repoURL: "https://github.com/x-real-ip/gitops"
       targetRevision: main
       ref: values
