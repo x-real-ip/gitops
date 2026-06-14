@@ -1,0 +1,47 @@
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-nfs-jellyfin-media
+  labels:
+    app: jellyfin
+spec:
+  storageClassName: freenas-nfs-manual-csi
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 500Gi
+  volumeName: pv-nfs-jellyfin-media
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-iscsi-jellyfin-config
+  labels:
+    app: jellyfin
+spec:
+  storageClassName: freenas-iscsi-manual-csi
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  volumeName: pv-iscsi-jellyfin-config
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-iscsi-jellyfin-cache
+  labels:
+    app: jellyfin
+spec:
+  storageClassName: freenas-iscsi-manual-csi
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  volumeName: pv-iscsi-jellyfin-cache
