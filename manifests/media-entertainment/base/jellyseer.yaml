@@ -60,6 +60,7 @@ spec:
       containers:
         - name: jellyseerr
           image: fallenbagel/jellyseerr:latest
+          imagePullPolicy: Always
           env:
             - name: LOG_LEVEL
               value: "info"

@@ -196,6 +196,7 @@ spec:
       containers:
         - name: jellyfin
           image: "docker.io/jellyfin/jellyfin:10"
+          imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 8096
