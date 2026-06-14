@@ -12,6 +12,9 @@ httpRoute:
     - name: private
       namespace: gateway-private
       sectionName: http
+    - name: private
+      namespace: gateway-private
+      sectionName: https
   # -- Hostnames to match for this HTTPRoute
   hostnames:
     - jellyfin.lan.stamx.nl
