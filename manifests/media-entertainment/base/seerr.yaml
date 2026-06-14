@@ -59,7 +59,7 @@ spec:
     spec:
       containers:
         - name: seerr
-          image: seerr-team/seerr
+          image: ghcr.io/seerr-team/seerr:latest
           podSecurityContext:
             fsGroup: 1000
             fsGroupChangePolicy: OnRootMismatch
