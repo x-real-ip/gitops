@@ -35,6 +35,7 @@ route:
 
     hostnames:
       - seerr.lan.stamx.nl
+      - jellyseerr.lan.stamx.nl
 
     additionalRules: []
 
