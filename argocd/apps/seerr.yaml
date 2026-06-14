@@ -14,10 +14,13 @@ spec:
       targetRevision: 3.7.0
       helm:
         valueFiles:
-          - $values/apps/$ARGOCD_APP_NAME/values.yaml
+          - $values/apps/seerr/values.yaml
     - repoURL: "https://github.com/x-real-ip/gitops"
       targetRevision: main
       ref: values
+    - repoURL: "https://github.com/x-real-ip/gitops"
+      targetRevision: main
+      path: apps/seerr/extras
   destination:
     server: "https://kubernetes.default.svc"
     namespace: media
