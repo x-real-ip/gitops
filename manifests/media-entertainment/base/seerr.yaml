@@ -61,7 +61,7 @@ spec:
         - name: seerr
           image: ghcr.io/seerr-team/seerr:latest
           podSecurityContext:
-            fsGroup: 1001
+            fsGroup: 1000
             fsGroupChangePolicy: OnRootMismatch
           securityContext:
             allowPrivilegeEscalation: false
@@ -72,7 +72,7 @@ spec:
             runAsNonRoot: true
             privileged: false
             runAsUser: 1000
-            runAsGroup: 1001
+            runAsGroup: 1000
             seccompProfile:
               type: RuntimeDefault
           env:
