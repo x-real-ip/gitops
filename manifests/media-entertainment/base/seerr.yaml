@@ -19,7 +19,7 @@ spec:
     volumeHandle: pv-iscsi-seerr-config
     volumeAttributes:
       portal: truenas-master.lan.stamx.nl:3260
-      iqn: iqn.2005-10.org.freenas.ctl:jellyseerr-config
+      iqn: iqn.2005-10.org.freenas.ctl:seerr-config
       lun: "0"
       node_attach_driver: iscsi
       provisioner_driver: node-manual
@@ -61,7 +61,7 @@ spec:
         - name: seerr
           image: ghcr.io/seerr-team/seerr:latest
           podSecurityContext:
-            fsGroup: 1000
+            fsGroup: 1001
             fsGroupChangePolicy: OnRootMismatch
           securityContext:
             allowPrivilegeEscalation: false
@@ -72,7 +72,7 @@ spec:
             runAsNonRoot: true
             privileged: false
             runAsUser: 1000
-            runAsGroup: 1000
+            runAsGroup: 1001
             seccompProfile:
               type: RuntimeDefault
           env:
@@ -119,7 +119,6 @@ metadata:
     app: seerr
 spec:
   hostnames:
-    - jellyseerr.lan.stamx.nl
     - seerr.lan.stamx.nl
   parentRefs:
     - name: private
