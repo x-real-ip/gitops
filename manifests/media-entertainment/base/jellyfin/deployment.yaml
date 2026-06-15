@@ -56,9 +56,6 @@ spec:
           volumeMounts:
             - name: media
               mountPath: /media
-            - name: music
-              mountPath: /music/organized
-              subPath: organized
             - name: config
               mountPath: /config
             - name: cache
@@ -67,9 +64,6 @@ spec:
         - name: media
           persistentVolumeClaim:
             claimName: pvc-nfs-jellyfin-media
-        - name: music
-          persistentVolumeClaim:
-            claimName: pvc-nfs-jellyfin-music
         - name: config
           persistentVolumeClaim:
             claimName: pvc-iscsi-jellyfin-config
