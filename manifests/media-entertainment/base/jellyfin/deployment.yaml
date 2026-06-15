@@ -1,0 +1,78 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: jellyfin
+  labels:
+    app: jellyfin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jellyfin
+  template:
+    metadata:
+      labels:
+        app: jellyfin
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 2000
+        fsGroup: 2000
+      containers:
+        - name: jellyfin
+          image: "docker.io/jellyfin/jellyfin:10.11.8"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8096
+              protocol: TCP
+            - name: https
+              containerPort: 8920
+              protocol: TCP
+            - name: svc-discovery
+              containerPort: 1900
+              protocol: UDP
+            - name: cl-discovery
+              containerPort: 7359
+              protocol: UDP
+          startupProbe:
+            failureThreshold: 30
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            tcpSocket:
+              port: http
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 10
+          resources: {}
+          volumeMounts:
+            - name: media
+              mountPath: /media
+            - name: music
+              mountPath: /music/organized
+              subPath: organized
+            - name: config
+              mountPath: /config
+            - name: cache
+              mountPath: /cache
+      volumes:
+        - name: media
+          persistentVolumeClaim:
+            claimName: pvc-nfs-jellyfin-media
+        - name: music
+          persistentVolumeClaim:
+            claimName: pvc-nfs-jellyfin-music
+        - name: config
+          persistentVolumeClaim:
+            claimName: pvc-iscsi-jellyfin-config
+        - name: cache
+          persistentVolumeClaim:
+            claimName: pvc-iscsi-jellyfin-cache

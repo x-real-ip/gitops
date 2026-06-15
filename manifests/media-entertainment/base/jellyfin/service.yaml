@@ -1,0 +1,31 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: jellyfin
+  labels:
+    app: jellyfin
+spec:
+  type: LoadBalancer
+  loadBalancerIP: 10.0.100.241
+  externalTrafficPolicy: Local
+  selector:
+    app: jellyfin
+  sessionAffinity: None
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8096
+      targetPort: http
+    - name: https
+      protocol: TCP
+      port: 8920
+      targetPort: https
+    - name: svc-discovery
+      protocol: UDP
+      port: 1900
+      targetPort: svc-discovery
+    - name: cl-discovery
+      protocol: UDP
+      port: 7359
+      targetPort: cl-discovery
