@@ -4,9 +4,9 @@ kind: Kustomization
 resources:
   - bazarr
   - jellyfin
-  - media.yaml
-  - prowlarr.yaml
-  - radarr.yaml
+  - prowlarr
+  - radarr
   - seerr
-  - sonarr.yaml
-  - transmission.yaml
+  - sonarr
+  - transmission
+  - media.yaml

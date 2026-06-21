@@ -1,0 +1,25 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-iscsi-sonarr-config
+  labels:
+    app: sonarr
+spec:
+  storageClassName: "freenas-iscsi-manual-csi"
+  capacity:
+    storage: 3Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: ext4
+    volumeHandle: pv-iscsi-sonarr-config
+    volumeAttributes:
+      portal: truenas-master.lan.stamx.nl:3260
+      iqn: iqn.2005-10.org.freenas.ctl:sonarr-config
+      lun: "0"
+      node_attach_driver: iscsi
+      provisioner_driver: node-manual

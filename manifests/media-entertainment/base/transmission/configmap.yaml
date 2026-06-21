@@ -1,0 +1,24 @@
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: transmission-config
+  labels:
+    app: transmission
+data:
+  LOCAL_NETWORK: 10.33.33.100/32, 10.0.10.0/24
+  NORDVPN_CATEGORY: legacy_p2p
+  NORDVPN_COUNTRY: NL
+  NORDVPN_PROTOCOL: udp
+  OPENVPN_OPTS: --inactive 3600 --ping 10 --ping-exit 60
+  OPENVPN_PROVIDER: NORDVPN
+  TRANSMISSION_DOWNLOAD_DIR: /data/completed
+  TRANSMISSION_INCOMPLETE_DIR: /data/incomplete
+  TRANSMISSION_WATCH_DIR: /data/watch
+  TRANSMISSION_DOWNLOAD_QUEUE_SIZE: "4"
+  TZ: Europe/Amsterdam
+  WEBPROXY_ENABLED: "false"
+  CREATE_TUN_DEVICE: "true"
+  HEALTH_CHECK_HOST: "google.com"
+  PUID: "1000"
+  PGID: "2000"

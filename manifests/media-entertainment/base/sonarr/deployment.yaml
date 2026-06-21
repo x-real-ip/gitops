@@ -1,54 +1,11 @@
 ---
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: pv-iscsi-radarr-config
-  labels:
-    app: radarr
-spec:
-  storageClassName: "freenas-iscsi-manual-csi"
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  csi:
-    driver: org.democratic-csi.node-manual
-    readOnly: false
-    fsType: xfs
-    volumeHandle: pv-iscsi-radarr-config
-    volumeAttributes:
-      portal: truenas-master.lan.stamx.nl:3260
-      iqn: iqn.2005-10.org.freenas.ctl:radarr-config
-      lun: "0"
-      node_attach_driver: iscsi
-      provisioner_driver: node-manual
-
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: pvc-iscsi-radarr-config
-  namespace: media
-  labels:
-    app: radarr
-spec:
-  storageClassName: freenas-iscsi-manual-csi
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
-  volumeName: pv-iscsi-radarr-config
-
----
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: radarr
+  name: sonarr
   namespace: media
   labels:
-    app: radarr
+    app: sonarr
 spec:
   revisionHistoryLimit: 3
   replicas: 1
@@ -56,19 +13,19 @@ spec:
     type: Recreate
   selector:
     matchLabels:
-      app: radarr
+      app: sonarr
   template:
     metadata:
       labels:
-        app: radarr
+        app: sonarr
     spec:
       serviceAccountName: default
       automountServiceAccountToken: true
       dnsPolicy: ClusterFirst
       enableServiceLinks: true
       containers:
-        - name: radarr
-          image: "lscr.io/linuxserver/radarr:latest"
+        - name: sonarr
+          image: "lscr.io/linuxserver/sonarr:latest"
           imagePullPolicy: Always
           resources: {}
           env:
@@ -80,7 +37,7 @@ spec:
               value: "Europe/Amsterdam"
           ports:
             - name: http
-              containerPort: 7878
+              containerPort: 8989
               protocol: TCP
           livenessProbe:
             exec:
@@ -88,7 +45,7 @@ spec:
                 - /usr/bin/env
                 - bash
                 - -c
-                - curl --fail localhost:7878/api/v3/system/status?apiKey=`IFS=\>
+                - curl --fail localhost:8989/api/v3/system/status?apiKey=`IFS=\>
                   && while read -d \< E C; do if [[ $E = "ApiKey" ]]; then echo
                   $C; fi; done < /config/config.xml`
             failureThreshold: 5
@@ -98,14 +55,14 @@ spec:
             timeoutSeconds: 10
           readinessProbe:
             tcpSocket:
-              port: 7878
+              port: 8989
             initialDelaySeconds: 0
             failureThreshold: 3
             timeoutSeconds: 1
             periodSeconds: 10
           startupProbe:
             tcpSocket:
-              port: 7878
+              port: 8989
             initialDelaySeconds: 0
             failureThreshold: 30
             timeoutSeconds: 1
@@ -115,7 +72,7 @@ spec:
               mountPath: /data/downloads
             - name: media
               mountPath: /data/media
-            - name: radarr-config
+            - name: sonarr-config
               mountPath: /config
       volumes:
         - name: downloads
@@ -124,44 +81,6 @@ spec:
         - name: media
           persistentVolumeClaim:
             claimName: pvc-nfs-media
-        - name: radarr-config
+        - name: sonarr-config
           persistentVolumeClaim:
-            claimName: pvc-iscsi-radarr-config
-
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: radarr
-  namespace: media
-  labels:
-    app: radarr
-spec:
-  selector:
-    app: radarr
-  type: ClusterIP
-  ports:
-    - name: http
-      protocol: TCP
-      port: 7878
-      targetPort: http
-
----
-apiVersion: gateway.networking.k8s.io/v1
-kind: HTTPRoute
-metadata:
-  name: radarr
-  labels:
-    gateway: private
-    app: radarr
-spec:
-  hostnames:
-    - radarr.lan.stamx.nl
-  parentRefs:
-    - name: private
-      namespace: gateway-private
-      sectionName: https
-  rules:
-    - backendRefs:
-        - name: radarr
-          port: 7878
+            claimName: pvc-iscsi-sonarr-config
