@@ -14,10 +14,10 @@ spec:
     metadata:
       labels:
         app: seerr
+    spec:
       securityContext:
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
-    spec:
       containers:
         - name: seerr
           securityContext:
