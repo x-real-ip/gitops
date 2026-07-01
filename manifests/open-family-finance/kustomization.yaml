@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../base
+
+images:
+- name: ghcr.io/x-real-ip/open-family-finance
+  newTag: latest
+
+namespace: tools
+
+labels:
+- includeSelectors: true
+  pairs:
+    storage: truenas

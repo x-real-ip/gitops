@@ -1,0 +1,328 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-iscsi-open-family-finance-db
+  labels:
+    app: open-family-finance-database
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  storageClassName: "freenas-iscsi-manual-csi"
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: xfs
+    volumeHandle: pv-iscsi-open-family-finance-db
+    volumeAttributes:
+      portal: truenas-master.lan.stamx.nl:3260
+      iqn: iqn.2005-10.org.freenas.ctl:open-family-finance-db
+      lun: "0"
+      node_attach_driver: iscsi
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-iscsi-open-family-finance-db
+  labels:
+    app: open-family-finance-database
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  storageClassName: freenas-iscsi-manual-csi
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  volumeName: pv-iscsi-open-family-finance-db
+
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: "true"
+  name: open-family-finance-secrets
+spec:
+  encryptedData:
+    API_TOKEN: AgBgZc6GetHhYOqYjErAJ0jCWZzHEeKXUL39gNJV9oqjm/AZg9nhWX1MaYNoDVDWOcoNk6fawqKdp4xs/YYYH0B4ruOl57oMaaiqM5co0ivHBgQHxPB4Gy6b2N+9qZkbmPj62aFI0DNSbBP9QqhNG+pxMY5c0X+E8QMxvivVjMb4gdBGKYD5WaOdbVGycGWy+4iWWYx3cbPA50RcjoniruMTS8lHIL1f6Nzaw2m5dYF3wEjqOsxbDFK859OIRBrbWnyauBy4T2+IEi69Do1409KE+Ickc56pN+wYu5TwfRZ+RVRZ4hrcKb0+dWWghArl/8F8KwoOM+cdbKapOCAZS7Brm2eJyz+Xvo5DTVqdjigC6YX6qwQ0gJAWdx0PuYpo5taFns9J3wyEfPlV5EHsbpAjsF49ZONMG3PGihFxy8ShR80s2sLTJ7PbornbGcFvHrweL9k1lBL2RFQ0VYeggC4HV+ePEAsC/CTnVtJ9ayiXElmjdPjuLw82j/gAMV1rlfLdQm1VOQjo50EYU7uu0gpyZy5e6ZMjFjzEEdyURjDbkY9SqyFWHVyIujwKhau7N3X+s5+Iv0osUnQR86Tg/t5D8Y/9uHizP3GqTP1fnRQEzArAckm9F0iK5EaLI7FIY+CoR4keJ1gIIgWCA1P+797yjG0js3C/msrTLS7LiA1u/2sxiPMWzfWfOhLD5VKz5wKth+VEr8NI3bCNvpyNZF8=
+    DATABASE_URL: AgBs17xT7XPdrV3UfXkhaH4m0RxziVSoYx1YNRIuEsayKSPwM1aDAqaniI1fItfGaqaggPpi283ZbDSmCqRVUjfI9v2POWsV3AaBfi84TjdgiowCKkZA1uD+wlJHXuSP3io/XC7dO5iUY0EsjuY0XmXp5qXztVvbssZwor+j56edWjswEWP8M8QVmBE+FpnBhISYhfBJpwF6nzYqPiRiBY0U8Ld1c7PdEMBCPP7OarVPrtS3FyRJSOacK5Fx6Kj/xdDyv1DVoNnR5BYvhWZUIq+cL3FCte/0n2RDHwi5W/IVgUaXMZogPEHe29kriwFB6cXF7VoxONTdpdCd0bB9DER0GE3WoaIkkBaBeKbUvcb9zURSFgv9MlrY6LLyCqQQk7DobH2GTeAaZLw0bmi+q6t57oEKfvgVUFDePS8L4p3MtuQjY99Chrbcgdo0oXhQQFXyuvqESHn/y1I5SRsQY7c6vKQFEUYnccb63nHI1a/AVlLfcfC0o9zy6d8VcuedZVgpbrcDdB4KE0TpOrAeZ9yabBoKleAtlTSAQuefc+XUQXZ6qT22tllOF6J+IOddWP40oKdUL6sTdq5B8HoXyatUvjCyglP8GYlW3IAi4DgdrqNfFQZ/f5CiFuITZhlKu2lQdoSI+uqan1uwrOGcSKX+WcFvsrOx9eQYtUv5l+80rCvTz++3yAI1MfwsAov0Pu5jl+/z3x1O1tDnebjYgiO/FfHRrMAgmNpS5FWSFXs5wQy5z71To6+Z5BNZ1s8FGgZ9Ix7gUJ4FfSz7sPnv6r+/vPL0flNe/5KiCBCg6TRQXZmD4Z6JE0a5DqlcoKAwXaWr9fHflDqyTh2bOf9IqxeuIVqX5p4fbNZPyJY1q5GdT4QPOVI+8FBsGMIc1RMVvKiUjyu6AO/XyJ2gEnc8Wp2MXtTfAbkUkuGt/S65gHTARNtPrEYTpg==
+    POSTGRES_PASSWORD: AgCcWILenyR+BNLCdFekN3SLHZgWBnw/loWYP9tT4lU2gC65OwJE07jxDVE5B1TpaJxzzx9Zuh8UCGjEzcdCl0aFextFyIqGF5uJfESn33RxtLGu7O3Kq0FKcPdOoz/se0de0m5Vt34IwaGhzE2ylP6JZRuGTmGIHQuAiE2vfBWx/V79tevfqZD3FFJ69h9JcVjctBD1QFjAQ7qy+k3xV6M9GYMfAZdEFM4il6YZpNoaEQyomIxoQhGRd2WcmblcBhiDF/noF8xY+SEx9X4+dUlLOUhxgmwG88Jphn7c3JHOGbq0DnQdCGz74RuLWJoeEAzE8GR9XmjqvGFPz0IwUazkv9mmw2oMK9kj5lWZND4chAOgq+Rv4mRoklxBNmOZhAoZI2yYVvueLVd+H/iezUMKJ112Jf2MRLl592yhNWoSDGaoIYYkKyALOSy5/CUdZxMNFwpwVlLc2tmy+obr49Rw0JSh7deFL09VvDSXTB7Dy0qdkgcYhblPrBghf77wwC+ixUCwns4weK76NrWHY8d4eqLHUbdMekoO0wyGDmlisQv2w7+F/g6dAFLLCX0ipWi3ZD8HG2pT39IXSLCSBbGu3OU3r7f/ZGhefIqDAOiASPRbPZGv04CKgzUUxga8WINQWKn1VkkPE9iN/YnIPJI8XWBVnJxr+7mH7ydR2OFZkoF7/9ShhuRsanUusZtJQcdWcTv1np+YuP5ZDEol0S30wuprah3BAj60bZsTRi+n5/03rxh0S8D09jO6S9YGfQ==
+  template:
+    metadata:
+      annotations:
+        argocd.argoproj.io/sync-wave: "-1"
+        sealedsecrets.bitnami.com/cluster-wide: "true"
+      labels:
+        app: open-family-finance
+      name: open-family-finance-secrets
+    type: Opaque
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: open-family-finance-config
+  labels:
+    app: open-family-finance
+data:
+  BACKEND_URL: "http://localhost:8080"
+  PORT: "8080"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: open-family-finance-postgresql-env
+  labels:
+    app: open-family-finance
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+data:
+  POSTGRES_DB: "openfamilyfinance"
+  POSTGRES_USER: "openfamilyfinance"
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: open-family-finance-postgresql
+  labels:
+    app: open-family-finance-database
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  replicas: 1
+  serviceName: open-family-finance-postgresql-hl
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Delete
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: open-family-finance-database
+  template:
+    metadata:
+      labels:
+        app: open-family-finance-database
+    spec:
+      containers:
+        - name: postgresql
+          image: docker.io/postgres:18-alpine
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: open-family-finance-postgresql-env
+                optional: false
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: open-family-finance-secrets
+                  key: POSTGRES_PASSWORD
+          ports:
+            - containerPort: 5432
+              name: postgres
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - pg_isready -U "$POSTGRES_USER" -h 127.0.0.1 -p 5432
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - pg_isready -U "$POSTGRES_USER" -h 127.0.0.1 -p 5432
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits: {}
+          volumeMounts:
+            - name: dshm
+              mountPath: /dev/shm
+            - name: data
+              mountPath: /var/lib/postgresql
+      volumes:
+        - name: dshm
+          emptyDir:
+            medium: Memory
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        selector:
+          matchLabels:
+            app: open-family-finance-database
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: freenas-iscsi-manual-csi
+        resources:
+          requests:
+            storage: 10Gi
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: open-family-finance
+  labels:
+    app: open-family-finance
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: open-family-finance
+  template:
+    metadata:
+      labels:
+        app: open-family-finance
+    spec:
+      containers:
+        - name: web
+          image: ghcr.io/x-real-ip/open-family-finance-web:latest
+          imagePullPolicy: Always
+          env:
+            - name: BACKEND_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: open-family-finance-config
+                  key: BACKEND_URL
+          ports:
+            - name: http
+              containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+        - name: api
+          image: ghcr.io/x-real-ip/open-family-finance-api:latest
+          imagePullPolicy: Always
+          env:
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: open-family-finance-config
+                  key: PORT
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: open-family-finance-secrets
+                  key: DATABASE_URL
+            - name: API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: open-family-finance-secrets
+                  key: API_TOKEN
+          ports:
+            - name: api
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: api
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: api
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 192Mi
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: open-family-finance-postgresql-hl
+  labels:
+    app: open-family-finance-database
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  selector:
+    app: open-family-finance-database
+  type: ClusterIP
+  clusterIP: None
+  publishNotReadyAddresses: true
+  ports:
+    - name: tcp-postgresql
+      port: 5432
+      targetPort: 5432
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: open-family-finance
+  labels:
+    app: open-family-finance
+spec:
+  selector:
+    app: open-family-finance
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: open-family-finance
+  labels:
+    app: open-family-finance
+spec:
+  hostnames:
+    - geldzaken.lan.stamx.nl
+  parentRefs:
+    - name: private
+      namespace: gateway-private
+      sectionName: https
+  rules:
+    - backendRefs:
+        - name: open-family-finance
+          port: 80
