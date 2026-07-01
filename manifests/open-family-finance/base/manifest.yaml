@@ -27,24 +27,6 @@ spec:
       provisioner_driver: node-manual
 
 ---
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: pvc-iscsi-open-family-finance-db
-  labels:
-    app: open-family-finance-database
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
-spec:
-  storageClassName: freenas-iscsi-manual-csi
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 5Gi
-  volumeName: pv-iscsi-open-family-finance-db
-
----
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
