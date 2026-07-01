@@ -5,8 +5,6 @@ metadata:
   name: pv-iscsi-open-family-finance-db
   labels:
     app: open-family-finance-database
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
 spec:
   storageClassName: "freenas-iscsi-manual-csi"
   capacity:
@@ -41,7 +39,6 @@ spec:
   template:
     metadata:
       annotations:
-        argocd.argoproj.io/sync-wave: "-1"
         sealedsecrets.bitnami.com/cluster-wide: "true"
       labels:
         app: open-family-finance
@@ -66,8 +63,6 @@ metadata:
   name: open-family-finance-postgresql-env
   labels:
     app: open-family-finance
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
 data:
   POSTGRES_DB: "openfamilyfinance"
   POSTGRES_USER: "openfamilyfinance"
@@ -79,8 +74,6 @@ metadata:
   name: open-family-finance-postgresql
   labels:
     app: open-family-finance-database
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
 spec:
   replicas: 1
   serviceName: open-family-finance-postgresql-hl
@@ -262,8 +255,6 @@ metadata:
   labels:
     app: open-family-finance-database
     service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
 spec:
   selector:
     app: open-family-finance-database
