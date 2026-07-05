@@ -183,6 +183,11 @@ spec:
                 configMapKeyRef:
                   name: open-family-finance-config
                   key: BACKEND_URL
+            - name: API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: open-family-finance-secrets
+                  key: API_TOKEN
           ports:
             - name: http
               containerPort: 80
