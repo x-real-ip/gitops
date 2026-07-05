@@ -6,8 +6,11 @@ resources:
   - ../base
 
 images:
-  - name: ghcr.io/x-real-ip/open-family-finance
+  - name: ghcr.io/x-real-ip/open-family-finance-web
     newTag: feature-add-option-to-make-calculations
+  - name: ghcr.io/x-real-ip/open-family-finance-api
+    newTag: feature-add-option-to-make-calculations
+
 
 namespace: tools
 
