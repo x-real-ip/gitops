@@ -5,11 +5,13 @@ kind: Kustomization
 resources:
   - ../base
 
+images:
+  - name: ghcr.io/x-real-ip/open-family-finance
+    newTag: latest
+
+namespace: tools
+
 labels:
   - includeSelectors: true
     pairs:
       storage: truenas
-
-images:
-  - name: docker.io/mbentley/omada-controller
-    newTag: "6.2.10.17"
