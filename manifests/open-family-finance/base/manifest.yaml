@@ -6,7 +6,7 @@ metadata:
   labels:
     app: open-family-finance-database
 spec:
-  storageClassName: "freenas-iscsi-manual-csi"
+  storageClassName: freenas-iscsi-manual-csi
   capacity:
     storage: 5Gi
   accessModes:
