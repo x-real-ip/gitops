@@ -7,9 +7,9 @@ resources:
 
 images:
   - name: ghcr.io/x-real-ip/open-family-finance-web
-    newTag: bug-i-icon-text-has-white-background
+    newTag: fix-need-to-tap-twice-in-copy-icon-to-pop-up
   - name: ghcr.io/x-real-ip/open-family-finance-api
-    newTag: bug-i-icon-text-has-white-background
+    newTag: fix-need-to-tap-twice-in-copy-icon-to-pop-up
 
 
 namespace: tools
