@@ -7,9 +7,9 @@ resources:
 
 images:
   - name: ghcr.io/x-real-ip/open-family-finance-web
-    newTag: fix-need-to-tap-twice-in-copy-icon-to-pop-up
+    newTag: 37-popup-out-of-screen-on-mobile-devices
   - name: ghcr.io/x-real-ip/open-family-finance-api
-    newTag: fix-need-to-tap-twice-in-copy-icon-to-pop-up
+    newTag: 37-popup-out-of-screen-on-mobile-devices
 
 
 namespace: tools
