@@ -7,9 +7,9 @@ resources:
 
 images:
   - name: ghcr.io/x-real-ip/open-family-finance-web
-    newTag: latest
+    newTag: 33-add-option-to-copy-whole-month
   - name: ghcr.io/x-real-ip/open-family-finance-api
-    newTag: latest
+    newTag: 33-add-option-to-copy-whole-month
 
 
 namespace: tools
