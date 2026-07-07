@@ -7,10 +7,9 @@ resources:
 
 images:
   - name: ghcr.io/x-real-ip/open-family-finance-web
-    newTag: 37-popup-out-of-screen-on-mobile-devices
+    newTag: 42-values-in-the-past-change-values-in-the-future-months
   - name: ghcr.io/x-real-ip/open-family-finance-api
-    newTag: 37-popup-out-of-screen-on-mobile-devices
-
+    newTag: 42-values-in-the-past-change-values-in-the-future-months
 
 namespace: tools
 
