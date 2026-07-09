@@ -7,9 +7,9 @@ resources:
 
 images:
   - name: ghcr.io/x-real-ip/open-family-finance-web
-    newTag: 42-values-in-the-past-change-values-in-the-future-months
+    newTag: 32-add-button-to-go-to-current-month
   - name: ghcr.io/x-real-ip/open-family-finance-api
-    newTag: 42-values-in-the-past-change-values-in-the-future-months
+    newTag: 32-add-button-to-go-to-current-month
 
 namespace: tools
 
