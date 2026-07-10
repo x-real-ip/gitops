@@ -7,9 +7,9 @@ resources:
 
 images:
   - name: ghcr.io/x-real-ip/open-family-finance-web
-    newTag: fix-formula-remove-not-clearing
+    newTag: 38-integratie-paperless
   - name: ghcr.io/x-real-ip/open-family-finance-api
-    newTag: latest
+    newTag: 38-integratie-paperless
 
 namespace: tools
 

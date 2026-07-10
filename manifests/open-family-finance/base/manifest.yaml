@@ -33,12 +33,14 @@ metadata:
   name: open-family-finance-secrets
 spec:
   encryptedData:
-    API_TOKEN: AgBgZc6GetHhYOqYjErAJ0jCWZzHEeKXUL39gNJV9oqjm/AZg9nhWX1MaYNoDVDWOcoNk6fawqKdp4xs/YYYH0B4ruOl57oMaaiqM5co0ivHBgQHxPB4Gy6b2N+9qZkbmPj62aFI0DNSbBP9QqhNG+pxMY5c0X+E8QMxvivVjMb4gdBGKYD5WaOdbVGycGWy+4iWWYx3cbPA50RcjoniruMTS8lHIL1f6Nzaw2m5dYF3wEjqOsxbDFK859OIRBrbWnyauBy4T2+IEi69Do1409KE+Ickc56pN+wYu5TwfRZ+RVRZ4hrcKb0+dWWghArl/8F8KwoOM+cdbKapOCAZS7Brm2eJyz+Xvo5DTVqdjigC6YX6qwQ0gJAWdx0PuYpo5taFns9J3wyEfPlV5EHsbpAjsF49ZONMG3PGihFxy8ShR80s2sLTJ7PbornbGcFvHrweL9k1lBL2RFQ0VYeggC4HV+ePEAsC/CTnVtJ9ayiXElmjdPjuLw82j/gAMV1rlfLdQm1VOQjo50EYU7uu0gpyZy5e6ZMjFjzEEdyURjDbkY9SqyFWHVyIujwKhau7N3X+s5+Iv0osUnQR86Tg/t5D8Y/9uHizP3GqTP1fnRQEzArAckm9F0iK5EaLI7FIY+CoR4keJ1gIIgWCA1P+797yjG0js3C/msrTLS7LiA1u/2sxiPMWzfWfOhLD5VKz5wKth+VEr8NI3bCNvpyNZF8=
-    DATABASE_URL: AgBs17xT7XPdrV3UfXkhaH4m0RxziVSoYx1YNRIuEsayKSPwM1aDAqaniI1fItfGaqaggPpi283ZbDSmCqRVUjfI9v2POWsV3AaBfi84TjdgiowCKkZA1uD+wlJHXuSP3io/XC7dO5iUY0EsjuY0XmXp5qXztVvbssZwor+j56edWjswEWP8M8QVmBE+FpnBhISYhfBJpwF6nzYqPiRiBY0U8Ld1c7PdEMBCPP7OarVPrtS3FyRJSOacK5Fx6Kj/xdDyv1DVoNnR5BYvhWZUIq+cL3FCte/0n2RDHwi5W/IVgUaXMZogPEHe29kriwFB6cXF7VoxONTdpdCd0bB9DER0GE3WoaIkkBaBeKbUvcb9zURSFgv9MlrY6LLyCqQQk7DobH2GTeAaZLw0bmi+q6t57oEKfvgVUFDePS8L4p3MtuQjY99Chrbcgdo0oXhQQFXyuvqESHn/y1I5SRsQY7c6vKQFEUYnccb63nHI1a/AVlLfcfC0o9zy6d8VcuedZVgpbrcDdB4KE0TpOrAeZ9yabBoKleAtlTSAQuefc+XUQXZ6qT22tllOF6J+IOddWP40oKdUL6sTdq5B8HoXyatUvjCyglP8GYlW3IAi4DgdrqNfFQZ/f5CiFuITZhlKu2lQdoSI+uqan1uwrOGcSKX+WcFvsrOx9eQYtUv5l+80rCvTz++3yAI1MfwsAov0Pu5jl+/z3x1O1tDnebjYgiO/FfHRrMAgmNpS5FWSFXs5wQy5z71To6+Z5BNZ1s8FGgZ9Ix7gUJ4FfSz7sPnv6r+/vPL0flNe/5KiCBCg6TRQXZmD4Z6JE0a5DqlcoKAwXaWr9fHflDqyTh2bOf9IqxeuIVqX5p4fbNZPyJY1q5GdT4QPOVI+8FBsGMIc1RMVvKiUjyu6AO/XyJ2gEnc8Wp2MXtTfAbkUkuGt/S65gHTARNtPrEYTpg==
-    POSTGRES_PASSWORD: AgCcWILenyR+BNLCdFekN3SLHZgWBnw/loWYP9tT4lU2gC65OwJE07jxDVE5B1TpaJxzzx9Zuh8UCGjEzcdCl0aFextFyIqGF5uJfESn33RxtLGu7O3Kq0FKcPdOoz/se0de0m5Vt34IwaGhzE2ylP6JZRuGTmGIHQuAiE2vfBWx/V79tevfqZD3FFJ69h9JcVjctBD1QFjAQ7qy+k3xV6M9GYMfAZdEFM4il6YZpNoaEQyomIxoQhGRd2WcmblcBhiDF/noF8xY+SEx9X4+dUlLOUhxgmwG88Jphn7c3JHOGbq0DnQdCGz74RuLWJoeEAzE8GR9XmjqvGFPz0IwUazkv9mmw2oMK9kj5lWZND4chAOgq+Rv4mRoklxBNmOZhAoZI2yYVvueLVd+H/iezUMKJ112Jf2MRLl592yhNWoSDGaoIYYkKyALOSy5/CUdZxMNFwpwVlLc2tmy+obr49Rw0JSh7deFL09VvDSXTB7Dy0qdkgcYhblPrBghf77wwC+ixUCwns4weK76NrWHY8d4eqLHUbdMekoO0wyGDmlisQv2w7+F/g6dAFLLCX0ipWi3ZD8HG2pT39IXSLCSBbGu3OU3r7f/ZGhefIqDAOiASPRbPZGv04CKgzUUxga8WINQWKn1VkkPE9iN/YnIPJI8XWBVnJxr+7mH7ydR2OFZkoF7/9ShhuRsanUusZtJQcdWcTv1np+YuP5ZDEol0S30wuprah3BAj60bZsTRi+n5/03rxh0S8D09jO6S9YGfQ==
+    API_TOKEN: AgCk/T2MTHMOfHa147ZLlMgB8MpfNT7HdnBnChK0KnO0BXJCIeEBrqqUCPPCmR/K5GiZ8ZgQD3qY7ezRjU/tzx5qGPIZQpEBZNvP6FryYMhkmXjf9OgjOkocYSvId3Zv1ITkChtSJqfzmhc8KEJIsEv7j0pXFMhYRXEOKf0FyDpiMdxTNxlbTtENNjx2LtKUdyqT504KyA8prJQsiKXCBLbE/kHS92ZCNMfuyDALzt9MQ2oqJa+ger1jbOxWAVJJWfIEI3m5+z4QKLp2uiJC5esoZdFOSoOvj47WqyL1MJg7FdXJ9hdB96nSwbbQJZ5lquJHXs7pHGHOzue0HliaN0z1qgN0gB5cucZunuwR3DJfLXhhse7/FgWPdDcxmbLBmOQ2B6r9szWvbCu/pO/c+UQbQj9HWYvrB9DGxpQ24Vb2/j8ZbcPzD3+4c/kd6jPMDObe5A/lLV3RrIe0bIhjmiUHGWTBe9kbABl9dhUvZg/B4/QUVRNe6KvRL2BH5W3Wz5xoAnUsmFbPU3Sz/0+Gly6TogiSdYCnfu7xrycKlMLpak7LNfUzFZTpgDX7bd4smVbvVGpCXu2WJKO4kRjphiiiAhN5lOxr0ucKUXOBL4KL/Jk2vdEECXhNsKnC5ohE2UjkfFzlNrDH3Sfs9jZiPznDm66mzy+alBtdYE5h+WKeAIV/xv6ExmCCmKmtAPw7UfzWQhVLW1m2Bi3uBmNpwd4=
+    DATABASE_URL: AgDZpTxyG/ieUB14/LY6uxKCfU5alA6ew2ULkm6M9Xxo3XfPl5oqeFH10YlnFxa/18OSATccBaGjeIS3fuSWHES7+2GEhI8UrUtSr6KZIn+xaeY0h5kvRNHupgvk2IvGLY0XXygPRiRf9lpS2eb+gshhDPtucYQ28ypMNbL2zOv+LTPsjuiC+ZBMP7Stz86DPZwoySD1aRrXZHKpliCj+2BwwdZELJgkiXV23iTnFTjGYIsR67JrEEz1AEN3xWL89MsSfbxm7rAns5mFWBnQ/PAxURF2H0uNlVDiaItSyB/2yoNu7taCkmfx5G4Sw7PBfx2cjH1YrbFLCaZUYM+WdPiT0opDvUKnJImyKT3Cj/Aj5TrqwQ/oi+VP55uDpEw0SAmXgxC7sKO113JOCBoq+a51dsXb2xraoUDeOTWVMkdOwdm8GcPz+OC1k8JjTILRwqciZh2KoEV81Jb2y+ziBPrp1PRtqTkYFpY53eLf/D04ER0Wu7MAkdq0BHEdDIcrouRHLACGvT0UI33oQP/gyyeloZeGjpIBGexkN9POnjokZIQlSuUn8NTud9urqhPel7XyTQ6ncS9ffJmJK7fu2o3c2R/xkQlOx9ivz/OkAUynXor8+YFsKzo7Y50qZkqTFTh0nlYCWyy57jmwXbB8RVAg43mWNnTePDgNG4LwzZlKE1gi9gJsQ3LUE+Q4bIMu3XBvhaNEHsUqY0lK0p35jzttTy4QghA/9pEOCQ2TilJniOwvD8Uh9zn7uHq1gELpXRVVE0jDrv/Bkps6yj9Hwl/LbPw/G/Pb/TSpVAzQPAX2eG0KQvfKGGgeIwLoAYB0nFx9APv6myFPhHo9hQugMCvy7zd9ojY18gumkZAWuw7xao+gVMMWQMLjWfX9O4w9zxSIzs5ZMz3HvTmV4q7VCxyRfDfYSfm2gXs5NecklB4oBr0X+z3g4A==
+    PAPERLESS_API_TOKEN: AgCKwVp8PqVPU3Y4Sh3wLpvG18dKsLNBHfZOK5xj8dM9fl1/nw9YUZKpxsvjsi9WGvfkN27YM7ckUnciD1SVnlUOnpRtcarMgxy6we97T2tb7hCq5YSuYJSHD/Lk92iSR5OdvBcbnVXZhp4ZvzYwXFkQBzLbhR3/1gNJWORAmJRrJsaFyWgFev9hqeC+hbz3SSqDmaBZWCH/1FkGVB0/QuYdT+RMohUnxtrNw71KuR66qkvX2ORT5wAMDVS7mveMqAO5aRPFfirLedniDiGdrktqrZEsI0xXGqoJgntkeSt3E3NTWm5Fh9TfsDhkvyzgFEo/lXVTizmvb8e9CoA2wllltLFnMjDeEdFwAU2Crq4mKJ+FtuFJ0AgKrQ6jtEMtZCSAf2eR+MBP4J/kvHHfsMg5I7lp5gtkVbMshLmZ5scd0F1urv5q4UZrAdWpxy7u5+cNRVTcK01f2rLwp4di1DM6vZSNLlU5N/Sgao9J1ccGJU9YmH0HL2syEXh1tbUEEsJjR3mx63Ydcb2pwzfdeaYQtHIze0Zz50C8UCfw1IkZXM0NfOmmm7jAcChdirAAXcSssdLIA+xKe0vP/lNZESSViR0p5gfXIxtX+g1AQnZcJuu7N5YKQBVvBJDSwTJHtOX7DUhtljsFuG+KRSXyrrnyA5LT2A+T/U0rWlnEiy2wKI4qNpQ8YmSyJrqXsELPrHSd6GA2o0tfj3r/fMmw9VaM7C9o5FTopV7mnTqjZh3erR6dxDtRB7lN
+    POSTGRES_PASSWORD: AgDy6f8FGdOhZmFUhuymlDtLSWfYvNEew/ON86HuGEI0lQT5FamPlgPard1Vemnd8WfFRklIR2buXm+gRQdXGQY3lmwnDUlQajVWxOW9DTvamV3XvZhYavMTaJgyAMu/6q0QVeFBFlpiwA9pK8fQv9TeHYEnpMIaw2MSUG30j43yyEVmbdBfHCCl7B0CcBXsVkYWXxrPnqCNXjySCTmNJLsby0MCMhMREBzqWY0p31yAb7HClVImAuujo7e6DcKmm/MlCNLsCbR9gfQCRjavN1szk595mGchutMZo76syHihmkHra+q+l5hhfMwTBVb0E/hc+rZVyTSbMGVuNsztbUZXc4sP07J1U5mGQss4yfi3vHBZCve5/4S8m+n4MyiyLGubuH0cVYQdfHxs730O8+3JkFkNM8p9ou8dK50yAov0z8M1RIjfEFVpst9RhNYffalw9n9lodukS0O98GssJvCUF3kznFH4edtZb/Bn7cWMcLDWj27wkKejUmK0CId3jiLjfeXyRwNTIXFCUXxfR2ZdDU2wQt18Eq80B55JEdhMOAfJAyxd0xB9w5nKt693U1YSaJvf+hM6RUdaxRpXerfkZPvFg92+qEitV9pfOdhmGPA4zWtAc4XDRvNY5FtRm7Z2Kb5PlUp5+ejZd2W+DulheZZtdPXCvFDYO9ydbj6s2vE9JTQX1+NRvVcAYgBTELR3T4jJLnHtcNVvSAbXfpXuz/DI+oMr3dPbgi1qiymgfPxxcm9ECcHS+6W1CbtUXg==
   template:
     metadata:
       annotations:
+        argocd.argoproj.io/sync-wave: "-1"
         sealedsecrets.bitnami.com/cluster-wide: "true"
       labels:
         app: open-family-finance
@@ -57,6 +59,8 @@ data:
   PORT: "8080"
   LANGUAGE: "nl"
   APP_TITLE: "Financiën"
+  PAPERLESS_ENABLED: "true"
+  PAPERLESS_URL: "http://paperless.tools.svc.cluster.local:8000"
 
 ---
 apiVersion: v1
@@ -195,11 +199,18 @@ spec:
                 configMapKeyRef:
                   name: open-family-finance-config
                   key: LANGUAGE
+                  optional: true
             - name: APP_TITLE
               valueFrom:
                 configMapKeyRef:
                   name: open-family-finance-config
                   key: APP_TITLE
+                  optional: true
+            - name: PAPERLESS_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: open-family-finance-config
+                  key: PAPERLESS_ENABLED
           ports:
             - name: http
               containerPort: 80
@@ -241,6 +252,23 @@ spec:
                 secretKeyRef:
                   name: open-family-finance-secrets
                   key: API_TOKEN
+            - name: PAPERLESS_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: open-family-finance-config
+                  key: PAPERLESS_ENABLED
+            - name: PAPERLESS_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: open-family-finance-config
+                  key: PAPERLESS_URL
+                  optional: true
+            - name: PAPERLESS_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: open-family-finance-secrets
+                  key: PAPERLESS_API_TOKEN
+                  optional: true
           ports:
             - name: api
               containerPort: 8080
