@@ -55,6 +55,7 @@ metadata:
 data:
   BACKEND_URL: "http://localhost:8080"
   PORT: "8080"
+  LANGUAGE: "nl"
 
 ---
 apiVersion: v1
@@ -188,6 +189,11 @@ spec:
                 secretKeyRef:
                   name: open-family-finance-secrets
                   key: API_TOKEN
+            - name: LANGUAGE
+              valueFrom:
+                configMapKeyRef:
+                  name: open-family-finance-config
+                  key: LANGUAGE
           ports:
             - name: http
               containerPort: 80
