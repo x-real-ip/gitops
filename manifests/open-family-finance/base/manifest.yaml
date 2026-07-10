@@ -61,6 +61,7 @@ data:
   APP_TITLE: "Financiën"
   PAPERLESS_ENABLED: "true"
   PAPERLESS_URL: "http://paperless.tools.svc.cluster.local:8000"
+  PAPERLESS_PUBLIC_URL: "https://paperless.lan.stamx.nl"
 
 ---
 apiVersion: v1
@@ -262,6 +263,12 @@ spec:
                 configMapKeyRef:
                   name: open-family-finance-config
                   key: PAPERLESS_URL
+                  optional: true
+            - name: PAPERLESS_PUBLIC_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: open-family-finance-config
+                  key: PAPERLESS_PUBLIC_URL
                   optional: true
             - name: PAPERLESS_API_TOKEN
               valueFrom:
