@@ -56,6 +56,7 @@ data:
   BACKEND_URL: "http://localhost:8080"
   PORT: "8080"
   LANGUAGE: "nl"
+  APP_TITLE: "Financiën"
 
 ---
 apiVersion: v1
@@ -194,6 +195,11 @@ spec:
                 configMapKeyRef:
                   name: open-family-finance-config
                   key: LANGUAGE
+            - name: APP_TITLE
+              valueFrom:
+                configMapKeyRef:
+                  name: open-family-finance-config
+                  key: APP_TITLE
           ports:
             - name: http
               containerPort: 80
