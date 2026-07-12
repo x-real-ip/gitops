@@ -7,9 +7,9 @@ resources:
 
 images:
   - name: ghcr.io/x-real-ip/open-family-finance-web
-    newTag: 38-integratie-paperless
+    newTag: 51-feature-to-enter-contract-duration
   - name: ghcr.io/x-real-ip/open-family-finance-api
-    newTag: 38-integratie-paperless
+    newTag: latest
 
 namespace: tools
 
