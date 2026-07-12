@@ -164,7 +164,7 @@ spec:
   parentRefs:
     - name: private
       namespace: gateway-private
-      sectionName: http
+      sectionName: https
   rules:
     - backendRefs:
         - name: node-red
