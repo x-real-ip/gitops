@@ -105,274 +105,25 @@ spec:
       namespace: tools
 
 ---
-apiVersion: bitnami.com/v1alpha1
-kind: SealedSecret
-metadata:
-  labels:
-    app: immich-server
-  name: immich-config
-spec:
-  encryptedData:
-    notifications_smtp_from: AgBJTtf+44DyPxUkICltXEvmp6yZ5k9O7yhhUq0MQvjK4wfVegDGG6rx6tqMFRv1X1+XFVhzlBzmC23tHz+a6taMMXrFiW2JV+MnX6glV+YLYYNWFIqHyuZ6DzQ76m+SErrxPge7ipbxn3eHLKlqQ1ocV8CdPr2UGqGZzMs8VApDHonm92iWYdO5aLQBL54lhEM2rjwnU4KWNc/SZOmgtCZs7MDAAFJO5XMrzpigfYbEiOwTyfhSY+K+O7fNZc/7rW0lhlZi47QCDWTlxCpLhJ/iU3m178MvLAcpQrjKLIcxfpFo6TDjy8/G9O4NjJFiwVRPGIWOl/EmE5oAeg6G9pYYXZB7p4FAAJ5S11QVDdOJ4qQFhysMlMtC18y3q8P1duY5T3BBrkTBvIg80x/1DM8aJQGpVZtMNhRDZriGVzm2U87dsVcsg07AjPXVZk5fOA58Ovo5wH7zY+oCDZx6ddB7uQTxlw/xzyjoOcGbKq7qFcun6peXd+VDEYfzLeofIRBWw7PKk+ZzM3C2gEkLAS4yr2zKoHXkcJ/yZ2aSKr4JtvvdJwO00nlgasb9WZ4umhbHA7WgvKollWGn/TMz0RqpI8KEu/n3bGFwlEoES22o9IjhJcKIDDNklmGsMPWCc4QsKT+0U0ySxsDJfCl1Pjal91HuxiW9LDM0ElG0ouSxL4PXUhWOGGXY79KfgTEmyc0P+LHUz2ild5RVXQ/ezfqBGQFsKNM=
-    notifications_smtp_transport_password: AgBpwrheEaUcJfQBup0orAlTSeEd/sgteKYHIfIcvaCLWYxTfHQe427Be05oxUhGvvoT2OH5IYFTqwmmq8kuSMvrAbZ55rbSSPO2APVONfnS+14VhUrmvacqZRwtiINEuPX5tda2V67YxUUGxv8HnGtOLO5iJkzgeskwGFNCFC5JrLFNfTXS1CW76Ocst7KGGK6DZDJQHxn0uljhrZIg58wH2tq9TMeE9dfTnrUsqGy3+6x4XfYapLepOM4gxXVJG/b1NZOFpSgaQ+sOQ6C6h/UicVoQ1/Gu9FuBcQssCkuVqWDEMit67hVWl+W66HVhfXAdYUcsdXUA7X76lC4C1snDWLxDJ1PDcdE0hZ133KB0SESTUDTe0XlSUyr4TFdr5e7KyI8ABC1bd6y8yQFm0doBLkf3922K+fbuXWuTqqPL7ZGRpE5b+tQNXuKumM5exvBFMJvEbcGnraYqdZX9wHGF8wtmlpuG0e0bMyBls+2BskfmElH2w3yJOeSa+L1/aLAOPnixqgaytQUeyc5PjVC5gZlxdoOI+aHPvLUAfNUxEBfomXnhbwLHjJovhLqsu25KPcok/f+OJzHL6sWvC+pQ9K5O4JQZcyh9wzOf3Wjv1P3eF5yXhwbFD6/JKVRhaCRXM2CDmU9Lgtic/1aqLMJGoqzOkGq50SQmHMvodvV29TsMRFOZKPnCkoqZ0DbwNJjkQ2uN47fYCnPNGMqnWTOT2wpR62ht
-    notifications_smtp_transport_username: AgCvy1PFuyXV6PGp/Lvy8i/xQFwEnk0o7zUJLeHT9qkUoPl6gFM98CHPz9R0YBPPbFu3wPjOdsq1G9p/P6rP/I5S2zUT4HBUaKFq8ezzSKo9Su7WZfWiDPQuZ2f9oypWXMGrpQpDH5B4Yhs0QXMs3GpA0jlmDZNY/n72wWP5sAAd2zH3M39lKj6mw3LhfKxbZtdQNygaS+GjLxRx8mK9DiyOOpRsipy5Pp8TrGUL2YHrGWaqhw2HeHA88O8C942nv3ovd/Gw0JDu5mPSH+ySIM8WmHR/ecVa4pfvxAtqnH7Q2qdId2TiNATWgHubnFYGjejmy3a48ywlSUjn0W0U+lKlilwgyyESTwe8FwvrYK87WUTFPKLVS1NxsHzDGd1o2buBwJfGPxxHGDUWgSEg8j/hAEnoF7EmbUr06vXX5QG+ILncgFtzyrJvai2WJ9swn61GpJAMQne3Dp0VCqCdmLqDVjXJNzt/PoEozN0OVCUkrWCzuBYRUAuEJReDu4hRzNPM38aQJ3OPRe+tzr/ojsyoutStxzkEHYyRsnZIY7vAIPRsMnZsSwvPVSTvbXTuPKunKOPsRzjXEPLCvnuDS73ln8dkCIoLzB5La3CqzCnS0GORwgop0To0pgZWWQSAPjn1S7MYn4iBJ9R5Jm63EBQTOMUWvEXzK8fOcxw0to3f1H1NNATGHOqk35IBVsrB0s+sjdtTUApHEVaX4yM=
-    storageTemplate_template: AgCWzkFOvN+e8J9UiasJ7N8wPq2qEx4U+OUh3KYBiwB9K59jULFs/j14RIbVhbew5AjV5AGG2AbEjIP3DDUfaA8bjGFPRFaObpEmTiJoBH5SoZR5br/BqANZBSbk7/nnBe6HYSRqdxK1cNJO8mU7GP76wlo5pl96Ce4KWfuLMj5hPclPRdv7E7YYm94yGRIUSgVqM4JlnRXiKJRtaoSIvBgF/2KnAVLRvEdkLxK8VQdKtm37Jwfq9X7Vpal/pzTAd0FrnK7281cGrxcRKGhWvYuO7ioFT5BzuO4alxakxJ0RjwBdtT1KfV1oGHj4foxiZiORdPcfaXXmyuo8iqjncMFU4EbYtebWpQ25e5T0MKsLfSPcv4zwXh/LyhwGpriZvlB4NZ4gLJYUqW40RVK2B0yEpLK4sMudkXe+U0OuB+0luNF03d0J7938mTOv629GaB6X19X9XjQ81eANaZpj5MOHdcmsvU0mPuCqda2vtV0SrhCP5mW7YtpW4bBS/B1Gcs3lkmilYScviZYMZtG3bd3Du70h27mbS+L092EMHE9VcoYyr+2ch7tFUyeC+LkzotIVKyO26otKz8IjncuRZy7xVdOGoQhb8Yiuu1dBIYgs1LyCRJpM99infCDuIIAIoZCNqwXFzo32wnzj93sQ9X3Wo8rtjg/H22Qg4746wFOEEhT9AGqe77wI99BB5dbnDwNb5nbd+PYKrlveqOLMMACh1UpXHlyDUDuR19gfC6AZAZYSeIc3VvC8tO0pK1sROqj+nZRb8ZcKKmyzFyNduS7rUqWk6r7ncw0FSw==
-  template:
-    data:
-      immich-config.json: |-
-        {
-          "backup": {
-            "database": {
-              "cronExpression": "0 02 * * *",
-              "enabled": true,
-              "keepLastAmount": 14
-            }
-          },
-          "ffmpeg": {
-            "accel": "disabled",
-            "accelDecode": false,
-            "acceptedAudioCodecs": [
-              "aac",
-              "mp3",
-              "libopus",
-              "pcm_s16le"
-            ],
-            "acceptedContainers": [
-              "mov",
-              "ogg",
-              "webm"
-            ],
-            "acceptedVideoCodecs": [
-              "h264"
-            ],
-            "bframes": -1,
-            "cqMode": "auto",
-            "crf": 23,
-            "gopSize": 0,
-            "maxBitrate": "0",
-            "npl": 0,
-            "preferredHwDevice": "auto",
-            "preset": "ultrafast",
-            "refs": 0,
-            "targetAudioCodec": "aac",
-            "targetResolution": "720",
-            "targetVideoCodec": "h264",
-            "temporalAQ": false,
-            "threads": 0,
-            "tonemap": "hable",
-            "transcode": "required",
-            "twoPass": false
-          },
-          "image": {
-            "colorspace": "p3",
-            "extractEmbedded": false,
-            "fullsize": {
-              "enabled": false,
-              "format": "jpeg",
-              "quality": 80
-            },
-            "preview": {
-              "format": "jpeg",
-              "quality": 80,
-              "size": 1440
-            },
-            "thumbnail": {
-              "format": "webp",
-              "quality": 80,
-              "size": 250
-            }
-          },
-          "job": {
-            "backgroundTask": {
-              "concurrency": 5
-            },
-            "faceDetection": {
-              "concurrency": 2
-            },
-            "library": {
-              "concurrency": 1
-            },
-            "metadataExtraction": {
-              "concurrency": 1
-            },
-            "migration": {
-              "concurrency": 1
-            },
-            "notifications": {
-              "concurrency": 5
-            },
-            "search": {
-              "concurrency": 5
-            },
-            "sidecar": {
-              "concurrency": 1
-            },
-            "smartSearch": {
-              "concurrency": 2
-            },
-            "thumbnailGeneration": {
-              "concurrency": 1
-            },
-            "videoConversion": {
-              "concurrency": 1
-            }
-          },
-          "library": {
-            "scan": {
-              "cronExpression": "0 0 * * *",
-              "enabled": true
-            },
-            "watch": {
-              "enabled": false
-            }
-          },
-          "logging": {
-            "enabled": true,
-            "level": "log"
-          },
-          "machineLearning": {
-            "availabilityChecks": {
-              "enabled": true,
-              "interval": 30000,
-              "timeout": 2000
-            },
-            "clip": {
-              "enabled": true,
-              "modelName": "ViT-B-32__openai"
-            },
-            "duplicateDetection": {
-              "enabled": true,
-              "maxDistance": 0.01
-            },
-            "enabled": true,
-            "facialRecognition": {
-              "enabled": true,
-              "maxDistance": 0.5,
-              "minFaces": 3,
-              "minScore": 0.7,
-              "modelName": "buffalo_l"
-            },
-            "url": "http://immich-machine-learning:3003",
-            "urls": [
-              "http://immich-machine-learning:3003"
-            ]
-          },
-          "map": {
-            "darkStyle": "https://tiles.immich.cloud/v1/style/dark.json",
-            "enabled": true,
-            "lightStyle": "https://tiles.immich.cloud/v1/style/light.json"
-          },
-          "metadata": {
-            "faces": {
-              "import": false
-            }
-          },
-          "newVersionCheck": {
-            "enabled": true
-          },
-          "nightlyTasks": {
-            "clusterNewFaces": true,
-            "databaseCleanup": true,
-            "generateMemories": true,
-            "missingThumbnails": true,
-            "startTime": "00:00",
-            "syncQuotaUsage": true
-          },
-          "notifications": {
-            "smtp": {
-              "enabled": true,
-              "from": "{{ index . "notifications_smtp_from" }}",
-              "replyTo": "",
-              "transport": {
-                "host": "protonmail-bridge-smtp.tools.svc.cluster.local",
-                "ignoreCert": true,
-                "password": "{{ index . "notifications_smtp_transport_password" }}",
-                "port": 25,
-                "username": "{{ index . "notifications_smtp_transport_username" }}"
-              }
-            }
-          },
-          "oauth": {
-            "autoLaunch": false,
-            "autoRegister": true,
-            "buttonText": "Login with OAuth",
-            "clientId": "",
-            "clientSecret": "",
-            "defaultStorageQuota": 0,
-            "enabled": false,
-            "issuerUrl": "",
-            "mobileOverrideEnabled": false,
-            "mobileRedirectUri": "",
-            "profileSigningAlgorithm": "none",
-            "roleClaim": "immich_role",
-            "scope": "openid email profile",
-            "signingAlgorithm": "RS256",
-            "storageLabelClaim": "preferred_username",
-            "storageQuotaClaim": "immich_quota",
-            "timeout": 30000,
-            "tokenEndpointAuthMethod": "client_secret_post"
-          },
-          "passwordLogin": {
-            "enabled": true
-          },
-          "reverseGeocoding": {
-            "enabled": true
-          },
-          "server": {
-            "externalDomain": "",
-            "loginPageMessage": "",
-            "publicUsers": true
-          },
-          "storageTemplate": {
-            "enabled": true,
-            "hashVerificationEnabled": true,
-            "template": "{{ index . "storageTemplate_template" }}"
-          },
-          "templates": {
-            "email": {
-              "albumInviteTemplate": "",
-              "albumUpdateTemplate": "",
-              "welcomeTemplate": ""
-            }
-          },
-          "theme": {
-            "customCss": ""
-          },
-          "trash": {
-            "days": 30,
-            "enabled": true
-          },
-          "user": {
-            "deleteDelay": 7
-          }
-        }
-    metadata:
-      labels:
-        app: immich-server
-      name: immich-config
-
----
-kind: ConfigMap
 apiVersion: v1
+kind: ConfigMap
 metadata:
-  name: immich-env
+  name: immich-config
   labels:
-    app: immich
+    app.kubernetes.io/name: immich
 data:
-  DB_DATABASE_NAME: "immich"
-  DB_HOSTNAME: "immich-database"
-  DB_USERNAME: "immich"
-  IMMICH_MACHINE_LEARNING_URL: "http://immich-machine-learning:3003"
-  REDIS_HOSTNAME: "redis-hl.tools.svc.cluster.local"
-  REDIS_PORT: "6379"
-  REDIS_DBINDEX: "0"
-  REDIS_PASSWORD: ""
-  DISABLE_REVERSE_GEOCODING: "false"
-  REVERSE_GEOCODING_PRECISION: "2"
-  PUBLIC_LOGIN_PAGE_MESSAGE: ""
-  PUID: "1000"
-  PGID: "2000"
-  IMMICH_CONFIG_FILE: "/opt/immich/immich-config.json"
+  immich-config.yaml: |
+    notifications:
+      smtp:
+        enabled: true
+        from: "{{ index . 'notifications_smtp_from' }}"
+        replyTo: ''
+        transport:
+          host: protonmail-bridge-smtp.tools.svc.cluster.local
+          ignoreCert: true
+          password: "{{ index . 'notifications_smtp_transport_password' }}"
+          port: 25
+          username: "{{ index . 'notifications_smtp_transport_username' }}"
 
 ---
 apiVersion: apps/v1
@@ -393,7 +144,7 @@ spec:
     spec:
       containers:
         - name: immich-postgres
-          image: "ghcr.io/immich-app/postgres:14-vectorchord0.3.0-pgvectors0.2.0"
+          image: "ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0"
           imagePullPolicy: Always
           ports:
             - containerPort: 5432
@@ -423,163 +174,70 @@ spec:
             claimName: pvc-iscsi-immich-db
 
 ---
-kind: Deployment
 apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: immich-server
+  name: machine-learning
   labels:
-    app: immich-server
+    app.kubernetes.io/name: machine-learning
 spec:
+  revisionHistoryLimit: 3
+  replicas: 1
   strategy:
-    type: Recreate
+    type: RollingUpdate
   selector:
     matchLabels:
-      app: immich-server
+      app.kubernetes.io/name: machine-learning
   template:
     metadata:
       labels:
-        app: immich-server
+        app.kubernetes.io/name: machine-learning
     spec:
-      affinity:
-        podAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchLabels:
-                  app: immich-database
-              topologyKey: "kubernetes.io/hostname"
-      securityContext:
-        fsGroup: 2000
-      serviceAccountName: default
+      automountServiceAccountToken: false
+      hostIPC: false
+      hostNetwork: false
+      hostPID: false
       dnsPolicy: ClusterFirst
-      initContainers:
-        - name: postgresql-isready
-          image: "ghcr.io/immich-app/postgres:14-vectorchord0.3.0-pgvectors0.2.0"
-          imagePullPolicy: Always
-          env:
-            - name: POSTGRES_USER
-              valueFrom:
-                configMapKeyRef:
-                  name: immich-env
-                  key: DB_USERNAME
-            - name: POSTGRES_DB
+      containers:
+        - env:
+            - name: DB_DATABASE_NAME
               valueFrom:
                 configMapKeyRef:
                   name: immich-env
                   key: DB_DATABASE_NAME
-          command:
-            - /bin/sh
-            - -c
-            - until pg_isready -U "${POSTGRES_USER}" -d "dbname=${POSTGRES_DB}"
-              -h immich-database -p 5432 ; do sleep 2 ; done
-      containers:
-        - name: immich-server
-          image: "ghcr.io/immich-app/immich-server:release"
-          imagePullPolicy: Always
-          securityContext:
-            runAsUser: 1000
-          ports:
-            - name: http
-              containerPort: 2283
-              protocol: TCP
-          env:
+            - name: DB_HOSTNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: immich-env
+                  key: DB_HOSTNAME
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: immich-secret-env
                   key: DB_PASSWORD
-          envFrom:
-            - configMapRef:
-                name: immich-env
-                optional: false
-          livenessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /api/server/ping
-              port: http
-            initialDelaySeconds: 0
-            periodSeconds: 10
-            timeoutSeconds: 1
-          readinessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /api/server/ping
-              port: http
-            initialDelaySeconds: 0
-            periodSeconds: 10
-            timeoutSeconds: 1
-          startupProbe:
-            failureThreshold: 30
-            httpGet:
-              path: /api/server/ping
-              port: http
-            initialDelaySeconds: 0
-            periodSeconds: 10
-            timeoutSeconds: 1
-          volumeMounts:
-            - name: immich-config
-              mountPath: /opt/immich
-            - name: library
-              mountPath: /usr/src/app/upload
-          resources: {}
-      volumes:
-        - name: immich-config
-          secret:
-            secretName: immich-config
-        - name: library
-          persistentVolumeClaim:
-            claimName: pvc-nfs-immich-library
-
----
-kind: Deployment
-apiVersion: apps/v1
-metadata:
-  name: immich-machine-learning
-  labels:
-    app: immich-machine-learning
-spec:
-  strategy:
-    type: Recreate
-  selector:
-    matchLabels:
-      app: immich-machine-learning
-  template:
-    metadata:
-      labels:
-        app: immich-machine-learning
-    spec:
-      affinity:
-        podAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchLabels:
-                  app: immich-database
-              topologyKey: "kubernetes.io/hostname"
-      securityContext:
-        fsGroup: 2000
-      serviceAccountName: default
-      automountServiceAccountToken: true
-      dnsPolicy: ClusterFirst
-      enableServiceLinks: true
-      containers:
-        - name: immich-machine-learning
-          image: "ghcr.io/immich-app/immich-machine-learning:release"
-          imagePullPolicy: Always
-          ports:
-            - name: http
-              containerPort: 3003
-              protocol: TCP
-          env:
-            - name: DB_PASSWORD
+                  name: immich-secret-env
+            - name: DB_USERNAME
               valueFrom:
-                secretKeyRef:
-                  name: immich-secret-env
-                  key: DB_PASSWORD
+                configMapKeyRef:
+                  name: immich-env
+                  key: DB_USERNAME
+            - name: HF_XET_CACHE
+              value: /cache/huggingface-xet
+            - name: IMMICH_MACHINE_LEARNING_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: immich-env
+                  key: IMMICH_MACHINE_LEARNING_URL
+            - name: MPLCONFIGDIR
+              value: /cache/matplotlib-config
+            - name: REDIS_HOSTNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: immich-env
+                  key: REDIS_HOSTNAME
             - name: TRANSFORMERS_CACHE
               value: /cache
-          envFrom:
-            - configMapRef:
-                name: immich-env
-                optional: false
+          image: ghcr.io/immich-app/immich-machine-learning:v3.0.0
+          imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 3
             httpGet:
@@ -588,6 +246,11 @@ spec:
             initialDelaySeconds: 0
             periodSeconds: 10
             timeoutSeconds: 1
+          name: main
+          ports:
+            - containerPort: 3003
+              name: http
+              protocol: TCP
           readinessProbe:
             failureThreshold: 3
             httpGet:
@@ -605,80 +268,267 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 1
           volumeMounts:
-            - name: cache
-              mountPath: /cache
+            - mountPath: /cache
+              name: cache
           resources: {}
       volumes:
-        - name: cache
-          emptyDir: {}
+        - emptyDir: {}
+          name: cache
 
 ---
-kind: Service
-apiVersion: v1
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: immich-database
+  name: server
   labels:
-    app: immich-database
+    app.kubernetes.io/name: server
 spec:
-  type: ClusterIP
+  revisionHistoryLimit: 3
+  replicas: 1
+  strategy:
+    type: RollingUpdate
   selector:
-    app: immich-database
-  ports:
-    - name: tcp-postgresql
-      port: 5432
-      targetPort: 5432
+    matchLabels:
+      app.kubernetes.io/name: server
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: server
+    spec:
+      enableServiceLinks: false
+      automountServiceAccountToken: false
+      hostIPC: false
+      hostNetwork: false
+      hostPID: false
+      dnsPolicy: ClusterFirst
+      containers:
+        - env:
+            - name: DB_DATABASE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: immich-env
+                  key: DB_DATABASE_NAME
+            - name: DB_HOSTNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: immich-env
+                  key: DB_HOSTNAME
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: immich-secret-env
+                  key: DB_PASSWORD
+            - name: DB_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: immich-env
+                  key: DB_USERNAME
+            - name: IMMICH_MACHINE_LEARNING_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: immich-env
+                  key: IMMICH_MACHINE_LEARNING_URL
+            - name: REDIS_HOSTNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: immich-env
+                  key: REDIS_HOSTNAME
+          image: ghcr.io/immich-app/immich-server:v3.0.0
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /api/server/ping
+              port: http
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            timeoutSeconds: 1
+          name: main
+          ports:
+            - containerPort: 2283
+              name: http
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /api/server/ping
+              port: http
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            timeoutSeconds: 1
+          startupProbe:
+            failureThreshold: 30
+            httpGet:
+              path: /api/server/ping
+              port: http
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            timeoutSeconds: 1
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: data
+              mountPath: /data
+          resources: {}
+      volumes:
+        - name: config
+          configMap:
+            name: immich-config
+        - name: data
+          persistentVolumeClaim:
+            claimName: pv-nfs-immich-library
 
 ---
-kind: Service
-apiVersion: v1
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: immich-machine-learning
+  name: valkey
   labels:
-    app: immich-machine-learning
+    app.kubernetes.io/name: valkey
+spec:
+  revisionHistoryLimit: 3
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: valkey
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: valkey
+    spec:
+      enableServiceLinks: false
+      automountServiceAccountToken: false
+      hostIPC: false
+      hostNetwork: false
+      hostPID: false
+      dnsPolicy: ClusterFirst
+      containers:
+        - env:
+            - name: DB_DATABASE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: immich-env
+                  key: DB_DATABASE_NAME
+            - name: DB_HOSTNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: immich-env
+                  key: DB_HOSTNAME
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: DB_PASSWORD
+                  name: immich-secret-env
+            - name: DB_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: immich-env
+                  key: DB_USERNAME
+            - name: IMMICH_MACHINE_LEARNING_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: immich-env
+                  key: IMMICH_MACHINE_LEARNING_URL
+            - name: REDIS_HOSTNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: immich-env
+                  key: REDIS_HOSTNAME
+          image: docker.io/valkey/valkey:9.1-alpine
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - valkey-cli ping | grep PONG
+            failureThreshold: 3
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+          name: main
+          ports:
+            - containerPort: 6379
+              name: redis
+              protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - valkey-cli ping | grep PONG
+            failureThreshold: 3
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+          startupProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - valkey-cli ping | grep PONG
+            failureThreshold: 30
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            timeoutSeconds: 5
+          volumeMounts:
+            - mountPath: /data
+              name: data
+          resources: {}
+      volumes:
+        - emptyDir: {}
+          name: data
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: machine-learning
+  labels:
+    app.kubernetes.io/name: machine-learning
 spec:
   type: ClusterIP
-  selector:
-    app: immich-machine-learning
   ports:
     - port: 3003
-      targetPort: 3003
-      protocol: TCP
-
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: immich-server
-  labels:
-    app: immich-server
-spec:
-  type: ClusterIP
-  selector:
-    app: immich-server
-  ports:
-    - name: http
-      port: 2283
       targetPort: http
       protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: machine-learning
 
 ---
-apiVersion: gateway.networking.k8s.io/v1
-kind: HTTPRoute
+apiVersion: v1
+kind: Service
 metadata:
-  name: immich
+  name: server
   labels:
-    gateway: private
+    app.kubernetes.io/name: server
 spec:
-  hostnames:
-    - photos.lan.stamx.nl
-  parentRefs:
-    - name: private
-      namespace: gateway-private
-      sectionName: http
-    - name: private
-      namespace: gateway-private
-      sectionName: https
-  rules:
-    - backendRefs:
-        - name: immich-server
-          port: 2283
+  type: ClusterIP
+  ports:
+    - port: 2283
+      targetPort: http
+      protocol: TCP
+      name: http
+      appProtocol: kubernetes.io/ws
+  selector:
+    app.kubernetes.io/name: server
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: valkey
+  labels:
+    app.kubernetes.io/name: valkey
+spec:
+  type: ClusterIP
+  ports:
+    - port: 6379
+      targetPort: redis
+      protocol: TCP
+      name: redis
+  selector:
+    app.kubernetes.io/name: valkey
