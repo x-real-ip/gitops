@@ -7,7 +7,7 @@ resources:
 
 images:
   - name: ghcr.io/x-real-ip/open-family-finance-web
-    newTag: show-correspondent-inline
+    newTag: savings-goals-overview
   - name: ghcr.io/x-real-ip/open-family-finance-api
     newTag: latest
 
