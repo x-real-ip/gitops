@@ -7,7 +7,7 @@ resources:
 
 images:
   - name: ghcr.io/x-real-ip/open-family-finance-web
-    newTag: latest
+    newTag: multi-person-support
   - name: ghcr.io/x-real-ip/open-family-finance-api
     newTag: latest
 
