@@ -6,6 +6,8 @@ resources:
   - ../base
 
 images:
+  - name: ghcr.io/x-real-ip/open-family-finance-web
+    newTag: latest
   - name: ghcr.io/x-real-ip/open-family-finance-api
     newTag: latest
 
