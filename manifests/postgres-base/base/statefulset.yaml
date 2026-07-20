@@ -73,6 +73,14 @@ spec:
     - metadata:
         name: data
       spec:
+        # Pinned to a specific PV by name rather than a label selector: the
+        # `labels:` transformer's includeSelectors doesn't reach into a
+        # volumeClaimTemplate nested this deep, so a label-based selector
+        # here would silently match ANY app's postgres PV sharing the base's
+        # generic "app: postgresql-database" label. volumeName is an exact,
+        # unambiguous pin — every consuming app must patch this to match its
+        # own (namePrefix-ed) PV name, see README.md.
+        volumeName: pv-iscsi-postgresql-db
         accessModes:
           - ReadWriteOnce
         storageClassName: freenas-iscsi-manual-csi
