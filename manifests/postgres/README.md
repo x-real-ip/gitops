@@ -121,6 +121,14 @@ Je app verbindt met `mijnapp-postgresql-hl:5432`.
 
 ### Andere postgres-versie of extension (zoals immich's pgvector-image)?
 
+De base draait standaard op `docker.io/postgres:18-alpine`, met de data-volume
+gemount op `/var/lib/postgresql` (niet `/var/lib/postgresql/data` — sinds
+postgres 18 zet het image `PGDATA` in een versie-specifieke submap,
+`/var/lib/postgresql/<major>/docker`, en is de `VOLUME` van het image
+`/var/lib/postgresql` geworden). Wil je een andere versie of een extension-
+image (zoals immich's pgvector-variant), patch dan zowel het image als de
+mountPath:
+
 ```yaml
   - target:
       kind: StatefulSet
@@ -128,12 +136,16 @@ Je app verbindt met `mijnapp-postgresql-hl:5432`.
     patch: |-
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: docker.io/postgres:17-alpine
+        value: docker.io/postgres:16-alpine
+      - op: replace
+        path: /spec/template/spec/containers/0/volumeMounts/1/mountPath
+        value: /var/lib/postgresql/data
 ```
 
-Let op: recentere postgres-images (17+) gebruiken soms `/var/lib/postgresql`
-als data-directory in plaats van `/var/lib/postgresql/data` — check de
-image-documentatie en patch `volumeMounts[1].mountPath` mee indien nodig.
+Let op: postgres 16 en ouder (en de meeste extension-images die daarop
+gebaseerd zijn, zoals immich's) gebruiken nog de oude `/var/lib/postgresql/data`
+als data-directory — check de image-documentatie van de gekozen versie/image
+voordat je de mountPath ongewijzigd laat staan.
 
 ## Bestaande apps migreren?
 

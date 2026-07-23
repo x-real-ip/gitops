@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: docker.io/postgres:14
+          image: docker.io/postgres:18-alpine
           imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:
@@ -64,7 +64,10 @@ spec:
             - name: dshm
               mountPath: /dev/shm
             - name: data
-              mountPath: /var/lib/postgresql/data
+              # postgres 18+ moved PGDATA to a version-specific subdir
+              # (/var/lib/postgresql/<major>/docker) and its VOLUME to
+              # /var/lib/postgresql — mount the parent dir, not /data.
+              mountPath: /var/lib/postgresql
       volumes:
         - name: dshm
           emptyDir:
