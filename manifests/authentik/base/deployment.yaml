@@ -1,0 +1,175 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authentik-server
+  labels:
+    app.kubernetes.io/name: "authentik"
+    app.kubernetes.io/component: server
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: "authentik"
+      app.kubernetes.io/component: server
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: "authentik"
+        app.kubernetes.io/component: server
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: server
+          image: ghcr.io/goauthentik/server:2026.5.6
+          imagePullPolicy: IfNotPresent
+          args:
+            - server
+          envFrom:
+            - secretRef:
+                name: authentik
+          env:
+            - name: AUTHENTIK_POSTGRESQL__PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: authentik-postgresql-secret
+                  key: POSTGRES_PASSWORD
+          ports:
+            - name: http
+              containerPort: 9000
+              protocol: TCP
+            - name: https
+              containerPort: 9443
+              protocol: TCP
+            - name: metrics
+              containerPort: 9300
+              protocol: TCP
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: "/-/health/live/"
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 3
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: "/-/health/ready/"
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 3
+          startupProbe:
+            failureThreshold: 60
+            httpGet:
+              path: "/-/health/live/"
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 3
+          resources: {}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: "authentik"
+                    app.kubernetes.io/component: server
+                topologyKey: kubernetes.io/hostname
+      enableServiceLinks: true
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authentik-worker
+  labels:
+    app.kubernetes.io/name: "authentik"
+    app.kubernetes.io/component: worker
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: "authentik"
+      app.kubernetes.io/component: worker
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: "authentik"
+        app.kubernetes.io/component: worker
+    spec:
+      serviceAccountName: authentik
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: worker
+          image: ghcr.io/goauthentik/server:2026.5.6
+          imagePullPolicy: IfNotPresent
+          args:
+            - worker
+          envFrom:
+            - secretRef:
+                name: authentik
+          env:
+            - name: AUTHENTIK_POSTGRESQL__PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: authentik-postgresql-secret
+                  key: POSTGRES_PASSWORD
+          ports:
+            - name: http
+              containerPort: 9000
+              protocol: TCP
+            - name: metrics
+              containerPort: 9300
+              protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+                - ak
+                - healthcheck
+            failureThreshold: 3
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 3
+          readinessProbe:
+            exec:
+              command:
+                - ak
+                - healthcheck
+            failureThreshold: 3
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 3
+          startupProbe:
+            exec:
+              command:
+                - ak
+                - healthcheck
+            failureThreshold: 60
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 3
+          resources: {}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: "authentik"
+                    app.kubernetes.io/component: worker
+                topologyKey: kubernetes.io/hostname
+      enableServiceLinks: true
+

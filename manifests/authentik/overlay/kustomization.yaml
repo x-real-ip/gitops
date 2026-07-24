@@ -11,3 +11,7 @@ labels:
   - includeSelectors: true
     pairs:
       storage: truenas
+
+images:
+- name: ghcr.io/goauthentik/server
+  newTag: 2.5.6
