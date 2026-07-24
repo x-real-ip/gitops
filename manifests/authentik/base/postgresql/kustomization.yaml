@@ -43,6 +43,9 @@ patches:
       - op: replace
         path: /spec/template/metadata/name
         value: authentik-postgresql-secret
+      - op: replace
+        path: /spec/encryptedData/POSTGRES_PASSWORD
+        value: AgBIMiu24tVAVSdJCRpn3svJHG3LAbTXexSykMQlVB0X18Bk9BD3/2nXsocblKK7pAM7HyYGBijz+Ig4n3r6r6/iI4bFnUwdca0dFgMJponMpINFZIGfzXLv36kjpVpqz+rPa/72oNM/gRuB0JOJ/VdBMInJascJs4UCgleo1uCfID2QHWCM/woISqXuL6G5BiLGovN+iu5zaiBYM9bXTOd5gHK3dnEHzjTmnCCkrmNQezGShRvI99oCgqdP4HskNrjKfnsMJzztHq8X6MLE6RkqdDnpBA4a1XqriMoSjnk/lrS0I5MWg7mrRFCD665Pfd3xYrtDaPtJVRYrfLEFQy3lCB7FBKAim3kIRXOJmCEp6BILYvxEVYwspItTSxZEaPQ6/dQ0iugSdaQslo5PhjTLMEZNR+ulyqR9D5ev3avdIe1cD3Py8tjYME8lO7jRlQkCiB36Zs4a+zZ4M+FzdVro8gidMqoiv5kyv6owrPEcfu9viBnnzyeZ/CnxXNpKmzwhgyPPyQQdxw2HDlLPZfTy7ms2b6aQ8XJPWKPBLbxUDOw4cdLTMWj4ZVXraE+w+Nhh0/ffvV8HAUvpeLZZ4bMA3pEyKz80BZiwmUWqfzluABEJJQ6wt4REJ9/PqSg/O79UYubxj3C0ZNBsaShIvlho4pxwawgVo179oTmJstnzExRcrHaBNpzZUXBggyoJjMfvG0FGJyhtOvxU8lYDq8WeVugZotsPQV/WPV0r4jxBRl/9OyybXohuiRmZUjJXtHFR
   - target:
       kind: PersistentVolume
       name: pv-iscsi-postgresql-db
