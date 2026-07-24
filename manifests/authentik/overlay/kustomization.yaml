@@ -14,4 +14,4 @@ labels:
 
 images:
 - name: ghcr.io/goauthentik/server
-  newTag: 2.5.5
+  newTag: 2026.5.6
