@@ -1,5 +1,3 @@
-
-
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -9,31 +7,38 @@ metadata:
     app.kubernetes.io/name: "authentik"
 
 ---
-apiVersion: v1
-kind: Secret
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
 metadata:
   name: authentik
   labels:
     app.kubernetes.io/name: "authentik"
-stringData:
-  AUTHENTIK_EMAIL__PORT: "NTg3"
-  AUTHENTIK_EMAIL__TIMEOUT: "MzA="
-  AUTHENTIK_EMAIL__USE_SSL: "ZmFsc2U="
-  AUTHENTIK_EMAIL__USE_TLS: "ZmFsc2U="
-  AUTHENTIK_ENABLED: "dHJ1ZQ=="
-  AUTHENTIK_ERROR_REPORTING__ENABLED: "ZmFsc2U="
-  AUTHENTIK_ERROR_REPORTING__ENVIRONMENT: "azhz"
-  AUTHENTIK_ERROR_REPORTING__SEND_PII: "ZmFsc2U="
-  AUTHENTIK_EVENTS__CONTEXT_PROCESSORS__ASN: "L2dlb2lwL0dlb0xpdGUyLUFTTi5tbWRi"
-  AUTHENTIK_EVENTS__CONTEXT_PROCESSORS__GEOIP: "L2dlb2lwL0dlb0xpdGUyLUNpdHkubW1kYg=="
-  AUTHENTIK_LOG_LEVEL: "aW5mbw=="
-  AUTHENTIK_OUTPOSTS__CONTAINER_IMAGE_BASE: "Z2hjci5pby9nb2F1dGhlbnRpay8lKHR5cGUpczolKHZlcnNpb24pcw=="
-  AUTHENTIK_POSTGRESQL__HOST: "YXV0aGVudGlrLXBvc3RncmVzcWw="
-  AUTHENTIK_POSTGRESQL__NAME: "YXV0aGVudGlr"
-  AUTHENTIK_POSTGRESQL__PORT: "NTQzMg=="
-  AUTHENTIK_POSTGRESQL__USER: "YXV0aGVudGlr"
-  AUTHENTIK_SECRET_KEY: "Q2FkZXQtQXV0b21ha2VyLU91dHJhbms3LVBveC1DdXN0b21lci1Fc2NhbGF0b3I="
-  AUTHENTIK_WEB__PATH: "Lw=="
+spec:
+  encryptedData:
+    AUTHENTIK_EMAIL__PORT: "AgCnaedpLLM/4+JIxdN2MlQ3Sxar1MIKQskb264uk1/H6mPEdT6pJa56035tfYwCY1HJspC3/tw8iwakQeVB+6e8Wzj7lQh6LYHWh/ZvaV6TgU7iV57tsaoalqJ3veWxI+JPscPU/M4nV6ZLN8KSrBW98mwV8pYNiG1jUF2cBSStbX/UnaJFdgATQ/FFa2Qg9IxbU85yCRL9uZi9zUjdkJ5hJ59jhICnK7kw2/rYxV8nRVjP6UdkC6gOFiXKZcffY70/lvuU2P/Vngw9F730ic8pZnD2isZG5YERZX3QpF+x9EKKAeVNWF7JLU6qZBVU8v+jV5RXLKEYVwgCR159zL3n82zJfd2ajq9tFLhu6LPkryF1z/jcGQj/wleWcUs8KL+3BOJSz6b+AbIxAicaOmNwNYPtPSCRyjT2v3Sbl0F6Ws9jgowuOw6qDSN/BbY+Y9bDMKhTk/W6p6lTtZUf6ZySXwtmgfekweCn/k44ouktR5MQDdmxgv93jM4qOk13+SI+/tqJZ9F7BVFu1/ehrjXChjwvkS4S4Ps4tAagxBb8G+6wnu94FYm1bwYxwaCRlBRFJ2Heis5Uomp8w5p8OTeJt10Y1eSb1mnVnH7CHu8YOqPSDb7GHBQ3PyVQxolSTpLge1WGwB2wKeJh0tRYZ3JgE82o8FobIY7/edLYLTf2DjEdaWK2olt4GIGZ5F6ksSG9j74="
+    AUTHENTIK_EMAIL__TIMEOUT: "AgBZOChgS1mkJMCIp5V2UxcmulJTTCVva9wskYIr2OKta5IC95/BD9tGQWeTVI2MhNb1qfzt5+Hfriy6dRrS7VkJDATB5PEvG6CTBhIdl2FWFj1cUi3tGnyGqJ9ATVhXJRoXZOVnBUQ4Tb8xm+3/bxVet1oAw/EBHGf09psJIAxkFnnLQ4uPngZo41pM9cL4vKPdgVOjy0s88RhVEE1MBNYAjlL400xxxebsbEAUWlNdLDzDRx4Hftl/4ewJbrUP0oCuHV8Qp8uDtUN45ZKoict1A/2ihaipJ7iZ63zZiFIXmaj14qc/3BRqyx85JNSINa1jTBgYEuJoNJCRKTnvygzn2yYSh3TWMTfLq+x3DQzjzBbNfEqRe195WfHPX0b9eEHJzJvbTVTHnuMOVx8czKe7Nn8qakRO6jHGcA7JwFjQ8uX9nDNiq6EOwGAs0bgRzJQsd4S8QDvPZQevjJWAdRKrqHJtTpNCAtR+7zRK4Xh8hZcqWYTxr5wMFuWdz7/3ZYl4nA312keE4301B0lB4d1JAH0Q2utjq6Yfa9FSf0xc5vOta6ORqfJMqvPNMHnJWhtGW4g0qtKFGqNRSD0vaw9sajUwDBtGw2Yb1LmaUKOKqvM9Ssr/7/JA2HBr3llh21AKaC/+zWKFYTJ4QktBhl7U7EthiiFUCdA/DZG987Yv4siUEThHUsltk9qfvqZa0hskvw=="
+    AUTHENTIK_EMAIL__USE_SSL: "AgBNIDfqyAC6nH0N3uuFk0qMqV1bed7B9NTY87aFc6GJul7pXLSeeSXu5reIQ9HiTZenklfFoZL+TtglM8vfJm4t2TKOBhDeLMzUZkcbnCyGxU+Mb/JOx/FJccJ9ouM5oDqGyt1XxogXkvNc75h1w68wCLFnwxm5cHUFJky3DbpY2tDVHnr3pK3ADZqH0zl4tlLq/BycmNNl+kRPW6xaIwq/zO+OBUU/BtHZTXjKJnFxp9is0qGSchz6tE8JvIwFNRSsaoSNvwmFRoW4JF9wEmk5hGqZcgWth0owDCYUk/waqPRiUIPuhfDLeKYqBDg7d8rGSuTGUKn88y/BH7vew5rGyWea6X2deB7XVL3IUOVVkMBy1K5sJ864kLOiRtubXPg0mVb66LKxKu3uuUvpLzNmmj34DvUMbRgPEUXS0HhYCcjmBqbUfKB8oc2YD6NIfHWk1d0y269uknUMz+A1+YCqKupgwPALbXDx+3psDRMcvJs2Lwl5QBVoOmdY1lpHxvIldV1W09L61qgWHpiW+Oi+ZQRiH/fP04/oRLGhAFyDlo49FZ7CtLYFcQ2Pq5++pdMCgfL35sd3UGiizQ9Rm/FSmuaDgWnjYzDiu7CavYANXf9mVxfl2l4IP1/ryATvB+k1T5IrzxuWAboC3IumTpr2YTlms+repcGsK/EEonJQ86LW6AvjSEBGmTQf5QY46csOMS+RrQ=="
+    AUTHENTIK_EMAIL__USE_TLS: "AgCcXOY64gxloBgI9MXy2/J9JNzRdq7+ZsgACeIESfOBbsDjKA/kRJWieL2+W/5UVnFSgOqgzLXUhUxH5Q4W5V1tu0R2hojdATzAzD+MrByuoY+61e5JQvXENRo852aUnK02QsLp21k10RuPDNuMbJjwin+dc+FuYxk9hr0ixabcE0jLHUUCHk9lcz4P/y9EpOHlwq6TrizWAIYvJgca/jdl986xoO+eu2BoFFk8RcM7oYRFOw5GykboyDOeHwX8g7J868g7T89U7K0YfbtOpdAQB1/Wf9rTcaRqPCivJl2trQVxzAhsjAER7s4lhe3LjG4RvBi6cy0BqIZ/Ph1iv0ysUI4dEZN/zTWK08XJIQIvG4iztuWCm+TK9BanWj3Gsm4PRvliufVR3WBy2VWoi0MujSQyIT05Kw5FlMWosCWaNZmBMnt0CVaJvY95U2EAcbpDYAYyEIMZ3S1qkI4SQHRgriI2dXG/MPI4gb1gAqvgdvKkZvwJB4+cCM7sX3ZyKsSHoKyW0alJmgzJ2fiSC9Lj/Mr9sFsYyEEvt9ccjWpDgt2eGvMjiStiqIOId5Yv2ns++zVU5WZCLdPbreDJNWoIObPQtzJnyGYUerf/g8PrT8DrvR93k1xSBuEnJM6WyXB4dvsrOs9DsgT3gyrpCzfElsvq02oxZ/4JSYyq6kfnkO61PpkCiQpQZVIGE1EWrmuC8clYdg=="
+    AUTHENTIK_ENABLED: "AgCdUR5sAQ3Qp3CR48DnAZauUP3Fws0YZgm+BJO7aqEUBSwtuzFULqE+Wi8V2DQT/06rywbMnkA0L/hAGKzoSJzp8hBqFVmD88a5MBjXTZ5TFS0Il69Mp44nMtmFFiYIcPxsJDATVZ7tLgi88rt/V+1r/o0WfsxZMXhr3dz7tBdtnbSYCsKvH/7+LrlnOOZ7CI1BK4QmQf48objMMp0dAIkRVxrW9bZGeI334gkRTzZVwY8kYiMLPU0v0/wBvNAvPXc5S4aXDF/1ZVx7+UE1727GksRckfsymt1NcB61Fc7COr3XroQdePqtrYF3WOtOdlksfYuDXLceF8jTqLKtecTX7brqyt2ZDJpqgJxVBuxlNdE2DMIwaoV+RvstVgusHdeZnJ4GeW8JxZ1bYHkQv6aa8SNlX4tu1l+W/kN/nCMOiCI6jMDQgZoiAzethsfJhNrMiO/eeKl1vRqmY8cGgd15cgqqe2EjkrPHzjLiY3xJRDwdd9Giv1rkLRMf+GI/WZyDmJb2q3DKPbOrMcEWEKoJZ0PuMzuwQUaZQ4QAkyO/ZlWyUsKDBkHQcJfyTXnDHV3AQGKn4mWgNwLrhgt+QxP+j5lJX+zVj/ycKPhi0CZO3U2ViHZbIgCJExxM00Xkw4fMcZ0/dR49mOQviuR4s/jls+WTZ/KqVoOcjrSdw1/Gjply+tvef0Rf2UBZmOxWAwm+Whpz"
+    AUTHENTIK_ERROR_REPORTING__ENABLED: "AgAP9oxfxiwsihduS5V5qL2y4errd+Q0OC7V+rQxkc/hN7ZyU1QYxFNiQ6d6NrhNpYQkwlaW1maurvyloq2e2Dcjjfgg1x7NhAI7/hIXzdPcE7K9Wx5+4zo/WpSO3YgA0Z7Tfp7S7h7VjZfUdqzsNjkXn7xHWVaaGdmJLlTIhsX8ZbpDEmFZEjGscD5S/SNFa95UxoS53z+6gIyjGaHZzn9yFwo2E7TJtn6iLPYNzEbKM747wbu3fQPoGEQIFj5VXx+A2kgMXgrNchMep4U5jzcHCIZ0bwQ+m1e6crDLzdH9R0k73URaHwHn1sAUB7zE2r9+cC/sGTunpLIsGPig4g5ZNjlxlEQzGhY0rWqWqVV9e5FjzX///fho7w2P1QOLoqtkNcDdAiTp2yM7gGWe7hvgVLJD/6XmVMk3DXO7m84pY3xq1NZhCc6Cv/xSpMnMrNZpwjxXC0a0sECAD/rHQLvJJTzqtle2K4oDlnCOp834HAFgrD1TCZ5wJLM2S3TUs17DBebrZ1nUoa2wloGsZGVM5WfWYUqnKn3FlojM6jIUlp1vHBOSYUbLTkSGDBA9ikSInN21qigCHDtNQtA19GwMBDJyDf88l+/27TqFDEUP9y464NyM6EQEo/+AkAZD+/K5Es0811F4Fz+cIglB4emBWv1nBuReUsXPITK0hJFqDH+axj+tSQqLONuoaCVIRm3VnPRkiQ=="
+    AUTHENTIK_ERROR_REPORTING__ENVIRONMENT: "AgBq6zfCSWUUG+VWGsMznRX6h8VOwHZ+V71xkURJdLCf5QNAngb3h1iD12rBmaBM2ehsX+bq74BDJcVmk0PtdgRkoS9LevyOMJDoFqr+/Q9G96lnlQhKxWz1M4UrSUsdvYGbw/sU9T3JTuZQA90MhNkxkVdFNjlk23ywVNlXdQ1RZOTIo4r/CXwsCotapVPqj7xsI0MfQ6jOxzh8kwJ/TlwqY15eNx9OfFaj7wyiNGyJH7EB66coT+S8Kg+8qJushd1RGtWp8IguO0nvBgjOTyezfvnX/s8JaRK1NpPh4evbFHKu39M3KaiANoX0YtBhWyPp03GkcUQky/mHBvBaHI5wWrNOHpyN/vV/gRPaDgby/yvD464QIQ7XXtT2DBe+54ewWphsDwwIihWrJt/TqxJx9fIl91cphBY/FcL4GI7w6H56YUGi2BwG5xiae/FxS4pArLELvMP0QPJd9h5FQ++kFRFx2sR6GSufmKMFyfLlarYGJ7b4TSwD1quZkr7NxIIoAUJ8SLOP9l2+87R2dXkmfrFPIqMIcQnFMa+20EiE5tCBXqb6Zc4vtZ9OI/a6nUvlXzaV+ZSH45vtVvc9qFBUjbwFj2cXDdREYyso2N8Za0kETwBurEAlgErGGAzfl6y80t82z8IqZle1BzzbchkojIgqbEUhQjrHGgZuwrZTImQy7vHKhISAlPK0DfONjzZ7+h0="
+    AUTHENTIK_ERROR_REPORTING__SEND_PII: "AgCwLGnOfT3b2Q6Px2y/BICkllG4wNcpRW2QZelcL7cqqWbLLfxEBhL8VN5nYrAKgmTsP0XzYLbQHBu1/Mm0nq/gtD9+aQHC4DqXbUScOxK67c313J722cjKfX8fkwAeKIni6Xe+P5BvjJT2yihYC0JF6RQu5cElbN+vus6s5O0Uc8WUNTt7IyNXF6J9D6YWctwkWaBIbNCq9iOEZuZ1OqAj4WK7s9G0b81rq+ETlOZ/fErLBvcECAQM8kapb5i53LNkfblHLRIt31Vcv7DpYu2b/QyPtd9FM2vbHiHBpWHMtsiKM11/IPnZhDKBUta1yA7jWLi1ND3nXrtShv1EvLwi73v54cLDxpYzZTWn/yTIIqmzVWtSvxkzQotFnAfKJt59lqnRS5epCsWZzzlyGonb0x6RyjCVGztYeATbT/aDmULmdX6I4aePL306eT4vCqd8ySd95Ohw2/7uhE50OHGacdZOarb76OmAhx6jkUp3HFI/JshhbYJ+3QGsBcQdYoho6rECozJnsvfD+qb7FEE+5KTtQZ9YarYIky+tdibMO2cXZh/EZAzH6pO1C2h8l5FmKqnXKEvBZoBNpkfbCKZtQQw5sHQfUUMSW8cyY6e3dcF2XK3jJ7LveAj5UI6AJ4JdhscwYqtZcu0Sl/SWmen7UXQ5jPYeYph52Xl+GxQPXx5ZEMCRVBqDOESnZzha3zT66qCDbQ=="
+    AUTHENTIK_EVENTS__CONTEXT_PROCESSORS__ASN: "AgDIRbkKFW26Gz2LgCrqOKlvK1I1JTjKwvQlmMeuhUy1zKBLxzF7mR/M92nInIHgQfG6hSo8ZME9boo4H1zrRZxgJv0GmBVbiQ5nb/nr6jlSzK9nG/1Cuic1HHJnB+DMvU/0edXPdQhNbOIUGrIwyRpqpE7nHbauQWXPTUDhsKKzTryoigw7UXJGHgWHzbfyEJpqpYhKOyjEQNi8UladJMKKRXb+jSo1AQ0O4i9xk24UnODP0InhIQyYtRVKBJIWUdQafG+L18rqagO4/wHkeBwGqmfHElxEjcEzoo09OUaUzVfJ9Ipq+S6GEQmyfGz3cTxgE6X+qagTzCrxvviD77DwniYdBEZLPu1sFrhkLrtO56RBoMWwSRLowEjCKMLRO+6DCV90GVKBPz7Udwi4NnGAGqDSzjdq+/lsKyC9rmpelNN9LqNUENxCS9UAPW5v3/H7MbieTDdmFcS5ZyWWolnkygGrekl5Eb9NBjejOPQGVEutX1gw19CfpXNg4PLB+7mDuloJdLbe6hYWfCjlKMhlPuvRbv3UKEb2qK5gUiLwZbdf5h843P/abcyZ6zr15Ly6ReKCRbacY4ntMtQBw7YAN/fXnuGN420iliEo8zbSLxa34yl5lxLsFFNR5d+jzRJ/5cZSC3DA/pfPiUdkA9WmSutPKd5oAm8mapSKEAttrjbb/JRKk9hqatd7aqX2va7Cv4tNeEPrl+LwgjgGiHAXeHGJS/By2l4="
+    AUTHENTIK_EVENTS__CONTEXT_PROCESSORS__GEOIP: "AgB+QIgVNVX94BTbIQ84vuNNgk1QRJe9iQSWpnn/qfqbr/ZNLxQwXrj3qvhUT/BaNo4Yx17TqAM5imC86hEuWq/P1I08XVT+wHudndlfR0HMOZ09Kg2hJ/6vcx8bX4KITkEHQEOGTXlkma16XfKOdOPLVgUKk9Y9tzLQyddRCIphThjPoPDLCNXGoFGIH7L7oWSQ0IwVzujGut7LS0RPJCgXVeBPY3x/fsGmWob/NvtSU8lXrJLgNwCLgPPSWriPHSaeIKPznohDgL9ARuo0cezI3n3NbFDaT7TUa2pvQCleqMrc3bvJce6WsG+9o+HsjHMkDn4f8z4IRL8zEs2YVlO9IF6LrX8nypGX/ef8nHHrqUs8o89Hl1T0uW5f0seTd4RUO4/+fMLm88zh0r4f4Vs+SfaeLn9VLMw0XdLJ9Qs0Rw38RLz2lfvKJqGiipp3LdCmDYZy3Pk8uh8mfHlVtPD3SdT7aEErGnPL5T2KZwgaAYnEYPqgND0adXwVdIJhlKpb4YEgBdi0T8unMHQHPMiIHqWaR30wbDym8wu+21Q91mOX5X84AOgkd+TneHQ5rC4Pdlnn1vHG3xo9QSE/YXmBCSR1wTUwYllD7nuOaSgVmwwjMrBGT+8mbd5Fbv0c/2GHMYa13tk9zCUfoeFODG0H6aqU59z9LSrN1JE6jjcl6ZzboLEFjw0q5Jc+6Bprdba/qy+Afker3tzcKEH+6YNUdoKho9KAWPAW"
+    AUTHENTIK_LOG_LEVEL: "AgBkDU0ph7aISNqWVwpDR/7cqmr4HqurnuNKc4dG32RiYkFkL9hm4trv2MZBmtDKkALdE/nKPO3aoKt9Vl+ZynmugcKGs0BAFUTRmnD+R72Sy5UYEbU/Lm+gkn+laUrfbRwUtiiuxpaHD+JGWgSxbcOf3h2srCfXli0PDbSCEFHXMxoJX9fp6SZ6qZDB3YZ3kQpjCnkkKm0hEY2OTSTD1KHkFJ+7OdPL6HlW4RRqco6pm2YF9Aq1A1X/xJCjcTOw8otwzyP+NXGthky41VirlETJyiFNCFUbU8PZvs4PqaYiNuknb76efx0r9DDm29yL1QP0Q4pyUiUvt4oSuYzZ5WxRj83xmC6d8ueqLU4NH3udauNIZ3coYN+dg4LRHAeKz2cW7/hPrqFX3vLsCN0LhyHAmDgPuAxjSattmV0X+EX99FqoHWhKOG4FJUSYUfWiquy6teqgLm/uwK0ku6KwNNNtrFfME5DFOIhHEMRUnO+AzwmzqRuQaDppkTUzNo8D1lvjdcmAcZlcb/0hyLL24or5Y5YYza+ezo2s1AzZSZwCREr8g9DSyCIzO0oUzL49W4WRH0QqY+V/eF3fSELvVJBM1g2SYPiruppbqMVunCRPbiJcE11r1d5PyOAeLq/REvtH8QpBrIt05iZOvTLUnbPy5pZ5OyvHgQ6l4W1u+OmwodSky93Obdsllo82JwaIQehVUDsP"
+    AUTHENTIK_OUTPOSTS__CONTAINER_IMAGE_BASE: "AgB+kt9vqYmCcX0KERd2j42rogHShjLOKZCL6EHgZq78+P0lMoJi6d0PAkVXce40sKAOraP2/SfRff586kLfFe+so1bNUa/0hmuKQNGRhkpb0BLBfwIvdlyIkLz3w0DzmGR4rY/PXFFQxXZyLBjguln6xx0HOniseXfylkfNXXxsJMHX0lO9fogkYprCb7mYaTm1M+W0L1DqxE+cVbu8iZBkTEBWsW2VGTCtlM9wVElCrw87GVKQojqd0F1E7isl534caJnvJkpREMZb2qWva0wgtiXfil5z/jSOIBomF06JJa+UMPSRXg6LRmGXVuEVUu3sXVcj8vZqlyvDpbpdRS/057NAKT5KLpYlqGMTJnX+j46FE0R54ZEKEAAP/VUYJhDOPdHdKv9frncGvkVvxhfoWQ3NvLWIMnLukVSWrWJE8wnbckxQQONEiGpp8IuF3Z25DZGkcj46u4ImpTF0Pcd19p+E8BdC7yMETQNy1dIt7L4lJY3JAEggalQvRzrRuYfsOzR/Q2gxThJJ2yIwl5I4L/AgT/YBegMjbZ9xPUqkvVOtN3/EsO+jLN5l3GW0qpfSOqSHPAL3tRUaB1h1jSktz2Op9dQat5d7LlBEn/uPh1ZnNCHG18/YlabOs94ch7GjYGqXmBnenegf5HimSjnJjzkBq4C+5sCpcHEVgmuQNTUoCHNerYY63jZJ1cbSCe2s9j73XkDckpZHeXbWFZiLR2mJmy1zVUIV5QRSMnuvQF3omLHDk2x/"
+    AUTHENTIK_POSTGRESQL__HOST: "AgCvjJUK95J6djmr5HbQVvPjtgViL2yXpteBSZLb0JVDfOiK/AO2E93fz2xe6n6/Pd1scf5XqwFJ4u49+SiuVqI+S0hgenI827ssJwTdJjPRnFNGqpRudmVZONAxRmp4i9PS85zXZQhqCxoUuo4CmMgXHXLAOnl2C2z6CGqcS7IYzAOE2RVbbsSRqBaQ9M8gfE1y2JMujuoW2qIISUzKxpyatw7O3IXJ/WNMHMrOuVBlXte8fnW8a07pFMG/wGMXOP0TpPBib5f9YHNtq2a2pA+9VcPP/kuCUY/EcBvGYOqxzJcWbyK1LKoeUH17hc+pXNmxWqEva+7G5xFNjDaBVBLKPoFUi7gjed28akeLDTBw1vRQrHhNNBFMJDGue7MIqPvFPGYQJsYBHq7v7CUlw29zbbBleerGXbxl5a7MRvVFBZJSnYHKHQvAiZnTnEnza8OSACWLPVzmwknALOAYofJa7aFK8GpoZ89yHxx5CNMTPcZESh5K6nRSsTg7Ztuu3wVulP1Qv+fuY2Fo789Vb8fZZNPlIOpJd4Cz7+xmFFhBI9xe5nB61deEBI/Qy4c007O4szjtgUYgHUA6BHTVfnPpHh994PyAC8W4x5j4xV97RDmRijFS0iD1Zywy+KQgnFXB5yQlltrAjPxDeHoJSg23rApOVjQY8P3MgzEUz5MbZ85PxiRQd4n/c59Ecw+JiioF4g3TzthYnbyFbOFwzydgT9cxmg=="
+    AUTHENTIK_POSTGRESQL__NAME: "AgDEzOcBvTXu5lw0a1xnKhC/0+uCGFd1XrhMeJw5tAXGF5oymlQzI+8GvD0Ous8X5MpfUu1IKMY3mu3hfhR6gvVEkyCb7X+bAi4zy7aG6zutwMGrDUxlmclz8E4A/kPUOiXWjLULFA0Igmdqqnx/XoXKsieq8MbBugU/yWProFIp9xPoix7s8i1QebXjiQy1+OtmseCPcgTRoy3giptWYk/nk5BaDWSyJ5rfz75mjHDibateJsE0EK/umNtN67T75AvH3FPXX6QGEuV2dKW6Jh5TLKIxGVi9MbW6tqdrpkdqBT1abcqDvT85XmKTRCvKaeTf9y6nF/MaXlm6+/I2ucwlEO71D/7ZWgwKldFZGRue2REhoiO5F/vDdE7V4zcpbML+5jTSjNTfSsorwyq3xknDt0VuZQw1GgvasFNxpuNlnCKEEgikbZ6ezJkpuB5i1jf97y1k1PioaPodiQf3VAdV4QtZnkSigflWL2skDnYiinRUoj/+gqbBOzt+SUhplDeQ0i0xTvD+MbtE/FA7Owrc4lbXh8Ci2P0SEcYHFusUwfanOc/LOYJZwlOkuvmHN2O4hFye0n/vVMRXzf1wWHc05+BBTogEwf9guZuXlXql3pwTGNYtPivDZBYLNd+gqLQhTRS8m+U5A2XIpjFMf853EMdv1fndH0D2sAU3CqzD4tnMSI/1hvSMg6++P39oKhK4xLPqsyd7vkk="
+    AUTHENTIK_POSTGRESQL__PORT: "AgADtcuzixAFqcvpjya0k0ybCRGHg/03C6PkL1DKW0IYr7jcKNj2IHs/lxQoEPvzTR5DkaQeZ//zopWTnCvmkXJauRTSpTzcM0NTSx+U+oC2K9/ELLsIuQ6k2esRo0suSjOtBMJ+LN+2d3hYO4xizAJ1jr0+o5C43/wrwTj7+iy4SgeDyt9OqDSd4fNv5Ot0dsO3sfHIxrfjwXICHXasbxaDKENUyojDiNHftxKZUxXAp4lYSqaru/qj95uvIUywl2c5Bvh5quQraoZCgsMy8EqdVZZQSbMHLvHXJMrpxTPbFwGMu3Hu8e5Vv6ZeUfvvJmjxfyByB4R59iBvLrLjvoXSTMDfeRfXoAgY50dItV0+Mx5RCEpxPPzZPXCmWbdb1wGftWCMgCvtd2P/NWg3ze9uvLOUt5XIJVprw/W8QUSQLVSI4sUA6tJJreCX/vlSNEzkAjjRoj2+Ju4N9N4z8Sun9KReXaqrx6RXFgkD5q/4O7EFj4glDk18Z2hRTO6W+jywxP9rhV7hEPOwqRCl/C40sTdU0aOaY/cSEo8XA57OeF4CbGOavvCpfKLTSMx+fucl9zfMaG40GgsrVK13t2ooSOjPC4stHzL1hhkC18LrePJ47IXHeszO79Gq+qnOsjWovimy95uOJES4jpVEyoLZ6/VAlO94Kel/bKJDSfZX8zOCIyYUrGjsYrsuTiH0HJ5n50mz"
+    AUTHENTIK_POSTGRESQL__USER: "AgCh1zXgwPPT1eg9cNBNAm1NIqHD6toPaRtjTFWZEozrFdlb6FOX95adgAkArIjNmcIwbh3dooXBFD6EKhBFMPE6m3OrWsn7UegZvG5sqcDBwwCG5qm8HrGUw174c1jwTycl4qXh9Okl8lN5lP/jyf3wsZavaBjoPEmJcNb4eepL2JpovU0ivDldmcxEQDCMZxrUXufCS1oOq4woD3g7N2DsBf6/9+cFr9D6xm9WnBuwct5zD0WCS075f3LOuluC0TicX5HPDrQhH52vqsLnw9Z6b1T0Tm/ButCN5WmALqz9DNfHDCTlikkLcuaA1WhiXg3TjH+16P0LGivzUwD+QEYS0npbEhH5YnkmTML6vsqW/iZ3mhEKvdzMEsqrD/juZ4mCcJvJtjB0EN36sq13tE5aYvyK4kkTSvZTk2m23xdsnLMzTj4J+u8ufkWrYK4w7mvAPMLfLx+uu1xpMzDuH1cEnoFN3yqnwEzRqjdIEO/ZcoTJzy89zKncc1w9sZrxeEyH7GIiEM+nDJ+ZVEGB5eytcK+34UanxhNjHe4PqEAoihKmj4sCWCTrJEEIrlxLe7OkRImvklSDrpVM2xoif3Pww2w0k764cmOpKelilt5Eit8R0WVqgde6iNd8/B0YiV3dxaBEyeSMW16JeawyZ3ocRleJnU2cZLv5OczB5tMfxLUcdDSif+tRSWUat1+FVxIDoh7sxWqFf8I="
+    AUTHENTIK_SECRET_KEY: "AgA3Z+xR+FwdSPixWevOHB56Xo9MBQ+dOOtiG1Ay0EwrUu0V+25/wQ0li6LPgTSn2w/sJ4NSkrU3qULlMp9173NGuI7cgGJGpk4B0TIV23du027KiEKk92dD7vH1UwA92RKgxrmBBQTd11EHg83b3YVX4n2Cjor0L+Amyfht5Wg+Qh56GmkjKEYjQi0L9hKN/wMOttVj21faNawpCA1QkEM+xiTccK97yKJex/7aJTE1jTGFFgY3dgPebLsHXuCD1bippM6LgDbS1Iz78DbCLAZM6kYTfSWu+9TFMsMjWtw6l0A9UGz7LYK+FdD9e5Ai4NI2wsapvltXOAMHYVb7d2OSeO6uT6yhLLRO/d5bKoTC4HQZQwUj1+WRmn2NfwuckqehSTX6FG8UAWpY33dGnzPTqfEvvgsPEgoXTXSV3U6Z65EJPzA37cmz0FhzzEY3nu1lotKBBgv25tsklzpyDjauVrfJWC42x+8AjEzS8LM4Qc4n8HAEltR1TrRN3+TSzDVjlyf/iVcU27i/ssDlsGDqb8ymlp05Jw9m6xYPO89PuUWoAkXHis/szXgsHF0ODi6zz/EsVJ5ZjJgN7/UKyDnxcCJV1TzVDDNvGl+ty1WZW4S7Losz1PmM3zgnoQopPlrgzPSwKAg6fG4PqM6Vjj8MjTV8ulis+KPFcjJn8wFq+SQCiRS7mDB9r+S82dxBTB4heMejmU1bB40vdhZEtjNWBAce7xMYQE9xgemtN/VmXMmuCWqvlmWrG689zbW7XD+mi0DKPdq//DanGWBJzDJGtj/PMe3eA8RqKZMKh/gFvA=="
+    AUTHENTIK_WEB__PATH: "AgCiIZcrdlC8abEUxt0mDAOJck73N/KMpkK8iJTsmFufU2qGtbB2kFsoCaBKar6FMmIlq+oKbg8YzuB4MwSxw5CoeuxRdoG2uf1rQtIbwbz3taCqleYCXzgFrYFqkn3H1cz7QBzkmtWsu+bis0f1liIOent1OYOA4DLsTBjv2x3mdD+pE0dUY5q5J8OaMyC8Y0cgJJh7TO4/2OqaJ1Ioj0WpTaSPofsvdZsW4nmNiDL0o/a0ILnxbrCfGIC9PVH6d1uGVMpQ6dcMEL6eWDp6iXI4RnsbH3uiOmS3A/D8oZ+69UlkDAf7R9vBF4hjTwNfcro7PtkIPJrXSSoEBLUYDt3AE5U3NlS5+UlrPqPD8V8EH3yhPufBSQgdKlETSchURSMb+LE3aYcD3TL+4GC7qv1ghHVHA5i4wPCZwDBEgFe9IluD6+tyu2f5RJSIpF8DCU1SFjuczReHM8zk1kDEG1Tvc1iF7vLnI7gqPtTvCtny0jvxVhlbyOcm+djbfN3y4tjXeHG5ftKtg2fuujRJUGyu7+n240roWWRmChtrDjlhB4RlBtfZHxytzr7Tnecj4sUx17dq2xKiuPSs3NhuqMVcguaFn/zesXbvqqku/LO+vrj9RJBimS2go89LvYU055E0J3lTQ+eo/tISQ4HXB74QhUmqEviQBcQi0huB3nMx1hHb/rjYmdEgcpIQfimkiKIc"
+  template:
+    type: Opaque
+    metadata:
+      name: authentik
+      labels:
+        app.kubernetes.io/name: "authentik"
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -182,6 +187,7 @@ spec:
       targetPort: 9443
   selector:
     app.kubernetes.io/name: "authentik"
+    app.kubernetes.io/component: server
 
 ---
 apiVersion: apps/v1
@@ -190,16 +196,19 @@ metadata:
   name: authentik-server
   labels:
     app.kubernetes.io/name: "authentik"
+    app.kubernetes.io/component: server
 spec:
   replicas: 1
   revisionHistoryLimit: 3
   selector:
     matchLabels:
       app.kubernetes.io/name: "authentik"
+      app.kubernetes.io/component: server
   template:
     metadata:
       labels:
         app.kubernetes.io/name: "authentik"
+        app.kubernetes.io/component: server
     spec:
       terminationGracePeriodSeconds: 30
       containers:
@@ -211,6 +220,12 @@ spec:
           envFrom:
             - secretRef:
                 name: authentik
+          env:
+            - name: AUTHENTIK_POSTGRESQL__PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: authentik-postgresql-secret
+                  key: POSTGRES_PASSWORD
           ports:
             - name: http
               containerPort: 9000
@@ -248,7 +263,7 @@ spec:
             periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 3
-          resource: {}
+          resources: {}
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -257,6 +272,7 @@ spec:
                 labelSelector:
                   matchLabels:
                     app.kubernetes.io/name: "authentik"
+                    app.kubernetes.io/component: server
                 topologyKey: kubernetes.io/hostname
       enableServiceLinks: true
 
@@ -267,16 +283,19 @@ metadata:
   name: authentik-worker
   labels:
     app.kubernetes.io/name: "authentik"
+    app.kubernetes.io/component: worker
 spec:
   replicas: 1
   revisionHistoryLimit: 3
   selector:
     matchLabels:
       app.kubernetes.io/name: "authentik"
+      app.kubernetes.io/component: worker
   template:
     metadata:
       labels:
         app.kubernetes.io/name: "authentik"
+        app.kubernetes.io/component: worker
     spec:
       serviceAccountName: authentik
       terminationGracePeriodSeconds: 30
@@ -289,6 +308,12 @@ spec:
           envFrom:
             - secretRef:
                 name: authentik
+          env:
+            - name: AUTHENTIK_POSTGRESQL__PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: authentik-postgresql-secret
+                  key: POSTGRES_PASSWORD
           ports:
             - name: http
               containerPort: 9000
@@ -335,6 +360,7 @@ spec:
                 labelSelector:
                   matchLabels:
                     app.kubernetes.io/name: "authentik"
+                    app.kubernetes.io/component: worker
                 topologyKey: kubernetes.io/hostname
       enableServiceLinks: true
 

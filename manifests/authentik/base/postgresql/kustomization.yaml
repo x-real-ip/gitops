@@ -1,31 +1,16 @@
-## Wat je zelf nog moet doen buiten Kubernetes
-
-- Op TrueNAS zelf een nieuwe iSCSI-target/LUN aanmaken voor deze app (net als
-  voor elke bestaande postgres-instance) en de bijbehorende IQN in de patch
-  hieronder zetten.
-- Een echt wachtwoord verzegelen met `kubeseal` voor de uiteindelijke naam
-  van je secret (`<prefix>-postgresql-secret`) en namespace, en de
-  `encryptedData.POSTGRES_PASSWORD` placeholder daarmee vervangen. Zonder dit
-  blijft de placeholder-waarde staan en start postgres niet.
-
-## Volledig voorbeeld
-
-`manifests/mijnapp/base/kustomization.yaml`:
-
-```yaml
+---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - ../../postgres-base/base
-  - manifest.yaml # de app zelf (Deployment/Service/HTTPRoute etc.)
+  - ../../../postgres/base
 
-namePrefix: mijnapp-
+namePrefix: authentik-
 
 labels:
   - includeSelectors: true
     pairs:
-      app-instance: mijnapp-postgresql
+      app-instance: authentik-postgresql
 
 patches:
   - target:
@@ -34,10 +19,10 @@ patches:
     patch: |-
       - op: replace
         path: /data/POSTGRES_DB
-        value: mijnapp
+        value: authentik
       - op: replace
         path: /data/POSTGRES_USER
-        value: mijnapp
+        value: authentik
   - target:
       kind: StatefulSet
       name: postgresql
@@ -47,17 +32,17 @@ patches:
         value: 20Gi
       - op: replace
         path: /spec/volumeClaimTemplates/0/spec/volumeName
-        value: mijnapp-pv-iscsi-postgresql-db
+        value: authentik-pv-iscsi-postgresql-db
       - op: replace
         path: /spec/template/spec/containers/0/env/0/valueFrom/secretKeyRef/name
-        value: mijnapp-postgresql-secret
+        value: authentik-postgresql-secret
   - target:
       kind: SealedSecret
       name: postgresql-secret
     patch: |-
       - op: replace
         path: /spec/template/metadata/name
-        value: mijnapp-postgresql-secret
+        value: authentik-postgresql-secret
   - target:
       kind: PersistentVolume
       name: pv-iscsi-postgresql-db
@@ -67,5 +52,4 @@ patches:
         value: 20Gi
       - op: replace
         path: /spec/csi/volumeAttributes/iqn
-        value: "iqn.2005-10.org.freenas.ctl:mijnapp-db"
-```
+        value: "iqn.2005-10.org.freenas.ctl:authentik-db"

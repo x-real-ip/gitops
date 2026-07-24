@@ -64,9 +64,6 @@ spec:
             - name: dshm
               mountPath: /dev/shm
             - name: data
-              # postgres 18+ moved PGDATA to a version-specific subdir
-              # (/var/lib/postgresql/<major>/docker) and its VOLUME to
-              # /var/lib/postgresql — mount the parent dir, not /data.
               mountPath: /var/lib/postgresql
       volumes:
         - name: dshm
@@ -76,13 +73,6 @@ spec:
     - metadata:
         name: data
       spec:
-        # Pinned to a specific PV by name rather than a label selector: the
-        # `labels:` transformer's includeSelectors doesn't reach into a
-        # volumeClaimTemplate nested this deep, so a label-based selector
-        # here would silently match ANY app's postgres PV sharing the base's
-        # generic "app: postgresql-database" label. volumeName is an exact,
-        # unambiguous pin — every consuming app must patch this to match its
-        # own (namePrefix-ed) PV name, see README.md.
         volumeName: pv-iscsi-postgresql-db
         accessModes:
           - ReadWriteOnce
