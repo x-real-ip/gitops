@@ -373,6 +373,12 @@ metadata:
   labels:
     app.kubernetes.io/name: "authentik"
 spec:
+  hostnames:
+    - auth.lan.stamx.nl
+  parentRefs:
+    - name: private
+      namespace: gateway-private
+      sectionName: https
   rules:
     - backendRefs:
         - group: ""
