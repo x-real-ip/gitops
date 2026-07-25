@@ -65,28 +65,27 @@ spec:
         - name: protonmail-bridge
           image: "ghcr.io/x-real-ip/protonmail-bridge:264547db870059df134a8c19d3de768454051ade"
           imagePullPolicy: Always
-          command: ["/bin/sh"]
-          args: ["-c", "while true; do sleep 3600; done"]
+          command: ["/bin/bash", "/protonmail/entrypoint.sh"]
           resources: {}
           ports:
             - name: smtp
               containerPort: 25
             - name: imap
               containerPort: 143
-          # livenessProbe:
-          #   tcpSocket:
-          #     port: imap
-          #   initialDelaySeconds: 30
-          #   periodSeconds: 30
-          #   timeoutSeconds: 5
-          #   failureThreshold: 3
-          # readinessProbe:
-          #   tcpSocket:
-          #     port: imap
-          #   initialDelaySeconds: 10
-          #   periodSeconds: 10
-          #   timeoutSeconds: 5
-          #   failureThreshold: 3
+          livenessProbe:
+            tcpSocket:
+              port: imap
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            tcpSocket:
+              port: imap
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
           volumeMounts:
             - name: protonmail-data
               mountPath: /root
