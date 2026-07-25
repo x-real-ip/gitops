@@ -68,7 +68,8 @@ spec:
         - name: protonmail-bridge
           image: "ghcr.io/x-real-ip/protonmail-bridge:264547db870059df134a8c19d3de768454051ade"
           imagePullPolicy: Always
-          command: ["/bin/bash", "/protonmail/entrypoint.sh"]
+          command: ["/bin/sh"]
+          args: ["-c", "while true; do sleep 3600; done"]
           resources: {}
           ports:
             - name: smtp
