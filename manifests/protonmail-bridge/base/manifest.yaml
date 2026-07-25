@@ -73,20 +73,20 @@ spec:
               containerPort: 25
             - name: imap
               containerPort: 143
-          livenessProbe:
-            tcpSocket:
-              port: imap
-            initialDelaySeconds: 30
-            periodSeconds: 30
-            timeoutSeconds: 5
-            failureThreshold: 3
-          readinessProbe:
-            tcpSocket:
-              port: imap
-            initialDelaySeconds: 10
-            periodSeconds: 10
-            timeoutSeconds: 5
-            failureThreshold: 3
+          # livenessProbe:
+          #   tcpSocket:
+          #     port: imap
+          #   initialDelaySeconds: 30
+          #   periodSeconds: 30
+          #   timeoutSeconds: 5
+          #   failureThreshold: 3
+          # readinessProbe:
+          #   tcpSocket:
+          #     port: imap
+          #   initialDelaySeconds: 10
+          #   periodSeconds: 10
+          #   timeoutSeconds: 5
+          #   failureThreshold: 3
           volumeMounts:
             - name: protonmail-data
               mountPath: /root
