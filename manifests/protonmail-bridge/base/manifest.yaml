@@ -2,47 +2,44 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: pv-nfs-protonmail-bridge-data
+  name: pv-iscsi-protonmail-bridge-data
   labels:
     app: protonmail-bridge
 spec:
-  storageClassName: "freenas-nfs-manual-csi"
+  storageClassName: "freenas-iscsi-manual-csi"
   capacity:
-    storage: 100Mi
+    storage: 2Gi
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  mountOptions:
-    - nfsvers=4
-    - nolock
-    - noatime
   csi:
     driver: org.democratic-csi.node-manual
     readOnly: false
-    fsType: nfs
-    volumeHandle: pv-nfs-protonmail-bridge-data
+    fsType: xfs
+    volumeHandle: pv-iscsi-protonmail-bridge-data
     volumeAttributes:
-      server: truenas-master.lan.stamx.nl
-      share: /mnt/ssd/containers/k8s/protonmail-bridge-data
-      node_attach_driver: nfs
+      portal: truenas-master.lan.stamx.nl:3260
+      iqn: iqn.2005-10.org.freenas.ctl:protonmail-bridge
+      lun: "0"
+      node_attach_driver: iscsi
       provisioner_driver: node-manual
 
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: pvc-nfs-protonmail-bridge-data
+  name: pvc-iscsi-protonmail-bridge-data
   namespace: tools
   labels:
     app: protonmail-bridge
 spec:
-  storageClassName: freenas-nfs-manual-csi
+  storageClassName: freenas-iscsi-manual-csi
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
-      storage: 100Mi
-  volumeName: pv-nfs-protonmail-bridge-data
+      storage: 2Gi
+  volumeName: pv-iscsi-protonmail-bridge-data
 
 ---
 kind: Deployment
@@ -75,13 +72,27 @@ spec:
               containerPort: 25
             - name: imap
               containerPort: 143
+          livenessProbe:
+            tcpSocket:
+              port: imap
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            tcpSocket:
+              port: imap
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
           volumeMounts:
             - name: protonmail-data
               mountPath: /root
       volumes:
         - name: protonmail-data
           persistentVolumeClaim:
-            claimName: pvc-nfs-protonmail-bridge-data
+            claimName: pvc-iscsi-protonmail-bridge-data
       imagePullSecrets:
         - name: github-registry-creds
 
