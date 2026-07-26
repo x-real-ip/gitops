@@ -7,6 +7,7 @@ metadata:
     app: vaultwarden-database
 data:
   POSTGRES_DB: "vaultwarden"
+
 ---
 kind: ConfigMap
 apiVersion: v1
@@ -33,8 +34,8 @@ data:
   DB_CONNECTION_RETRIES: "15"
   EMERGENCY_ACCESS_ALLOWED: "false"
   DISABLE_ADMIN_TOKEN: "false"
-  SMTP_FROM_NAME: "Bitwarden | Stamx"
+  SMTP_FROM_NAME: "Bitwarden | stamx"
   SMTP_SECURITY: "starttls"
   SMTP_TIMEOUT: "15"
-  SMTP_PORT: "25"
-  SMTP_HOST: "protonmail-bridge-smtp.tools.svc.cluster.local"
+  SMTP_PORT: "587"
+  SMTP_HOST: "smtp.protonmail.ch"
