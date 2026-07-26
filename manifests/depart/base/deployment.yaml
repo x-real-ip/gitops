@@ -90,6 +90,12 @@ spec:
                   name: depart-config
                   key: ROUTING_URL
                   optional: true
+            - name: ADDRESS_AUTOCOMPLETE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: depart-config
+                  key: ADDRESS_AUTOCOMPLETE_URL
+                  optional: true
             - name: EXTERN_CACHE_MINUTES
               valueFrom:
                 configMapKeyRef:
