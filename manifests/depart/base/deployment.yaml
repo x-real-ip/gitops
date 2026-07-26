@@ -1,0 +1,170 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: depart-api
+  labels:
+    app: depart-api
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: depart-api
+  template:
+    metadata:
+      labels:
+        app: depart-api
+    spec:
+      securityContext:
+        runAsUser: 3001
+        runAsGroup: 3001
+        fsGroup: 3001
+        fsGroupChangePolicy: OnRootMismatch
+      initContainers:
+        - name: migrate
+          image: ghcr.io/x-real-ip/depart-api:latest
+          imagePullPolicy: Always
+          workingDir: /app
+          command:
+            - node_modules/.bin/node-pg-migrate
+            - --migrations-dir
+            - migrations
+            - up
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: depart-secrets
+                  key: DATABASE_URL
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+      containers:
+        - name: api
+          image: ghcr.io/x-real-ip/depart-api:latest
+          imagePullPolicy: Always
+          env:
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: depart-config
+                  key: PORT
+            - name: DOCUMENTS_PATH
+              valueFrom:
+                configMapKeyRef:
+                  name: depart-config
+                  key: DOCUMENTS_PATH
+            - name: LOG_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  name: depart-config
+                  key: LOG_LEVEL
+                  optional: true
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: depart-secrets
+                  key: DATABASE_URL
+            - name: API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: depart-secrets
+                  key: API_TOKEN
+          ports:
+            - name: api
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: api
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: api
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 10m
+              memory: 96Mi
+            limits:
+              cpu: 500m
+              memory: 320Mi
+          volumeMounts:
+            - name: documents
+              mountPath: /data/documents
+      volumes:
+        - name: documents
+          persistentVolumeClaim:
+            claimName: pvc-iscsi-depart-documents
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: depart-web
+  labels:
+    app: depart-web
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: depart-web
+  template:
+    metadata:
+      labels:
+        app: depart-web
+    spec:
+      containers:
+        - name: web
+          image: ghcr.io/x-real-ip/depart-web:latest
+          imagePullPolicy: Always
+          env:
+            - name: BACKEND_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: depart-config
+                  key: BACKEND_URL
+            - name: APP_TITLE
+              valueFrom:
+                configMapKeyRef:
+                  name: depart-config
+                  key: APP_TITLE
+                  optional: true
+            - name: API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: depart-secrets
+                  key: API_TOKEN
+          ports:
+            - name: http
+              containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi

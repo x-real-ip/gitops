@@ -1,0 +1,30 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: depart-web
+  labels:
+    app: depart-web
+spec:
+  selector:
+    app: depart-web
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+---
+# Alleen binnen het cluster: de api is nooit rechtstreeks van buiten te bereiken,
+# al het verkeer loopt via depart-web.
+apiVersion: v1
+kind: Service
+metadata:
+  name: depart-api
+  labels:
+    app: depart-api
+spec:
+  selector:
+    app: depart-api
+  ports:
+    - name: api
+      port: 8080
+      targetPort: api

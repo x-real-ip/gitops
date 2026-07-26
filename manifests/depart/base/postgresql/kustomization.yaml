@@ -1,0 +1,59 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Hergebruikt de gedeelde postgres-base, hetzelfde patroon als authentik.
+resources:
+  - ../../../postgres/base
+
+namePrefix: depart-
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app-instance: depart-postgresql
+
+patches:
+  - target:
+      kind: ConfigMap
+      name: postgresql-env
+    patch: |-
+      - op: replace
+        path: /data/POSTGRES_DB
+        value: depart
+      - op: replace
+        path: /data/POSTGRES_USER
+        value: depart
+  - target:
+      kind: StatefulSet
+      name: postgresql
+    patch: |-
+      - op: replace
+        path: /spec/volumeClaimTemplates/0/spec/resources/requests/storage
+        value: 5Gi
+      - op: replace
+        path: /spec/volumeClaimTemplates/0/spec/volumeName
+        value: depart-pv-iscsi-postgresql-db
+      - op: replace
+        path: /spec/template/spec/containers/0/env/0/valueFrom/secretKeyRef/name
+        value: depart-postgresql-secret
+  - target:
+      kind: SealedSecret
+      name: postgresql-secret
+    patch: |-
+      - op: replace
+        path: /spec/template/metadata/name
+        value: depart-postgresql-secret
+      - op: replace
+        path: /spec/encryptedData/POSTGRES_PASSWORD
+        value: AgBRVWUxfv+wZ02g7yP8QjSOvaroRxcipKfnMU7HRPpfUiG4iFczXJm/qd4qQVUqY1g972wvVNI9OcGcO5k/m46PXMhFfZ0Ng3Mm1PO6s6pHRHa+Izqu6ncaOZXOXPyVmtntchWuJZzZMf6ptuBFayvX8h3zBT6gBRsmhR2Ja8vhZcO6xEbQ8kFsgkWRi1vE4n+SbZ4R9bfN622wnzDB6dSKOWKBNWMNGnETIy3nyq/DThZFuDcCB2vdW++XmwtjDi/jxoDx8kTNzLyr7H3hh7Op9G297O8QWXelcEqEw6x2QBe0iaqgDnCvyog+d8N5AZtbGmZSLHy0dB1MKxZAEzwQ8N19Cv0W18nee8flOzgAmbE+jWugQGEm7UeV/aQqQvImcxyqsQlzyF6OUkg3FGOTLlBekLxBoTWNbc1rjwL4tgcAdkQnyFOzU0skmUxLyf3GwqTfA2v46bDAt/StOIdJOUTjC5bnb3j/b0aTzUYLANt0e8S0mqVIgmOuYqoWGWXLjMt0GBJjnW6kthNdil8xrWq7L8t22zjBfTvmdMZBbiA1GpczOlOCTyTj7G3Fv+EHz42tycuzx8BjxWSjgV0mdHwKEkfmrHulUsFRV9p3jc1oFxeoHbicT8zIjKTJJZ7Dyfl6S20Xjzlr082A1RAH4lj871JEmYyUhWfs7/qplH7jxbelJcwzoF1ocM2dLylhgn59PaWSq58WAOolF4JB/U8HYdaEe1c=
+  - target:
+      kind: PersistentVolume
+      name: pv-iscsi-postgresql-db
+    patch: |-
+      - op: replace
+        path: /spec/capacity/storage
+        value: 5Gi
+      - op: replace
+        path: /spec/csi/volumeAttributes/iqn
+        value: "iqn.2005-10.org.freenas.ctl:depart-db"
