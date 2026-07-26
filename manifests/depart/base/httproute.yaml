@@ -1,6 +1,4 @@
 ---
-# Hangt aan de private gateway, net als open-family-finance. De app is daarmee
-# alleen binnen het eigen netwerk bereikbaar — er staan paspoortscans in.
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:

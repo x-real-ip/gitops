@@ -11,3 +11,13 @@ data:
   APP_TITLE: "Depart"
   DOCUMENTS_PATH: "/data/documents"
   LOG_LEVEL: "info"
+  # Weer en route komen van publieke diensten die zonder sleutel werken. De api
+  # heeft hiervoor uitgaand internet nodig. Zet EXTERN_ENABLED op "false" om de
+  # app zonder die koppelingen te laten werken; de schermen melden dan netjes
+  # dat er geen gegevens zijn.
+  EXTERN_ENABLED: "true"
+  GEOCODING_URL: "https://geocoding-api.open-meteo.com/v1/search"
+  WEATHER_URL: "https://api.open-meteo.com/v1/forecast"
+  ROUTING_URL: "https://router.project-osrm.org"
+  ADDRESS_AUTOCOMPLETE_URL: "https://photon.komoot.io/api/"
+  EXTERN_CACHE_MINUTES: "30"
