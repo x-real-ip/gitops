@@ -66,6 +66,36 @@ spec:
                   name: depart-config
                   key: LOG_LEVEL
                   optional: true
+            - name: EXTERN_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: depart-config
+                  key: EXTERN_ENABLED
+                  optional: true
+            - name: GEOCODING_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: depart-config
+                  key: GEOCODING_URL
+                  optional: true
+            - name: WEATHER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: depart-config
+                  key: WEATHER_URL
+                  optional: true
+            - name: ROUTING_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: depart-config
+                  key: ROUTING_URL
+                  optional: true
+            - name: EXTERN_CACHE_MINUTES
+              valueFrom:
+                configMapKeyRef:
+                  name: depart-config
+                  key: EXTERN_CACHE_MINUTES
+                  optional: true
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
