@@ -1,0 +1,61 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: go2rtc
+  labels:
+    app: go2rtc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go2rtc
+  template:
+    spec:
+      containers:
+        - name: go2rtc
+          image: "ghcr.io/alexxit/go2rtc:latest"
+          imagePullPolicy: Always
+          ports:
+            - name: rtsp-tcp
+              containerPort: 8554
+              protocol: TCP
+            - name: api-tcp
+              containerPort: 1984
+              protocol: TCP
+            - name: webrtc-tcp
+              containerPort: 8555
+              protocol: TCP
+            - name: webrtc-udp
+              containerPort: 8555
+              protocol: UDP
+          livenessProbe:
+            tcpSocket:
+              port: api-tcp
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: api-tcp
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          startupProbe:
+            tcpSocket:
+              port: api-tcp
+            initialDelaySeconds: 0
+            failureThreshold: 30
+            timeoutSeconds: 1
+            periodSeconds: 5
+          volumeMounts:
+            - name: go2rtc-config
+              mountPath: /config/go2rtc.yaml
+              subPath: go2rtc.yaml
+          resources: {}
+      volumes:
+        - name: go2rtc-config
+          secret:
+            secretName: go2rtc-config

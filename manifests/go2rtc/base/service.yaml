@@ -1,0 +1,26 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: go2rtc-service
+  labels:
+    app: go2rtc
+spec:
+  type: ClusterIP
+  ports:
+    - name: rtsp-tcp
+      protocol: TCP
+      port: 8554
+      targetPort: rtsp-tcp
+    - name: api-tcp
+      protocol: TCP
+      port: 1984
+      targetPort: api-tcp
+    - name: webrtc-tcp
+      protocol: TCP
+      port: 8555
+      targetPort: webrtc-tcp
+    - name: webrtc-udp
+      protocol: UDP
+      port: 8555
+      targetPort: webrtc-udp

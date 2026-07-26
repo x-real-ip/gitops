@@ -1,0 +1,55 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radicale
+  labels:
+    app: radicale
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: radicale
+  template:
+    metadata:
+      labels:
+        app: radicale
+    spec:
+      enableServiceLinks: false
+      containers:
+        - name: radicale
+          image: "docker.io/tomsquest/docker-radicale:latest"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5232
+              protocol: TCP
+          env:
+            - name: UID
+              value: "1000"
+            - name: GID
+              value: "2000"
+            - name: "TAKE_FILE_OWNERSHIP"
+              value: "false"
+          volumeMounts:
+            - name: collections
+              mountPath: /data
+            - name: config
+              mountPath: /config/config
+              subPath: config
+            - name: users
+              mountPath: /etc/radicale/users
+              subPath: users
+              readOnly: true
+          resources: {}
+      volumes:
+        - name: config
+          configMap:
+            name: radicale-config
+        - name: users
+          secret:
+            secretName: radicale-users
+        - name: collections
+          persistentVolumeClaim:
+            claimName: pvc-nfs-radicale-data
+      imagePullSecrets:
+        - name: github-registry-creds

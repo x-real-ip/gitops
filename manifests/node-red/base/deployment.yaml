@@ -1,0 +1,52 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: node-red
+  labels:
+    app: node-red
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node-red
+  template:
+    metadata:
+      labels:
+        app: node-red
+    spec:
+      securityContext:
+        fsGroup: 2000
+      containers:
+        - name: node-red
+          image: "ghcr.io/x-real-ip/node-red:latest"
+          imagePullPolicy: Always
+          securityContext:
+            runAsUser: 1000
+          resources: {}
+          ports:
+            - containerPort: 1880
+              protocol: TCP
+          envFrom:
+            - secretRef:
+                name: spotify-api-credentials
+                optional: true
+            - secretRef:
+                name: node-red-credential-secret
+                optional: false
+          env:
+            - name: TZ
+              value: Europe/Amsterdam
+            - name: PGID
+              value: "2000"
+            - name: PUID
+              value: "1000"
+          volumeMounts:
+            - name: node-red-data
+              mountPath: /data
+      volumes:
+        - name: node-red-data
+          persistentVolumeClaim:
+            claimName: pvc-nfs-node-red-data
+      imagePullSecrets:
+        - name: github-registry-creds

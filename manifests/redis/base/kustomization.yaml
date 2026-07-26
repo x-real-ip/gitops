@@ -2,4 +2,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - manifest.yaml
+  - configmap.yaml
+  - persistentvolume.yaml
+  - service.yaml
+  - serviceaccount.yaml
+  - statefulset.yaml

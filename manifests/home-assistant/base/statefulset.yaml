@@ -1,0 +1,90 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: home-assistant-postgresql
+  labels:
+    app: home-assistant-database
+spec:
+  replicas: 1
+  serviceName: home-assistant-postgresql-hl
+  selector:
+    matchLabels:
+      app: home-assistant-database
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Delete
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: home-assistant-database
+    spec:
+      containers:
+        - name: postgres
+          image: docker.io/postgres:14
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: "home-assistant"
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: home-assistant-postgresql-secret
+                  key: postgresql-username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: home-assistant-postgresql-secret
+                  key: postgresql-password
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - exec pg_isready -U "$POSTGRES_USER" -h 127.0.0.1 -p 5432
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - exec pg_isready -U "$POSTGRES_USER" -h 127.0.0.1 -p 5432
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits: {}
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app: home-assistant
+                namespaces:
+                  - home-automation
+                topologyKey: kubernetes.io/hostname
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: freenas-iscsi-manual-csi
+        resources:
+          requests:
+            storage: 100Gi

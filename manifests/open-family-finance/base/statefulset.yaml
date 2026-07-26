@@ -1,0 +1,86 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: open-family-finance-postgresql
+  labels:
+    app: open-family-finance-database
+spec:
+  replicas: 1
+  serviceName: open-family-finance-postgresql-hl
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Delete
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: open-family-finance-database
+  template:
+    metadata:
+      labels:
+        app: open-family-finance-database
+    spec:
+      containers:
+        - name: postgresql
+          image: docker.io/postgres:18-alpine
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: open-family-finance-postgresql-env
+                optional: false
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: open-family-finance-secrets
+                  key: POSTGRES_PASSWORD
+          ports:
+            - containerPort: 5432
+              name: postgres
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - pg_isready -U "$POSTGRES_USER" -h 127.0.0.1 -p 5432
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - pg_isready -U "$POSTGRES_USER" -h 127.0.0.1 -p 5432
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits: {}
+          volumeMounts:
+            - name: dshm
+              mountPath: /dev/shm
+            - name: data
+              mountPath: /var/lib/postgresql
+      volumes:
+        - name: dshm
+          emptyDir:
+            medium: Memory
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        selector:
+          matchLabels:
+            app: open-family-finance-database
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: freenas-iscsi-manual-csi
+        resources:
+          requests:
+            storage: 5Gi

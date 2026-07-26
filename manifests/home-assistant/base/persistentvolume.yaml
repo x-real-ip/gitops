@@ -1,0 +1,53 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-iscsi-home-assistant-db
+  labels:
+    app: home-assistant-database
+spec:
+  storageClassName: "freenas-iscsi-manual-csi"
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: xfs
+    volumeHandle: pv-iscsi-home-assistant-db
+    volumeAttributes:
+      portal: truenas-master.lan.stamx.nl:3260
+      iqn: iqn.2005-10.org.freenas.ctl:home-assistant-db-2
+      lun: "0"
+      node_attach_driver: iscsi
+      provisioner_driver: node-manual
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-nfs-home-assistant-config
+  labels:
+    app: home-assistant
+spec:
+  storageClassName: "freenas-nfs-manual-csi"
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=4
+    - nolock
+    - noatime
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: nfs
+    volumeHandle: pv-nfs-home-assistant-config
+    volumeAttributes:
+      server: truenas-master.lan.stamx.nl
+      share: /mnt/ssd/containers/k8s/home-assistant-config-2
+      node_attach_driver: nfs
+      provisioner_driver: node-manual

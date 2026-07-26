@@ -1,0 +1,45 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: webdav-server
+  labels:
+    app: webdav
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webdav
+  template:
+    metadata:
+      labels:
+        app: webdav
+    spec:
+      containers:
+        - name: webdav-server
+          image: docker.io/dgraziotin/nginx-webdav-nononsense:latest
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: webdav-env
+                optional: false
+            - secretRef:
+                name: webdav-secret-env
+                optional: false
+          ports:
+            - name: http
+              containerPort: 80
+          resources: {}
+          volumeMounts:
+            - name: data
+              mountPath: /data
+              readOnly: false
+            - name: config
+              mountPath: /config
+              readOnly: false
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: pvc-nfs-webdav-server-data
+        - name: config
+          emptyDir: {}

@@ -1,0 +1,64 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: syncthing
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: syncthing
+  template:
+    metadata:
+      labels:
+        app: syncthing
+    spec:
+      containers:
+        - name: syncthing
+          image: docker.io/syncthing/syncthing:latest
+          imagePullPolicy: Always
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "2000"
+          ports:
+            - name: webui
+              containerPort: 8384
+              protocol: TCP
+            - name: filetransfer
+              containerPort: 22000
+              protocol: TCP
+            - name: quic
+              containerPort: 22000
+              protocol: UDP
+            - name: discovery
+              containerPort: 21027
+              protocol: UDP
+          livenessProbe:
+            httpGet:
+              path: /rest/noauth/health
+              port: 8384
+            initialDelaySeconds: 60
+            periodSeconds: 60
+          readinessProbe:
+            httpGet:
+              path: /rest/noauth/health
+              port: 8384
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          resources: {}
+          volumeMounts:
+            - mountPath: /var/syncthing
+              name: config
+            - mountPath: /var/shared
+              name: data
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: pvc-iscsi-syncthing-config
+        - name: data
+          persistentVolumeClaim:
+            claimName: pvc-nfs-syncthing-data

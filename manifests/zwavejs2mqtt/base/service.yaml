@@ -1,0 +1,28 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: zwavejs2mqtt-us
+  labels:
+    app: zwavejs2mqtt-us
+spec:
+  selector:
+    app: zwavejs2mqtt-us
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8091
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: zwavejs2mqtt-us-ws
+  labels:
+    app: zwavejs2mqtt-us
+spec:
+  selector:
+    app: zwavejs2mqtt-us
+  ports:
+    - name: ws
+      port: 3000
+      targetPort: 3000

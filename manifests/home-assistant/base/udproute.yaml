@@ -1,0 +1,16 @@
+---
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: UDPRoute
+metadata:
+  name: home-assistant-coiot
+  labels:
+    gateway: private
+spec:
+  parentRefs:
+    - name: private
+      namespace: gateway-private
+      sectionName: coiot
+  rules:
+    - backendRefs:
+        - name: home-assistant
+          port: 5683

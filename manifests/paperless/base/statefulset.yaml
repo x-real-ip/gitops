@@ -1,0 +1,85 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: paperless-postgresql
+  labels:
+    app: paperless-database
+spec:
+  replicas: 1
+  serviceName: paperless-postgresql-hl
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Delete
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: paperless-database
+  template:
+    metadata:
+      labels:
+        app: paperless-database
+    spec:
+      containers:
+        - name: postgresql
+          image: "docker.io/postgres:14"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: POSTGRES_DB
+              value: paperless
+            - name: POSTGRES_USER
+              value: paperless
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-postgresql
+                  key: postgres-password
+          ports:
+            - containerPort: 5432
+              name: postgres
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - pg_isready -U "$POSTGRES_USER" -h 127.0.0.1 -p 5432
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - pg_isready -U "$POSTGRES_USER" -h 127.0.0.1 -p 5432
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits: {}
+          volumeMounts:
+            - name: dshm
+              mountPath: /dev/shm
+            - name: data
+              mountPath: /var/lib/postgresql/data
+              subPath: data
+      volumes:
+        - name: dshm
+          emptyDir:
+            medium: Memory
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+        labels:
+          app: paperless-database
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: freenas-iscsi-manual-csi
+        resources:
+          requests:
+            storage: 10Gi

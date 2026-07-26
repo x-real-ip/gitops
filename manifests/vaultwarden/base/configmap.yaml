@@ -1,0 +1,40 @@
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: vaultwarden-database-env-configmap
+  labels:
+    app: vaultwarden-database
+data:
+  POSTGRES_DB: "vaultwarden"
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: vaultwarden-server-env-configmap
+  labels:
+    app: vaultwarden
+data:
+  DATA_FOLDER: "data"
+  DOMAIN: "https://bitwarden.stamx.nl"
+  DATABASE_MAX_CONNS: "10"
+  IP_HEADER: "X-Real-IP"
+  ENABLE_DB_WAL: "true"
+  SIGNUPS_ALLOWED: "false"
+  SIGNUPS_VERIFY: "false"
+  ROCKET_PORT: "8080"
+  SHOW_PASSWORD_HINT: "false"
+  REQUIRE_DEVICE_EMAIL: "false"
+  INVITATIONS_ALLOWED: "false"
+  WEBSOCKET_ENABLED: "true"
+  WEB_VAULT_ENABLED: "true"
+  SENDS_ALLOWED: "true"
+  ORG_CREATION_USERS: "all"
+  DB_CONNECTION_RETRIES: "15"
+  EMERGENCY_ACCESS_ALLOWED: "false"
+  DISABLE_ADMIN_TOKEN: "false"
+  SMTP_FROM_NAME: "Bitwarden | Stamx"
+  SMTP_SECURITY: "starttls"
+  SMTP_TIMEOUT: "15"
+  SMTP_PORT: "25"
+  SMTP_HOST: "protonmail-bridge-smtp.tools.svc.cluster.local"

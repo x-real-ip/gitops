@@ -1,0 +1,10 @@
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: csi-manual-democratic-csi
+  labels:
+    app.kubernetes.io/name: democratic-csi
+    app.kubernetes.io/instance: csi-manual
+data:
+  extra-ca-certs: ""

@@ -1,0 +1,16 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: node-red
+  labels:
+    app: node-red
+spec:
+  selector:
+    app: node-red
+  type: ClusterIP
+  ports:
+    - port: 1880
+      protocol: TCP
+      targetPort: 1880
+  sessionAffinity: None

@@ -1,0 +1,77 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: esphome
+  labels:
+    app: esphome
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: esphome
+  template:
+    metadata:
+      labels:
+        app: esphome
+    spec:
+      serviceAccountName: default
+      automountServiceAccountToken: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      containers:
+        - name: esphome
+          image: "ghcr.io/x-real-ip/esphome:main"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 6052
+              protocol: TCP
+          env:
+            - name: "ESPHOME_DASHBOARD_USE_PING"
+              value: "true"
+            - name: "TZ"
+              value: "Europe/Amsterdam"
+            - name: "USERNAME"
+              valueFrom:
+                secretKeyRef:
+                  name: esphome-login
+                  key: username
+            - name: "PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: esphome-login
+                  key: password
+          livenessProbe:
+            tcpSocket:
+              port: 6052
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: 6052
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          startupProbe:
+            tcpSocket:
+              port: 6052
+            initialDelaySeconds: 0
+            failureThreshold: 30
+            timeoutSeconds: 1
+            periodSeconds: 5
+          volumeMounts:
+            - name: secrets
+              mountPath: /config/secrets.yaml
+              subPath: secrets.yaml
+          resources: {}
+      volumes:
+        - name: secrets
+          secret:
+            secretName: esphome-secrets
+      imagePullSecrets:
+        - name: github-registry-creds

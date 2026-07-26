@@ -1,0 +1,25 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: open-family-finance-config
+  labels:
+    app: open-family-finance
+data:
+  BACKEND_URL: "http://localhost:8080"
+  PORT: "8080"
+  LANGUAGE: "nl"
+  APP_TITLE: "Financiën"
+  PAPERLESS_ENABLED: "true"
+  PAPERLESS_URL: "http://paperless.tools.svc.cluster.local:8000"
+  PAPERLESS_PUBLIC_URL: "https://paperless.lan.stamx.nl"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: open-family-finance-postgresql-env
+  labels:
+    app: open-family-finance
+data:
+  POSTGRES_DB: "openfamilyfinance"
+  POSTGRES_USER: "openfamilyfinance"

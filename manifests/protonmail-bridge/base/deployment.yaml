@@ -1,0 +1,54 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: protonmail-bridge
+  namespace: tools
+  labels:
+    app: protonmail-bridge
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: protonmail-bridge
+  template:
+    metadata:
+      labels:
+        app: protonmail-bridge
+    spec:
+      containers:
+        - name: protonmail-bridge
+          image: "ghcr.io/x-real-ip/protonmail-bridge:264547db870059df134a8c19d3de768454051ade"
+          imagePullPolicy: Always
+          command: ["/bin/bash", "/protonmail/entrypoint.sh"]
+          resources: {}
+          ports:
+            - name: smtp
+              containerPort: 25
+            - name: imap
+              containerPort: 143
+          livenessProbe:
+            tcpSocket:
+              port: imap
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            tcpSocket:
+              port: imap
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          volumeMounts:
+            - name: protonmail-data
+              mountPath: /root
+      volumes:
+        - name: protonmail-data
+          persistentVolumeClaim:
+            claimName: pvc-iscsi-protonmail-bridge-data
+      imagePullSecrets:
+        - name: github-registry-creds

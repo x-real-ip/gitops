@@ -1,0 +1,29 @@
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: dsmr-reader-postgresql-env
+  labels:
+    app: dsmr-reader-database
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+data:
+  POSTGRES_DB: "dsmrreader"
+  POSTGRES_USER: "dsmrreader"
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: dsmr-reader-env
+  labels:
+    app: dsmr-reader
+data:
+  DJANGO_DATABASE_USER: "dsmrreader"
+  DJANGO_DATABASE_NAME: "dsmrreader"
+  DJANGO_DATABASE_PORT: "5432"
+  DJANGO_DATABASE_HOST: "dsmr-reader-postgresql-hl.home-automation.svc.cluster.local"
+  DJANGO_TIME_ZONE: "Europe/Amsterdam"
+  TZ: "Europe/Amsterdam"
+  DUID: "1000"
+  DGID: "2000"
+  VACUUM_DB_ON_STARTUP: "false"

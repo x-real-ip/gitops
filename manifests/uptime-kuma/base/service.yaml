@@ -1,0 +1,16 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: uptime-kuma
+  namespace: devops
+  labels:
+    app: uptime-kuma
+spec:
+  selector:
+    app: uptime-kuma
+  ports:
+    - name: uptime-kuma
+      protocol: TCP
+      port: 3001
+      targetPort: 3001

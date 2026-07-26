@@ -2,4 +2,12 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - manifest.yaml
+  - clusterrole.yaml
+  - clusterrolebinding.yaml
+  - configmap.yaml
+  - csidriver.yaml
+  - daemonset.yaml
+  - sealedsecret.yaml
+  - secret.yaml
+  - serviceaccount.yaml
+  - storageclass.yaml

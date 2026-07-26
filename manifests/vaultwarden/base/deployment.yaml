@@ -1,0 +1,59 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: vaultwarden
+  labels:
+    app: vaultwarden
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vaultwarden
+  template:
+    metadata:
+      labels:
+        app: vaultwarden
+    spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: vaultwarden-database
+              topologyKey: "kubernetes.io/hostname"
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: vaultwarden
+          image: ghcr.io/dani-garcia/vaultwarden:latest
+          imagePullPolicy: Always
+          securityContext:
+            runAsGroup: 1000
+            runAsUser: 1000
+          envFrom:
+            - configMapRef:
+                name: vaultwarden-server-env-configmap
+                optional: false
+            - secretRef:
+                name: vaultwarden-server-env-secret
+                optional: false
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+          volumeMounts:
+            - name: vaultwarden
+              mountPath: /data
+          resources: {}
+      volumes:
+        - name: vaultwarden
+          persistentVolumeClaim:
+            claimName: vaultwarden-data-pvc-nfs

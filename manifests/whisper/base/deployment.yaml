@@ -1,0 +1,34 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whisper
+  labels:
+    app: whisper
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: whisper
+  template:
+    metadata:
+      labels:
+        app: whisper
+    spec:
+      containers:
+        - name: whisper
+          image: docker.io/rhasspy/wyoming-whisper:latest
+          args:
+            - "--model"
+            - "tiny-int8"
+            - "--language"
+            - "en"
+          ports:
+            - containerPort: 10300
+          volumeMounts:
+            - name: whisper-data
+              mountPath: /data
+          resources: {}
+      volumes:
+        - name: whisper-data
+          emptyDir: {}

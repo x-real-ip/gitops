@@ -1,0 +1,150 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frigate
+  labels:
+    app: frigate
+data:
+  config.yaml: |
+    go2rtc:
+      enabled: false
+
+    tls:
+      enabled: false
+
+    auth:
+      enabled: true
+
+    detectors:
+      coral:
+        type: edgetpu
+        device: usb
+
+    face_recognition:
+      enabled: true
+      model_size: small
+
+    mqtt:
+      host: mosquitto.home-automation.svc.cluster.local
+      port: 1883
+      user: mqttuser
+      password: '{FRIGATE_MQTT_PASSWORD}'
+
+    detect:
+      enabled: true
+
+    cameras:
+      backyard:
+        live:
+          streams:
+            backyard: backyard
+        ffmpeg:
+          inputs:
+            - path: rtsp://go2rtc-service.home-automation.svc.cluster.local:8554/ipcam-01
+              roles:
+                - record
+            - path: rtsp://go2rtc-service.home-automation.svc.cluster.local:8554/ipcam-01_sub
+              roles:
+                - detect
+        objects:
+          track:
+            - person
+          mask:
+            - 0.002,0.601,0.188,0.553,0.389,0.554,0.364,0.64,0.408,0.642,0.415,0.784,0.57,0.784,0.572,0.421,1,0,0,0
+          filters:
+            person:
+              min_area: 0.02 # 2% of image area
+        detect:
+          width: 640
+          height: 360
+          fps: 5
+        record:
+          enabled: true
+          retain:
+            days: 3
+            mode: all
+          alerts:
+            retain:
+              days: 14
+          detections:
+            retain:
+              days: 14
+        motion:
+          mask:
+            - 0,0.6,0.196,0.552,0.389,0.555,0.364,0.643,0.409,0.644,0.416,0.786,0.572,0.78,0.569,0.415,0.657,0.347,0.676,1,1,1,1,0,0,0
+            - 0.195,1,0.194,0.906,0.126,0.909,0.126,1
+          threshold: 45
+          contour_area: 15
+          improve_contrast: true
+      frontyard:
+        live:
+          streams:
+            frontyard: frontyard
+        ffmpeg:
+          inputs:
+            - path: rtsp://go2rtc-service.home-automation.svc.cluster.local:8554/ipcam-03
+              roles:
+                - record
+                - detect
+        objects:
+          track:
+            - person
+          mask:
+            - 0,1,0.638,1,0.62,0.557,0.732,0.528,1,0.196,1,0,1,0,0,0
+            - 0.72,0,0.74,1,1,1,1,0
+          filters:
+            person:
+              min_area: 0.02 # 2% of image area
+        detect:
+          width: 640
+          height: 360
+          fps: 5
+        record:
+          enabled: true
+          retain:
+            days: 3
+            mode: all
+          alerts:
+            retain:
+              days: 14
+          detections:
+            retain:
+              days: 14
+        motion:
+          mask:
+            - 0,0.65,0.633,0.793,0.628,0.616,0.691,0.615,0.698,0.78,1,0.733,1,0.001,0,0.001
+          threshold: 40
+          contour_area: 10
+          improve_contrast: true
+      baby:
+        live:
+          streams:
+            baby: baby
+        ffmpeg:
+          inputs:
+            - path: rtsp://go2rtc-service.home-automation.svc.cluster.local:8554/ipcam-02
+              roles:
+                - record
+                - detect
+        objects:
+          track:
+            - person
+          mask:
+            - 0.35,0,0.371,0.559,0.401,1,0,1,0,0
+          filters:
+            person:
+              min_area: 0.02 # 2% of image area
+        record:
+          enabled: true
+          retain:
+            days: 3
+            mode: all
+        review:
+          alerts:
+            labels: []
+          detections:
+            labels: []
+        motion:
+          mask:
+            - 0.715,0.015,0.716,0.053,0.979,0.05,0.979,0.01

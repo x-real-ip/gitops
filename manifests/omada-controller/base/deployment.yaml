@@ -1,0 +1,83 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: omada-controller
+  namespace: tools
+  labels:
+    app: omada-controller
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: omada-controller
+  template:
+    metadata:
+      labels:
+        app: omada-controller
+    spec:
+      containers:
+        - name: omada-controller
+          image: "docker.io/mbentley/omada-controller:latest"
+          imagePullPolicy: Always
+          env:
+            - name: "TZ"
+              value: "Europe/Amsterdam"
+            - name: SHOW_SERVER_LOGS
+              value: "true"
+            - name: SHOW_MONGODB_LOGS
+              value: "true"
+          ports:
+            - name: manage-http
+              containerPort: 8088
+              protocol: TCP
+            - name: manage-https
+              containerPort: 8043
+              protocol: TCP
+            - name: portal-https
+              containerPort: 8843
+            - name: app-discovery
+              containerPort: 27001
+              protocol: UDP
+            - name: discovery
+              containerPort: 29810
+              protocol: UDP
+            - name: manager-v1
+              containerPort: 29811
+              protocol: TCP
+            - name: adopt-v1
+              containerPort: 29812
+              protocol: TCP
+            - name: upgrade-v1
+              containerPort: 29813
+              protocol: TCP
+            - name: manager-v2
+              containerPort: 29814
+              protocol: TCP
+            - name: transfer-v2
+              containerPort: 29815
+              protocol: TCP
+            - name: rtty
+              containerPort: 29816
+              protocol: TCP
+          resources: {}
+          volumeMounts:
+            - name: omada-controller-data
+              mountPath: /opt/tplink/EAPController/data
+              readOnly: false
+            - name: omada-controller-logs
+              mountPath: /opt/tplink/EAPController/logs
+              readOnly: false
+      dnsPolicy: ClusterFirst
+      dnsConfig:
+        nameservers:
+          - 10.0.100.1
+      volumes:
+        - name: omada-controller-data
+          # emptyDir: {}
+          persistentVolumeClaim:
+            claimName: pvc-iscsi-omada-controller-config
+        - name: omada-controller-logs
+          emptyDir: {}

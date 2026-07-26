@@ -1,0 +1,137 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: open-family-finance
+  labels:
+    app: open-family-finance
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: open-family-finance
+  template:
+    metadata:
+      labels:
+        app: open-family-finance
+    spec:
+      containers:
+        - name: web
+          image: ghcr.io/x-real-ip/open-family-finance-web:latest
+          imagePullPolicy: Always
+          env:
+            - name: BACKEND_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: open-family-finance-config
+                  key: BACKEND_URL
+            - name: API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: open-family-finance-secrets
+                  key: API_TOKEN
+            - name: LANGUAGE
+              valueFrom:
+                configMapKeyRef:
+                  name: open-family-finance-config
+                  key: LANGUAGE
+                  optional: true
+            - name: APP_TITLE
+              valueFrom:
+                configMapKeyRef:
+                  name: open-family-finance-config
+                  key: APP_TITLE
+                  optional: true
+            - name: PAPERLESS_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: open-family-finance-config
+                  key: PAPERLESS_ENABLED
+          ports:
+            - name: http
+              containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+        - name: api
+          image: ghcr.io/x-real-ip/open-family-finance-api:latest
+          imagePullPolicy: Always
+          env:
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: open-family-finance-config
+                  key: PORT
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: open-family-finance-secrets
+                  key: DATABASE_URL
+            - name: API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: open-family-finance-secrets
+                  key: API_TOKEN
+            - name: PAPERLESS_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: open-family-finance-config
+                  key: PAPERLESS_ENABLED
+            - name: PAPERLESS_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: open-family-finance-config
+                  key: PAPERLESS_URL
+                  optional: true
+            - name: PAPERLESS_PUBLIC_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: open-family-finance-config
+                  key: PAPERLESS_PUBLIC_URL
+                  optional: true
+            - name: PAPERLESS_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: open-family-finance-secrets
+                  key: PAPERLESS_API_TOKEN
+                  optional: true
+          ports:
+            - name: api
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: api
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: api
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 192Mi

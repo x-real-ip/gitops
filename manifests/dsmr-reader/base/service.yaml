@@ -1,0 +1,36 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: dsmr-reader-postgresql-hl
+  labels:
+    app: dsmr-reader-database
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  selector:
+    app: dsmr-reader-database
+  type: ClusterIP
+  clusterIP: None
+  publishNotReadyAddresses: true
+  ports:
+    - name: tcp-postgresql
+      port: 5432
+      targetPort: 5432
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: dsmr-reader
+  labels:
+    app: dsmr-reader
+spec:
+  selector:
+    app: dsmr-reader
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: http

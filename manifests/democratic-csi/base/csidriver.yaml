@@ -1,0 +1,14 @@
+---
+kind: CSIDriver
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: org.democratic-csi.node-manual
+  labels:
+    app.kubernetes.io/name: democratic-csi
+    app.kubernetes.io/instance: csi-manual
+spec:
+  attachRequired: false
+  podInfoOnMount: true
+  #  volumeLifecycleModes:
+  #  - Persistent
+  #  - Ephemeral

@@ -1,0 +1,55 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-iscsi-dsmr-reader-db
+  labels:
+    app: dsmr-reader-database
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  storageClassName: "freenas-iscsi-manual-csi"
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: xfs
+    volumeHandle: pv-iscsi-dsmr-reader-db
+    volumeAttributes:
+      portal: truenas-master.lan.stamx.nl:3260
+      iqn: iqn.2005-10.org.freenas.ctl:dsmr-reader-db-2
+      lun: "0"
+      node_attach_driver: iscsi
+      provisioner_driver: node-manual
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-nfs-dsmr-reader-backups
+  labels:
+    app: dsmr-reader
+spec:
+  storageClassName: "freenas-nfs-manual-csi"
+  capacity:
+    storage: 50Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=4
+    - nolock
+    - noatime
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: nfs
+    volumeHandle: pv-nfs-dsmr-reader-backups
+    volumeAttributes:
+      server: truenas-master.lan.stamx.nl
+      share: /mnt/ssd/backups
+      node_attach_driver: nfs
+      provisioner_driver: node-manual

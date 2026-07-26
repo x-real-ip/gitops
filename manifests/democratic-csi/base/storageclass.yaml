@@ -1,0 +1,46 @@
+---
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: freenas-iscsi-manual-csi
+  labels:
+    app.kubernetes.io/name: democratic-csi
+    app.kubernetes.io/instance: csi-manual
+provisioner: org.democratic-csi.node-manual
+reclaimPolicy: Retain
+allowVolumeExpansion: true
+volumeBindingMode: Immediate
+parameters:
+  fsType: "xfs"
+---
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: freenas-nfs-manual-csi
+  labels:
+    app.kubernetes.io/name: democratic-csi
+    app.kubernetes.io/instance: csi-manual
+provisioner: org.democratic-csi.node-manual
+reclaimPolicy: Retain
+allowVolumeExpansion: true
+volumeBindingMode: Immediate
+parameters:
+  fsType: "nfs"
+mountOptions:
+  - noatime
+  - nfsvers=4
+---
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: freenas-smb-manual-csi
+  labels:
+    app.kubernetes.io/name: democratic-csi
+    app.kubernetes.io/instance: csi-manual
+provisioner: org.democratic-csi.node-manual
+reclaimPolicy: Retain
+allowVolumeExpansion: true
+volumeBindingMode: Immediate
+mountOptions:
+  - dir_mode=0777
+  - file_mode=0777

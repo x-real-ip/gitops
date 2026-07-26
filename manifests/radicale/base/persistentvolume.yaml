@@ -1,0 +1,28 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-nfs-radicale-data
+  labels:
+    app: radicale
+spec:
+  storageClassName: "freenas-nfs-manual-csi"
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=4
+    - nolock
+    - noatime
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: nfs
+    volumeHandle: pv-nfs-radicale-data
+    volumeAttributes:
+      server: truenas-master.lan.stamx.nl
+      share: /mnt/ssd/containers/k8s/radicale-data
+      node_attach_driver: nfs
+      provisioner_driver: node-manual

@@ -1,0 +1,99 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: home-assistant
+  labels:
+    app: home-assistant
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: home-assistant
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: home-assistant
+    spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: home-assistant-database
+              topologyKey: "kubernetes.io/hostname"
+      initContainers:
+        - name: postgresql-isready
+          image: "docker.io/postgres:14"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: POSTGRESQL_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: home-assistant-postgresql-secret
+                  key: postgresql-username
+          command:
+            - "sh"
+            - "-c"
+            - until pg_isready -U ${POSTGRESQL_USERNAME} -h
+              home-assistant-postgresql-hl -p 5432 ; do sleep 2 ; done
+      containers:
+        - name: home-assistant
+          image: "ghcr.io/x-real-ip/home-assistant:latest"
+          imagePullPolicy: Always
+          securityContext:
+            privileged: true
+          ports:
+            - name: http
+              containerPort: 8123
+              protocol: TCP
+            - containerPort: 5683
+              protocol: UDP
+          env:
+            - name: TZ
+              value: "Europe/Amsterdam"
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "2000"
+          livenessProbe:
+            httpGet:
+              path: /manifest.json
+              port: 8123
+          readinessProbe:
+            httpGet:
+              path: /manifest.json
+              port: 8123
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+            successThreshold: 1
+          volumeMounts:
+            - name: home-assistant-config
+              mountPath: /config/.storage
+              subPath: .storage
+            - name: home-assistant-config
+              mountPath: /config/www
+              subPath: www
+            - name: home-assistant-config
+              mountPath: /config/custom_components
+              subPath: custom_components
+            - name: secrets
+              mountPath: /config/secrets.yaml
+              subPath: secrets.yaml
+          resources: {}
+      volumes:
+        - name: home-assistant-config
+          persistentVolumeClaim:
+            claimName: pvc-nfs-home-assistant-config
+        - name: secrets
+          secret:
+            secretName: secrets
+      imagePullSecrets:
+        - name: github-registry-creds

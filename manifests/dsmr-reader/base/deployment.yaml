@@ -1,0 +1,90 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: dsmr-reader
+  labels:
+    app: dsmr-reader
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: dsmr-reader
+  template:
+    metadata:
+      labels:
+        app: dsmr-reader
+    spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: dsmr-reader-database
+              topologyKey: "kubernetes.io/hostname"
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: dsmr-reader
+          image: "docker.io/xirixiz/dsmr-reader-docker:latest"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: dsmr-reader-env
+                optional: false
+          env:
+            - name: "DSMRREADER_ADMIN_USER"
+              valueFrom:
+                secretKeyRef:
+                  name: dsmr-reader
+                  key: DSMRREADER_ADMIN_USER
+            - name: "DSMRREADER_ADMIN_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: dsmr-reader
+                  key: DSMRREADER_ADMIN_PASSWORD
+            - name: "DJANGO_DATABASE_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: dsmr-reader
+                  key: POSTGRES_PASSWORD
+            - name: "SECRET_KEY"
+              valueFrom:
+                secretKeyRef:
+                  name: dsmr-reader
+                  key: SECRET_KEY
+          livenessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          startupProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 0
+            failureThreshold: 30
+            timeoutSeconds: 1
+            periodSeconds: 5
+          volumeMounts:
+            - name: backups
+              mountPath: /backups
+          resources: {}
+      volumes:
+        - name: backups
+          persistentVolumeClaim:
+            claimName: pvc-nfs-dsmr-reader-backups

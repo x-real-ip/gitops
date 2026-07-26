@@ -1,0 +1,67 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cups
+  labels:
+    app: cups
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cups
+  template:
+    metadata:
+      labels:
+        app: cups
+    spec:
+      hostNetwork: true
+      containers:
+        - name: cups
+          image: ghcr.io/anujdatar/cups:latest
+          ports:
+            - name: http
+              containerPort: 631
+          securityContext:
+            privileged: true
+          env:
+            - name: CUPSADMIN
+              value: "admin"
+            - name: CUPSPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cups-secret
+                  key: CUPSPASSWORD
+            - name: TZ
+              value: "Europe/Amsterdam"
+          volumeMounts:
+            - name: printer-config-volume
+              mountPath: /etc/cups/printers.conf
+              subPath: printers.conf
+            - name: printer-config-volume
+              mountPath: /etc/cups/ppd/Brother_HL-L2310D_series.ppd
+              subPath: Brother_HL-L2310D_series.ppd
+            - mountPath: /var/run/dbus
+              name: dbus
+            - mountPath: /var/run/avahi-daemon/socket
+              name: avahi-socket
+            - mountPath: /dev/bus/usb
+              name: usb-devices
+              mountPropagation: Bidirectional
+          resources: {}
+      volumes:
+        - name: dbus
+          hostPath:
+            path: /var/run/dbus
+            type: DirectoryOrCreate
+        - name: avahi-socket
+          hostPath:
+            path: /var/run/avahi-daemon/socket
+            type: Socket
+        - name: usb-devices
+          hostPath:
+            path: /dev/bus/usb
+            type: Directory
+        - name: printer-config-volume
+          configMap:
+            name: printer-configuration

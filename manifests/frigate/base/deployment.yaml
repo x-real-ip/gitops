@@ -1,0 +1,119 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frigate
+  labels:
+    app: frigate
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: frigate
+  template:
+    metadata:
+      labels:
+        app: frigate
+    spec:
+      initContainers:
+        - name: init-cp-config-file
+          image: busybox
+          command: ["/bin/sh", "-c", "cp /tmp/config.yaml /config/config.yaml"]
+          volumeMounts:
+            - name: configmap
+              mountPath: /tmp/
+            - name: config
+              mountPath: /config
+      containers:
+        - name: frigate
+          image: "ghcr.io/blakeblackshear/frigate:stable"
+          imagePullPolicy: Always
+          securityContext:
+            privileged: true
+          ports:
+            - name: http
+              containerPort: 8971
+              protocol: TCP
+            - name: http-services
+              containerPort: 5000
+              protocol: TCP
+            - name: rtsp
+              containerPort: 8554
+              protocol: TCP
+            - name: webrtc-tcp
+              containerPort: 8555
+              protocol: TCP
+            - name: webrtc-udp
+              containerPort: 8555
+              protocol: UDP
+            - name: webrtc-api-tcp
+              containerPort: 1984
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http-services
+              scheme: HTTP
+            initialDelaySeconds: 30
+            failureThreshold: 5
+            timeoutSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http-services
+              scheme: HTTP
+            initialDelaySeconds: 30
+            failureThreshold: 5
+            timeoutSeconds: 10
+          envFrom:
+            - secretRef:
+                name: mqtt-password
+                optional: true
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: media
+              mountPath: /media
+            - name: dshm
+              mountPath: /dev/shm
+            - name: tmp
+              mountPath: /tmp
+            - mountPath: /dev/bus/usb
+              name: usb-bus
+              readOnly: false
+            - mountPath: /dev/dri/renderD128
+              name: dri-render
+          resources:
+            requests: {}
+            limits:
+              memory: "2560Mi"
+              cpu: "2500m"
+      volumes:
+        - name: configmap
+          configMap:
+            name: frigate
+        - name: config
+          persistentVolumeClaim:
+            claimName: pvc-iscsi-frigate-config
+        - name: media
+          persistentVolumeClaim:
+            claimName: pvc-nfs-frigate-media
+        - name: dshm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 1Gi
+        - name: tmp
+          emptyDir:
+            medium: Memory
+            sizeLimit: 1Gi
+        - name: usb-bus
+          hostPath:
+            path: /dev/bus/usb
+            type: Directory
+        - name: dri-render
+          hostPath:
+            path: /dev/dri/renderD128
+            type: CharDevice

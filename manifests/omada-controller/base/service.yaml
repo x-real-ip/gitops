@@ -1,0 +1,60 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: omada-controller
+  namespace: tools
+  labels:
+    app: omada-controller
+spec:
+  selector:
+    app: omada-controller
+  type: LoadBalancer
+  loadBalancerIP: 10.0.100.242
+  externalTrafficPolicy: Cluster
+  sessionAffinity: None
+  ports:
+    - name: manage-http
+      protocol: TCP
+      port: 8088
+      targetPort: manage-http
+    - name: manage-https
+      protocol: TCP
+      port: 8043
+      targetPort: manage-https
+    - name: portal-https
+      protocol: TCP
+      port: 8843
+      targetPort: portal-https
+    - name: app-discovery
+      protocol: UDP
+      port: 27001
+      targetPort: app-discovery
+    - name: discovery
+      protocol: UDP
+      port: 29810
+      targetPort: discovery
+    - name: manager-v1
+      protocol: TCP
+      port: 29811
+      targetPort: manager-v1
+    - name: adopt-v1
+      protocol: TCP
+      port: 29812
+      targetPort: adopt-v1
+    - name: upgrade-v1
+      protocol: TCP
+      port: 29813
+      targetPort: upgrade-v1
+    - name: manager-v2
+      protocol: TCP
+      port: 29814
+      targetPort: manager-v2
+    - name: transfer-v2
+      protocol: TCP
+      port: 29815
+      targetPort: transfer-v2
+    - name: rtty
+      protocol: TCP
+      port: 29816
+      targetPort: rtty

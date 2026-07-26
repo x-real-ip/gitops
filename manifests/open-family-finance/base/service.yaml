@@ -1,0 +1,32 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: open-family-finance-postgresql-hl
+  labels:
+    app: open-family-finance-database
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+spec:
+  selector:
+    app: open-family-finance-database
+  type: ClusterIP
+  clusterIP: None
+  publishNotReadyAddresses: true
+  ports:
+    - name: tcp-postgresql
+      port: 5432
+      targetPort: 5432
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: open-family-finance
+  labels:
+    app: open-family-finance
+spec:
+  selector:
+    app: open-family-finance
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80

@@ -1,0 +1,33 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: is-it-dark
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: is-it-dark
+  template:
+    metadata:
+      labels:
+        app: is-it-dark
+    spec:
+      containers:
+        - name: is-it-dark
+          image: ghcr.io/x-real-ip/is-it-dark:latest
+          ports:
+            - containerPort: 5000
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "200m"
+            requests: {}
+          volumeMounts:
+            - name: config
+              mountPath: /app/config.yaml
+              subPath: config.yaml
+      volumes:
+        - name: config
+          configMap:
+            name: is-it-dark-config

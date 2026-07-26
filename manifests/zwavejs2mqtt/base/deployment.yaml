@@ -1,0 +1,77 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: zwavejs2mqtt-us
+  labels:
+    app: zwavejs2mqtt-us
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: zwavejs2mqtt-us
+  template:
+    metadata:
+      labels:
+        app: zwavejs2mqtt-us
+    spec:
+      containers:
+        - name: zwave-us
+          image: "ghcr.io/zwave-js/zwave-js-ui:latest"
+          imagePullPolicy: Always
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              cpu: 1000m
+              memory: 400Mi
+            limits:
+              cpu: 1000m
+              memory: 512Mi
+          env:
+            - name: TZ
+              value: "Europe/Amsterdam"
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "2000"
+          ports:
+            - containerPort: 8091
+              protocol: TCP
+            - containerPort: 3000
+              protocol: TCP
+          # livenessProbe:
+          #   httpGet:
+          #     httpHeaders:
+          #       - name: Accept
+          #         value: text/plain
+          #     path: /health
+          #     port: 8091
+          #     initialDelaySeconds: 120
+          #     periodSeconds: 10
+          #     timeoutSeconds: 5
+          #     failureThreshold: 6
+          #     successThreshold: 1
+          volumeMounts:
+            - mountPath: /usr/src/app/store
+              name: data
+            - mountPath: /usr/src/app/store/settings.json
+              name: settings
+              readOnly: true
+              subPath: settings.json
+            - mountPath: /z-stick
+              name: z-stick
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: pvc-nfs-zwavejs2mqtt-us-data
+        - name: z-stick
+          hostPath:
+            path: /dev/serial/by-id/usb-0658_0200-if00
+            type: CharDevice
+        - name: settings
+          secret:
+            defaultMode: 420
+            secretName: zwavejs2mqtt-us-settings
