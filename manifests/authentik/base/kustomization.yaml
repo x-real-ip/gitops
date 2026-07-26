@@ -5,7 +5,7 @@ kind: Kustomization
 resources:
   - postgresql
   - serviceaccount.yaml
-  - secret.yaml
+  - sealedsecret.yaml
   - clusterrole.yaml
   - clusterrolebinding.yaml
   - role.yaml
