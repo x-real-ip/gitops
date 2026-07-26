@@ -196,6 +196,8 @@ spec:
                 configMapKeyRef:
                   name: immich-env
                   key: DB_USERNAME
+            - name: IMMICH_CONFIG_FILE
+              value: /config/immich-config.yaml
             - name: IMMICH_MACHINE_LEARNING_URL
               valueFrom:
                 configMapKeyRef:
@@ -247,8 +249,8 @@ spec:
           resources: {}
       volumes:
         - name: config
-          configMap:
-            name: immich-config
+          secret:
+            secretName: immich-config
         - name: data
           persistentVolumeClaim:
             claimName: pvc-nfs-immich-library
