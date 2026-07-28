@@ -112,6 +112,12 @@ spec:
                 secretKeyRef:
                   name: depart-secrets
                   key: API_TOKEN
+            - name: TOMTOM_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: depart-secrets
+                  key: TOMTOM_API_KEY
+                  optional: true
           ports:
             - name: api
               containerPort: 8080
