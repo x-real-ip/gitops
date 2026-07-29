@@ -84,6 +84,19 @@ spec:
                 secretKeyRef:
                   name: paperless-secret
                   key: PAPERLESS_SECRET_KEY
+            - name: PAPERLESS_APPS
+              value: "allauth.socialaccount.providers.openid_connect"
+            - name: PAPERLESS_SOCIALACCOUNT_PROVIDERS
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-secret
+                  key: PAPERLESS_SOCIALACCOUNT_PROVIDERS
+            - name: PAPERLESS_LOGOUT_REDIRECT_URL
+              value: "https://auth.lan.stamx.nl/application/o/paperless/end-session/"
+            - name: PAPERLESS_SOCIAL_AUTO_SIGNUP
+              value: "true"
+            - name: PAPERLESS_SOCIALACCOUNT_ALLOW_SIGNUPS
+              value: "true"
           ports:
             - containerPort: 8000
               protocol: TCP
