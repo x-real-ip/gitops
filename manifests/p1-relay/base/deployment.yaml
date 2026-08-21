@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -18,7 +19,7 @@ spec:
     spec:
       containers:
         - name: p1-relay
-          image: ghcr.io/OWNER/p1-relay:latest
+          image: ghcr.io/x-real-ip/p1-relay:latest
           ports:
             - name: p1-stream
               containerPort: 8888
