@@ -7,6 +7,6 @@ resources:
 
 images:
   - name: ghcr.io/x-real-ip/p1-relay
-    newTag: v0.1.0
+    newTag: 0.1.0
 
 namespace: home-automation
