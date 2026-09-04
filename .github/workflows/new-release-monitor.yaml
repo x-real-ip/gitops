@@ -138,44 +138,48 @@ jobs:
             image: "docker.io/tomsquest/docker-radicale"
             include_tags: ""
             exclude_tags: ""
+          # Whitelist plain numeric tags: authentik also publishes sha256-*,
+          # buildcache-*, rc and the floating latest/stable, and "stable"
+          # sorts after any version number.
           - name: authentik
             type: image
             target: ghcr.io/goauthentik/server
             bump: true
             bump_type: kustomize
             image: "ghcr.io/goauthentik/server"
-            include_tags: ""
-            exclude_tags: "sha256,rc,beta"
+            include_tags: "^[0-9][0-9.]*$"
+            exclude_tags: ""
           # media-entertainment apps each got their own overlay dir
           # (manifests/media-entertainment/<app>/overlay) so kustomize bump
-          # can target them individually.
+          # can target them individually. These use type "docker" because the
+          # GitHub Packages API can't page through linuxserver's tag history.
           - name: media-entertainment/radarr
-            type: image
-            target: ghcr.io/linuxserver/radarr
+            type: docker
+            target: linuxserver/radarr
             bump: true
             bump_type: kustomize
             image: "lscr.io/linuxserver/radarr"
             include_tags: ""
             exclude_tags: "nightly,develop,arm64v8,amd64,arm32v7,armhf,i386,latest,version-,-ls"
           - name: media-entertainment/sonarr
-            type: image
-            target: ghcr.io/linuxserver/sonarr
+            type: docker
+            target: linuxserver/sonarr
             bump: true
             bump_type: kustomize
             image: "lscr.io/linuxserver/sonarr"
             include_tags: ""
             exclude_tags: "nightly,develop,arm64v8,amd64,arm32v7,armhf,i386,latest,version-,-ls"
           - name: media-entertainment/prowlarr
-            type: image
-            target: ghcr.io/linuxserver/prowlarr
+            type: docker
+            target: linuxserver/prowlarr
             bump: true
             bump_type: kustomize
             image: "lscr.io/linuxserver/prowlarr"
             include_tags: ""
             exclude_tags: "nightly,develop,arm64v8,amd64,arm32v7,armhf,i386,latest,version-,-ls"
           - name: media-entertainment/bazarr
-            type: image
-            target: ghcr.io/linuxserver/bazarr
+            type: docker
+            target: linuxserver/bazarr
             bump: true
             bump_type: kustomize
             image: "lscr.io/linuxserver/bazarr"
