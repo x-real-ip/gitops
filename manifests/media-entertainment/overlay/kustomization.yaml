@@ -3,7 +3,14 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - ../base
+  - ../radarr/overlay
+  - ../sonarr/overlay
+  - ../prowlarr/overlay
+  - ../bazarr/overlay
+  - ../base/jellyfin
+  - ../base/seerr
+  - ../base/transmission
+  - ../base/media
 
 namespace: media
 

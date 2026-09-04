@@ -138,6 +138,79 @@ jobs:
             image: "docker.io/tomsquest/docker-radicale"
             include_tags: ""
             exclude_tags: ""
+          - name: authentik
+            type: image
+            target: ghcr.io/goauthentik/server
+            bump: true
+            bump_type: kustomize
+            image: "ghcr.io/goauthentik/server"
+            include_tags: ""
+            exclude_tags: "sha256,rc,beta"
+          # media-entertainment apps each got their own overlay dir
+          # (manifests/media-entertainment/<app>/overlay) so kustomize bump
+          # can target them individually.
+          - name: media-entertainment/radarr
+            type: image
+            target: ghcr.io/linuxserver/radarr
+            bump: true
+            bump_type: kustomize
+            image: "lscr.io/linuxserver/radarr"
+            include_tags: ""
+            exclude_tags: "nightly,develop,arm64v8,amd64,arm32v7,armhf,i386,latest,version-,-ls"
+          - name: media-entertainment/sonarr
+            type: image
+            target: ghcr.io/linuxserver/sonarr
+            bump: true
+            bump_type: kustomize
+            image: "lscr.io/linuxserver/sonarr"
+            include_tags: ""
+            exclude_tags: "nightly,develop,arm64v8,amd64,arm32v7,armhf,i386,latest,version-,-ls"
+          - name: media-entertainment/prowlarr
+            type: image
+            target: ghcr.io/linuxserver/prowlarr
+            bump: true
+            bump_type: kustomize
+            image: "lscr.io/linuxserver/prowlarr"
+            include_tags: ""
+            exclude_tags: "nightly,develop,arm64v8,amd64,arm32v7,armhf,i386,latest,version-,-ls"
+          - name: media-entertainment/bazarr
+            type: image
+            target: ghcr.io/linuxserver/bazarr
+            bump: true
+            bump_type: kustomize
+            image: "lscr.io/linuxserver/bazarr"
+            include_tags: ""
+            exclude_tags: "nightly,develop,arm64v8,amd64,arm32v7,armhf,i386,latest,version-,-ls"
+          # jellyfin/seerr/transmission-openvpn stay notification-only: their
+          # GitHub release tag_name doesn't match the actual image tag
+          # (e.g. jellyfin "v10.11.11" release vs "10.11.8" image tag,
+          # transmission-openvpn "v5.5.2" release vs "5.5.2" image tag), so
+          # an auto-bump would just fail the "verify image exists" check
+          # every run.
+          - name: jellyfin
+            type: release
+            target: jellyfin/jellyfin
+            bump: false
+            bump_type: ""
+            image: ""
+            include_tags: ""
+            exclude_tags: ""
+          - name: seerr
+            type: release
+            target: seerr-team/seerr
+            bump: false
+            bump_type: ""
+            image: ""
+            include_tags: ""
+            exclude_tags: ""
+          - name: transmission-openvpn
+            type: release
+            target: haugene/docker-transmission-openvpn
+            bump: false
+            bump_type: ""
+            image: ""
+            include_tags: ""
+            exclude_tags: ""
     with:
       name: ${{ matrix.name }}
       target: ${{ matrix.target }}
