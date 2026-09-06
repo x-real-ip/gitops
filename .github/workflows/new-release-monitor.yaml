@@ -149,6 +149,17 @@ jobs:
             image: "ghcr.io/goauthentik/server"
             include_tags: "^[0-9][0-9.]*$"
             exclude_tags: ""
+          # Same whitelist trick for code-server: next to the plain version tags
+          # it also publishes a distro variant per release (4.x.y-debian,
+          # -ubuntu, -fedora, -opensuse, ...) plus the floating latest.
+          - name: code-server
+            type: image
+            target: ghcr.io/coder/code-server
+            bump: true
+            bump_type: kustomize
+            image: "ghcr.io/coder/code-server"
+            include_tags: "^[0-9][0-9.]*$"
+            exclude_tags: ""
           # media-entertainment apps each got their own overlay dir
           # (manifests/media-entertainment/<app>/overlay) so kustomize bump
           # can target them individually. These use type "docker" because the

@@ -1,0 +1,58 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: code-server
+  labels:
+    app: code-server
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: code-server
+  template:
+    metadata:
+      labels:
+        app: code-server
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - name: code-server
+          image: "ghcr.io/coder/code-server:latest"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          envFrom:
+            - secretRef:
+                name: code-server-secret
+                optional: false
+          env:
+            - name: TZ
+              value: Europe/Amsterdam
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          resources: {}
+          volumeMounts:
+            - name: code-server-data
+              mountPath: /home/coder
+      volumes:
+        - name: code-server-data
+          persistentVolumeClaim:
+            claimName: pvc-iscsi-code-server-data
