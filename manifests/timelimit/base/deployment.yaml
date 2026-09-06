@@ -1,0 +1,94 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: timelimit
+  labels:
+    app: timelimit
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: timelimit
+  template:
+    metadata:
+      labels:
+        app: timelimit
+    spec:
+      securityContext:
+        # uid/gid van de "node"-gebruiker in het node:24-alpine basisimage.
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+      containers:
+        - name: timelimit
+          image: ghcr.io/michaelsp/timelimit-server/timelimit:latest
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: timelimit-config
+                optional: false
+            - secretRef:
+                name: timelimit-secrets
+                optional: false
+          env:
+            # De container start via "npm start"; npm wil een schrijfbare HOME
+            # hebben. Die wijzen we naar de emptyDir hieronder zodat het
+            # rootfilesystem read-only kan blijven.
+            - name: HOME
+              value: /home/node
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          # /time geeft de servertijd terug en is het endpoint dat ook de
+          # officiele helm-chart voor de probes gebruikt.
+          startupProbe:
+            httpGet:
+              path: /time
+              port: http
+            initialDelaySeconds: 0
+            failureThreshold: 30
+            timeoutSeconds: 3
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /time
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+          livenessProbe:
+            httpGet:
+              path: /time
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            timeoutSeconds: 3
+            failureThreshold: 6
+          resources:
+            requests:
+              cpu: 10m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            # Alle applicatiedata staat in postgres; de container zelf hoeft
+            # niets te bewaren. Deze twee mounts zijn puur scratch-ruimte.
+            - name: home
+              mountPath: /home/node
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: home
+          emptyDir: {}
+        - name: tmp
+          emptyDir: {}

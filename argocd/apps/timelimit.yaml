@@ -1,0 +1,23 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: timelimit
+  namespace: argocd
+  labels:
+    storage: truenas
+spec:
+  project: default
+  source:
+    repoURL: "https://github.com/x-real-ip/gitops"
+    path: manifests/timelimit/overlay
+    targetRevision: HEAD
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: tools
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

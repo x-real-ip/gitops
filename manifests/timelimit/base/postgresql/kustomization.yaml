@@ -1,0 +1,62 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Hergebruikt de gedeelde postgres-base, hetzelfde patroon als depart/authentik.
+resources:
+  - ../../../postgres/base
+
+namePrefix: timelimit-
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app-instance: timelimit-postgresql
+
+patches:
+  - target:
+      kind: ConfigMap
+      name: postgresql-env
+    patch: |-
+      - op: replace
+        path: /data/POSTGRES_DB
+        value: timelimit
+      - op: replace
+        path: /data/POSTGRES_USER
+        value: timelimit
+  - target:
+      kind: StatefulSet
+      name: postgresql
+    patch: |-
+      - op: replace
+        path: /spec/volumeClaimTemplates/0/spec/resources/requests/storage
+        value: 5Gi
+      - op: replace
+        path: /spec/volumeClaimTemplates/0/spec/volumeName
+        value: timelimit-pv-iscsi-postgresql-db
+      - op: replace
+        path: /spec/template/spec/containers/0/env/0/valueFrom/secretKeyRef/name
+        value: timelimit-postgresql-secret
+  - target:
+      kind: SealedSecret
+      name: postgresql-secret
+    patch: |-
+      - op: replace
+        path: /spec/template/metadata/name
+        value: timelimit-postgresql-secret
+  - target:
+      kind: PersistentVolume
+      name: pv-iscsi-postgresql-db
+    patch: |-
+      - op: replace
+        path: /spec/capacity/storage
+        value: 5Gi
+      - op: replace
+        path: /spec/csi/volumeAttributes/iqn
+        value: "iqn.2005-10.org.freenas.ctl:timelimit-db"
+      # De base laat volumeHandle op "pv-iscsi-postgresql-db" staan. Dat is de
+      # CSI volume-id waarmee kubelet zijn staging-pad bepaalt, dus die maken
+      # we hier uniek per app.
+      - op: replace
+        path: /spec/csi/volumeHandle
+        value: "pv-iscsi-timelimit-postgresql-db"

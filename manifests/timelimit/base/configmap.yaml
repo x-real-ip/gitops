@@ -1,0 +1,29 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: timelimit-config
+  labels:
+    app: timelimit
+data:
+  NODE_ENV: "production"
+  PORT: "8080"
+  # De server bouwt zijn Sequelize-connectiestring zelf uit deze losse
+  # variabelen (DB_DRIVER://DB_USER:DB_PASS@DB_HOST:DB_PORT/DB_NAME); er is
+  # dus geen DATABASE_URL zoals bij depart/open-family-finance. Het wachtwoord
+  # staat als DB_PASS in de SealedSecret.
+  DB_DRIVER: "postgres"
+  DB_HOST: "timelimit-postgresql-hl"
+  DB_PORT: "5432"
+  DB_NAME: "timelimit"
+  DB_USER: "timelimit"
+  # Mail loopt via de protonmail-bridge die al in de tools-namespace draait.
+  # Die luistert onversleuteld op poort 25 binnen het cluster, dus hier zijn
+  # geen inloggegevens nodig en kan de transportconfiguratie in een ConfigMap.
+  MAIL_SENDER: "timelimit@stamx.nl"
+  MAIL_TRANSPORT: '{"host": "protonmail-bridge-smtp.tools.svc.cluster.local", "port": 25, "secure": false, "ignoreTLS": true}'
+  # Eigen server: alle pro-functies vrijgeven.
+  ALWAYS_PRO: "yes"
+  # Zet op "yes" zodra je eigen gezin is aangemaakt; daarna kan niemand meer
+  # een nieuw gezin registreren op deze server.
+  DISABLE_SIGNUP: "no"

@@ -106,6 +106,16 @@ jobs:
             image: "ghcr.io/syncthing/syncthing"
             include_tags: ""
             exclude_tags: "latest,nightly,edge,rc,infrastructure,gotools,beta,v2,jb-orgmembers,jb-ctxrefactor"
+          # De officiele image komt uit de fork die ook de helm-chart
+          # publiceert; die tagt met v<semver>. "latest" is een floating tag.
+          - name: timelimit
+            type: image
+            target: ghcr.io/michaelsp/timelimit-server/timelimit
+            bump: true
+            bump_type: kustomize
+            image: "ghcr.io/michaelsp/timelimit-server/timelimit"
+            include_tags: ""
+            exclude_tags: "latest"
           - name: uptime-kuma
             type: release
             target: louislam/uptime-kuma
