@@ -2,18 +2,18 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-- ../base
+  - ../base
 
 namespace: home-automation
 
 images:
-- name: docker.io/postgres
-  newTag: "14"
-- name: ghcr.io/xirixiz/dsmr-reader-docker
-  newName: ghcr.io/xirixiz/dsmr-reader-docker
-  newTag: 6.0.2
+  - name: docker.io/postgres
+    newTag: "14"
+  - name: ghcr.io/xirixiz/dsmr-reader-docker
+    newName: ghcr.io/xirixiz/dsmr-reader-docker
+    newTag: 6.2.0
 
 labels:
-- includeSelectors: true
-  pairs:
-    storage: truenas
+  - includeSelectors: true
+    pairs:
+      storage: truenas
