@@ -54,11 +54,11 @@ spec:
                 secretKeyRef:
                   name: dsmr-reader
                   key: POSTGRES_PASSWORD
-            - name: "SECRET_KEY"
+            - name: "DJANGO_SECRET_KEY"
               valueFrom:
                 secretKeyRef:
                   name: dsmr-reader
-                  key: SECRET_KEY
+                  key: DJANGO_SECRET_KEY
           livenessProbe:
             tcpSocket:
               port: http
