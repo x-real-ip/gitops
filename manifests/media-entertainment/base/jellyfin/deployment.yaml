@@ -21,7 +21,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: jellyfin
-          image: "docker.io/jellyfin/jellyfin:10.11.8"
+          image: "docker.io/jellyfin/jellyfin:12"
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
