@@ -6,7 +6,7 @@ resources:
 
 images:
 - name: ghcr.io/x-real-ip/node-red
-  newTag: 8f72a677db4db7436739d566b2cb047dd9618fed
+  newTag: d75f810681d71ec4beb8d9de55a96d2d32df9e57
 
 namespace: home-automation
 
