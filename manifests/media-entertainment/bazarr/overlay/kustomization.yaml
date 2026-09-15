@@ -6,4 +6,4 @@ resources:
 images:
 - name: lscr.io/linuxserver/bazarr
   newName: lscr.io/linuxserver/bazarr
-  newTag: 1.6.0
+  newTag: 1.6.1
