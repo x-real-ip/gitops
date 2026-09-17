@@ -6,4 +6,4 @@ resources:
 images:
 - name: lscr.io/linuxserver/sonarr
   newName: lscr.io/linuxserver/sonarr
-  newTag: 4.0.19
+  newTag: 4.0.20
