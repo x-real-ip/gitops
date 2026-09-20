@@ -35,7 +35,14 @@ jobs:
 
       - name: Replace image tag
         run: |-
-          cd ./manifests/${{env.REPO_NAME}}/overlay
+          overlay="./manifests/$REPO_NAME/overlay"
+          if [ ! -d "$overlay" ]; then
+            echo "::error::No manifest at $overlay - is" \
+              "${{ github.event.client_payload.repository }} deployed from" \
+              "this repository? Remove its dispatch job if not."
+            exit 1
+          fi
+          cd "$overlay"
           kustomize edit set image ${{ github.event.client_payload.registry }}/${{ github.event.client_payload.repository }}:${{ github.event.client_payload.sha }}
 
       - name: Show K8s manifest
