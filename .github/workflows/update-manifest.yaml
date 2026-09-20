@@ -5,6 +5,10 @@ on:
   repository_dispatch:
     types: [update-manifest]
 
+concurrency:
+  group: update-manifest-${{ github.event.client_payload.repository }}
+  cancel-in-progress: false
+
 jobs:
   update-manifest:
     name: Update ${{ github.event.client_payload.repository }} Manifest
@@ -40,7 +44,41 @@ jobs:
           kubectl kustomize .
 
       - name: Commit
-        uses: stefanzweifel/git-auto-commit-action@v7
-        with:
-          commit_message:
-            "Update ${{env.REPO_NAME}}, bump image version"
+        env:
+          IMAGE:
+            "${{ github.event.client_payload.registry }}/${{
+            github.event.client_payload.repository }}:${{
+            github.event.client_payload.sha }}"
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Several repositories dispatch here at once, so origin/main can move
+          # between checkout and push. Re-apply the edit on top of the current
+          # remote tip instead of pushing a stale commit.
+          for attempt in 1 2 3 4 5; do
+            git fetch origin "$GITHUB_REF_NAME"
+            git reset --hard "origin/$GITHUB_REF_NAME"
+
+            cd "./manifests/$REPO_NAME/overlay"
+            kustomize edit set image "$IMAGE"
+            cd -
+
+            if git diff --quiet; then
+              echo "Manifest already at $IMAGE, nothing to commit"
+              exit 0
+            fi
+
+            git commit -am "Update $REPO_NAME, bump image version"
+
+            if git push origin "HEAD:$GITHUB_REF_NAME"; then
+              exit 0
+            fi
+
+            echo "Push rejected (attempt $attempt), retrying on new tip"
+            sleep $((RANDOM % 5 + 2))
+          done
+
+          echo "::error::Could not push after 5 attempts"
+          exit 1
