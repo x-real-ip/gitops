@@ -6,7 +6,7 @@ resources:
 
 images:
 - name: ghcr.io/x-real-ip/protonmail-bridge
-  newTag: b705a5645ff7f7fe0d2343bf51aef7cf574b674e
+  newTag: 00f9ee5ad2cb7ce89e9414a9fb5540b2e48f8a4d
 
 labels:
 - includeSelectors: true
