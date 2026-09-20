@@ -13,7 +13,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout Code
-        uses: actions/checkout@main
+        uses: actions/checkout@v7
 
       - name: Extract repository and owner in seperate vars
         run: |
