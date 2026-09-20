@@ -23,7 +23,7 @@ jobs:
           echo "REPO_OWNER=$owner" >> $GITHUB_ENV
 
       - name: Setup Kustomize
-        uses: imranismail/setup-kustomize@v2
+        uses: imranismail/setup-kustomize@v3
 
       - name: Print kubectl & kustomize versions
         run: |
@@ -40,7 +40,7 @@ jobs:
           kubectl kustomize .
 
       - name: Commit
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message:
             "Update ${{env.REPO_NAME}}, bump image version"
