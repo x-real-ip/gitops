@@ -7,9 +7,9 @@ resources:
 
 images:
   - name: ghcr.io/x-real-ip/open-family-finance-web
-    newTag: 1.0.0
+    newTag: 1.0.1
   - name: ghcr.io/x-real-ip/open-family-finance-api
-    newTag: 1.0.0
+    newTag: 1.0.1
 
 namespace: tools
 
