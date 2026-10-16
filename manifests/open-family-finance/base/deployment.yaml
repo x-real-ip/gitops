@@ -20,7 +20,7 @@ spec:
       containers:
         - name: web
           image: ghcr.io/x-real-ip/open-family-finance-web:latest
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           env:
             - name: BACKEND_URL
               valueFrom:
@@ -73,7 +73,7 @@ spec:
               memory: 128Mi
         - name: api
           image: ghcr.io/x-real-ip/open-family-finance-api:latest
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           env:
             - name: PORT
               valueFrom:
