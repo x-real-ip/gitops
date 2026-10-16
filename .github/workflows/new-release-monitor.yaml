@@ -221,7 +221,7 @@ jobs:
             bump: true
             bump_type: kustomize
             image: "ghcr.io/x-real-ip/open-family-finance-web ghcr.io/x-real-ip/open-family-finance-api"
-            include_tags: '^[0-9]+\.[0-9]+\.[0-9]+$'
+            include_tags: '^[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$'
             exclude_tags: "latest,main"
     with:
       name: ${{ matrix.name }}
