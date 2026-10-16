@@ -15,6 +15,18 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    # Optional payload fields, for repositories that ship more than one image
+    # or deploy a tag other than the commit sha (e.g. a release version):
+    #   images: space-separated full image names (default: <registry>/<repository>)
+    #   tag:    image tag to deploy (default: sha)
+    env:
+      IMAGES: >-
+        ${{ github.event.client_payload.images || format('{0}/{1}',
+        github.event.client_payload.registry,
+        github.event.client_payload.repository) }}
+      TAG: >-
+        ${{ github.event.client_payload.tag ||
+        github.event.client_payload.sha }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v7
@@ -42,8 +54,14 @@ jobs:
               "this repository? Remove its dispatch job if not."
             exit 1
           fi
+          if [ -z "$TAG" ]; then
+            echo "::error::Payload has neither a tag nor a sha"
+            exit 1
+          fi
           cd "$overlay"
-          kustomize edit set image ${{ github.event.client_payload.registry }}/${{ github.event.client_payload.repository }}:${{ github.event.client_payload.sha }}
+          for image in $IMAGES; do
+            kustomize edit set image "$image:$TAG"
+          done
 
       - name: Show K8s manifest
         run: |
@@ -51,11 +69,6 @@ jobs:
           kubectl kustomize .
 
       - name: Commit
-        env:
-          IMAGE:
-            "${{ github.event.client_payload.registry }}/${{
-            github.event.client_payload.repository }}:${{
-            github.event.client_payload.sha }}"
         run: |
           git config user.name "github-actions[bot]"
           git config user.email \
@@ -69,15 +82,17 @@ jobs:
             git reset --hard "origin/$GITHUB_REF_NAME"
 
             cd "./manifests/$REPO_NAME/overlay"
-            kustomize edit set image "$IMAGE"
+            for image in $IMAGES; do
+              kustomize edit set image "$image:$TAG"
+            done
             cd -
 
             if git diff --quiet; then
-              echo "Manifest already at $IMAGE, nothing to commit"
+              echo "Manifest already at $TAG, nothing to commit"
               exit 0
             fi
 
-            git commit -am "Update $REPO_NAME, bump image version"
+            git commit -am "Update $REPO_NAME to $TAG"
 
             if git push origin "HEAD:$GITHUB_REF_NAME"; then
               exit 0

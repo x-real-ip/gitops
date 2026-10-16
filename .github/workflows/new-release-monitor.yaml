@@ -215,14 +215,6 @@ jobs:
             image: ""
             include_tags: ""
             exclude_tags: ""
-          - name: open-family-finance
-            type: image
-            target: ghcr.io/x-real-ip/open-family-finance-web
-            bump: true
-            bump_type: kustomize
-            image: "ghcr.io/x-real-ip/open-family-finance-web ghcr.io/x-real-ip/open-family-finance-api"
-            include_tags: '^[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$'
-            exclude_tags: "latest,main"
     with:
       name: ${{ matrix.name }}
       target: ${{ matrix.target }}
