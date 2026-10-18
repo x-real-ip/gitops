@@ -15,4 +15,4 @@ images:
 - name: docker.io/postgres
   newTag: "14"
 - name: ghcr.io/x-real-ip/home-assistant
-  newTag: deb393e24e004ac6969f06b526065b88647f53a6
+  newTag: 20370b3beaabac7eb2c6131a8b452aad4ccd6e5e
