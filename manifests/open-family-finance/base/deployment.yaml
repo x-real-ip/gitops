@@ -113,6 +113,61 @@ spec:
                   name: open-family-finance-secrets
                   key: PAPERLESS_API_TOKEN
                   optional: true
+            - name: LANGUAGE
+              valueFrom:
+                configMapKeyRef:
+                  name: open-family-finance-config
+                  key: LANGUAGE
+                  optional: true
+            - name: TIMEZONE
+              valueFrom:
+                configMapKeyRef:
+                  name: open-family-finance-config
+                  key: TIMEZONE
+                  optional: true
+            - name: APP_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: open-family-finance-config
+                  key: APP_URL
+                  optional: true
+            - name: SMTP_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: open-family-finance-config
+                  key: SMTP_HOST
+                  optional: true
+            - name: SMTP_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: open-family-finance-config
+                  key: SMTP_PORT
+                  optional: true
+            - name: SMTP_SECURITY
+              valueFrom:
+                configMapKeyRef:
+                  name: open-family-finance-config
+                  key: SMTP_SECURITY
+                  optional: true
+            # Same Proton SMTP account that vaultwarden uses (secret in this namespace).
+            - name: SMTP_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: vaultwarden-server-env-secret
+                  key: SMTP_USERNAME
+                  optional: true
+            - name: SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: vaultwarden-server-env-secret
+                  key: SMTP_PASSWORD
+                  optional: true
+            - name: SMTP_FROM
+              valueFrom:
+                secretKeyRef:
+                  name: vaultwarden-server-env-secret
+                  key: SMTP_FROM
+                  optional: true
           ports:
             - name: api
               containerPort: 8080

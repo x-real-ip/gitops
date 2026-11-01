@@ -13,6 +13,12 @@ data:
   PAPERLESS_ENABLED: "true"
   PAPERLESS_URL: "http://paperless.tools.svc.cluster.local:8000"
   PAPERLESS_PUBLIC_URL: "https://paperless.lan.stamx.nl"
+  # Transfer-change notifications (e-mail via Proton SMTP, same account as vaultwarden)
+  TIMEZONE: "Europe/Amsterdam"
+  APP_URL: "https://geldzaken.lan.stamx.nl"
+  SMTP_HOST: "smtp.protonmail.ch"
+  SMTP_PORT: "587"
+  SMTP_SECURITY: "starttls"
 ---
 apiVersion: v1
 kind: ConfigMap
