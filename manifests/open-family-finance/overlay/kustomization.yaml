@@ -6,9 +6,9 @@ resources:
 
 images:
 - name: ghcr.io/x-real-ip/open-family-finance-api
-  newTag: sha-d7995e3
+  newTag: sha-fbed56d
 - name: ghcr.io/x-real-ip/open-family-finance-web
-  newTag: sha-d7995e3
+  newTag: sha-fbed56d
 
 namespace: tools
 
