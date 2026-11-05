@@ -113,6 +113,61 @@ spec:
                   name: open-family-finance-secrets
                   key: PAPERLESS_API_TOKEN
                   optional: true
+            # Monthly report: language/title of the PDF, send day's time zone, SMTP.
+            - name: LANGUAGE
+              valueFrom:
+                configMapKeyRef:
+                  name: open-family-finance-config
+                  key: LANGUAGE
+                  optional: true
+            - name: APP_TITLE
+              valueFrom:
+                configMapKeyRef:
+                  name: open-family-finance-config
+                  key: APP_TITLE
+                  optional: true
+            - name: TZ
+              valueFrom:
+                configMapKeyRef:
+                  name: open-family-finance-config
+                  key: TZ
+                  optional: true
+            - name: SMTP_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: open-family-finance-config
+                  key: SMTP_HOST
+                  optional: true
+            - name: SMTP_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: open-family-finance-config
+                  key: SMTP_PORT
+                  optional: true
+            - name: SMTP_SECURE
+              valueFrom:
+                configMapKeyRef:
+                  name: open-family-finance-config
+                  key: SMTP_SECURE
+                  optional: true
+            - name: SMTP_USER
+              valueFrom:
+                secretKeyRef:
+                  name: open-family-finance-secrets
+                  key: SMTP_USER
+                  optional: true
+            - name: SMTP_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: open-family-finance-secrets
+                  key: SMTP_PASS
+                  optional: true
+            - name: SMTP_FROM
+              valueFrom:
+                secretKeyRef:
+                  name: open-family-finance-secrets
+                  key: SMTP_FROM
+                  optional: true
           ports:
             - name: api
               containerPort: 8080

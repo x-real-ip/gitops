@@ -13,6 +13,11 @@ data:
   PAPERLESS_ENABLED: "true"
   PAPERLESS_URL: "http://paperless.tools.svc.cluster.local:8000"
   PAPERLESS_PUBLIC_URL: "https://paperless.lan.stamx.nl"
+  # Monthly report by e-mail (recipients and day are set in the app).
+  SMTP_HOST: "smtp.protonmail.ch"
+  SMTP_PORT: "587"
+  SMTP_SECURE: "false"
+  TZ: "Europe/Amsterdam"
 ---
 apiVersion: v1
 kind: ConfigMap
