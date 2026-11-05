@@ -56,7 +56,7 @@ jobs:
             bump: true
             bump_type: kustomize
             image: "ghcr.io/blakeblackshear/frigate"
-            include_tags: ".*-standard-arm64"
+            include_tags: "^[0-9]*\\.[0-9]*\\.[0-9]*-standard-arm64$"
             exclude_tags: "stable,latest"
           - name: go2rtc
             type: image
@@ -138,9 +138,6 @@ jobs:
             image: "docker.io/tomsquest/docker-radicale"
             include_tags: ""
             exclude_tags: ""
-          # Whitelist plain numeric tags: authentik also publishes sha256-*,
-          # buildcache-*, rc and the floating latest/stable, and "stable"
-          # sorts after any version number.
           - name: authentik
             type: image
             target: ghcr.io/goauthentik/server
@@ -149,10 +146,6 @@ jobs:
             image: "ghcr.io/goauthentik/server"
             include_tags: "^[0-9][0-9.]*$"
             exclude_tags: ""
-          # media-entertainment apps each got their own overlay dir
-          # (manifests/media-entertainment/<app>/overlay) so kustomize bump
-          # can target them individually. These use type "docker" because the
-          # GitHub Packages API can't page through linuxserver's tag history.
           - name: media-entertainment/radarr
             type: docker
             target: linuxserver/radarr
@@ -185,12 +178,6 @@ jobs:
             image: "lscr.io/linuxserver/bazarr"
             include_tags: ""
             exclude_tags: "nightly,develop,arm64v8,amd64,arm32v7,armhf,i386,latest,version-,-ls"
-          # jellyfin/seerr/transmission-openvpn stay notification-only: their
-          # GitHub release tag_name doesn't match the actual image tag
-          # (e.g. jellyfin "v10.11.11" release vs "10.11.8" image tag,
-          # transmission-openvpn "v5.5.2" release vs "5.5.2" image tag), so
-          # an auto-bump would just fail the "verify image exists" check
-          # every run.
           - name: jellyfin
             type: release
             target: jellyfin/jellyfin
@@ -224,4 +211,3 @@ jobs:
       image: ${{ matrix.image }}
       include_tags: ${{ matrix.include_tags }}
       exclude_tags: ${{ matrix.exclude_tags }}
-
