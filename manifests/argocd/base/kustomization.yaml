@@ -1,0 +1,10 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Upstream manifest, vendored to pin the Argo CD version.
+# Update with:
+#   curl -sL -o install.yaml https://raw.githubusercontent.com/argoproj/argo-cd/<version>/manifests/install.yaml
+# Current version: v3.5.5
+resources:
+  - install.yaml
