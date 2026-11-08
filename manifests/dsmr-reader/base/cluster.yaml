@@ -17,22 +17,6 @@ spec:
       owner: dsmrreader
       secret:
         name: dsmr-reader-db-credentials
-      import:
-        type: microservice
-        databases:
-          - dsmrreader
-        source:
-          externalCluster: old-db
-  externalClusters:
-    - name: old-db
-      connectionParameters:
-        host: dsmr-reader-postgresql-hl
-        user: dsmrreader
-        dbname: dsmrreader
-        sslmode: disable
-      password:
-        name: dsmr-reader
-        key: POSTGRES_PASSWORD
   managed:
     roles:
       - name: dsmrreader
