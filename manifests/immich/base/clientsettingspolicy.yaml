@@ -1,0 +1,17 @@
+---
+# NGINX Gateway Fabric defaults client_max_body_size to 1m, which breaks
+# photo/video uploads with "413 Request Entity Too Large".
+apiVersion: gateway.nginx.org/v1alpha1
+kind: ClientSettingsPolicy
+metadata:
+  name: immich
+  labels:
+    app.kubernetes.io/name: immich-server
+spec:
+  targetRef:
+    group: gateway.networking.k8s.io
+    kind: HTTPRoute
+    name: immich
+  body:
+    maxSize: "50g"
+    timeout: "600s"
