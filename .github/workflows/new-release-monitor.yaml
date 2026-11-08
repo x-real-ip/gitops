@@ -18,9 +18,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - name: envoy-gateway
+          - name: nginx-gateway-fabric
             type: release
-            target: envoyproxy/gateway
+            target: nginx/nginx-gateway-fabric
             bump: false
             bump_type: ""
             image: ""

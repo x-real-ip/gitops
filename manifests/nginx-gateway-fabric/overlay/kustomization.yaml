@@ -6,4 +6,3 @@ resources:
   - ../base
   - private
   - public
-  - gatewayclass.yaml

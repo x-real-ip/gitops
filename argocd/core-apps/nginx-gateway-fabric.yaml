@@ -2,16 +2,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: envoy-gateway
+  name: nginx-gateway-fabric
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: "https://github.com/x-real-ip/gitops"
-    path: manifests/envoy-gateway/overlay
+    path: manifests/nginx-gateway-fabric/overlay
     targetRevision: HEAD
   destination:
-    namespace: envoy-gateway-system
+    namespace: nginx-gateway
     server: "https://kubernetes.default.svc"
   syncPolicy:
     syncOptions:
