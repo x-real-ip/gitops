@@ -7,7 +7,7 @@ metadata:
     app: paperless
 spec:
   revisionHistoryLimit: 3
-  replicas: 0
+  replicas: 1
   strategy:
     type: Recreate
   selector:
@@ -34,7 +34,7 @@ spec:
           command:
             - "sh"
             - "-c"
-            - until pg_isready -U paperless -h paperless-postgresql-hl -p 5432 ;
+            - until pg_isready -U paperless -h paperless-db-rw -p 5432 ;
               do sleep 2 ; done
       containers:
         - name: paperless
@@ -66,7 +66,7 @@ spec:
             - name: PAPERLESS_REDIS
               value: "redis://redis-hl.tools.svc.cluster.local:6379"
             - name: PAPERLESS_DBHOST
-              value: "paperless-postgresql-hl"
+              value: "paperless-db-rw"
             - name: PAPERLESS_DB_READ_CACHE_ENABLED
               value: "true"
             - name: PAPERLESS_DBPASS
