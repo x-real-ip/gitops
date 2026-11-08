@@ -1,0 +1,1 @@
+Regenerate core-install.yaml with `kubectl kustomize overlay > core-install.yaml`
