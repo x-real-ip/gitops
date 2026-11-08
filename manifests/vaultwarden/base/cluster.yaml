@@ -17,22 +17,6 @@ spec:
       owner: vaultwarden
       secret:
         name: vaultwarden-db-credentials
-      import:
-        type: microservice
-        databases:
-          - vaultwarden
-        source:
-          externalCluster: old-db
-  externalClusters:
-    - name: old-db
-      connectionParameters:
-        host: vaultwarden-postgresql-hl
-        user: vaultwarden
-        dbname: vaultwarden
-        sslmode: disable
-      password:
-        name: vaultwarden-database-env-secret
-        key: POSTGRESQL_PASSWORD
   managed:
     roles:
       - name: vaultwarden

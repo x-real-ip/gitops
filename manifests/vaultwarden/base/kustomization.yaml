@@ -10,4 +10,3 @@ resources:
   - persistentvolumeclaim.yaml
   - sealedsecret.yaml
   - service.yaml
-  - statefulset.yaml

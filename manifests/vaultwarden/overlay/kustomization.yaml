@@ -12,8 +12,6 @@ labels:
     storage: truenas
 
 images:
-- name: docker.io/postgres
-  newTag: "14"
 - name: ghcr.io/dani-garcia/vaultwarden
   newName: ghcr.io/dani-garcia/vaultwarden
   newTag: 1.37.5
