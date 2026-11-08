@@ -17,22 +17,6 @@ spec:
       owner: depart
       secret:
         name: depart-db-credentials
-      import:
-        type: microservice
-        databases:
-          - depart
-        source:
-          externalCluster: old-db
-  externalClusters:
-    - name: old-db
-      connectionParameters:
-        host: depart-postgresql-hl
-        user: depart
-        dbname: depart
-        sslmode: disable
-      password:
-        name: depart-postgresql-secret
-        key: POSTGRES_PASSWORD
   managed:
     roles:
       - name: depart
