@@ -1,0 +1,7 @@
+---
+# Upstream defaults: https://github.com/cloudnative-pg/charts/blob/main/charts/cloudnative-pg/values.yaml
+crds:
+  create: true
+
+monitoring:
+  podMonitorEnabled: false
