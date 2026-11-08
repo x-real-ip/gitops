@@ -26,6 +26,14 @@ jobs:
             image: ""
             include_tags: ""
             exclude_tags: ""
+          - name: gateway-api
+            type: release
+            target: kubernetes-sigs/gateway-api
+            bump: false
+            bump_type: ""
+            image: ""
+            include_tags: ""
+            exclude_tags: ""
           - name: immich
             type: release
             target: ghcr.io/immich-app/immich
