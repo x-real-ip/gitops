@@ -6,6 +6,8 @@ namespace: argocd
 
 resources:
   - ../base
+  - httproute.yaml
 
 patches:
   - path: patch_configmap_argocd-cm.yaml
+  - path: patch_configmap_argocd-cmd-params-cm.yaml

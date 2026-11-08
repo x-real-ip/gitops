@@ -4,4 +4,5 @@ kind: ConfigMap
 metadata:
   name: argocd-cm
 data:
+  url: https://argocd.lan.stamx.nl
   kustomize.buildOptions: --enable-helm
