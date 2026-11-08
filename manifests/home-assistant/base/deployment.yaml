@@ -41,7 +41,7 @@ spec:
             - "sh"
             - "-c"
             - until pg_isready -U ${POSTGRESQL_USERNAME} -h
-              home-assistant-postgresql-hl -p 5432 ; do sleep 2 ; done
+              home-assistant-db-rw -p 5432 ; do sleep 2 ; done
       containers:
         - name: home-assistant
           image: "ghcr.io/x-real-ip/home-assistant:latest"
