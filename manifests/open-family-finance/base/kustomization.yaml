@@ -6,7 +6,5 @@ resources:
   - configmap.yaml
   - deployment.yaml
   - httproute.yaml
-  - persistentvolume.yaml
   - sealedsecret.yaml
   - service.yaml
-  - statefulset.yaml
