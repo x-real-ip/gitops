@@ -31,3 +31,22 @@ spec:
   resources:
     requests:
       storage: 5Gi
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-truenas-hdd-nfs-downloads
+  namespace: media
+  labels:
+    app: transmission
+  annotations:
+    # Never let ArgoCD delete this volume.
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+spec:
+  storageClassName: truenas-hdd-nfs
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 300Gi
