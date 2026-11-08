@@ -8,7 +8,7 @@ metadata:
     app: prowlarr
 spec:
   revisionHistoryLimit: 3
-  replicas: 0
+  replicas: 1
   strategy:
     type: Recreate
   selector:
@@ -65,4 +65,4 @@ spec:
       volumes:
         - name: prowlarr-config
           persistentVolumeClaim:
-            claimName: pvc-iscsi-prowlarr-config
+            claimName: pvc-truenas-iscsi-prowlarr-config

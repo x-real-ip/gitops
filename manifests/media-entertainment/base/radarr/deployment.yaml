@@ -8,7 +8,7 @@ metadata:
     app: radarr
 spec:
   revisionHistoryLimit: 3
-  replicas: 0
+  replicas: 1
   strategy:
     type: Recreate
   selector:
@@ -83,4 +83,4 @@ spec:
             claimName: pvc-nfs-media
         - name: radarr-config
           persistentVolumeClaim:
-            claimName: pvc-iscsi-radarr-config
+            claimName: pvc-truenas-iscsi-radarr-config

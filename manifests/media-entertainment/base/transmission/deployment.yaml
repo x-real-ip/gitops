@@ -7,7 +7,7 @@ metadata:
     app: transmission
 spec:
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: transmission
@@ -65,4 +65,4 @@ spec:
             claimName: pvc-nfs-downloads
         - name: transmission-config
           persistentVolumeClaim:
-            claimName: pvc-iscsi-transmission-config
+            claimName: pvc-truenas-iscsi-transmission-config
