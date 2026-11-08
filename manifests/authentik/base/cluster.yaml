@@ -17,22 +17,6 @@ spec:
       owner: authentik
       secret:
         name: authentik-db-credentials
-      import:
-        type: microservice
-        databases:
-          - authentik
-        source:
-          externalCluster: old-db
-  externalClusters:
-    - name: old-db
-      connectionParameters:
-        host: authentik-postgresql-hl
-        user: authentik
-        dbname: authentik
-        sslmode: disable
-      password:
-        name: authentik-postgresql-secret
-        key: POSTGRES_PASSWORD
   managed:
     roles:
       - name: authentik
