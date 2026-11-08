@@ -64,6 +64,18 @@ storageClasses:
       compression: LZ4
       nfs.rootSquash: "false"
 
+  - name: truenas-hdd-nfs
+    isDefault: false
+    reclaimPolicy: Retain
+    volumeBindingMode: Immediate
+    allowVolumeExpansion: true
+    parameters:
+      protocol: nfs
+      pool: hdd
+      datasetPath: containers/csi/nfs
+      compression: LZ4
+      nfs.rootSquash: "false"
+
 volumeSnapshotClass:
   enabled: false
 
