@@ -2,24 +2,6 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: home-assistant-postgresql-hl
-  labels:
-    app: home-assistant-database
-    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
-spec:
-  selector:
-    app: home-assistant-database
-  type: ClusterIP
-  clusterIP: None
-  publishNotReadyAddresses: true
-  ports:
-    - name: tcp-postgresql
-      port: 5432
-      targetPort: 5432
----
-kind: Service
-apiVersion: v1
-metadata:
   name: home-assistant
   labels:
     app: home-assistant

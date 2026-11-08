@@ -17,22 +17,6 @@ spec:
       owner: home-assistant
       secret:
         name: home-assistant-db-credentials
-      import:
-        type: microservice
-        databases:
-          - home-assistant
-        source:
-          externalCluster: old-db
-  externalClusters:
-    - name: old-db
-      connectionParameters:
-        host: home-assistant-postgresql-hl
-        user: home-assistant
-        dbname: home-assistant
-        sslmode: disable
-      password:
-        name: home-assistant-postgresql-secret
-        key: postgresql-password
   managed:
     roles:
       - name: home-assistant
