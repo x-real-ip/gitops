@@ -1,0 +1,42 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: authentik-db
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:18
+  storage:
+    storageClass: truenas-ssd-iscsi
+    size: 5Gi
+  bootstrap:
+    initdb:
+      database: authentik
+      owner: authentik
+      secret:
+        name: authentik-db-credentials
+      import:
+        type: microservice
+        databases:
+          - authentik
+        source:
+          externalCluster: old-db
+  externalClusters:
+    - name: old-db
+      connectionParameters:
+        host: authentik-postgresql-hl
+        user: authentik
+        dbname: authentik
+        sslmode: disable
+      password:
+        name: authentik-postgresql-secret
+        key: POSTGRES_PASSWORD
+  managed:
+    roles:
+      - name: authentik
+        ensure: present
+        login: true
+        passwordSecret:
+          name: authentik-db-credentials
