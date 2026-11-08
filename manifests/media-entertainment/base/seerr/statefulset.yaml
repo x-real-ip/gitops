@@ -6,6 +6,8 @@ metadata:
   labels:
     app: seerr
 spec:
+  # Temporarily 0 while the config volume is copied to truenas-csi.
+  replicas: 0
   serviceName: seerr
   selector:
     matchLabels:
