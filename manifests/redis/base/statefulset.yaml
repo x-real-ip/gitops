@@ -7,9 +7,7 @@ metadata:
   labels:
     app: redis
 spec:
-  replicas: 0
-  persistentVolumeClaimRetentionPolicy:
-    whenDeleted: Delete
+  replicas: 1
   selector:
     matchLabels:
       app: redis
@@ -102,18 +100,6 @@ spec:
           emptyDir: {}
         - name: tmp
           emptyDir: {}
-  volumeClaimTemplates:
-    - metadata:
-        name: redis-data
-        labels:
-          app: redis
-      spec:
-        selector:
-          matchLabels:
-            app: redis
-        accessModes:
-          - "ReadWriteOnce"
-        storageClassName: freenas-iscsi-manual-csi
-        resources:
-          requests:
-            storage: "8Gi"
+        - name: redis-data
+          persistentVolumeClaim:
+            claimName: pvc-truenas-iscsi-redis

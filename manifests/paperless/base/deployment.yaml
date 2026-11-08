@@ -7,7 +7,7 @@ metadata:
     app: paperless
 spec:
   revisionHistoryLimit: 3
-  replicas: 0
+  replicas: 1
   strategy:
     type: Recreate
   selector:
@@ -130,10 +130,10 @@ spec:
             claimName: pvc-nfs-paperless-consume
         - name: data
           persistentVolumeClaim:
-            claimName: pvc-nfs-paperless-data
+            claimName: pvc-truenas-nfs-paperless-data
         - name: export
           persistentVolumeClaim:
-            claimName: pvc-nfs-paperless-export
+            claimName: pvc-truenas-nfs-paperless-export
         - name: media
           persistentVolumeClaim:
-            claimName: pvc-nfs-paperless-media
+            claimName: pvc-truenas-nfs-paperless-media

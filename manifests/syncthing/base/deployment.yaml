@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: syncthing
 spec:
-  replicas: 0
+  replicas: 1
   strategy:
     type: Recreate
   selector:
@@ -58,7 +58,7 @@ spec:
       volumes:
         - name: config
           persistentVolumeClaim:
-            claimName: pvc-iscsi-syncthing-config
+            claimName: pvc-truenas-iscsi-syncthing-config
         - name: data
           persistentVolumeClaim:
             claimName: pvc-nfs-syncthing-data

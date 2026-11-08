@@ -7,7 +7,7 @@ metadata:
   labels:
     app: protonmail-bridge
 spec:
-  replicas: 0
+  replicas: 1
   strategy:
     type: Recreate
   selector:
@@ -49,6 +49,6 @@ spec:
       volumes:
         - name: protonmail-data
           persistentVolumeClaim:
-            claimName: pvc-iscsi-protonmail-bridge-data
+            claimName: pvc-truenas-iscsi-protonmail-bridge-data
       imagePullSecrets:
         - name: github-registry-creds

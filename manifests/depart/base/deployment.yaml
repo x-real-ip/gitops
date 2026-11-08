@@ -6,7 +6,7 @@ metadata:
   labels:
     app: depart-api
 spec:
-  replicas: 0
+  replicas: 1
   strategy:
     type: Recreate
   selector:
@@ -146,7 +146,7 @@ spec:
       volumes:
         - name: documents
           persistentVolumeClaim:
-            claimName: pvc-iscsi-depart-documents
+            claimName: pvc-truenas-iscsi-depart-documents
 
 ---
 kind: Deployment
