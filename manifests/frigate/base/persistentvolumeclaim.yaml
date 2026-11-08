@@ -28,3 +28,21 @@ spec:
     requests:
       storage: 200Gi
   volumeName: pv-nfs-frigate-media
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-truenas-iscsi-frigate-config
+  labels:
+    app: frigate
+  annotations:
+    # Never let ArgoCD delete this volume.
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+spec:
+  storageClassName: truenas-ssd-iscsi
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

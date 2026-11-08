@@ -23,19 +23,3 @@ spec:
       lun: "0"
       node_attach_driver: iscsi
       provisioner_driver: node-manual
-
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: pvc-iscsi-depart-documents
-  labels:
-    app: depart
-spec:
-  storageClassName: freenas-iscsi-manual-csi
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 5Gi
-  volumeName: pv-iscsi-depart-documents

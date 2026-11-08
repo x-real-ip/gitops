@@ -14,3 +14,22 @@ spec:
     requests:
       storage: 3Gi
   volumeName: pv-iscsi-sonarr-config
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-truenas-iscsi-sonarr-config
+  namespace: media
+  labels:
+    app: sonarr
+  annotations:
+    # Never let ArgoCD delete this volume.
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+spec:
+  storageClassName: truenas-ssd-iscsi
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 3Gi

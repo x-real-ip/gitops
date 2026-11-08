@@ -13,3 +13,21 @@ spec:
     requests:
       storage: 5Gi
   volumeName: pv-nfs-node-red-data
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-truenas-nfs-node-red-data
+  labels:
+    app: node-red
+  annotations:
+    # Never let ArgoCD delete this volume.
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+spec:
+  storageClassName: truenas-ssd-nfs
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi

@@ -29,3 +29,21 @@ spec:
     requests:
       storage: 5Gi
   volumeName: pv-iscsi-transmission-config
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-truenas-iscsi-transmission-config
+  labels:
+    app: transmission
+  annotations:
+    # Never let ArgoCD delete this volume.
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+spec:
+  storageClassName: truenas-ssd-iscsi
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi

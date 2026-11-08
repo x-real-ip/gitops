@@ -13,3 +13,21 @@ spec:
     requests:
       storage: 2Gi
   volumeName: vaultwarden-data-pv-nfs
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-truenas-nfs-vaultwarden-data
+  labels:
+    app: vaultwarden
+  annotations:
+    # Never let ArgoCD delete this volume.
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+spec:
+  storageClassName: truenas-ssd-nfs
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 2Gi

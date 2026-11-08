@@ -13,3 +13,21 @@ spec:
     requests:
       storage: 5Gi
   volumeName: pv-nfs-home-assistant-config
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-truenas-nfs-home-assistant-config
+  labels:
+    app: home-assistant
+  annotations:
+    # Never let ArgoCD delete this volume.
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+spec:
+  storageClassName: truenas-ssd-nfs
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi

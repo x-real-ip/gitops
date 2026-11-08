@@ -13,3 +13,21 @@ spec:
     requests:
       storage: 1Gi
   volumeName: pv-nfs-radicale-data
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-truenas-nfs-radicale-data
+  labels:
+    app: radicale
+  annotations:
+    # Never let ArgoCD delete this volume.
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+spec:
+  storageClassName: truenas-ssd-nfs
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
