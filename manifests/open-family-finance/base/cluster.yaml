@@ -1,0 +1,31 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: open-family-finance-db
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:18
+  storage:
+    storageClass: truenas-ssd-iscsi
+    size: 5Gi
+  bootstrap:
+    initdb:
+      database: openfamilyfinance
+      owner: openfamilyfinance
+      import:
+        type: microservice
+        databases:
+          - openfamilyfinance
+        source:
+          externalCluster: old-db
+  externalClusters:
+    - name: old-db
+      connectionParameters:
+        host: open-family-finance-postgresql-hl
+        user: openfamilyfinance
+        dbname: openfamilyfinance
+        sslmode: disable
+      password:
+        name: open-family-finance-secrets
+        key: POSTGRES_PASSWORD
