@@ -1,0 +1,42 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: depart-db
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:18
+  storage:
+    storageClass: truenas-ssd-iscsi
+    size: 5Gi
+  bootstrap:
+    initdb:
+      database: depart
+      owner: depart
+      secret:
+        name: depart-db-credentials
+      import:
+        type: microservice
+        databases:
+          - depart
+        source:
+          externalCluster: old-db
+  externalClusters:
+    - name: old-db
+      connectionParameters:
+        host: depart-postgresql-hl
+        user: depart
+        dbname: depart
+        sslmode: disable
+      password:
+        name: depart-postgresql-secret
+        key: POSTGRES_PASSWORD
+  managed:
+    roles:
+      - name: depart
+        ensure: present
+        login: true
+        passwordSecret:
+          name: depart-db-credentials
