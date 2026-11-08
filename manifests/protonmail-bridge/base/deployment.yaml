@@ -7,7 +7,7 @@ metadata:
   labels:
     app: protonmail-bridge
 spec:
-  replicas: 1
+  replicas: 0
   strategy:
     type: Recreate
   selector:
