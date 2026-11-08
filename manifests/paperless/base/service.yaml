@@ -2,24 +2,6 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: paperless-postgresql-hl
-  labels:
-    app: paperless-database
-    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
-spec:
-  selector:
-    app: paperless-database
-  type: ClusterIP
-  clusterIP: None
-  publishNotReadyAddresses: true
-  ports:
-    - name: tcp-postgresql
-      port: 5432
-      targetPort: 5432
----
-kind: Service
-apiVersion: v1
-metadata:
   name: paperless
   labels:
     app: paperless
