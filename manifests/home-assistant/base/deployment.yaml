@@ -20,13 +20,6 @@ spec:
       labels:
         app: home-assistant
     spec:
-      affinity:
-        podAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchLabels:
-                  app: home-assistant-database
-              topologyKey: "kubernetes.io/hostname"
       initContainers:
         - name: postgresql-isready
           image: "docker.io/postgres:14"

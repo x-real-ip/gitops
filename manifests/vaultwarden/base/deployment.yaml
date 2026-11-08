@@ -15,13 +15,6 @@ spec:
       labels:
         app: vaultwarden
     spec:
-      affinity:
-        podAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchLabels:
-                  app: vaultwarden-database
-              topologyKey: "kubernetes.io/hostname"
       securityContext:
         fsGroup: 1000
       containers:

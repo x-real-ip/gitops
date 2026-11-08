@@ -17,13 +17,6 @@ spec:
       labels:
         app: dsmr-reader
     spec:
-      affinity:
-        podAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchLabels:
-                  app: dsmr-reader-database
-              topologyKey: "kubernetes.io/hostname"
       securityContext:
         fsGroup: 1000
       containers:

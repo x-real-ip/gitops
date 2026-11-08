@@ -18,13 +18,6 @@ spec:
       labels:
         app: paperless
     spec:
-      affinity:
-        podAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchLabels:
-                  app: paperless-database
-              topologyKey: "kubernetes.io/hostname"
       securityContext:
         fsGroup: 1000
       initContainers:
