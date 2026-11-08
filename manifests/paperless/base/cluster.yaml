@@ -1,0 +1,42 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: paperless-db
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:18
+  storage:
+    storageClass: truenas-ssd-iscsi
+    size: 5Gi
+  bootstrap:
+    initdb:
+      database: paperless
+      owner: paperless
+      secret:
+        name: paperless-db-credentials
+      import:
+        type: microservice
+        databases:
+          - paperless
+        source:
+          externalCluster: old-db
+  externalClusters:
+    - name: old-db
+      connectionParameters:
+        host: paperless-postgresql-hl
+        user: paperless
+        dbname: paperless
+        sslmode: disable
+      password:
+        name: paperless-postgresql
+        key: postgres-password
+  managed:
+    roles:
+      - name: paperless
+        ensure: present
+        login: true
+        passwordSecret:
+          name: paperless-db-credentials
