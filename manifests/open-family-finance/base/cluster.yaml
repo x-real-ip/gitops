@@ -15,10 +15,8 @@ spec:
     initdb:
       database: openfamilyfinance
       owner: openfamilyfinance
-      import:
-        type: microservice
-        databases:
-          - openfamilyfinance
+      secret:
+        name: open-family-finance-db-credentials
   managed:
     roles:
       - name: openfamilyfinance
