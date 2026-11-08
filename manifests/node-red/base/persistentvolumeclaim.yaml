@@ -2,22 +2,6 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: pvc-nfs-node-red-data
-  labels:
-    app: node-red
-spec:
-  storageClassName: freenas-nfs-manual-csi
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 5Gi
-  volumeName: pv-nfs-node-red-data
-
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
   name: pvc-truenas-nfs-node-red-data
   labels:
     app: node-red

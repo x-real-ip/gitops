@@ -18,22 +18,6 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: pvc-iscsi-transmission-config
-  labels:
-    app: transmission
-spec:
-  storageClassName: freenas-iscsi-manual-csi
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 5Gi
-  volumeName: pv-iscsi-transmission-config
-
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
   name: pvc-truenas-iscsi-transmission-config
   labels:
     app: transmission

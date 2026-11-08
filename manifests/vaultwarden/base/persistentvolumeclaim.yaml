@@ -2,22 +2,6 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: vaultwarden-data-pvc-nfs
-  labels:
-    app: vaultwarden
-spec:
-  storageClassName: freenas-nfs-manual-csi
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 2Gi
-  volumeName: vaultwarden-data-pv-nfs
-
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
   name: pvc-truenas-nfs-vaultwarden-data
   labels:
     app: vaultwarden

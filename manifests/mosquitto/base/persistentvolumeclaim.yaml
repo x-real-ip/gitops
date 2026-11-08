@@ -2,22 +2,6 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: pvc-iscsi-mosquitto-data
-  labels:
-    app: mosquitto
-spec:
-  storageClassName: freenas-iscsi-manual-csi
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
-  volumeName: pv-iscsi-mosquitto-data
-
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
   name: pvc-truenas-iscsi-mosquitto-data
   labels:
     app: mosquitto

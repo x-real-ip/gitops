@@ -2,23 +2,6 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: pvc-iscsi-sonarr-config
-  namespace: media
-  labels:
-    app: sonarr
-spec:
-  storageClassName: freenas-iscsi-manual-csi
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 3Gi
-  volumeName: pv-iscsi-sonarr-config
-
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
   name: pvc-truenas-iscsi-sonarr-config
   namespace: media
   labels:
