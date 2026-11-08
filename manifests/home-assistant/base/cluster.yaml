@@ -1,0 +1,42 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: home-assistant-db
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:18
+  storage:
+    storageClass: truenas-ssd-iscsi
+    size: 50Gi
+  bootstrap:
+    initdb:
+      database: home-assistant
+      owner: home-assistant
+      secret:
+        name: home-assistant-db-credentials
+      import:
+        type: microservice
+        databases:
+          - home-assistant
+        source:
+          externalCluster: old-db
+  externalClusters:
+    - name: old-db
+      connectionParameters:
+        host: home-assistant-postgresql-hl
+        user: home-assistant
+        dbname: home-assistant
+        sslmode: disable
+      password:
+        name: home-assistant-postgresql-secret
+        key: postgresql-password
+  managed:
+    roles:
+      - name: home-assistant
+        ensure: present
+        login: true
+        passwordSecret:
+          name: home-assistant-db-credentials
