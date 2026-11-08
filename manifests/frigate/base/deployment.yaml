@@ -6,7 +6,7 @@ metadata:
   labels:
     app: frigate
 spec:
-  replicas: 0
+  replicas: 1
   revisionHistoryLimit: 3
   strategy:
     type: Recreate
@@ -97,7 +97,7 @@ spec:
             name: frigate
         - name: config
           persistentVolumeClaim:
-            claimName: pvc-iscsi-frigate-config
+            claimName: pvc-truenas-iscsi-frigate-config
         - name: media
           persistentVolumeClaim:
             claimName: pvc-nfs-frigate-media

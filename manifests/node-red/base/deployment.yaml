@@ -6,7 +6,7 @@ metadata:
   labels:
     app: node-red
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: node-red
@@ -47,6 +47,6 @@ spec:
       volumes:
         - name: node-red-data
           persistentVolumeClaim:
-            claimName: pvc-nfs-node-red-data
+            claimName: pvc-truenas-nfs-node-red-data
       imagePullSecrets:
         - name: github-registry-creds

@@ -6,7 +6,7 @@ metadata:
   labels:
     app: home-assistant
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: home-assistant
@@ -91,7 +91,7 @@ spec:
       volumes:
         - name: home-assistant-config
           persistentVolumeClaim:
-            claimName: pvc-nfs-home-assistant-config
+            claimName: pvc-truenas-nfs-home-assistant-config
         - name: secrets
           secret:
             secretName: secrets
