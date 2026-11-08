@@ -1,0 +1,27 @@
+---
+global:
+  env:
+    - name: AUTHENTIK_POSTGRESQL__PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: authentik-db-credentials
+          key: password
+
+authentik:
+  # All configuration comes from the "authentik" SealedSecret
+  existingSecret:
+    secretName: authentik
+
+server:
+  route:
+    main:
+      enabled: true
+      hostnames:
+        - auth.lan.stamx.nl
+      parentRefs:
+        - name: private
+          namespace: gateway-private
+          sectionName: https
+
+serviceAccount:
+  create: true
