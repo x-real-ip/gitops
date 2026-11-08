@@ -1,0 +1,87 @@
+# TrueNAS appliance connection.
+truenas:
+  # WebSocket URL of the TrueNAS API. Required.
+  url: "wss://truenas-a.lan.stamx.nl"
+  # Default ZFS pool for volumes. Required.
+  defaultPool: "ssd"
+  # Skip TLS verification. Needed for the self-signed certificate TrueNAS ships
+  # with; leaving it false against that certificate stops the driver at startup
+  # with a certificate error.
+  insecureSkipTLS: true
+
+  # Name of a Secret you manage instead, for example one produced by
+  # ExternalSecrets or Sealed Secrets. Any Secret type works.
+  existingSecret: truenas-csi-api-key
+  # Key inside existingSecret that holds the API key.
+  existingSecretKey: api-key
+
+controller:
+  resources:
+    limits:
+      cpu: null
+
+node:
+  resources:
+    limits:
+      cpu: null
+
+# StorageClasses to create. parameters are passed to the driver verbatim; see
+# the StorageClass parameter reference in the README.
+# Example:
+#   storageClasses:
+#     - name: truenas-nfs
+#       isDefault: true
+#       reclaimPolicy: Delete
+#       allowVolumeExpansion: true
+#       volumeBindingMode: Immediate
+#       mountOptions: []
+#       parameters:
+#         protocol: nfs
+#         compression: LZ4
+storageClasses:
+  - name: truenas-ssd-iscsi
+    isDefault: false
+    reclaimPolicy: Retain
+    volumeBindingMode: Immediate
+    allowVolumeExpansion: true
+    parameters:
+      protocol: iscsi
+      pool: ssd
+      datasetPath: containers/csi/iscsi
+      fsType: xfs
+      compression: LZ4
+      sparse: "true"
+
+  - name: truenas-ssd-nfs
+    isDefault: false
+    reclaimPolicy: Retain
+    volumeBindingMode: Immediate
+    allowVolumeExpansion: true
+    parameters:
+      protocol: nfs
+      pool: ssd
+      datasetPath: containers/csi/nfs
+      compression: LZ4
+      nfs.rootSquash: "false"
+
+volumeSnapshotClass:
+  enabled: false
+
+# Extra manifests to install with the chart, rendered as templates. Useful for
+# an ExternalSecret that produces truenas.existingSecret.
+extraObjects:
+  - apiVersion: bitnami.com/v1alpha1
+    kind: SealedSecret
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/cluster-wide: "true"
+      name: truenas-csi-api-key
+    spec:
+      encryptedData:
+        api-key: AgBa/A02b5MeiZW4sN9KTRWuamxaT72kHwUa9qfbUdJKHDcXXNriL+AO3dvV+9J51vbAAYF5Q8gdMbbO5jxtvAXAytL6Lf0QOyHUYSHTkbltn5HQhWz4MS9AdapsW18rmYYribT4AIeeoyt6LYgrZsNCYxGo/g9aOxrrpmagjnHGsc/wctpKkKPa1GF7aabIRok+Gi1nqR7nEcs5QQz8pXxOFWXbY4wFhfrM8yCSy6JRftDpi8fR5Yk9S9nFKR2xHv+VTjU2pNmARbgw/FcN01VGlSWV3Pkc0fMItPrBXgMKgZuDF2r7X3Vy+fBGdERckpK7h0NDwbAc4NFXqYVJbPZuqYTwsjLlEPVGM5/sTSqZN7IPzyJN816rXwHIqozHAiaeT5cm0l+Z9jirnYgf9FxJClg7V3AZ7JCGq/DK50mXE9jVmHh1xUgdYy6se8lR5QW4OWO+8ze3sEugXG2A3iL2OaCSOJYMDnoBEwn+ECVcMAei6WYU3cY710MDNEwH70znKTVe89fCUZ4jdlcHo2YyZisjnuufzJ3g2hfd6K6h7sccm4t+HfzUKwFwim0Lq/PXNRdURtSajxuhPgkNHuqTpGLY8gcXjahldxtaYa3Nk6P7TWcXI0JR3KGJGeeHCtnw8yNSZNom7zPAvMO1ALgbNTPvlz/TVOi9SGlb53MW9Kry1NcdljFJaaQxs9DFl4ARt6v+SXoB8XSyw8xq5ARioSbGBGIzHKfLV6vaU60xzHyBEyKe6NOvTrnMRhGLcnHHe/1pUWl0Xf7TgmEGFlIzcCg=
+      template:
+        metadata:
+          annotations:
+            sealedsecrets.bitnami.com/cluster-wide: "true"
+          name: truenas-csi-api-key
+        type: Opaque

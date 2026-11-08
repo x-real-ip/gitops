@@ -1,0 +1,11 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+helmCharts:
+  - name: truenas-csi
+    repo: https://raw.githubusercontent.com/truenas/truenas-csi/master/charts
+    version: 1.4.0
+    releaseName: truenas-csi
+    namespace: truenas-csi
+    valuesFile: values.yaml
