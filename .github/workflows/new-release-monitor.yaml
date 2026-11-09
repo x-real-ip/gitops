@@ -50,14 +50,6 @@ jobs:
             image: "ghcr.io/xirixiz/dsmr-reader-docker"
             include_tags: ""
             exclude_tags: "development,rc,latest"
-          - name: democratic-csi
-            type: image
-            target: ghcr.io/democratic-csi/democratic-csi
-            bump: true
-            bump_type: kustomize
-            image: "ghcr.io/democratic-csi/democratic-csi"
-            include_tags: ""
-            exclude_tags: "latest"
           - name: frigate
             type: image
             target: ghcr.io/blakeblackshear/frigate

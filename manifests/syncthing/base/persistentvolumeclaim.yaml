@@ -2,23 +2,6 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: pvc-nfs-syncthing-data
-  namespace: tools
-  labels:
-    app: syncthing
-spec:
-  storageClassName: freenas-nfs-manual-csi
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 600Gi
-  volumeName: pv-nfs-syncthing-data
-
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
   name: pvc-truenas-iscsi-syncthing-config
   labels:
     app: syncthing

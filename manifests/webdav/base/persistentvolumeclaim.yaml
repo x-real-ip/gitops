@@ -2,23 +2,6 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: pvc-nfs-webdav-server-data
-  namespace: tools
-  labels:
-    app: webdav
-spec:
-  storageClassName: freenas-nfs-manual-csi
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 600Gi
-  volumeName: pv-nfs-webdav-server-data
-
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
   name: pvc-truenas-hdd-nfs-webdav
   labels:
     app: webdav
