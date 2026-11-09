@@ -157,7 +157,7 @@ metadata:
     app.kubernetes.io/name: immich-server
 spec:
   revisionHistoryLimit: 3
-  replicas: 1
+  replicas: 0
   strategy:
     type: RollingUpdate
   selector:
