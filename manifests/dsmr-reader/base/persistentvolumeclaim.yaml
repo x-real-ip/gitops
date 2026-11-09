@@ -13,3 +13,21 @@ spec:
     requests:
       storage: 50Gi
   volumeName: pv-nfs-dsmr-reader-backups
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-truenas-nfs-dsmr-reader-backups
+  labels:
+    app: dsmr-reader
+  annotations:
+    # Never let ArgoCD delete this volume.
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+spec:
+  storageClassName: truenas-ssd-nfs
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 50Gi
