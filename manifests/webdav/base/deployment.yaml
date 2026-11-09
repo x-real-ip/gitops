@@ -6,7 +6,7 @@ metadata:
   labels:
     app: webdav
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: webdav
@@ -40,6 +40,6 @@ spec:
       volumes:
         - name: data
           persistentVolumeClaim:
-            claimName: pvc-nfs-webdav-server-data
+            claimName: pvc-truenas-hdd-nfs-webdav
         - name: config
           emptyDir: {}

@@ -7,7 +7,7 @@ metadata:
     app: paperless
 spec:
   revisionHistoryLimit: 3
-  replicas: 0
+  replicas: 1
   strategy:
     type: Recreate
   selector:
@@ -118,6 +118,8 @@ spec:
           volumeMounts:
             - name: consume
               mountPath: /usr/src/paperless/consume
+              # Lives in the shared webdav volume.
+              subPath: paperless-consume
             - name: data
               mountPath: /usr/src/paperless/data
             - name: export
@@ -127,7 +129,7 @@ spec:
       volumes:
         - name: consume
           persistentVolumeClaim:
-            claimName: pvc-nfs-paperless-consume
+            claimName: pvc-truenas-hdd-nfs-webdav
         - name: data
           persistentVolumeClaim:
             claimName: pvc-truenas-nfs-paperless-data

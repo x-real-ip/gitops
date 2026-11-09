@@ -6,7 +6,7 @@ metadata:
   labels:
     app: dsmr-reader
 spec:
-  replicas: 0
+  replicas: 1
   strategy:
     type: Recreate
   selector:
@@ -80,4 +80,4 @@ spec:
       volumes:
         - name: backups
           persistentVolumeClaim:
-            claimName: pvc-nfs-dsmr-reader-backups
+            claimName: pvc-truenas-nfs-dsmr-reader-backups
