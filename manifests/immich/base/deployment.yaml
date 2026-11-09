@@ -157,7 +157,7 @@ metadata:
     app.kubernetes.io/name: immich-server
 spec:
   revisionHistoryLimit: 3
-  replicas: 0
+  replicas: 1
   strategy:
     type: RollingUpdate
   selector:
@@ -253,7 +253,7 @@ spec:
             secretName: immich-config
         - name: data
           persistentVolumeClaim:
-            claimName: pvc-nfs-immich-library
+            claimName: pvc-truenas-nfs-immich-library
 
 ---
 apiVersion: apps/v1

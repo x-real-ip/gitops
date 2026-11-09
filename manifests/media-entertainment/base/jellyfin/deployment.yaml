@@ -6,7 +6,7 @@ metadata:
   labels:
     app: jellyfin
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: jellyfin
@@ -63,7 +63,7 @@ spec:
       volumes:
         - name: media
           persistentVolumeClaim:
-            claimName: pvc-nfs-jellyfin-media
+            claimName: pvc-truenas-hdd-nfs-plex-media
         - name: config
           persistentVolumeClaim:
             claimName: pvc-truenas-iscsi-jellyfin-config

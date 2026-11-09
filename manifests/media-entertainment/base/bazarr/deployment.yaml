@@ -8,7 +8,7 @@ metadata:
     app: bazarr
 spec:
   revisionHistoryLimit: 3
-  replicas: 0
+  replicas: 1
   strategy:
     type: Recreate
   selector:
@@ -68,7 +68,7 @@ spec:
       volumes:
         - name: media
           persistentVolumeClaim:
-            claimName: pvc-nfs-media
+            claimName: pvc-truenas-hdd-nfs-plex-media
         - name: bazarr-config
           persistentVolumeClaim:
             claimName: pvc-truenas-iscsi-bazarr-config
