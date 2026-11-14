@@ -6,3 +6,17 @@ kind: Kustomization
 resources:
   - https://raw.githubusercontent.com/nginx/nginx-gateway-fabric/v2.8.1/deploy/crds.yaml
   - https://raw.githubusercontent.com/nginx/nginx-gateway-fabric/v2.8.1/deploy/experimental/deploy.yaml
+
+patches:
+  - target:
+      group: batch
+      version: v1
+      kind: Job
+      name: nginx-gateway-cert-generator
+    patch: |-
+      - op: remove
+        path: /spec/ttlSecondsAfterFinished
+      - op: add
+        path: /metadata/annotations
+        value:
+          argocd.argoproj.io/sync-options: Force=true,Replace=true
