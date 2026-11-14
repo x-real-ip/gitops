@@ -1,0 +1,70 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pvc-dd5798bf-fcea-4a7c-96de-d10e4524e4e7
+  annotations:
+    # Never let ArgoCD delete this volume.
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+    pv.kubernetes.io/provisioned-by: csi.truenas.io
+spec:
+  storageClassName: truenas-hdd-nfs
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  capacity:
+    storage: 300Gi
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    namespace: media
+    name: pvc-truenas-hdd-nfs-downloads
+  csi:
+    driver: csi.truenas.io
+    fsType: ext4
+    volumeHandle: hdd/containers/csi/nfs/pvc-dd5798bf-fcea-4a7c-96de-d10e4524e4e7
+    volumeAttributes:
+      compression: "LZ4"
+      datasetPath: "containers/csi/nfs"
+      nfs.rootSquash: "false"
+      nfsPath: "/mnt/hdd/containers/csi/nfs/pvc-dd5798bf-fcea-4a7c-96de-d10e4524e4e7"
+      nfsServer: "truenas-a.lan.stamx.nl"
+      pool: "hdd"
+      protocol: "nfs"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pvc-37062e21-fa3b-4ce6-9811-908b4391ec2e
+  annotations:
+    # Never let ArgoCD delete this volume.
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+    pv.kubernetes.io/provisioned-by: csi.truenas.io
+spec:
+  storageClassName: truenas-ssd-iscsi
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 5Gi
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    namespace: media
+    name: pvc-truenas-iscsi-transmission-config
+  csi:
+    driver: csi.truenas.io
+    fsType: xfs
+    volumeHandle: ssd/containers/csi/iscsi/pvc-37062e21-fa3b-4ce6-9811-908b4391ec2e
+    volumeAttributes:
+      compression: "LZ4"
+      datasetPath: "containers/csi/iscsi"
+      fsType: "xfs"
+      lun: "0"
+      pool: "ssd"
+      protocol: "iscsi"
+      sparse: "true"
+      targetIQN: "iqn.2005-10.org.freenas.ctl:csi-ssd-containers-csi-iscsi-pvc-37062e21-fa3b-4ce6-9811-908b4391ec2e"
+      targetPortal: "truenas-a.lan.stamx.nl:3260"

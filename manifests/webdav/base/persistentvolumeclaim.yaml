@@ -9,6 +9,7 @@ metadata:
     # Shared by webdav-server, syncthing and paperless (consume subPath).
     argocd.argoproj.io/sync-options: Prune=false,Delete=false
 spec:
+  volumeName: pvc-885af70a-8a24-421d-be1c-be7ec65fda59
   storageClassName: truenas-hdd-nfs
   accessModes:
     - ReadWriteMany

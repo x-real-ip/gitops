@@ -9,6 +9,7 @@ metadata:
     # Never let ArgoCD delete this volume.
     argocd.argoproj.io/sync-options: Prune=false,Delete=false
 spec:
+  volumeName: pvc-aabba1dc-87a4-49a2-8a4e-6f5fe75fc737
   storageClassName: truenas-ssd-iscsi
   accessModes:
     - ReadWriteOnce

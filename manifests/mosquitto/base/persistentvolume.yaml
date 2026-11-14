@@ -1,0 +1,36 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pvc-5b282085-3f5a-49e1-b74b-4c8952492955
+  annotations:
+    # Never let ArgoCD delete this volume.
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+    pv.kubernetes.io/provisioned-by: csi.truenas.io
+spec:
+  storageClassName: truenas-ssd-iscsi
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 1Gi
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    namespace: home-automation
+    name: pvc-truenas-iscsi-mosquitto-data
+  csi:
+    driver: csi.truenas.io
+    fsType: xfs
+    volumeHandle: ssd/containers/csi/iscsi/pvc-5b282085-3f5a-49e1-b74b-4c8952492955
+    volumeAttributes:
+      compression: "LZ4"
+      datasetPath: "containers/csi/iscsi"
+      fsType: "xfs"
+      lun: "0"
+      pool: "ssd"
+      protocol: "iscsi"
+      sparse: "true"
+      targetIQN: "iqn.2005-10.org.freenas.ctl:csi-ssd-containers-csi-iscsi-pvc-5b282085-3f5a-49e1-b74b-4c8952492955"
+      targetPortal: "truenas-a.lan.stamx.nl:3260"

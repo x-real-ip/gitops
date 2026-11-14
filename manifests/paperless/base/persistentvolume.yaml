@@ -1,0 +1,102 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pvc-9fe01bba-b2e4-457b-814a-94e2d0927bd0
+  annotations:
+    # Never let ArgoCD delete this volume.
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+    pv.kubernetes.io/provisioned-by: csi.truenas.io
+spec:
+  storageClassName: truenas-ssd-nfs
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  capacity:
+    storage: 10Gi
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    namespace: tools
+    name: pvc-truenas-nfs-paperless-data
+  csi:
+    driver: csi.truenas.io
+    fsType: ext4
+    volumeHandle: ssd/containers/csi/nfs/pvc-9fe01bba-b2e4-457b-814a-94e2d0927bd0
+    volumeAttributes:
+      compression: "LZ4"
+      datasetPath: "containers/csi/nfs"
+      nfs.rootSquash: "false"
+      nfsPath: "/mnt/ssd/containers/csi/nfs/pvc-9fe01bba-b2e4-457b-814a-94e2d0927bd0"
+      nfsServer: "truenas-a.lan.stamx.nl"
+      pool: "ssd"
+      protocol: "nfs"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pvc-86d967c5-f895-4b49-99eb-5068b72151f8
+  annotations:
+    # Never let ArgoCD delete this volume.
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+    pv.kubernetes.io/provisioned-by: csi.truenas.io
+spec:
+  storageClassName: truenas-ssd-nfs
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  capacity:
+    storage: 10Gi
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    namespace: tools
+    name: pvc-truenas-nfs-paperless-export
+  csi:
+    driver: csi.truenas.io
+    fsType: ext4
+    volumeHandle: ssd/containers/csi/nfs/pvc-86d967c5-f895-4b49-99eb-5068b72151f8
+    volumeAttributes:
+      compression: "LZ4"
+      datasetPath: "containers/csi/nfs"
+      nfs.rootSquash: "false"
+      nfsPath: "/mnt/ssd/containers/csi/nfs/pvc-86d967c5-f895-4b49-99eb-5068b72151f8"
+      nfsServer: "truenas-a.lan.stamx.nl"
+      pool: "ssd"
+      protocol: "nfs"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pvc-05c703b9-6ba4-4d94-ae03-78b438840151
+  annotations:
+    # Never let ArgoCD delete this volume.
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+    pv.kubernetes.io/provisioned-by: csi.truenas.io
+spec:
+  storageClassName: truenas-ssd-nfs
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  capacity:
+    storage: 10Gi
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    namespace: tools
+    name: pvc-truenas-nfs-paperless-media
+  csi:
+    driver: csi.truenas.io
+    fsType: ext4
+    volumeHandle: ssd/containers/csi/nfs/pvc-05c703b9-6ba4-4d94-ae03-78b438840151
+    volumeAttributes:
+      compression: "LZ4"
+      datasetPath: "containers/csi/nfs"
+      nfs.rootSquash: "false"
+      nfsPath: "/mnt/ssd/containers/csi/nfs/pvc-05c703b9-6ba4-4d94-ae03-78b438840151"
+      nfsServer: "truenas-a.lan.stamx.nl"
+      pool: "ssd"
+      protocol: "nfs"

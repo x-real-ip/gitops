@@ -5,6 +5,7 @@ resources:
   - cluster.yaml
   - configmap.yaml
   - sealedsecret.yaml
+  - persistentvolume.yaml
   - persistentvolumeclaim.yaml
   - deployment.yaml
   - service.yaml

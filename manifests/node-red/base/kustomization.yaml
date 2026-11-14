@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - deployment.yaml
   - httproute.yaml
+  - persistentvolume.yaml
   - persistentvolumeclaim.yaml
   - sealedsecret.yaml
   - service.yaml

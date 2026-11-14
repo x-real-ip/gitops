@@ -1,0 +1,36 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pvc-c5284b2c-846b-4ed4-ad18-9dfc39cf89bd
+  annotations:
+    # Never let ArgoCD delete this volume.
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+    pv.kubernetes.io/provisioned-by: csi.truenas.io
+spec:
+  storageClassName: truenas-ssd-iscsi
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 5Gi
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    namespace: media
+    name: pvc-truenas-iscsi-seerr-config
+  csi:
+    driver: csi.truenas.io
+    fsType: xfs
+    volumeHandle: ssd/containers/csi/iscsi/pvc-c5284b2c-846b-4ed4-ad18-9dfc39cf89bd
+    volumeAttributes:
+      compression: "LZ4"
+      datasetPath: "containers/csi/iscsi"
+      fsType: "xfs"
+      lun: "0"
+      pool: "ssd"
+      protocol: "iscsi"
+      sparse: "true"
+      targetIQN: "iqn.2005-10.org.freenas.ctl:csi-ssd-containers-csi-iscsi-pvc-c5284b2c-846b-4ed4-ad18-9dfc39cf89bd"
+      targetPortal: "truenas-a.lan.stamx.nl:3260"

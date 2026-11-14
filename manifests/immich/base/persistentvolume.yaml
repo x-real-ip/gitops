@@ -1,0 +1,70 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pvc-5030e875-a41d-47cd-817e-c733bb014f5a
+  annotations:
+    # Never let ArgoCD delete this volume.
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+    pv.kubernetes.io/provisioned-by: csi.truenas.io
+spec:
+  storageClassName: truenas-ssd-iscsi
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 10Gi
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    namespace: tools
+    name: pvc-truenas-iscsi-immich-db
+  csi:
+    driver: csi.truenas.io
+    fsType: xfs
+    volumeHandle: ssd/containers/csi/iscsi/pvc-5030e875-a41d-47cd-817e-c733bb014f5a
+    volumeAttributes:
+      compression: "LZ4"
+      datasetPath: "containers/csi/iscsi"
+      fsType: "xfs"
+      lun: "0"
+      pool: "ssd"
+      protocol: "iscsi"
+      sparse: "true"
+      targetIQN: "iqn.2005-10.org.freenas.ctl:csi-ssd-containers-csi-iscsi-pvc-5030e875-a41d-47cd-817e-c733bb014f5a"
+      targetPortal: "truenas-a.lan.stamx.nl:3260"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pvc-e667f06a-4e14-47b7-8190-37e5eed2b3ae
+  annotations:
+    # Never let ArgoCD delete this volume.
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+    pv.kubernetes.io/provisioned-by: csi.truenas.io
+spec:
+  storageClassName: truenas-ssd-nfs
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  capacity:
+    storage: 600Gi
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    namespace: tools
+    name: pvc-truenas-nfs-immich-library
+  csi:
+    driver: csi.truenas.io
+    fsType: ext4
+    volumeHandle: ssd/containers/csi/nfs/pvc-e667f06a-4e14-47b7-8190-37e5eed2b3ae
+    volumeAttributes:
+      compression: "LZ4"
+      datasetPath: "containers/csi/nfs"
+      nfs.rootSquash: "false"
+      nfsPath: "/mnt/ssd/containers/csi/nfs/pvc-e667f06a-4e14-47b7-8190-37e5eed2b3ae"
+      nfsServer: "truenas-a.lan.stamx.nl"
+      pool: "ssd"
+      protocol: "nfs"
