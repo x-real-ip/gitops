@@ -4,8 +4,8 @@ kind: Kustomization
 
 # Gateway API CRDs are managed by the separate gateway-api app (manifests/gateway-api).
 resources:
-  - https://raw.githubusercontent.com/nginx/nginx-gateway-fabric/v2.8.1/deploy/crds.yaml
-  - https://raw.githubusercontent.com/nginx/nginx-gateway-fabric/v2.8.1/deploy/experimental/deploy.yaml
+  - https://raw.githubusercontent.com/nginx/nginx-gateway-fabric/v2.9.0/deploy/crds.yaml
+  - https://raw.githubusercontent.com/nginx/nginx-gateway-fabric/v2.9.0/deploy/default/deploy.yaml
 
 patches:
   - target:
