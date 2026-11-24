@@ -6,4 +6,4 @@ resources:
 images:
 - name: lscr.io/linuxserver/prowlarr
   newName: lscr.io/linuxserver/prowlarr
-  newTag: 3.0.2
+  newTag: 3.1.0
