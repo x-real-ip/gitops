@@ -4,10 +4,6 @@ kind: Kustomization
 resources:
 - ../base
 
-images:
-- name: ghcr.io/x-real-ip/overload
-  newTag: 1.9.0
-
 namespace: tools
 
 labels:

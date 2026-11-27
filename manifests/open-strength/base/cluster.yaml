@@ -1,0 +1,55 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: open-strength-db
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:18
+  storage:
+    storageClass: truenas-ssd-iscsi
+    size: 5Gi
+  bootstrap:
+    initdb:
+      database: open_strength
+      owner: open_strength
+      secret:
+        name: open-strength-db-credentials
+      # One-off: on creation, copy the data from the cluster of the app's old
+      # name. Only read at bootstrap; overload-db can go once this runs.
+      import:
+        type: microservice
+        databases:
+          - overload
+        source:
+          externalCluster: overload-db
+        # pg_restore runs with --no-owner; hand every table (and its identity
+        # sequence) to the app user so migrations can alter them.
+        postImportApplicationSQL:
+          - |
+            DO $$
+            DECLARE r record;
+            BEGIN
+              FOR r IN SELECT tablename FROM pg_tables WHERE schemaname = 'public' LOOP
+                EXECUTE format('ALTER TABLE public.%I OWNER TO open_strength', r.tablename);
+              END LOOP;
+            END $$;
+  externalClusters:
+    - name: overload-db
+      connectionParameters:
+        host: overload-db-rw.tools.svc.cluster.local
+        user: overload
+        dbname: overload
+        sslmode: require
+      password:
+        name: overload-db-credentials
+        key: password
+  managed:
+    roles:
+      - name: open_strength
+        ensure: present
+        login: true
+        passwordSecret:
+          name: open-strength-db-credentials

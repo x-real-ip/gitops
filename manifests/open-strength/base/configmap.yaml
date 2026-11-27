@@ -2,9 +2,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: overload-config
+  name: open-strength-config
   labels:
-    app: overload
+    app: open-strength
 data:
   PORT: "8080"
   LOG_LEVEL: "info"
@@ -12,12 +12,12 @@ data:
   # The migrate init container runs the migrations; the app doesn't.
   MIGRATE_ON_START: "false"
   # password until Authentik is set up; then oidc (needs OIDC_CLIENT_ID below
-  # and OIDC_CLIENT_SECRET in overload-secrets).
+  # and OIDC_CLIENT_SECRET in open-strength-secrets).
   AUTH_MODE: "password"
   # The AI is optional: without ANTHROPIC_API_KEY everything works, without AI.
   # Calls go to api.anthropic.com, so the pod needs outbound internet for it.
   AI_PROVIDER: "anthropic"
   AI_MODEL: "claude-sonnet-5-5"
-  OIDC_ISSUER_URL: "https://auth.lan.stamx.nl/application/o/overload/"
+  OIDC_ISSUER_URL: "https://auth.lan.stamx.nl/application/o/open-strength/"
   # Placeholder until the Authentik provider exists.
-  OIDC_CLIENT_ID: "overload"
+  OIDC_CLIENT_ID: "open-strength"
