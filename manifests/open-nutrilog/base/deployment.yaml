@@ -117,6 +117,24 @@ spec:
                   name: open-nutrilog-secrets
                   key: OIDC_CLIENT_SECRET
                   optional: true
+            - name: STRENGTH_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: open-nutrilog-config
+                  key: STRENGTH_URL
+                  optional: true
+            - name: INTEGRATION_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: open-nutrilog-secrets
+                  key: INTEGRATION_TOKEN
+                  optional: true
+            - name: STRENGTH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: open-nutrilog-secrets
+                  key: STRENGTH_TOKEN
+                  optional: true
             # Trust the Stamx CA for outbound TLS, e.g. OIDC to auth.lan.stamx.nl.
             - name: NODE_EXTRA_CA_CERTS
               value: /etc/ssl/stamx/ca.crt

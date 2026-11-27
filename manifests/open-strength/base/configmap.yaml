@@ -21,3 +21,5 @@ data:
   OIDC_ISSUER_URL: "https://auth.lan.stamx.nl/application/o/open-strength/"
   # Placeholder until the Authentik provider exists.
   OIDC_CLIENT_ID: "open-strength"
+  # The link with Open Nutrilog (tokens in open-strength-secrets). Remove to unlink.
+  NUTRILOG_URL: "http://open-nutrilog.tools.svc.cluster.local"
