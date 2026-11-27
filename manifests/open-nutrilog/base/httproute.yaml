@@ -1,0 +1,18 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: open-nutrilog
+  labels:
+    app: open-nutrilog
+spec:
+  hostnames:
+    - nutrilog.lan.stamx.nl
+  parentRefs:
+    - name: private
+      namespace: gateway-private
+      sectionName: https
+  rules:
+    - backendRefs:
+        - name: open-nutrilog
+          port: 80

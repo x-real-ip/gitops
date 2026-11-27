@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../base
+
+images:
+- name: ghcr.io/x-real-ip/open-nutrilog
+  # Until the first release; a v* tag in open-nutrilog pins the version here.
+  newTag: latest
+
+namespace: tools
+
+labels:
+- includeSelectors: true
+  pairs:
+    storage: truenas
