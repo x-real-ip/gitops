@@ -5,6 +5,8 @@ resources:
 - ../base
 
 images:
+- name: ghcr.io/x-real-ip/open-strength
+  newTag: 1.9.1
 - name: ghcr.io/x-real-ip/overload
   newTag: 1.9.0
 
