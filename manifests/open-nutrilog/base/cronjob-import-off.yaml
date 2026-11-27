@@ -1,0 +1,54 @@
+---
+# Weekly import of the Dutch and Belgian products from the Open Food Facts dump
+# (npm run import:off). It streams the ~1.5 GB CSV export; measured: about
+# 1–2 minutes and well under 512Mi, ~150k products. Suspended until you turn
+# it on: set suspend to false.
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: open-nutrilog-import-off
+  labels:
+    app: open-nutrilog
+spec:
+  schedule: "17 4 * * 0"
+  timeZone: Europe/Amsterdam
+  suspend: true
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      activeDeadlineSeconds: 7200
+      ttlSecondsAfterFinished: 604800
+      template:
+        metadata:
+          labels:
+            app: open-nutrilog-import-off
+        spec:
+          restartPolicy: Never
+          securityContext:
+            runAsUser: 3002
+            runAsGroup: 3002
+          containers:
+            - name: import-off
+              image: ghcr.io/x-real-ip/open-nutrilog:latest
+              imagePullPolicy: Always
+              workingDir: /app
+              command:
+                - node
+                - --disable-warning=ExperimentalWarning
+                - server/scripts/importOff.ts
+              env:
+                - name: DATABASE_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: open-nutrilog-secrets
+                      key: DATABASE_URL
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+                limits:
+                  cpu: "1"
+                  memory: 512Mi
