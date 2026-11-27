@@ -1,0 +1,26 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: overload-db
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:18
+  storage:
+    storageClass: truenas-ssd-iscsi
+    size: 5Gi
+  bootstrap:
+    initdb:
+      database: overload
+      owner: overload
+      secret:
+        name: overload-db-credentials
+  managed:
+    roles:
+      - name: overload
+        ensure: present
+        login: true
+        passwordSecret:
+          name: overload-db-credentials

@@ -1,0 +1,169 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: overload
+  labels:
+    app: overload
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: overload
+  template:
+    metadata:
+      labels:
+        app: overload
+    spec:
+      securityContext:
+        runAsUser: 3001
+        runAsGroup: 3001
+        fsGroup: 3001
+        fsGroupChangePolicy: OnRootMismatch
+      initContainers:
+        # Idempotent migrations from the same image; the app only starts when
+        # they succeeded.
+        - name: migrate
+          image: ghcr.io/x-real-ip/overload:latest
+          imagePullPolicy: Always
+          workingDir: /app
+          command:
+            - node
+            - --disable-warning=ExperimentalWarning
+            - server/migrate.ts
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: overload-secrets
+                  key: DATABASE_URL
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+      containers:
+        - name: app
+          image: ghcr.io/x-real-ip/overload:latest
+          imagePullPolicy: Always
+          env:
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: overload-config
+                  key: PORT
+            - name: LOG_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  name: overload-config
+                  key: LOG_LEVEL
+                  optional: true
+            - name: APP_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: overload-config
+                  key: APP_URL
+            - name: MIGRATE_ON_START
+              valueFrom:
+                configMapKeyRef:
+                  name: overload-config
+                  key: MIGRATE_ON_START
+                  optional: true
+            - name: AUTH_MODE
+              valueFrom:
+                configMapKeyRef:
+                  name: overload-config
+                  key: AUTH_MODE
+            - name: AI_PROVIDER
+              valueFrom:
+                configMapKeyRef:
+                  name: overload-config
+                  key: AI_PROVIDER
+                  optional: true
+            - name: AI_MODEL
+              valueFrom:
+                configMapKeyRef:
+                  name: overload-config
+                  key: AI_MODEL
+                  optional: true
+            - name: OIDC_ISSUER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: overload-config
+                  key: OIDC_ISSUER_URL
+                  optional: true
+            - name: OIDC_CLIENT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: overload-config
+                  key: OIDC_CLIENT_ID
+                  optional: true
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: overload-secrets
+                  key: DATABASE_URL
+            - name: SESSION_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: overload-secrets
+                  key: SESSION_SECRET
+            - name: APP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: overload-secrets
+                  key: APP_PASSWORD
+            - name: ANTHROPIC_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: overload-secrets
+                  key: ANTHROPIC_API_KEY
+                  optional: true
+            - name: OIDC_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: overload-secrets
+                  key: OIDC_CLIENT_SECRET
+                  optional: true
+            # Trust the Stamx CA for outbound TLS, e.g. OIDC to auth.lan.stamx.nl.
+            - name: NODE_EXTRA_CA_CERTS
+              value: /etc/ssl/stamx/ca.crt
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 10m
+              memory: 96Mi
+            limits:
+              cpu: 500m
+              memory: 320Mi
+          volumeMounts:
+            - name: stamx-ca
+              mountPath: /etc/ssl/stamx
+              readOnly: true
+      volumes:
+        # Optional so the app still starts without it; only OIDC needs the CA.
+        - name: stamx-ca
+          configMap:
+            name: stamx-ca
+            optional: true
+            items:
+              - key: ca.crt
+                path: ca.crt
