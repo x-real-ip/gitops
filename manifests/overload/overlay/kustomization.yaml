@@ -6,7 +6,7 @@ resources:
 
 images:
 - name: ghcr.io/x-real-ip/overload
-  newTag: 1.8.0
+  newTag: 1.9.0
 
 namespace: tools
 
