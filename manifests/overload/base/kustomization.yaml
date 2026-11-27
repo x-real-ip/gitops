@@ -1,10 +1,9 @@
 ---
+# The app moved to manifests/open-strength. What is left is the database under
+# the old name: open-strength-db imports its data from it when it is created,
+# and it stays as a backup until it is removed by hand.
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - cluster.yaml
-  - configmap.yaml
   - sealedsecret.yaml
-  - deployment.yaml
-  - service.yaml
-  - httproute.yaml
