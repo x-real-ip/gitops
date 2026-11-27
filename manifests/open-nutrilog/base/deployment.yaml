@@ -1,0 +1,157 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: open-nutrilog
+  labels:
+    app: open-nutrilog
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: open-nutrilog
+  template:
+    metadata:
+      labels:
+        app: open-nutrilog
+    spec:
+      securityContext:
+        runAsUser: 3002
+        runAsGroup: 3002
+        fsGroup: 3002
+        fsGroupChangePolicy: OnRootMismatch
+      initContainers:
+        # Idempotent migrations from the same image; the app only starts when
+        # they succeeded.
+        - name: migrate
+          image: ghcr.io/x-real-ip/open-nutrilog:latest
+          imagePullPolicy: Always
+          workingDir: /app
+          command:
+            - node
+            - --disable-warning=ExperimentalWarning
+            - server/migrate.ts
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: open-nutrilog-secrets
+                  key: DATABASE_URL
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+      containers:
+        - name: app
+          image: ghcr.io/x-real-ip/open-nutrilog:latest
+          imagePullPolicy: Always
+          env:
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: open-nutrilog-config
+                  key: PORT
+            - name: LOG_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  name: open-nutrilog-config
+                  key: LOG_LEVEL
+                  optional: true
+            - name: APP_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: open-nutrilog-config
+                  key: APP_URL
+            - name: MIGRATE_ON_START
+              valueFrom:
+                configMapKeyRef:
+                  name: open-nutrilog-config
+                  key: MIGRATE_ON_START
+                  optional: true
+            - name: AUTH_MODE
+              valueFrom:
+                configMapKeyRef:
+                  name: open-nutrilog-config
+                  key: AUTH_MODE
+            - name: TZ
+              valueFrom:
+                configMapKeyRef:
+                  name: open-nutrilog-config
+                  key: TZ
+                  optional: true
+            - name: OIDC_ISSUER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: open-nutrilog-config
+                  key: OIDC_ISSUER_URL
+                  optional: true
+            - name: OIDC_CLIENT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: open-nutrilog-config
+                  key: OIDC_CLIENT_ID
+                  optional: true
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: open-nutrilog-secrets
+                  key: DATABASE_URL
+            - name: SESSION_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: open-nutrilog-secrets
+                  key: SESSION_SECRET
+            - name: APP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: open-nutrilog-secrets
+                  key: APP_PASSWORD
+            - name: OIDC_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: open-nutrilog-secrets
+                  key: OIDC_CLIENT_SECRET
+                  optional: true
+            # Trust the Stamx CA for outbound TLS, e.g. OIDC to auth.lan.stamx.nl.
+            - name: NODE_EXTRA_CA_CERTS
+              value: /etc/ssl/stamx/ca.crt
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 10m
+              memory: 96Mi
+            limits:
+              cpu: 500m
+              memory: 320Mi
+          volumeMounts:
+            - name: stamx-ca
+              mountPath: /etc/ssl/stamx
+              readOnly: true
+      volumes:
+        # Optional so the app still starts without it; only OIDC needs the CA.
+        - name: stamx-ca
+          configMap:
+            name: stamx-ca
+            optional: true
+            items:
+              - key: ca.crt
+                path: ca.crt
