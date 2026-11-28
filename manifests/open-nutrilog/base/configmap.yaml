@@ -16,6 +16,12 @@ data:
   # password until Authentik is set up; then oidc (needs OIDC_CLIENT_ID below
   # and OIDC_CLIENT_SECRET in open-nutrilog-secrets, and ConfigMap stamx-ca).
   AUTH_MODE: "password"
+  # The AI is optional: without ANTHROPIC_API_KEY (in open-nutrilog-secrets)
+  # everything works, without describing/photographing meals. Calls go to
+  # api.anthropic.com, so the pod needs outbound internet for it. The AI
+  # settings page in the app overrides these.
+  AI_PROVIDER: "anthropic"
+  AI_MODEL: "claude-sonnet-5-5"
   OIDC_ISSUER_URL: "https://auth.lan.stamx.nl/application/o/open-nutrilog/"
   # Placeholder until the Authentik provider exists.
   OIDC_CLIENT_ID: "open-nutrilog"

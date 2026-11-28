@@ -78,6 +78,18 @@ spec:
                 configMapKeyRef:
                   name: open-nutrilog-config
                   key: AUTH_MODE
+            - name: AI_PROVIDER
+              valueFrom:
+                configMapKeyRef:
+                  name: open-nutrilog-config
+                  key: AI_PROVIDER
+                  optional: true
+            - name: AI_MODEL
+              valueFrom:
+                configMapKeyRef:
+                  name: open-nutrilog-config
+                  key: AI_MODEL
+                  optional: true
             - name: TZ
               valueFrom:
                 configMapKeyRef:
@@ -111,6 +123,12 @@ spec:
                 secretKeyRef:
                   name: open-nutrilog-secrets
                   key: APP_PASSWORD
+            - name: ANTHROPIC_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: open-nutrilog-secrets
+                  key: ANTHROPIC_API_KEY
+                  optional: true
             - name: OIDC_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
