@@ -7,7 +7,7 @@ resources:
   # Until the first release; a v* tag in open-nutrilog pins the version here.
 images:
 - name: ghcr.io/x-real-ip/open-nutrilog
-  newTag: 0.1.1
+  newTag: 0.2.0
 
 namespace: tools
 
