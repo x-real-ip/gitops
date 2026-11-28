@@ -1,0 +1,18 @@
+---
+# Uploads bigger than NGINX's default 1 MB: the NEVO download (a ~28 MB zip,
+# imported under Profile → Data) and meal photos for the AI. The app itself
+# accepts up to 50 MB for the NEVO import.
+apiVersion: gateway.nginx.org/v1alpha1
+kind: ClientSettingsPolicy
+metadata:
+  name: open-nutrilog
+  labels:
+    app: open-nutrilog
+spec:
+  targetRef:
+    group: gateway.networking.k8s.io
+    kind: HTTPRoute
+    name: open-nutrilog
+  body:
+    maxSize: "64m"
+    timeout: "120s"
