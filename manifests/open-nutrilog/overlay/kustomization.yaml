@@ -4,10 +4,10 @@ kind: Kustomization
 resources:
 - ../base
 
+  # Until the first release; a v* tag in open-nutrilog pins the version here.
 images:
 - name: ghcr.io/x-real-ip/open-nutrilog
-  # Until the first release; a v* tag in open-nutrilog pins the version here.
-  newTag: latest
+  newTag: 0.1.0
 
 namespace: tools
 
